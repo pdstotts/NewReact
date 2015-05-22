@@ -16,9 +16,6 @@
         overflow-y: auto;
         overflow-x: auto;
     }
-    #correctCheck, #styleCheck {
-    	padding-right: 8px;
-    }
     .console {
     	background-color: #2a2b2b;
     	color: #dddddd;
@@ -28,12 +25,15 @@
     	width: 100%;
     	background-color: #edeff0;
     }
-    #pointbreakdown {
+    .pointbreakdownbox {
+    	float:right;
+    }
+    #pointbreakdown, #recentpointbreakdown {
     	border: 2px solid gray;
-    	float:right; 
-    	width:233px; 
+    	width:190px; 
     	margin-left:5px;
-    	padding:5px;
+    	padding:8px;
+    	margin-bottom: 7px;
     }
 	
 </style>
@@ -153,13 +153,22 @@ User.find({admin: true}).exec(function(err, users) {
                         </h3>
 		      		</div>
 	  				<div class='panel-body'> 
-	  					<div id="pointbreakdown" class="hidden">
-			  				<b>Point Breakdown:</b><br/>
-			  				<span id="correctCheck"></span>Functionality - <span id="highestPtCorrect">0</span>/<span id="availablePtCorrect"></span>
-			  				<br />
-			  				<span id="styleCheck"></span>Style - <span id="highestPtStyle">0</span>/<span id="availablePtStyle"></span>
-			  				<br />
-		  				</div>
+		  				<div class="pointbreakdownbox">
+		  					<div id="pointbreakdown" class="hidden">
+				  				<b>Highest Score:</b><br/>
+				  				Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
+				  				<br />
+				  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span class="availablePtStyle"></span></span>
+				  				<br />
+			  				</div>
+		  					<div id="recentpointbreakdown" class="hidden">
+				  				<b>Most Recent Score:</b><br/>
+				  				Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
+				  				<br />
+				  				Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
+				  				<br />
+			  				</div>
+			  			</div>
 		  				<div id="desc-body" >
 	   						Select a problem to run and submit.
 	   					</div>

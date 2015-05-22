@@ -125,6 +125,7 @@ function addProbInfo (problem) {
 	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
 	$("#pointbreakdown").removeClass("hidden");
+	$("#recentpointbreakdown").addClass("hidden");
 	$("#desc-title").empty().append(problem.name);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
         $("#desc-title").html(problem.name + "<i> in " + folder.name + "</i>");
@@ -132,8 +133,8 @@ function addProbInfo (problem) {
 
 	$("#desc-body").empty().append(problem.text);
 	curProblem = problem;
-	$("#availablePtStyle").empty().append(problem.value.style);
-	$("#availablePtCorrect").empty().append(problem.value.correct);
+	$(".availablePtStyle").empty().append(problem.value.style);
+	$(".availablePtCorrect").empty().append(problem.value.correct);
 	var highestStyle = 0;
 	var highestCorrect = 0;
 	$.post("/submission/read/" + problem.id, {}, function (submissions) {
@@ -271,10 +272,25 @@ window.onload = function () {
 			}
 		}
 	});
-	var setErrorMsg = function (msg) {
+	var setConsoleResultMessage = function (msg) {
 		$("#console").empty();
 		$("#console").append(msg);
 	};
+	var setRecentScore = function (earnedF,earnedS) {
+		$("#recentpointbreakdown").removeClass("hidden");
+		$("#recentPtCorrect").empty().append(earnedF);
+		$("#recentPtStyle").empty().append(earnedS);
+		if(earnedF == curProblem.value.correct){
+			$("#correctCheckRecent").empty().append(correct("8px"));
+		}else {
+        	$("#correctCheckRecent").empty().append(wrong("8px"));
+		}	
+		if(earnedS == curProblem.value.style){
+			$("#styleCheckRecent").empty().append(correct("8px"));
+		}else {
+        	$("#styleCheckRecent").empty().append(wrong("8px"));
+		}
+	}
 	$("#test").click(function () {
 		var code = editor.getValue();
 		$("#console").empty();
@@ -301,7 +317,8 @@ window.onload = function () {
 				$.post("/submission/create", {problem: problem, code: code, style: JSON.stringify(ssOb)}, function (submission) {
 					addSubmission(submission);
 					foldersReload();
-					setErrorMsg(submission.message);
+					setRecentScore(submission.value.correct, submission.value.style);
+					setConsoleResultMessage(submission.message);
 				});
 			} catch (e) {
 				$("#console").append("Error! Be sure to test your code locally before submitting.");
