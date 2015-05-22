@@ -40,7 +40,6 @@ function emptyProblem(){
     $("#pointbreakdown").addClass("hidden");
     $("#problemDisplayName").empty().append("Choose a Problem");
     $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
-
 }
 
 function fillProblemDisplay(problem) {
@@ -60,11 +59,41 @@ function getStudentResults(problem) {
     numstyle = 0;
     numattempted = 0;
     numearned = 0;
+    $("#matrixBody").empty();
     var tbl = $("<table class='table'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD'># Tries</th><th class='probStudentSubmissionTableTD'>Functionality</th><th class='probStudentSubmissionTableTD'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
     $("#allStudents1ProblemTable").empty().append(tbl);
     $.post("/user/read/", {}, function(users){
         total = users.length;
         users.forEach(function (user) {
+            var matrixSquare = $("<div></div>")
+                .attr('class','matrixSquare alert alert-danger')
+                .attr('id','matrix' + user.id);
+
+            var userButton = $("<a href='#'></a>")
+            .css("color","white")
+            .css("padding-left","4px;")
+            .attr("class","")
+            .html('<span class="glyphicon glyphicon-user"></span>') // the trailing space is important!
+            .click(function () {
+                alert('hi');
+            });
+
+            var mailButton = $("<a href='#'></a>")
+            .css("color","white")
+            .attr("class","")
+            .css("padding-left","4px;")
+            .html('<span class="glyphicon glyphicon-envelope"></span>') // the trailing space is important!
+            .click(function () {
+                alert('hi');
+            });
+
+            matrixSquare.append(user.username);
+            matrixSquare.append("<br />");
+            matrixSquare.append(userButton);
+            matrixSquare.append(mailButton);
+
+            $("#matrixBody").append(matrixSquare);
+
             var a = $("<td></td>")
                 .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
                 .click(function (event) {
@@ -173,6 +202,8 @@ function problemCorrect(user, problem, student, totalStudents){
         }
         if(results.tried) {
             numattempted++;
+            $("#matrix" + user.id).removeClass("alert-danger").addClass("alert-warning");
+
             if(results.correct) {
                 numfunct++;
                 rsectionF.append(correct("8px"));
@@ -187,6 +218,7 @@ function problemCorrect(user, problem, student, totalStudents){
             }
             if(results.correct && results.style){
                 numearned++;
+                $("#matrix" + user.id).removeClass("alert-warning").addClass("alert-success");
             }
         }
 

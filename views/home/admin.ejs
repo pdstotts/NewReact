@@ -130,10 +130,26 @@ ul {
 	height:10px;
 	margin:2px 0;
 }
-.visualize-square {
-	width:10px;
-	height:10px;
+#matrixBody {
+}
+.matrixSquare {
+	width:50px;
+	height:50px;
 	float:left;
+	margin: 1px;
+	padding-left: 2px;
+	text-overflow: clip;
+	white-space: nowrap;
+    overflow: hidden;
+    transition:height 0.2s; /* Animation time */
+    -webkit-transition:height 0.2s; /* For Safari */
+    clear:none;
+    line-height: 250%;
+
+}
+.matrixSquare:hover {
+    height: 102px;
+
 }
 #refreshData {
 	float: right;
@@ -323,6 +339,27 @@ ul {
 				</div>
 			</div>
 			<!-- PROGRESS BAR SECTION END -->
+
+			<!-- MATRIX SECTION -->
+			<div class="panel panel-default">
+
+				<!-- MATRIX HEADING -->
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
+					</h4>
+				</div>
+
+				<!-- MATRIX BODY -->
+				<div class="panel-collapse collapse" id="problemMatrix">
+					<div class="panel-body">
+						<div id="matrixBody">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- MATRIX SECTION END -->
 
 			<!-- STUDENT PROGRESS SECTION -->
 			<div class="panel panel-default">
