@@ -19,11 +19,14 @@ function fillProblemEdit(problem) {
     $("#editStylePoints").val(problem.value.style),
     $("#editCorrectPoints").val(problem.value.correct),
     $("#editOnSubmit").val(problem.onSubmit);
-    $( "#deleteProblem" ).click(function() {   
-        if (confirm('Are you sure you wish to delete this problem ?')) {
+    $("#deleteProblem").removeClass("hidden");   
+    $( "#deleteProblem" ).unbind().click(function() {   
+        if (confirm('Are you sure you wish to delete the problem ' + problem.name + '?')) {
+            emptyProblem();
+            reloadFolders();
             $.post("/problem/delete", {id: problem.id}, function () {
                 $.post("/problem/reorder", {folder: problem.folder}, function () {
-                    emptyProblem();
+
                 });
             });
         }
@@ -31,6 +34,7 @@ function fillProblemEdit(problem) {
 }
 
 function emptyProblem(){
+    console.log("empty");
     $("#edit").addClass("hidden");
     $("#editPlaceholder").removeClass("hidden");
     $("#pointbreakdown").addClass("hidden");
@@ -586,12 +590,12 @@ function reloadSortableFolders() {
             var expandButton = $("<a href='#accoridanFolder" + folder.id + "'></a>")
             .attr("data-parent","#accordion")
             .attr("data-toggle","collapse")
-            .html('<span class="glyphicon expand-folders glyphicon-folder-open" style="padding:0 8px;float:right"></span>')
+            .html('<span class="glyphicon expand-folders glyphicon-folder-open" style="padding:0 8px;float:right" id="expandMe' + folder.id +'"></span>')
             .click(function () {
-                if ($(".expand-folders").hasClass("glyphicon-folder-open")) {
-                    $(".expand-folders").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close");
+                if ($("#expandMe" + folder.id).hasClass("glyphicon-folder-open")) {
+                    $("#expandMe" + folder.id).removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close");
                 } else {
-                    $(".expand-folders").removeClass("glyphicon-folder-close").addClass("glyphicon-folder-open");
+                    $("#expandMe" + folder.id).removeClass("glyphicon-folder-close").addClass("glyphicon-folder-open");
                 }
             });
 
@@ -600,7 +604,7 @@ function reloadSortableFolders() {
             .css("color","red")
             .html('<span class="glyphicon glyphicon-remove" style="padding:0 5px;float:right"></span>') // the trailing space is important!
             .click(function () {
-                if (confirm('Are you sure you wish to delete this folder ?')) {
+                if (confirm('Are you sure you wish to delete the folder "'+ folder.name + '"?')) {
                     $.post("/folder/delete", {id: folder.id}, function () {
                         $.post("/folder/reorder", {}, function () {
                             reloadSortableFolders();
@@ -628,11 +632,11 @@ function reloadSortableFolders() {
             $.post("/problem/read", {folder: folder.id}, function (problems) {
                 problems.forEach( function (problem) {
 
-                    var removeButton = $("<a href='#'></a>")
+                    var removeButton = $("<a href='#' data-toggle='tooltip' data-placement='right' title='Delete?'></a>")
                     .css("color","red")
-                    .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right"></span>') // the trailing space is important!
+                    .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right" ></span>') // the trailing space is important!
                     .click(function () {
-                        if (confirm('Are you sure you wish to delete this problem ?')) {
+                        if (confirm('Are you sure you wish to delete the problem "' + problem.name + '"?')) {
                             $.post("/problem/delete", {id: problem.id}, function () {
                                 $.post("/problem/reorder", {folder: problem.folder}, function () {
 
@@ -642,6 +646,8 @@ function reloadSortableFolders() {
                         reloadSortableFolders();
 
                     });
+                    //must enable tooltips
+                    $('[data-toggle="tooltip"]').tooltip()
 
                     var sortableProblem = $("<li></li>")
                     .attr("class","ui-state-default")
@@ -811,7 +817,6 @@ window.onload = function () {
             var noPointsError = $("<div class='alert alert-danger' role='alert'>Please enter style and correctness points</div>");
             $("#newProblemError").append(noPointsError);
         } else {
-            console.dir(opts);
             $.post("/problem/create", opts, function (problem) {
                 $.post("/problem/reorder", {folder: problem.folder}, function () {
                     reloadFolders();
