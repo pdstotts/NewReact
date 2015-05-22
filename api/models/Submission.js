@@ -43,7 +43,7 @@ module.exports = {
 				console.log("There was an error loading the associated problem");
 				return cb();
 			}
-			var onSubmit = new Function("batch", "code", "style", "solution", "fail", p.onSubmit);
+			var onSubmit = new Function("batch", "code", "style", "solution", "fail", "pass", p.onSubmit);
 			try {
 				var updatePoints = function () {
 					values.value = {
@@ -57,6 +57,7 @@ module.exports = {
 					f: p.value.correct,  //begin with full points which users can lose
 					s: p.value.style
 				};
+				var updated = null;
 				onSubmit(
 					require("../../batch/batch"),	// "batch" - the batch module
 					values.code,					// "code" - the student's code
@@ -64,11 +65,18 @@ module.exports = {
 					p.solution,						// "solution" - the values stored in the solution in the problem
 					{ 								// "fail" - the code behind fail.f() and fail.s()
 						f: function (msg,pts) {
+							//deduct all points if no percentage given
+							var deduction = p.value.correct;
+							if(pts){
+								deduction = deduction * pts;
+							}
+
 							//subtract function points
-							score.f = score.f - pts;
+							score.f = score.f - deduction;
 							if(score.f < 0){
 								score.f = 0;
 							}
+
 							//append function message if given 
 							if(msg != ""){
 								if(!values.message){
@@ -79,8 +87,14 @@ module.exports = {
 							}
 						},
 						s: function (msg,pts) {
+							//deduct all points if no percentage given
+							var deduction = p.value.style;
+							if(pts){
+								deduction = deduction * pts;
+							}
+
 							//subtract style points
-							score.s = score.s - pts;
+							score.s = score.s - deduction;
 							if(score.s < 0){
 								score.s = 0;
 							}
@@ -89,16 +103,40 @@ module.exports = {
 								if(!values.message){
 									values.message = "Style Error: " + msg;
 								}else {
-									values.message = values.message + "\n " + "Style Error: " + msg;
+									values.message = values.message + "\n" + "Style Error: " + msg;
 								}
 							}
 						},
-						done: function (msg,pts) {
-							if(!values.message){
-								values.message = msg;
-								console.log(values.message);
+					},
+					{ 								// "pass" - the code behind pass.f() and pass.s()
+						f: function (msg) {
+							if(msg != "" && p.value.correct == score.f){
+								if(!values.message){
+									values.message = msg;
+								}else {
+									values.message = values.message + "\n" + msg;
+								}
 							}
-							updatePoints();
+							if(updated){
+								updatePoints();
+							}else {
+								updated = true;
+							}
+						},
+						s: function (msg) {
+							if(msg != "" && p.value.style == score.s){
+								if(!values.message){
+									values.message = msg;
+								}else {
+									values.message = values.message + "\n" + msg;
+								}
+							}
+							if(updated){
+								updatePoints();
+							}else {
+								updated = true;
+							}
+
 						},
 					}
 				);
