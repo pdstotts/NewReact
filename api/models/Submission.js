@@ -33,9 +33,31 @@ module.exports = {
 		},
 		message: {
 			type: 'string'
+		},
+		fbRequested: {
+			type: 'boolean'
+		},
+		fbRequestTime: {
+			type: 'datetime'
+		},
+		fbRequestMsg: {
+			type: 'string'
+		},
+		fbResponder: {
+			type: 'string'
+		},
+		fbResponseTime: {
+			type: 'datetime'
+		},
+		fbResponseMsg: {
+			type: 'string'
+		},
+		fbCode: {
+			type: 'string'
 		}
+
 	},
-// THIS LOOKS LIKE A THING
+
 	beforeCreate: function (values, cb) {
 		//values.message = false;
 		Problem.findOne(values.problem).exec(function (err, p) {

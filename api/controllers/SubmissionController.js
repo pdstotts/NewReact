@@ -78,11 +78,48 @@ module.exports = {
    *    `/submission/update`
    */
    update: function (req, res) {
-    
-    // Send a JSON response
-    return res.json({
-      hello: 'world'
-    });
+    var id = req.param("id");
+    var fbRequested = req.param("fbRequested");
+    var fbRequestTime = req.param("fbRequestTime");
+    var fbRequestMsg = req.param("fbRequestMsg");
+    console.log(id);
+    console.log(fbRequested);
+    console.log(fbRequestTime);
+    console.log(fbRequestMsg);
+
+    var fbResponder = req.param("fbResponder");
+    var fbResponseTime = req.param("fbResponseTime");
+    var fbResponseMsg = req.param("fbResponseMsg");
+    var fbCode = req.param("fbCode");
+    console.log(fbResponder);
+    console.log(fbResponseTime);
+    console.log(fbResponseMsg);
+    console.log(fbCode);
+
+    if(fbRequested){
+      if(fbRequested == "true"){
+        fbRequested = true;
+      }else {
+        fbRequested = false;
+      }
+      Submission.update({id: id},{fbRequested:fbRequested, fbRequestTime:fbRequestTime, fbRequestMsg:fbRequestMsg},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+              res.send(submission);
+          }
+      });
+    }else {
+      Submission.update({id: id},{fbResponder:fbResponder, fbResponseTime:fbResponseTime, fbResponseMsg:fbResponseMsg, fbCode:fbCode},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+              res.send(submission);
+          }
+      });
+
+    }
+
   },
 
 

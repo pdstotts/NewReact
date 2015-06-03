@@ -195,6 +195,10 @@ function addSubmission(submission) {
     }
     link.append(gradeF);
     link.append(gradeS);
+
+	var requestFeedbackButton = $("<td id='subReq" + submission.id + "'></td>");
+	link.append(requestFeedbackButton);
+
     //make the problem link produce the submission code on click
 	$("a", link).click(function() {
 		if (confirm('Put the following into the console? \n' + submission.code)) {
@@ -203,6 +207,52 @@ function addSubmission(submission) {
 	});
     //attach the link to the submission
 	$("#subs").prepend(link);
+
+    if(submission.fbRequested == false){
+    	console.log("request");
+    	request(submission.id);
+    }else {
+    	console.log("pending");
+    	pending(submission.id,submission.fbRequestMsg);
+    }
+
+}
+
+function pending(submissionId, submissionMessage){
+		console.log("calling pending func");
+
+	var button = $("<button></button>")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-warning")
+		.text("Pending")
+    	.click(function () {
+			if(confirm("You submitted the following request:\n" + submissionMessage + "\n\n Click OK to delete this request. Click cancel to keep it.")){
+				$.post("/submission/update", {id: submissionId, fbRequested: false, fbRequestTime: null, fbRequestMsg: null}, function (submission) {
+					console.log("submission update in pending");
+					request(submissionId);
+				});
+			}
+		});
+	$("#subReq" + submissionId).empty().append(button);
+}
+
+function request(submissionId){
+	console.log("calling request function");
+	var button = $("<button></button>")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-primary")
+		.text("Request")
+    	.click(function () {
+	    	var message = prompt("What are your questions?", "");
+	    	if(message != null) {
+	    		var now = new Date().toISOString();
+				$.post("/submission/update", {id: submissionId, fbRequested: true, fbRequestTime: now, fbRequestMsg: message}, function (submission) {
+					console.log("submission update in request");
+					pending(submissionId,message);
+				});
+			}
+		});
+	$("#subReq" + submissionId).empty().append(button);
 }
 
 function resizeWindow(){

@@ -60,6 +60,52 @@
 	.panel-collapse {padding:20px; }
 	.panel-collapse p {margin:0 20px; padding:0; }
 
+/* @group Blink */
+
+.blink {
+    -webkit-animation: blink 1s linear infinite;
+    -moz-animation: blink 1s linear infinite;
+    -ms-animation: blink 1s linear infinite;
+    -o-animation: blink 1s linear infinite;
+    animation: blink 1s linear infinite;
+}
+
+@-webkit-keyframes blink {
+    0% { border: 1px solid white; }
+    50% { border: 1px solid white; }
+    50.01% { border: 1px solid red; }
+    100% { border: 1px solid red; }
+}
+
+@-moz-keyframes blink {
+    0% { border: 1px solid white; }
+    50% { border: 1px solid white; }
+    50.01% { border: 1px solid red; }
+    100% { border: 1px solid red; }
+}
+
+@-ms-keyframes blink {
+    0% { border: 1px solid white; }
+    50% { border: 1px solid white; }
+    50.01% { border: 1px solid red; }
+    100% { border: 1px solid red; }
+}
+
+@-o-keyframes blink {
+    0% { border: 1px solid white; }
+    50% { border: 1px solid white; }
+    50.01% { border: 1px solid red; }
+    100% { border: 1px solid red; }
+}
+
+@keyframes blink {
+    0% { border: 1px solid white; }
+    50% { border: 1px solid white; }
+    50.01% { border: 1px solid red; }
+    100% { border: 1px solid red; }
+}
+
+/* @end */
 
 #navigationPanel {
 	margin-top: 20px;
@@ -144,13 +190,23 @@ ul {
     transition:height 0.2s; /* Animation time */
     -webkit-transition:height 0.2s; /* For Safari */
     clear:none;
-    line-height: 250%;
+	vertical-align: top;
+	line-height: 0px;
+}
+
+.matrixSquareHover {
+	margin: 0px;
+	position: absolute;
+	width:50px;
+	height:50px;
+	visibility:hidden;
+	line-height: 250%;
 
 }
-.matrixSquare:hover {
-    height: 102px;
-
+.matrixSquare:hover, .matrixSquareHover:hover {
+	width: auto;
 }
+
 #refreshData {
 	float: right;
 	margin-top: -6px;
@@ -352,7 +408,7 @@ ul {
 
 				<!-- MATRIX BODY -->
 				<div class="panel-collapse collapse" id="problemMatrix">
-					<div class="panel-body">
+					<div class="panel-body" style="padding:2px">
 						<div id="matrixBody">
 						</div>
 					</div>
@@ -514,7 +570,40 @@ ul {
 					</ul>
 					</div>
 				</div>
+			</div>		
+
+			<div class="panel panel-default" id="additionalFeedbackPanel">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#additionalFeedbackCollapse">
+							Additional Feedback
+						</a>
+					</h4>
+				</div>
+				<div id="additionalFeedbackCollapse" class="panel-collapse collapse in submissionCollapse">
+					<div class="panel-body">
+						<b><span id="feedbackRequestTime" class="hidden"></span></b>
+						<div class="alert alert-warning hidden" id="fbRequestMsg"></div>
+						<div id="submitFeedbackForm">
+							<label class="control-label" for="fbResponseMessage">Feedback Message:</label>
+							<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" >Enter feedback message here.</textarea>
+							<br />
+							<label class="control-label" for="fbResponseCode">Code:</label>
+							<textarea name="fbResponseCode" id="fbResponseCode" class="form-control" 
+									 style="font-family:Consolas, monospace">Enter feedback code here.</textarea>
+							
+							<div id="submitFeedbackError"></div>
+							<button id="submitFeedbackButton" class="btn btn-primary form-control" >Submit Feedback</button>
+						</div>
+						<b><span id="feedbackResponseTime"  class="hidden"></span></b>
+						<div id="displayFeedback" class="alert alert-success hidden">
+						</div>
+					</div>
+				</div>
 			</div>			
+
+
+
 			<button type="button" class="btn btn-danger" data-toggle='pill' id="submissionCollapseAll">Hide Student Info</button>
 
 		</div>

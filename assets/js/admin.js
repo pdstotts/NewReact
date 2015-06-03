@@ -53,6 +53,23 @@ function fillProblemDisplay(problem) {
     $("#availablePtCorrect").empty().append(problem.value.correct);
 }
 
+function feedbackRequestButton(submission,user,problem){
+
+    var button = $("<a></a>")
+        .attr("href","#submission")
+        .attr("data-toggle","pill")  //save
+        .css("color","#627E86")
+        .attr("class","")
+        .css("padding-left","4px;")
+        .html('<span class="glyphicon glyphicon-exclamation-sign"></span>') // the trailing space is important!
+        .click(function (event) {
+            event.preventDefault();
+            getSubmission(submission,user,problem);
+        });
+    return button;
+
+}
+
 function getStudentResults(problem) {
     //Loads results of all students on a particular problem
     numfunct = 0;
@@ -69,30 +86,39 @@ function getStudentResults(problem) {
                 .attr('class','matrixSquare alert alert-danger')
                 .attr('id','matrix' + user.id);
 
-            var userButton = $("<a href='#'></a>")
-            .css("color","white")
+            var matrixSquarehover = $("<div></div>")
+                .attr('class','matrixSquareHover')
+                .attr('id','matrixHover' + user.id);
+
+            var userButton = $("<a href='#individualStudent' data-toggle='pill' data-toggle='tooltip' data-placement='bottom' title='View User'></a>")
+            .css("color","#627E86")
             .css("padding-left","4px;")
             .attr("class","")
             .html('<span class="glyphicon glyphicon-user"></span>') // the trailing space is important!
             .click(function () {
-                alert('hi');
+                event.preventDefault();
+                $.post("/user/read/" + user.id, {}, function (user) {
+                    if (!user) {
+                        alert("No user with that id found");
+                        return;
+                    }
+                    getIndividual(user,false);
+                });
             });
 
-            var mailButton = $("<a href='#'></a>")
-            .css("color","white")
-            .attr("class","")
-            .css("padding-left","4px;")
-            .html('<span class="glyphicon glyphicon-envelope"></span>') // the trailing space is important!
-            .click(function () {
-                alert('hi');
-            });
+            //must enable tooltips
+            //$('[data-toggle="tooltip"]').tooltip()
+
+
+            matrixSquare.append(matrixSquarehover);
+            matrixSquarehover.append(userButton);
 
             matrixSquare.append(user.username);
             matrixSquare.append("<br />");
-            matrixSquare.append(userButton);
-            matrixSquare.append(mailButton);
 
             $("#matrixBody").append(matrixSquare);
+            $('#matrix' + user.id).mouseover(function() { $('#matrixHover' + user.id).css('visibility','visible'); });
+            $('#matrix' + user.id).mouseout(function() { $('#matrixHover' + user.id).css('visibility','hidden'); });
 
             var a = $("<td></td>")
                 .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
@@ -169,7 +195,7 @@ function problemCorrect(user, problem, student, totalStudents){
     var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
     var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
 
-    var results = {tried: false, correct: false, style: false};
+    var results = {tried: false, correct: false, style: false, feedbackRequested: false};
     $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username, reverse: true}, function(submissions){
         if(submissions.length == 0){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
@@ -190,6 +216,12 @@ function problemCorrect(user, problem, student, totalStudents){
 
             results.tried = true;
             submissions.forEach(function(submission) {
+                if(submission.fbRequested == true && submission.fbResponseTime == null){
+                    results.feedbackRequested = true;
+                    console.log("feedbackRequested");
+                    $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+
+                }
                 if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
                     results.correct = true;
                     results.style = true;
@@ -199,6 +231,9 @@ function problemCorrect(user, problem, student, totalStudents){
                     results.correct = true;
                 }
             });
+        }2
+        if(results.feedbackRequested == true){
+            $("#matrix" + user.id).addClass("blink");
         }
         if(results.tried) {
             numattempted++;
@@ -298,11 +333,14 @@ function getStudentList() {
 
 function getSubmission(submission,user,problem) {
     //Generate page for particular submission    
+
+    curSubmission = submission;
+
 	var d = new Date(submission.createdAt);
     $("#submissionCreatedAt").html(d.toLocaleString());
 
     var currentId = submission.id;
-    var a = $("<a></>")
+    var studentLink = $("<a></>")
     	.attr("href","#individualStudent")
     	.attr("data-toggle","pill")
     	.html(user.displayName)
@@ -316,7 +354,9 @@ function getSubmission(submission,user,problem) {
                 getIndividual(user,false);
             });
         });
-    var b = $("<a></>")
+    $("#submissionCreatedBy").empty().append(studentLink);
+
+    var problemLink = $("<a></>")
     	.attr("href","#questions")
     	.attr("data-toggle","pill")
     	.html(problem.name)
@@ -328,18 +368,56 @@ function getSubmission(submission,user,problem) {
 	        getStudentResults(curProblem);
 
         });
-    $("#submissionProblem").empty().append(b);
-    $("#submissionCreatedBy").empty().append(a);
+    $("#submissionProblem").empty().append(problemLink);
+
     $("#relatedSubmissions").empty();
     $("#submissionPoints").html("Style Points: " + submission.value.style +  "/" + problem.value.style + "<br/>Functionality Points: " + submission.value.correct + "/" + problem.value.correct);
+    $("#additionalFeedbackPanel").removeClass("panel-danger");
 
     editor.setValue(submission.code);
 
-    $("#submissionMessage").empty().html(submission.message.replace(/\n/g,"<br />"));
+    var submissionMessage = submission.message;
+    if(!submission.message) { submissionMessage = "No message" }
+    $("#submissionMessage").empty().html(submissionMessage.replace(/\n/g,"<br />"));
     $("#submissionTitle").html(problem.name);
     $.post("/folder/read/", {id: problem.folder}, function(folder){
         $("#submissionTitle").html(problem.name + "<i> in " + folder.name + "</i>");
     });
+
+    $("#fbRequestMsg").empty().addClass("hidden");
+    $("#feedbackRequestTime").empty();
+    $("#feedbackResponseTime").empty();
+    $("#displayFeedback").empty().addClass("hidden");;
+    $("#submitFeedbackForm").removeClass("hidden");
+
+    if(submission.fbRequested == true){
+        $("#fbRequestMsg").removeClass("hidden");
+        var message = submission.fbRequestMsg;
+        if(message == null){
+            message = "Student gave no message."
+        }
+        $("#fbRequestMsg").append(message);
+        $("#feedbackRequestTime").removeClass("hidden");
+        var time = submission.fbRequestTime;
+        if(time != null){
+           time = submission.fbRequestTime.toLocaleString()
+        }
+        $("#feedbackRequestTime").append("Feedback requested on " + time);
+    }
+    if(submission.fbResponseTime != null){
+        $("#submitFeedbackForm").addClass("hidden");
+        $("#displayFeedback").removeClass("hidden");
+        $("#feedbackResponseTime").removeClass("hidden");
+        time = submission.fbResponseTime;
+        if(time != null){
+           time = submission.fbResponseTime.toLocaleString()
+        }
+        $("#feedbackResponseTime").append("Feedback responded on " + time);
+        $("#displayFeedback").append(submission.fbResponseMsg);
+    }
+    if(submission.fbRequested == true && submission.fbResponseTime == null){
+        $("#additionalFeedbackPanel").addClass("panel-danger")
+    }
 
     $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
         submissions.forEach( function (submission) {
@@ -768,6 +846,8 @@ window.onload = function () {
     curProblem = null;
     curStudent = null;
     curFolder = null;
+    curSubmission = null;
+
     numProblems = 0;
     numfunct = 0; //num solutions with correct functionality
     numstyle = 0; //num solutions with correct style
@@ -792,7 +872,7 @@ window.onload = function () {
                 updateProblemProgressBar();
             }
         },
-        2000 /* 30000 ms = 30 sec */
+        30000 /* 30000 ms = 30 sec */
     );
 
     editor = CodeMirror.fromTextArea(codemirror, {
@@ -904,6 +984,7 @@ window.onload = function () {
             });
         }
 	});
+
     $("#newAdminBtn").click(function() {
         $.post("/user/setAdmin", {user: $("#newAdmin").val()}, function(admin) {
             if(admin) {
@@ -949,6 +1030,31 @@ window.onload = function () {
         });
 
     });
+
+    $('#submitFeedbackButton').on('click', function( event ) {
+        var fbResponseMsg = $('#fbResponseMessage').val();
+        var fbCode = $('#fbResponseCode').val();
+
+        var now = new Date().toISOString();
+        var fbResponseTime = now.toLocaleString();
+        var fbResponder = null;
+    
+        $.post("/submission/update", {id: curSubmission.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
+            console.log("submission update in request");
+            $("#displayFeedback").empty().removeClass("hidden");;
+            $("#submitFeedbackForm").addClass("hidden");
+            $("#feedbackResponseTime").empty().removeClass("hidden");
+            time = submission.fbResponseTime;
+            if(time != null){
+               time = submission.fbResponseTime.toLocaleString()
+            }
+            $("#feedbackResponseTime").append("Feedback submitted!");
+            $("#displayFeedback").append(fbResponseMsg);
+        });
+    
+        console.log('submitting fedback');
+    });
+
 
     $('#submissionCollapseAll').on('click', function() {
         if($(this).text() == 'Hide Student Info') {
