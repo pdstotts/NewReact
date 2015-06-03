@@ -371,7 +371,21 @@ function getSubmission(submission,user,problem) {
     $("#submissionProblem").empty().append(problemLink);
 
     $("#relatedSubmissions").empty();
-    $("#submissionPoints").html("Style Points: " + submission.value.style +  "/" + problem.value.style + "<br/>Functionality Points: " + submission.value.correct + "/" + problem.value.correct);
+    $("#SearnedPtCorrect").html(submission.value.correct);
+    $("#SavailablePtCorrect").html(problem.value.correct);
+    $("#SearnedPtStyle").html(submission.value.style);
+    $("#SavailablePtStyle").html(problem.value.style);
+    if(submission.value.correct == problem.value.correct){
+        $("#ScorrectCheck").empty().append(correct("8px"));
+    }else {
+        $("#ScorrectCheck").empty().append(wrong("8px"));
+    }
+    if(submission.value.style == problem.value.style){
+        $("#SstyleCheck").empty().append(correct("8px"));
+    }else {
+        $("#SstyleCheck").empty().append(wrong("8px"));
+    }
+
     $("#additionalFeedbackPanel").removeClass("panel-danger");
 
     editor.setValue(submission.code);

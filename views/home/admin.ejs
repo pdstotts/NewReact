@@ -216,6 +216,15 @@ ul {
 	width: 15%;	
 	text-align: center;
 }
+#pointbreakdownSubmission {
+	border: 2px solid gray;
+	width:190px; 
+	margin-left:5px;
+	padding:8px;
+	margin-bottom: 7px;
+	float:right;
+}
+
 
 </style>
 <script src="lib/codemirror.js"></script>
@@ -248,7 +257,7 @@ ul {
 </nav>
 
 
-<div class="container-fluid ">
+<div class="container-fluid " style="padding-top: 4px">
 <% if (req.isAuthenticated() && req.user.admin) {%>
 
 	<!-- SIDE BAR -->
@@ -523,24 +532,15 @@ ul {
 				</div>
 				<div id="submissionCollapse" class="panel-collapse collapse in submissionCollapse">
 					<div class="panel-body">
+						<div id="pointbreakdownSubmission">
+			  				Functionality <span id="ScorrectCheck" class="pull-right"></span><span class="badge pull-right"><span id="SearnedPtCorrect">0</span>/<span id="SavailablePtCorrect"></span></span>
+			  				<br />
+			  				</span>Style <span id="SstyleCheck" class="pull-right"></span><span class="badge pull-right"><span id="SearnedPtStyle">0</span>/<span id="SavailablePtStyle"></span></span>
+			  				<br />
+		  				</div>
 						Created By: <span id="submissionCreatedBy"></span><br />
 						Problem: <span id="submissionProblem"></span><br />
-						Created At: <span id="submissionCreatedAt"></span><br />
-					</div>
-				</div>
-			</div>		
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#submissionFeedbackCollapse" id="submissionFeedbackTitle">
-							Feedback
-						</a>
-					</h4>
-				</div>
-				<div id="submissionFeedbackCollapse" class="panel-collapse collapse in submissionCollapse">
-					<div class="panel-body">
-						<span id="submissionPoints"></span>
+						Created At: <span id="submissionCreatedAt"></span><br /><br />
 						<div class="alert alert-warning" id="submissionMessage"></div>
 					</div>
 				</div>
@@ -559,8 +559,8 @@ ul {
 				<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
 					<table class="table">
 					<thead>
-					<tr><td>Time of submission</td>
-					<td>Functionality</td> <td>Style</td> <td>Feedback</td>
+					<tr><th>Time of submission</th>
+					<th>Functionality</th> <th>Style</td> <th>Feedback</th>
 					</tr>
 					</thead>
 					<tbody id="relatedSubmissions"> </tbody>
@@ -572,7 +572,7 @@ ul {
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#additionalFeedbackCollapse">
-							Additional Feedback
+							Feedback
 						</a>
 					</h4>
 				</div>
