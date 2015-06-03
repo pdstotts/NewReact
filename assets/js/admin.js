@@ -422,33 +422,49 @@ function getSubmission(submission,user,problem) {
     $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
         submissions.forEach( function (submission) {
             var d = new Date(submission.createdAt);
+            var row = $("<tr></tr>")
 
             if(currentId == submission.id){
-                var a = $("<li></li>")
-                .html('<div class="submission-timestamp">' + d.toLocaleString() + "</div><div class='submission-points'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='submission-points'>Style: " + submission.value.style + "/" + problem.value.style + '</div>')
+                var a = $("<td></td>")
+                .html(d.toLocaleString())
                 .click(function (event) {
                     event.preventDefault();
                     getSubmission(submission,user,problem);
                 });
-                if ((submission.value.correct == problem.value.correct) && (submission.value.style == problem.value.style)) {
-                    a.append(correct("8px"));
-                } else {
-                    a.append(wrong("8px")); 
-                }
             }else {
-                var a = $("<li></li>")
-                .html("<a href='#submission' data-toggle='pill'><div class='submission-timestamp'>" + d.toLocaleString() + '</div></a><div class="submission-points">Functionality: ' + submission.value.correct + "/" + problem.value.correct + "</div><div class='submission-points'>Style: " + submission.value.style + "/" + problem.value.style + '</div>')
+                var a = $("<td></td>")
+                .html("<a href='#submission' data-toggle='pill'>" + d.toLocaleString() + '</a>')
                 .click(function (event) {
                     event.preventDefault();
                     getSubmission(submission,user,problem);
                 });
-                if (submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
-                    a.append(correct("8px"));
-                } else {
-                    a.append(wrong("8px")); 
-                }
             }
-            $("#relatedSubmissions").append(a);
+            var b = $("<td></td>").append("<span class='badge'>" + submission.value.correct + "/" + problem.value.correct + "</span>");
+            var c = $("<td></td>").append("<span class='badge'>" + submission.value.style + "/" + problem.value.style + "</span>");
+            if (submission.value.correct == problem.value.correct) {
+                b.append(correct("8px"));
+            } else {
+                b.append(wrong("8px")); 
+            }
+            if (submission.value.style == problem.value.style) {
+                c.append(correct("8px"));
+            } else {
+                c.append(wrong("8px")); 
+            }
+            var d = $("<td></td>");
+            if(submission.fbRequested){
+                d.append("<span class='glyphicon glyphicon-exclamation-sign' style='color:red;''></span>");
+            }
+            if(submission.fbResponseTime){
+                d.empty().append("<span class='glyphicon glyphicon-ok' style='color:green;''></span>");
+            }
+
+            row.append(a);
+            row.append(b);
+            row.append(c);
+            row.append(d);
+
+            $("#relatedSubmissions").append(row);
         });
     });
     setTimeout( editor.refresh(), 0 );

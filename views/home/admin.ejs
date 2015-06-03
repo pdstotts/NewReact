@@ -212,14 +212,6 @@ ul {
 	margin-top: -6px;
 }
 
-.submission-points {
-	float:left;
-	width:20%;
-}
-.submission-timestamp {
-	float:left;
-	width:50%
-}
 .probStudentSubmissionTableTD {
 	width: 15%;	
 	text-align: center;
@@ -555,7 +547,7 @@ ul {
 			</div>		
 
 			<textarea id="codemirror"></textarea>
-
+			<br />
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
@@ -565,10 +557,14 @@ ul {
 					</h4>
 				</div>
 				<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
-					<div class="panel-body">
-					<ul id="relatedSubmissions">
-					</ul>
-					</div>
+					<table class="table">
+					<thead>
+					<tr><td>Time of submission</td>
+					<td>Functionality</td> <td>Style</td> <td>Feedback</td>
+					</tr>
+					</thead>
+					<tbody id="relatedSubmissions"> </tbody>
+					</table>
 				</div>
 			</div>		
 
