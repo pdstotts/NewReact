@@ -211,9 +211,11 @@ function addSubmission(submission) {
     if(submission.fbRequested == false){
     	console.log("request");
     	request(submission.id);
-    }else {
+    }else if(submission.fbResponseTime == null) {
     	console.log("pending");
     	pending(submission.id,submission.fbRequestMsg);
+    }else {
+    	view(submission);
     }
 
 }
@@ -254,6 +256,19 @@ function request(submissionId){
 		});
 	$("#subReq" + submissionId).empty().append(button);
 }
+
+function view(submission){
+	var button = $("<button></button>")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-success")
+		.text("View")
+    	.click(function () {
+    		alert(submission.fbResponseMsg);
+		});
+	$("#subReq" + submission.id).empty().append(button);
+
+}
+
 
 function resizeWindow(){
 /*	var window_height = $("#consoleHeader").height();
