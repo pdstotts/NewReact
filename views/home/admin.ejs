@@ -428,13 +428,13 @@ ul {
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						Student Attempts
+						<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTable" aria-expanded="true" >Student Attempts</a>
 						<span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
 						<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
 
 					</h4>
 				</div>
-				<div id="allStudents1ProblemTable">
+				<div class="panel-collapse collapse" id="allStudents1ProblemTable">
 					<div class="panel-body">
 						Select a problem to view student progress
 					</div>
@@ -680,7 +680,7 @@ ul {
 			<div id="individualProgessBar" class="hidden col-md-12" style="margin-top:10px"></div>
 
 			<!--SUBMISSION LIST-->
-			<div class="col-md-12" id="individualSubmissionList"></div>
+			<div class="col-md-12 panel-group" id="individualSubmissionList" ></div>
 
 		</div>
 		<!-- INDIVIDUAL STUDENT SECTION ENDS -->

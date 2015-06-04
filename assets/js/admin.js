@@ -6,6 +6,19 @@ function correct(){
 function wrong(){
    return $("<span class='glyphicon glyphicon-remove'></span>").css("color", "red").css("margin-right", "5px");
 }
+function exclam(){
+   return $("<span class='glyphicon glyphicon-exclamation-sign'></span>").css("color", "red").css("margin-right", "5px");
+}
+function scoreBadge(a,b){
+    var check;
+    if(a == b){
+        check = correct();
+    }else {
+        check = wrong();
+    }
+    var badge = $("<span class='badge'></span>").append(a + "/" + b);
+    return $("<span></span>").append(badge).append(check);
+}
 
 function fillProblemEdit(problem) {
 	$("#edit").removeClass("hidden");
@@ -273,8 +286,8 @@ function problemCorrect(user, problem, student, totalStudents){
             submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(a));
             var iconF = submission.value.correct ==  problem.value.correct ? correct("8px") : wrong("8px");
             var iconS = submission.value.style ==  problem.value.style ? correct("8px") : wrong("8px");
-            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append("<span class='badge'>" + submission.value.correct + "/" + problem.value.correct+ "</span>").append(iconF));
-            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append("<span class='badge'>" + submission.value.style + "/" + problem.value.style+ "</span>").append(iconS));
+            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.style,problem.value.style)));
             myRows.push(submissionRow);
         });
 
@@ -407,9 +420,6 @@ function getSubmission(submission,user,problem) {
         
         //Request Message
         var message = submission.fbRequestMsg;
-        if(message == null){
-            message = "Student gave no message."
-        }
         $("#fbRequestMsg").empty().append(message);
      
         //Request Time
@@ -469,18 +479,8 @@ function getSubmission(submission,user,problem) {
                     getSubmission(submission,user,problem);
                 });
             }
-            var b = $("<td></td>").append("<span class='badge'>" + submission.value.correct + "/" + problem.value.correct + "</span>");
-            var c = $("<td></td>").append("<span class='badge'>" + submission.value.style + "/" + problem.value.style + "</span>");
-            if (submission.value.correct == problem.value.correct) {
-                b.append(correct("8px"));
-            } else {
-                b.append(wrong("8px")); 
-            }
-            if (submission.value.style == problem.value.style) {
-                c.append(correct("8px"));
-            } else {
-                c.append(wrong("8px")); 
-            }
+            var b = $("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
+            var c = $("<td></td>").append(scoreBadge(submission.value.style,problem.value.style));
             var d = $("<td></td>");
             if(submission.fbRequested){
                 d.append("<span class='glyphicon glyphicon-exclamation-sign' style='color:red;''></span>");
@@ -522,36 +522,10 @@ function getIndividual(user, refresh) {
     //must enable tooltips
     $('[data-toggle="tooltip"]').tooltip()
     var totalSubmissionNumber = 100000000000000;
-
     
     $.post("/submission/read/", {student: user.username}, function(submissions){
         totalSubmissionNumber = submissions.length;
-        /*
-        Code for catching deleting "hanging" submissions whose folder/problem have been deleted
-        submissions.forEach( function (submission) {
-            
-            $.post("/problem/read", {id: submission.problem}, function (problem) {
-                if(!problem){
-                    console.log("no problem");
-                    $.post("/submission/delete", {id: submission.id}, function (submission) {
-                        ///OLD CODE: IF YOU WANT TO USE THIS, YOU MUST CALL REORDER WITHIN THIS DELETE
-                        console.log("deleted submission" + submission.id);
-                    });
-                }
-                $.post("/folder/read", {id: problem.folder}, function (folder) {
-                    if(!folder){
-                        console.log("no folder");
-                        $.post("/problem/delete", {id: problem.id}, function (problem) {
-                            ///OLD CODE: IF YOU WANT TO USE THIS, YOU MUST CALL REORDER WITHIN THIS DELETE
-                            console.log("deleted problem " + problem.id);
-                        });
-
-                    }
-                });
-            });
-        });*/
     });
-
     if(totalSubmissionNumber == 0){
         $("#studentRefresh").removeAttr('disabled');
     }
@@ -560,9 +534,20 @@ function getIndividual(user, refresh) {
         var totalEarned = 0;
         var totalAttempted = 0;
         folders.forEach(function (folder) {
-            var toggleLabel = '<h4><a data-toggle="collapse" data-parent="#accordion" href="#ISL'+ folder.id + '">' + folder.name + '</a></h4>';
-            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
+            var folderEarned = 0;
+            var folderAvailable = 0;
+            var toggleLabel = '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#Icollapse-'+ folder.id + '">' + folder.name + '</a></h4>';
+            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td> <th>Feedback</th></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+//            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + " <span id='Iearned-"+ folder.id + "'>0</span>/<span id='Iavail-"+ folder.id + "'></span><span id='Icheck-"+ folder.id + "'></span></h4></div><ul id = 'ISL" + folder.id + "' class='panel-collapse collapse folderCollapse'></ul></div></div>";
+
+//            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
+            $("#individualSubmissionList").append(accordian);
+
             $.post("/problem/read", {folder: folder.id}, function (problems) {
+                problems.forEach( function (problem) {
+                    folderAvailable += parseInt(problem.value.style) + parseInt(problem.value.correct);
+                });
+
                 problems.forEach( function (problem) {
                     var availableStylePoints = problem.value.style;
                     var availableFuncPoints = problem.value.correct;
@@ -570,28 +555,56 @@ function getIndividual(user, refresh) {
                     var earnedFuncPoints = parseInt(0);
                     var attemptedStylePoints = parseInt(0);
                     var attemptedFuncPoints = parseInt(0);
+                    var feedbackRequested = false;
+                    var feedbackGiven = false;
+                    var problemRow = $("<tr>");
+                    var problemRowSubmissions = [];
                     $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
-                        if(submissions.length > 0){
-                            $("#ISL" + folder.id).append("<li>" + "<div class='problem-name-first left'><a data-toggle='collapse' data-parent='#accordian' href='#ISL" + problem.id + "' >" + problem.name + "</a></div><span id='ipPoints" + problem.id + "'></span><span id='ipCount" + problem.id + "'></span><ul id='ISL" + problem.id + "' class='collapse'></ul></li>");
-                        }else{
-                            $("#ISL" + folder.id).append("<li>" + "<div class='problem-name-first left'>" + problem.name + "</div><span id='ipPoints" + problem.id + "'></span><span id='ipCount" + problem.id + "'></span><ul id='ISL" + problem.id + "' class='panel-collapse collapse'></ul></li>");
-                        }
                         submissions.forEach( function (submission) {
                             submissionCount++;
                             if(totalSubmissionNumber == submissionCount){
                                 $("#studentRefresh").removeAttr('disabled');
                             }
+                            if(submission.fbRequested){
+                                feedbackRequested = true;
+                            }
+                            if(submission.fbResponseTime != null){
+                                feedbackGiven = true;
+                            }
 
 							var d = new Date(submission.createdAt);
 
-                            var a = $("<li></li>")
-                            .html("<div class='submission-name-first left'><a href='#submission' data-toggle='pill'>" + d.toLocaleString() + "</a></div>")
+                            var a = $("<td></td>")
+                            .html("<a href='#submission' data-toggle='pill'>" + d.toLocaleString() + "</a>")
                             .click(function (event) {
                                 event.preventDefault();
                                     getSubmission(submission,user,problem);
                             });
-                            $("#ISL" + problem.id).append(a);
-                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
+                            if(submission.value.correct == problem.value.correct){
+                                var checkF = correct("8px");
+                            }else {
+                                var checkF = wrong("8px");
+                            }
+                            if(submission.value.style == problem.value.style){
+                                var checkS = correct("8px");
+                            }else {
+                                var checkS = wrong("8px");
+                            }
+                            var submissionRow = $("<tr>").addClass("hidden ISLP" + problem.id);
+                            submissionRow.append($("<td></td>"));
+                            submissionRow.append(a);
+                            submissionRow.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                            submissionRow.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+                            if(submission.fbRequested == true && submission.fbResponseTime == null){
+                                submissionRow.append($('<td><span class="glyphicon glyphicon-exclamation-sign"></span></td>').css("color", "red"));
+                            }else  if(submission.fbResponseTime != null){
+                                submissionRow.append($("<td></td>").append(correct()));
+                            }else {
+                                submissionRow.append($("<td></td>"));
+                            }
+                            problemRowSubmissions.push(submissionRow);
+
+//                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
                             if (parseInt(submission.value.style) > parseInt(earnedStylePoints)){
                                 earnedStylePoints = parseInt(submission.value.style);
                                 totalEarned += parseInt(earnedStylePoints);
@@ -603,10 +616,59 @@ function getIndividual(user, refresh) {
                             var percent = parseInt(totalEarned) / parseInt(numpoints) * parseInt(100);
                             percent = percent + "%";
                             $("#pbgreen").css("width",percent);
+
                         });
+
                         if(submissions.length > 0){
+                            $("#indivFolder-" + folder.id).removeClass("panel-danger");
+                            $("#indivFolder-" + folder.id).addClass("panel-warning");
+
                             totalAttempted += parseInt(availableStylePoints) - parseInt(earnedStylePoints);
                             totalAttempted += parseInt(availableFuncPoints) - parseInt(earnedFuncPoints);
+                            if(earnedFuncPoints == availableFuncPoints){
+                                var checkF = correct("8px");
+                            }else {
+                                var checkF = wrong("8px");
+                            }
+                            if(earnedStylePoints == availableStylePoints){
+                                var checkS = correct("8px");
+                            }else {
+                                var checkS = wrong("8px");
+                            }
+                            var a = $("<a></a>")
+                                .html(problem.name)
+                                .click(function (event) {
+                                    if($(".ISLP"+problem.id).hasClass("hidden")) {
+                                        $(".ISLP"+problem.id).removeClass('hidden');
+                                    } else {
+                                        $(".ISLP"+problem.id).addClass('hidden');
+                                    }
+                            });
+                            problemRow.append($("<td>").append(a));
+                            problemRow.append($("<td></td>").append(submissions.length));
+                            problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
+                            problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
+                            
+                            if(feedbackRequested && !feedbackGiven){
+                                problemRow.append($("<td>").append(exclam()));
+                            }else if(feedbackGiven){
+                                problemRow.append($("<td>").append(correct()));
+                            }else {
+                                problemRow.append($("<td>"));
+                            }
+                            $("#ISL" + folder.id).append(problemRow);
+                            var index;
+                            for (index = 0; index < problemRowSubmissions.length; index++) {
+                                $("#ISL" + folder.id).append(problemRowSubmissions[index]);
+                            }
+
+                        }else {
+                            problemRow.append($("<td>").append(problem.name));
+                            problemRow.append($("<td></td>").append("0"));
+                            problemRow.append($("<td>"));
+                            problemRow.append($("<td>"));
+                            problemRow.append($("<td>"));
+                            $("#ISL" + folder.id).append(problemRow);
                         }
                         if(submissions.length >= 0){
                             $("#ipCount" + problem.id).append("<div class='left'>" + submissions.length + " submissons</div>");
@@ -615,8 +677,21 @@ function getIndividual(user, refresh) {
                         percent = percent + "%";
                         $("#pbyellow").css("width",percent);
                         $("#ipPoints" + problem.id).append("<div class='left'>Functionality: " + earnedStylePoints  + "/" + availableStylePoints + "</div><div class='left'>Style: " + earnedFuncPoints + "/" + availableFuncPoints + "</div>")
+
+                        //Changing Folder Color
+                        folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
+                        console.log(folder.name + folderEarned + "/" +  folderAvailable);
+                        if(folderEarned == folderAvailable){
+                            console.log("match");
+                            $("#indivFolder-" + folder.id).removeClass("panel-warning");
+                            $("#indivFolder-" + folder.id).addClass("panel-success");
+                        }                        
+
                     });
+
                 });
+
+
             });
         });
     });
