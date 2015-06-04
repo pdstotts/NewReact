@@ -108,7 +108,6 @@
 /* @end */
 
 #navigationPanel {
-	margin-top: 20px;
 	padding: 0px;
 	border:none;
 }
@@ -225,6 +224,11 @@ ul {
 	float:right;
 }
 
+#feedbackRequestedDiv, #feedbackDisplayDiv, #feedbackSubmitDiv {
+	margin: 10px;
+	margin-top: 3px;
+}
+
 
 </style>
 <script src="lib/codemirror.js"></script>
@@ -249,6 +253,8 @@ ul {
 		</div>
 		<div class="navbar-right">
 			<p class="navbar-text"><%= req.user.displayName %></p>
+			<p class="hidden" id="userid"><%= req.user.id %></p>
+
 			<form class="navbar-form navbar-right">
 				<a href="/login/logout" id="logout" class="btn btn-default">Logout</a>
 			</form>
@@ -557,7 +563,7 @@ ul {
 					</h4>
 				</div>
 				<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
-					<table class="table">
+					<table class="table" style='margin-bottom:0px;'>
 					<thead>
 					<tr><th>Time of submission</th>
 					<th>Functionality</th> <th>Style</td> <th>Feedback</th>
@@ -577,24 +583,31 @@ ul {
 					</h4>
 				</div>
 				<div id="additionalFeedbackCollapse" class="panel-collapse collapse in submissionCollapse">
-					<div class="panel-body">
-						<b><span id="feedbackRequestTime" class="hidden"></span></b>
-						<div class="alert alert-warning hidden" id="fbRequestMsg"></div>
-						<div id="submitFeedbackForm">
-							<label class="control-label" for="fbResponseMessage">Feedback Message:</label>
-							<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" >Enter feedback message here.</textarea>
-							<br />
-							<label class="control-label" for="fbResponseCode">Code:</label>
-							<textarea name="fbResponseCode" id="fbResponseCode" class="form-control" 
-									 style="font-family:Consolas, monospace">Enter feedback code here.</textarea>
-							
-							<div id="submitFeedbackError"></div>
-							<button id="submitFeedbackButton" class="btn btn-primary form-control" >Submit Feedback</button>
-						</div>
-						<b><span id="feedbackResponseTime"  class="hidden"></span></b>
-						<div id="displayFeedback" class="alert alert-success hidden">
-						</div>
+					<div id="feedbackRequestedDiv" class="alert alert-warning" style="margin-top: 10px;">
+						<span id="feedbackRequestTime"></span><br /><br />
+						"<span id="fbRequestMsg" ></span>"
 					</div>
+
+					<div id="feedbackDisplayDiv" class="hidden">
+						<div class="alert alert-success" style="margin-bottom: 10px">
+							<span id="feedbackResponseTime"></span><br /><br />
+							"<span id="fbResponseMsg"></span>"
+						</div>
+
+						<textarea id="fbCodemirrorReadOnly"></textarea>
+
+					</div>
+
+					<div id="feedbackSubmitDiv">
+
+						<textarea name="fbCodemirror" id="fbCodemirror"></textarea>
+
+						<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
+						
+						<button id="submitFeedbackButton" class="btn btn-primary form-control" >Submit Feedback</button>
+					</div>
+
+
 				</div>
 			</div>			
 

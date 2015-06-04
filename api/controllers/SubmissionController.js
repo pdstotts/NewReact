@@ -10,7 +10,9 @@ module.exports = {
 			problem: req.param("problem"),
 			code: req.param("code"),
 			style: JSON.parse(req.param("style")),
-			value: {correct: 2, style: 2}
+			value: {correct: 2, style: 2},
+      fbRequested: false
+
 		};
 		Submission.create(submissionDetails).done(function(err, submission) {
 			if (err) {
