@@ -10,6 +10,9 @@ module.exports.routes = {
   '/admin': {
     view: 'home/admin'
   },
+  '/feedback': {
+    view: 'home/feedback'
+  },
   '/login': {
     view: 'home/login'
   },

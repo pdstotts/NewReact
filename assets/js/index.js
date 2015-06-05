@@ -257,15 +257,63 @@ function request(submissionId){
 	$("#subReq" + submissionId).empty().append(button);
 }
 
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function view(submission){
-	var button = $("<button></button>")
+	/*var button = $("<button></button>")
 		.attr("type","button")
 		.addClass("btn btn-sm btn-success")
 		.text("View")
     	.click(function () {
-    		alert(submission.fbResponseMsg);
+			post('/feedback/', {subid: submission.id});
+
 		});
-	$("#subReq" + submission.id).empty().append(button);
+
+	post('/contact/', {name: 'Johnny Bravo'});
+*/
+
+	var rqTime = new Date(submission.fbRequestTime);
+	var rpTime = new Date(submission.fbResponseTime);
+
+    $.post("/user/read/" + submission.fbResponder, {}, function (user) {
+        if (!user) {
+            alert("No user with that id found");
+            return;
+        }
+
+    	console.log("derp");
+
+    	console.log(user.displayName);
+		var button = $("<a></a>")
+			.attr("href","feedback?subCode=" + submission.code + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
+			.attr("target","_blank")
+			.attr("type","button")
+			.addClass("btn btn-sm btn-success")
+			.text("View");
+		$("#subReq" + submission.id).empty().append(button);
+    });
 
 }
 
