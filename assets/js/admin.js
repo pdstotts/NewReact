@@ -123,11 +123,12 @@ function getStudentResults(problem) {
             //$('[data-toggle="tooltip"]').tooltip()
 
 
-            matrixSquare.append(matrixSquarehover);
             matrixSquarehover.append(userButton);
-
             matrixSquare.append(user.username);
             matrixSquare.append("<br />");
+            matrixSquare.append(matrixSquarehover);
+
+
 
             $("#matrixBody").append(matrixSquare);
             $('#matrix' + user.id).mouseover(function() { $('#matrixHover' + user.id).css('visibility','visible'); });

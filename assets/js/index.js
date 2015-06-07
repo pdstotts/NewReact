@@ -307,7 +307,7 @@ function view(submission){
 
     	console.log(user.displayName);
 		var button = $("<a></a>")
-			.attr("href","feedback?subCode=" + submission.code + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
+			.attr("href","feedback?subCode=" + submission.code.replace(/\n/g,"<br />") + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode.replace(/\n/g,"<br />") + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
 			.attr("target","_blank")
 			.attr("type","button")
 			.addClass("btn btn-sm btn-success")
