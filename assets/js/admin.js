@@ -67,7 +67,6 @@ function fillProblemDisplay(problem) {
 }
 
 function feedbackRequestButton(submission,user,problem){
-
     var button = $("<a></a>")
         .attr("href","#submission")
         .attr("data-toggle","pill")  //save
@@ -80,7 +79,22 @@ function feedbackRequestButton(submission,user,problem){
             getSubmission(submission,user,problem);
         });
     return button;
+}
 
+function shareButton(submission,user,problem){
+    var button = $("<a></a>")
+        .attr("data-toggle","modal")  //save
+        .attr("data-target","#myModal")  //save
+        .css("color","#627E86")
+        .attr("class","")
+        .css("padding-left","4px;")
+        .css("cursor","pointer")
+        .html('<span class="glyphicon glyphicon-comment"></span>')
+        .click(function (event) {
+            event.preventDefault();
+            fillModal(submission,user,problem);
+        });
+    return button;
 }
 
 function getStudentResults(problem) {
@@ -209,7 +223,7 @@ function problemCorrect(user, problem, student, totalStudents){
     var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
     var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
 
-    var results = {tried: false, correct: false, style: false, feedbackRequested: false};
+    var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false};
     $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username, reverse: true}, function(submissions){
         if(submissions.length == 0){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
@@ -234,6 +248,9 @@ function problemCorrect(user, problem, student, totalStudents){
                     results.feedbackRequested = true;
                     $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
                 }
+                if(submission.shareOK && submission.shared == false){
+                    results.shareRequested = true;
+                }
                 if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
                     results.correct = true;
                     results.style = true;
@@ -243,8 +260,16 @@ function problemCorrect(user, problem, student, totalStudents){
                     results.correct = true;
                 }
             });
-        }2
-        if(results.feedbackRequested == true){
+            submissions.forEach(function(submission) {
+                if(submission.shareOK == true){
+                    console.log("shareOK");
+                    $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
+                }else {
+                }
+            });
+        }
+
+        if(results.feedbackRequested == true || results.shareRequested == true){
             $("#matrix" + user.id).addClass("blink");
         }
         if(results.tried) {
@@ -305,6 +330,26 @@ function problemCorrect(user, problem, student, totalStudents){
         $("#pbp-yellow").css("width",Math.floor(((numattempted-numearned)/total)*100)+"%");
         $("#pbp-green").css("width",Math.floor((numearned/total)*100)+"%");
     });
+}
+
+function fillModal(submission,user,problem){
+    var d = new Date(submission.createdAt);
+    $("#subModal").empty().append(user.displayName + " on " + d.toLocaleString());
+    modalEditor.setValue(submission.code);
+    //weird trick to make sure the codemirror box refreshes
+    var that = this;  
+    setTimeout(function() {
+        that.modalEditor.refresh();
+    },10);
+    $("#shareSubmissionButton").unbind('click');
+    $("#shareSubmissionButton").click(function () { 
+        alert("this does nothing yet!!");
+    });
+    $("#projectSubmissionButton").unbind('click');
+    $("#projectSubmissionButton").click(function () { 
+        alert("this does nothing yet!!");
+    });
+
 }
 
 function getStudentList() {
@@ -410,6 +455,11 @@ function getSubmission(submission,user,problem) {
     });
 
     editor.setValue(submission.code);
+    //weird trick to make sure the codemirror box refreshes
+    var that = this;
+    setTimeout(function() {
+        that.editor.refresh();
+    },1);
 
     //FILLING IN FEEDBACK PANEL
     if(submission.fbRequested == true && submission.fbResponseTime == null){
@@ -438,6 +488,11 @@ function getSubmission(submission,user,problem) {
         $("#feedbackSubmitDiv").removeClass("hidden");
         $('#fbResponseMessage').empty();
         fbEditor.setValue(submission.code);
+        //weird trick to make sure the codemirror box refreshes
+        var that = this;  
+        setTimeout(function() {
+            that.fbEditor.refresh();
+        },1);
     }else { //Feedback has been given
         $("#feedbackSubmitDiv").addClass("hidden");
         $("#feedbackDisplayDiv").removeClass("hidden");
@@ -446,6 +501,11 @@ function getSubmission(submission,user,problem) {
             editorText = submission.fbCode;
         }
         fbEditorReadOnly.setValue(editorText);
+        //weird trick to make sure the codemirror box refreshes
+        var that = this;  
+        setTimeout(function() {
+            that.fbEditorReadOnly.refresh();
+        },1);
         $("#feedbackResponder").empty().append(submission.fbResponder);
         time = submission.fbResponseTime;
         if(time != null){
@@ -966,6 +1026,7 @@ function blinking(elm) {
 var editor;
 var fbEditor;
 var fbEditorReadOnly;
+var modalEditor;
 window.onload = function () {
     curProblem = null;
     curStudent = null;
@@ -1021,6 +1082,28 @@ window.onload = function () {
     });
 
     editor = CodeMirror.fromTextArea(codemirror, {
+        mode: "javascript",
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
+        theme: "mbo",
+        extraKeys: {
+            "F11": function (cm) {
+                if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+                    $(".CodeMirror").css("font-size", "150%");
+                } else {
+                    $(".CodeMirror").css("font-size", "115%");
+                }
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                $(".CodeMirror").css("font-size", "100%");
+            }
+        }
+    });
+
+    modalEditor = CodeMirror.fromTextArea(modalCodemirror, {
         mode: "javascript",
         styleActiveLine: true,
         lineNumbers: true,
@@ -1220,6 +1303,11 @@ window.onload = function () {
                 editorText = fbCode;
             }
             fbEditorReadOnly.setValue(editorText);
+            //weird trick to make sure the codemirror box refreshes
+            var that = this;  
+            setTimeout(function() {
+                that.fbEditorReadOnly.refresh();
+            },1);
 
         });
     

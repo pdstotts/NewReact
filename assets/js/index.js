@@ -198,6 +198,9 @@ function addSubmission(submission) {
 
 	var requestFeedbackButton = $("<td id='subReq" + submission.id + "'></td>");
 	link.append(requestFeedbackButton);
+	var shareButton = $("<td id='subShare" + submission.id + "'></td>");
+	link.append(shareButton);
+
 
     //make the problem link produce the submission code on click
 	$("a", link).click(function() {
@@ -218,6 +221,42 @@ function addSubmission(submission) {
     	view(submission);
     }
 
+    if(submission.shareOK == false){
+    	share(submission.id);
+    }else {
+    	unshare(submission.id);
+    }
+
+}
+
+function share(submissionId){
+	var button = $("<button></button>")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-primary")
+		.text("Share")
+    	.click(function () {
+			if(confirm("Would you like to submit this code to share with the class?")){
+				$.post("/submission/update", {id: submissionId, shareOK: true}, function (submission) {
+					unshare(submissionId);
+				});
+			}
+		});
+	$("#subShare" + submissionId).empty().append(button);
+}
+
+function unshare(submissionId){
+	var button = $("<button></button>")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-success")
+		.text("Shared")
+    	.click(function () {
+			if(confirm("Would you like to revoke sharing permission?")){
+				$.post("/submission/update", {id: submissionId, shareOK: false}, function (submission) {
+					share(submissionId);
+				});
+			}
+		});
+	$("#subShare" + submissionId).empty().append(button);
 }
 
 function pending(submissionId, submissionMessage){
@@ -257,42 +296,8 @@ function request(submissionId){
 	$("#subReq" + submissionId).empty().append(button);
 }
 
-function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
 function view(submission){
-	/*var button = $("<button></button>")
-		.attr("type","button")
-		.addClass("btn btn-sm btn-success")
-		.text("View")
-    	.click(function () {
-			post('/feedback/', {subid: submission.id});
 
-		});
-
-	post('/contact/', {name: 'Johnny Bravo'});
-*/
 
 	var rqTime = new Date(submission.fbRequestTime);
 	var rpTime = new Date(submission.fbResponseTime);

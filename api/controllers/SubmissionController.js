@@ -98,7 +98,36 @@ module.exports = {
     console.log(fbResponseMsg);
     console.log(fbCode);
 
-    if(fbRequested){
+    var shareOK = req.param("shareOK");
+    var shared = req.param("shared");
+
+    if(shared){
+      if(shared == "true"){
+        shared = true;
+      }else {
+        shared = false;
+      }
+      Submission.update({id: id},{shared:shared},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+              res.send(submission);
+          }
+      });
+    }else if(shareOK){
+      if(shareOK == "true"){
+        shareOK = true;
+      }else {
+        shareOK = false;
+      }
+      Submission.update({id: id},{shareOK:shareOK},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+              res.send(submission);
+          }
+      });
+    }else if(fbRequested){
       if(fbRequested == "true"){
         fbRequested = true;
       }else {
