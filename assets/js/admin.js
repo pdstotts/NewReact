@@ -89,7 +89,7 @@ function shareButton(submission,user,problem){
         .attr("class","")
         .css("padding-left","4px;")
         .css("cursor","pointer")
-        .html('<span class="glyphicon glyphicon-comment"></span>')
+        .html('<span class="glyphicon glyphicon-share"></span>')
         .click(function (event) {
             event.preventDefault();
             fillModal(submission,user,problem);

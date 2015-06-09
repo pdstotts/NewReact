@@ -263,7 +263,7 @@ function unshare(submission){
 function pending(submission){
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
-        .attr("data-target","#myModal")  //save
+        .attr("data-target","#myPendingModal")  //save
 		.addClass("btn btn-sm btn-warning")
 		.text("Pending")
         .click(function (event) {
