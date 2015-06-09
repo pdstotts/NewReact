@@ -213,92 +213,135 @@ function addSubmission(submission) {
 
     if(submission.fbRequested == false){
     	console.log("request");
-    	request(submission.id);
+    	request(submission);
     }else if(submission.fbResponseTime == null) {
     	console.log("pending");
-    	pending(submission.id,submission.fbRequestMsg);
+    	pending(submission);
     }else {
     	view(submission);
     }
 
     if(submission.shareOK == false){
-    	share(submission.id);
+    	share(submission);
     }else {
-    	unshare(submission.id);
+    	unshare(submission);
     }
 
 }
 
-function share(submissionId){
+function share(submission){
 	var button = $("<button></button>")
 		.attr("type","button")
 		.addClass("btn btn-sm btn-primary")
 		.text("Share")
     	.click(function () {
 			if(confirm("Would you like to submit this code to share with the class?")){
-				$.post("/submission/update", {id: submissionId, shareOK: true}, function (submission) {
-					unshare(submissionId);
+				$.post("/submission/update", {id: submission.id, shareOK: true}, function (submission) {
+					console.log("shared!"  + submission.id)
+					unshare(submission);
 				});
 			}
 		});
-	$("#subShare" + submissionId).empty().append(button);
+	$("#subShare" + submission.id).empty().append(button);
 }
 
-function unshare(submissionId){
+function unshare(submission){
 	var button = $("<button></button>")
 		.attr("type","button")
 		.addClass("btn btn-sm btn-success")
 		.text("Shared")
     	.click(function () {
 			if(confirm("Would you like to revoke sharing permission?")){
-				$.post("/submission/update", {id: submissionId, shareOK: false}, function (submission) {
-					share(submissionId);
+				$.post("/submission/update", {id: submission.id, shareOK: false}, function (submission) {
+					share(submission);
 				});
 			}
 		});
-	$("#subShare" + submissionId).empty().append(button);
+	$("#subShare" + submission.id).empty().append(button);
 }
 
-function pending(submissionId, submissionMessage){
-		console.log("calling pending func");
-
-	var button = $("<button></button>")
-		.attr("type","button")
+function pending(submission){
+    var button = $("<a></a>")
+        .attr("data-toggle","modal")  //save
+        .attr("data-target","#myModal")  //save
 		.addClass("btn btn-sm btn-warning")
 		.text("Pending")
-    	.click(function () {
-			if(confirm("You submitted the following request:\n" + submissionMessage + "\n\n Click OK to delete this request. Click cancel to keep it.")){
-				$.post("/submission/update", {id: submissionId, fbRequested: false, fbRequestTime: null, fbRequestMsg: null}, function (submission) {
-					console.log("submission update in pending");
-					request(submissionId);
-				});
-			}
-		});
-	$("#subReq" + submissionId).empty().append(button);
+        .click(function (event) {
+            event.preventDefault();
+           fillPendingRequestModal(submission);
+        });
+	$("#subReq" + submission.id).empty().append(button);
 }
 
-function request(submissionId){
-	console.log("calling request function");
-	var button = $("<button></button>")
-		.attr("type","button")
+function fillPendingRequestModal(submission){
+	 var d = new Date(submission.createdAt);
+    $("#modalText1").empty().append("You submitted this code on " + d.toLocaleString());
+    var d = new Date(submission.fbRequestTime);
+    $("#modalText2").empty().append("You requested feedback on " + d.toLocaleString());
+
+    var submissionmessage = submission.fbRequestMsg;
+    console.log("submission message =p " + submissionmessage);
+	if(!submissionmessage){ submissionmessage = "You did not include a message with this request."}
+    $("#submissionMessage").empty().append(submissionmessage);
+
+    modalEditor.setValue(submission.code);
+    //weird trick to make sure the codemirror box refreshes
+    var that = this;  
+    setTimeout(function() {
+        that.modalEditor.refresh();
+    },10);
+    $("#cancelRequest").unbind('click');
+    $("#cancelRequest").click(function () { 
+		if(confirm("Sure you want to cancel this request?")){
+			$.post("/submission/update", {id: submission.id, fbRequested: false, fbRequestTime: null, fbRequestMsg: null}, function (submission) {
+				console.log("submission update in pending");
+				request(submission);
+			});
+		}
+    });
+}
+
+function request(submission){
+    var button = $("<a></a>")
+        .attr("data-toggle","modal")  //save
+        .attr("data-target","#submitRequestModal")  //save
 		.addClass("btn btn-sm btn-primary")
 		.text("Request")
-    	.click(function () {
-	    	var message = prompt("What are your questions?", "");
-	    	if(message != null) {
-	    		var now = new Date().toISOString();
-				$.post("/submission/update", {id: submissionId, fbRequested: true, fbRequestTime: now, fbRequestMsg: message}, function (submission) {
-					console.log("submission update in request");
-					pending(submissionId,message);
-				});
-			}
-		});
-	$("#subReq" + submissionId).empty().append(button);
+        .click(function (event) {
+            event.preventDefault();
+           fillSubmitRequestModal(submission);
+        });
+	$("#subReq" + submission.id).empty().append(button);
+}
+
+function fillSubmitRequestModal(submission){
+    var submissionmessage = submission.fbRequestMsg;
+	if(!submissionmessage){ submissionmessage = "You did not include a message with this request."}
+    $("#requestMessageModal").empty().append(submissionmessage);
+    $('#submitRequestMsg').val('');
+
+    requestModalEditor.setValue(submission.code);
+    //weird trick to make sure the codemirror box refreshes
+    var that = this;  
+    setTimeout(function() {
+        that.requestModalEditor.refresh();
+    },10);
+
+    $("#submitRequest").unbind('click');
+    $("#submitRequest").click(function () { 
+		if(confirm("Sure you want to submit this request?")){
+    		var now = new Date().toISOString();
+			var message = $('#submitRequestMsg').val();;
+
+			$.post("/submission/update", {id: submission.id, fbRequested: true, fbRequestTime: now, fbRequestMsg: message}, function (submission) {
+				console.log("submission update in request");
+				pending(submission);
+			});
+		}
+    });
 }
 
 function view(submission){
-
-
 	var rqTime = new Date(submission.fbRequestTime);
 	var rpTime = new Date(submission.fbResponseTime);
 
@@ -307,10 +350,6 @@ function view(submission){
             alert("No user with that id found");
             return;
         }
-
-    	console.log("derp");
-
-    	console.log(user.displayName);
 		var button = $("<a></a>")
 			.attr("href","feedback?subCode=" + submission.code.replace(/\n/g,"<br />") + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode.replace(/\n/g,"<br />") + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
 			.attr("target","_blank")
@@ -347,6 +386,8 @@ function foldersReload() {
     }
 }
 var editor;
+var modalEditor;
+var requestModalEditor;
 window.onload = function () {
 	(function () {
 		var u = document.URL.split("/");
@@ -390,7 +431,48 @@ window.onload = function () {
 			}
 		}
 	});
-	var setConsoleResultMessage = function (msg) {
+	modalEditor = CodeMirror.fromTextArea(modalCodemirror, {
+        mode: "javascript",
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
+        theme: "mbo",
+        extraKeys: {
+            "F11": function (cm) {
+                if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+                    $(".CodeMirror").css("font-size", "150%");
+                } else {
+                    $(".CodeMirror").css("font-size", "115%");
+                }
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                $(".CodeMirror").css("font-size", "100%");
+            }
+        }
+    });
+	requestModalEditor = CodeMirror.fromTextArea(requestModalCodemirror, {
+		mode: "javascript",
+		styleActiveLine: true,
+		lineNumbers: true,
+		lineWrapping: true,
+		theme: "mbo",
+		readOnly: true,
+		extraKeys: {
+			"F11": function (cm) {
+				if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+					$(".CodeMirror").css("font-size", "150%");
+				} else {
+					$(".CodeMirror").css("font-size", "115%");
+				}
+			},
+			"Esc": function (cm) {
+				if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+				$(".CodeMirror").css("font-size", "100%");
+			}
+		}
+	});	var setConsoleResultMessage = function (msg) {
 		$("#console").empty();
 		$("#console").append(msg);
 	};

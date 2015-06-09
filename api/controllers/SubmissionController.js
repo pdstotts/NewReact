@@ -111,7 +111,13 @@ module.exports = {
           if(err) {
               console.log(err);
           } else {
-              res.send(submission);
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
           }
       });
     }else if(shareOK){
@@ -124,7 +130,13 @@ module.exports = {
           if(err) {
               console.log(err);
           } else {
-              res.send(submission);
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
           }
       });
     }else if(fbRequested){
@@ -137,7 +149,13 @@ module.exports = {
           if(err) {
               console.log(err);
           } else {
-              res.send(submission);
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
           }
       });
     }else {
@@ -145,7 +163,13 @@ module.exports = {
           if(err) {
               console.log(err);
           } else {
-              res.send(submission);
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
           }
       });
 

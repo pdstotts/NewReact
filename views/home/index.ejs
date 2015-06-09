@@ -129,6 +129,57 @@ User.find({admin: true}).exec(function(err, users) {
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
 </nav>
+
+<!-- Pending Request Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Pending Feedback Request</h4>
+        </div>
+        <div class="modal-body">
+        	<b><span id="modalText1"></span></b><br /><br />
+        	<b><span id="modalText2"></span></b><br /><br />
+			<div class="alert alert-warning" id="submissionMessage"></div>
+			<textarea id="modalCodemirror"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="cancelRequest" data-dismiss="modal">Cancel Request</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- Submit Request Modal -->
+<div class="modal fade" id="submitRequestModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Request Feedback</h4>
+        </div>
+        <div class="modal-body">
+        	<b>Submitting a feedback request will send a notification to your professor/TAs who will review your code and respond to any questions asked in the area below.</b><br /><br />
+			<textarea name="fbResponseMessage" id="submitRequestMsg" class="form-control" placeholder="Enter questions for professor here..."></textarea><br />
+			<textarea id="requestModalCodemirror"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="submitRequest" data-dismiss="modal">Submit Request</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+
 <!--Content-->
 <div class="left-menu container-fluid">
 	<!--Question Info -->
