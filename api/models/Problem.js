@@ -45,6 +45,9 @@ module.exports = {
         type: 'json', // points possible to earn ex. { correct:1, style:1 }
         required: true
     },
+    testMode: {
+        type: 'boolean', // is it in test mode
+    },
 	onSubmit: 'string' // text of a function that decides the correctness of the submission
 						// isCorrect( code /* function */, semanticData /* json */, solution /* json */ )
     

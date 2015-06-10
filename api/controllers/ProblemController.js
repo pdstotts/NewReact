@@ -10,6 +10,12 @@ module.exports = {
    *    `/assignment/create`
    */
 	create: function (req, res) {
+       var mode = req.param("testMode");
+       if(mode == "true"){
+          mode = true;
+       }else {
+          mode = false;
+       }
         Problem.count({folder: req.param("folder")}).done(function(err, count) {
             var problemDetails = {
                 num: Number(count),
@@ -18,6 +24,7 @@ module.exports = {
                 name: req.param("name"),
                 folder: req.param("folder"),
                 language: req.param("language"),
+                testMode: mode,
                 text: req.param("text"),
                 value: {correct: req.param("correct"), style: req.param("style")},
                 onSubmit: req.param("onSubmit")
@@ -96,12 +103,19 @@ module.exports = {
     });
 
    } else {
+       var mode = req.param("testMode");
+       if(mode == "true"){
+          mode = true;
+       }else {
+          mode = false;
+       }
        var opts = {
             type: req.param("type"),
             phase: Number(req.param("phase")),
             name: req.param("name"),
             folder: req.param("folder"),
             language: req.param("language"),
+            testMode: mode,
             text: req.param("text"),
             value: {correct: req.param("correct"), style: req.param("style")},
             onSubmit: req.param("onSubmit")

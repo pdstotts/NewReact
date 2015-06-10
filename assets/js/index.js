@@ -125,9 +125,10 @@ function addFolder (folder) {
 function addProbInfo (problem) {
 	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
+	$("#reload").removeClass("hidden");
 	$("#pointbreakdown").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
-	$("#desc-title").empty().append(problem.name);
+  	$("#desc-title").empty().append(problem.name);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
         $("#desc-title").html(problem.name + "<i> in " + folder.name + "</i>");
     });
@@ -508,6 +509,14 @@ window.onload = function () {
 		}
 	});
 	
+	$("#reload").click(function () {
+		$.post("/submission/read/" + curProblem.id, {}, function (submissions) {
+			submissions.forEach( function (submission) {
+				editor.setValue(submission.code);
+			});
+		});
+	});
+
 	$( "#fontSize" ).change(function() {
 	    var str = "";
 		$( "select option:selected" ).each(function() {

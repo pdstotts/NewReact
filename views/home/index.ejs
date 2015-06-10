@@ -230,20 +230,7 @@ User.find({admin: true}).exec(function(err, users) {
 	 	    	</div>
 		 	</div>
 		</div>
-
-		<div id="consoleHeader" class="console">
-		Test Results Console
-        </div>
-		<textarea id="console" class="textConsole" readonly>
-    	</textarea>
-
-		<!--CodeMirror Start-->
-        <% if (req.isAuthenticated()) { %>
-            <textarea id="codemirror"><%=req.user.latestCode%></textarea>
-        <%} else {%>
-            <textarea id="codemirror"></textarea>
-        <%}%>
-		<!--CodeMirror End-->
+		<button id="reload" type="button" class="btn btn-default hidden">Reload last submission</button>
 
 		<div class="form-group">
 		  <label for="fontSize">Change font size of text editor:</label>
@@ -258,6 +245,20 @@ User.find({admin: true}).exec(function(err, users) {
 		    <option>48</option>
 		  </select>
 		</div>
+
+		<div id="consoleHeader" class="console">
+		Test Results Console
+        </div>
+		<textarea id="console" class="textConsole" readonly>
+    	</textarea>
+
+		<!--CodeMirror Start-->
+        <% if (req.isAuthenticated()) { %>
+            <textarea id="codemirror"><%=req.user.latestCode%></textarea>
+        <%} else {%>
+            <textarea id="codemirror"></textarea>
+        <%}%>
+		<!--CodeMirror End-->
 
     	<div id="submissions" class='panel panel-default hidden'>
       		<div class='panel-heading'> 

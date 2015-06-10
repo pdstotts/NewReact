@@ -54,6 +54,12 @@ module.exports = {
 		},
 		fbCode: {
 			type: 'string'
+		},
+		shareOK: {
+			type: 'boolean'
+		},
+		shared: {
+			type: 'boolean'
 		}
 
 	},

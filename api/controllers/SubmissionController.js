@@ -34,12 +34,22 @@ module.exports = {
         var highest = req.param("highest");
         var student = req.param("student");
         var reverse = req.param("reverse");
+        var recent = req.param("recent");
+
         var direction = 1;
         if(reverse){
           direction = -1;
         }
 
-        if (problem && !student) {
+        if(recent){
+            Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).limit(1).exec(function(err, submissions) {
+                if (err) {
+                    console.log("error getting submissions from database");
+                } else {
+                    res.send(submissions);
+                }
+            });
+        } else if (problem && !student) {
             Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");

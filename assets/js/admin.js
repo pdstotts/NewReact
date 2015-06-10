@@ -28,6 +28,11 @@ function fillProblemEdit(problem) {
 	$("#editProblemName").val(problem.name);
     $("#editFolderDropdown").val(problem.folder);
     $("#editLanguageDropdown").val(problem.language);
+    if(problem.testMode == true){
+        $("#editModeDropdown").val("true");
+    }else {
+        $("#editModeDropdown").val("false");
+    }
     $("#editDescription").val(problem.text);
     $("#editStylePoints").val(problem.value.style),
     $("#editCorrectPoints").val(problem.value.correct),
@@ -1163,6 +1168,7 @@ window.onload = function () {
 			name: $("#problemName").val(),
 			folder: $("#folderDropdown").val(),
             language: $("#languageDropdown").val(),
+            testMode: $("#modeDropdown").val(),
 			text: $("#description").val(),
             style: $("#stylePoints").val(),
             correct: $("#correctPoints").val(),
@@ -1204,6 +1210,7 @@ window.onload = function () {
 			name: $("#editProblemName").val(),
 			folder: $("#editFolderDropdown").val(),
             language: $("#editLanguageDropdown").val(),
+            testMode: $("#editModeDropdown").val(),
 			text: $("#editDescription").val(),
             correct: $("#editCorrectPoints").val(),
             style: $("#editStylePoints").val(),
