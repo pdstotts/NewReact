@@ -48,16 +48,30 @@ module.exports = {
    read: function (req, res) {
         var folder = req.param("folder") || null;
         var ph = Number(req.param("phase")) || 3;
+
         if (folder) {
-            Problem.find({folder: folder,phase: {'<': ph}})
-            .sort({"num": 1}) 
-            .exec(function(err, problems) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send(problems);
-                }
-            });
+          if(req.isAuthenticated() && req.user.admin){
+              Problem.find({folder: folder,phase: {'<': ph}})
+              .sort({"num": 1}) 
+              .exec(function(err, problems) {
+                  if (err) {
+                      console.log(err);
+                  } else {
+                      res.send(problems);
+                  }
+              });
+            }else {
+              Problem.find({folder: folder,phase: {'<': ph}, testMode: false})
+              .sort({"num": 1}) 
+              .exec(function(err, problems) {
+                  if (err) {
+                      console.log(err);
+                  } else {
+                      res.send(problems);
+                  }
+              });
+
+            }
         } else {
 			var id = req.param("id") || null;
 			if (id) {

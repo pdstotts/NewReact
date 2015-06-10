@@ -13,10 +13,16 @@ function addProblemToAccordian(problem,folderName){
 	var maxScore = 0;
 	var probMax = Number(problem.value.correct) + Number(problem.value.style);
 	totScore += probMax;
-	var link = $('<li id="' + problem.id + '"></li>').append(
+	var problemName = problem.name;
+	if(problem.testMode == true) { problemName = problem.name + " (Test Mode)" };
+	var bg = "";
+	if(problem.testMode == true){
+		bg = "style='background-color: #ededed'";
+	}
+	var link = $('<li id="' + problem.id +  '" ' + bg  + '></li>').append(
 		$("<a></a>")
 			.attr("href","#")
-			.append(problem.name)
+			.append(problemName)
 	);
 	if(problem.phase == 0) {
 	    link.css("text-decoration", "line-through");
@@ -51,7 +57,7 @@ function addProblemToAccordian(problem,folderName){
 				$("#" + problem.id).css("color", "green");
 				$("a", link).css("color", "green");
 			}
-			var probGrade = $('<span style="float:right;padding-right:15px">' + maxScore + "/" + (Number(problem.value.correct) + Number(problem.value.style))+"</span>");
+			var probGrade = $('<span style="float:right;">' + maxScore + "/" + (Number(problem.value.correct) + Number(problem.value.style))+"</span>");
 			$("a", link).append(probGrade);
 
 			var currentEarned = $(earnedPointsDiv).text();
@@ -123,16 +129,16 @@ function addFolder (folder) {
 
 
 function addProbInfo (problem) {
+	var problemName = problem.name;
+	if(problem.testMode == true) { problemName = problem.name + " (in Test Mode)" };
 	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
-	$("#reload").removeClass("hidden");
 	$("#pointbreakdown").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
-  	$("#desc-title").empty().append(problem.name);
+  	$("#desc-title").empty().append(problemName);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
-        $("#desc-title").html(problem.name + "<i> in " + folder.name + "</i>");
-    });
-
+	    $("#desc-title").html(problemName + "<i> in " + folder.name + "</i>");
+	});
 	$("#desc-body").empty().append(problem.text);
 	curProblem = problem;
 	$(".availablePtStyle").empty().append(problem.value.style);
@@ -141,6 +147,12 @@ function addProbInfo (problem) {
 	var highestCorrect = 0;
 	$.post("/submission/read/" + problem.id, {}, function (submissions) {
         $("#subs").empty();
+
+        if(submissions.length > 0){
+			$("#reload").removeClass("hidden");
+        }else {
+			$("#reload").addClass("hidden");
+        }
 
 		submissions.forEach( function (submission) {
 			addSubmission(submission);
