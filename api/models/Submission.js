@@ -158,7 +158,6 @@ module.exports = {
 							}else {
 								updated = true;
 							}
-
 						},
 					}
 				);

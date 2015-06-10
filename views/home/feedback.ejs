@@ -229,6 +229,16 @@ ul {
 	margin-top: 3px;
 }
 
+.console {
+	background-color: #2a2b2b;
+	color: #dddddd;
+	padding: 3px 10px;
+}
+.textConsole {
+	width: 100%;
+	background-color: #edeff0;
+}
+
 
 </style>
 <script src="lib/codemirror.js"></script>
@@ -300,7 +310,12 @@ ul {
   <div class="row">
     <div class="col-sm-6" style="margin-right:0px;padding-right:2px;margin-bottom:4px;">
 		<div class="alert alert-warning" style="margin-right:0px;padding-right:0px;"><b>On <%= req.query.rqTime %> you asked the following:</b><br /><br />"<%= req.query.rqMsg %>"</div>
-		<div class="alert alert-warning" style="margin-right:0px;padding-right:0px;"><b>Your submisison recieved the following feedback:</b><br /><br />"<%= req.query.console %>"</div>
+		<br />
+		<div id="consoleHeader" class="console">
+		Test Results Console
+        </div>
+		<textarea id="console" class="textConsole" readonly><%= req.query.console %>
+    	</textarea>
     </div>
     <div class="col-sm-6" style="margin-right:0px;padding-left:2px;margin-bottom:4px;">
 		<div class="alert alert-success" style="margin-left:0px;"><b>On <%= req.query.rpTime %> <%= req.query.responder %> responded:</b><br /><br />"<%= req.query.rpMsg %>"</div>

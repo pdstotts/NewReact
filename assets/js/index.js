@@ -60,7 +60,8 @@ function addProblemToAccordian(problem,folderName){
 			currentEarned = currentEarned + maxScore;
 			$(earnedPointsDiv).empty().append(currentEarned);
 
-			if(availablePoints == currentEarned){
+//			console.log(folderName + $("#panel-" + folderName).hasClass("panel-warning"));
+			if(availablePoints == currentEarned && true){
 				$(checkDiv).append(correct("8px").css("float","right"));
 				$("#panel-" + folderName).removeClass("panel-danger");
 				$("#panel-" + folderName).removeClass("panel-warning");
@@ -212,10 +213,8 @@ function addSubmission(submission) {
 	$("#subs").prepend(link);
 
     if(submission.fbRequested == false){
-    	console.log("request");
     	request(submission);
     }else if(submission.fbResponseTime == null) {
-    	console.log("pending");
     	pending(submission);
     }else {
     	view(submission);
@@ -385,6 +384,12 @@ function foldersReload() {
         addProbInfo(curProblem);
     }
 }
+
+function changeFontSize(size){
+  editor.getWrapperElement().style["font-size"] = size+"px";
+  editor.refresh();
+}
+
 var editor;
 var modalEditor;
 var requestModalEditor;
@@ -501,6 +506,15 @@ window.onload = function () {
 			//alert(e);
 			$("#console").append(e);
 		}
+	});
+	
+	$( "#fontSize" ).change(function() {
+	    var str = "";
+		$( "select option:selected" ).each(function() {
+			str += $( this ).text() + " ";
+		});
+		console.log(str);
+		changeFontSize(parseInt(str));
 	});
 	
 	$("#submit").click(function () {

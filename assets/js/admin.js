@@ -393,7 +393,6 @@ function getSubmission(submission,user,problem) {
 
     curSubmission = submission;
 
-
     //FILLING iN TOP PANEL
 	var d = new Date(submission.createdAt);
     $("#submissionCreatedAt").html(d.toLocaleString());
@@ -486,6 +485,8 @@ function getSubmission(submission,user,problem) {
     if(submission.fbResponseTime == null){ //No feedback given yet
         $("#feedbackDisplayDiv").addClass("hidden");
         $("#feedbackSubmitDiv").removeClass("hidden");
+        $('#fbConsole').val(submission.message);
+
         $('#fbResponseMessage').empty();
         fbEditor.setValue(submission.code);
         //weird trick to make sure the codemirror box refreshes
@@ -626,7 +627,7 @@ function getIndividual(user, refresh) {
                             if(totalSubmissionNumber == submissionCount){
                                 $("#studentRefresh").removeAttr('disabled');
                             }
-                            if(submission.fbRequested){
+                            if(submission.fbRequested && submission.fbResponseTime == null){
                                 feedbackRequested = true;
                             }
                             if(submission.fbResponseTime != null){
@@ -651,7 +652,7 @@ function getIndividual(user, refresh) {
                             }else {
                                 var checkS = wrong("8px");
                             }
-                            var submissionRow = $("<tr>").addClass("hidden ISLP" + problem.id);
+                            var submissionRow = $("<tr>").addClass("hidden ISLP ISLP" + problem.id);
                             submissionRow.append($("<td></td>"));
                             submissionRow.append(a);
                             submissionRow.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
@@ -710,7 +711,8 @@ function getIndividual(user, refresh) {
                             problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
                             problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
                             
-                            if(feedbackRequested && !feedbackGiven){
+                            console.log(folder.name + "  r" + feedbackRequested + "  g" + feedbackGiven)
+                            if(feedbackRequested){
                                 problemRow.append($("<td>").append(exclam()));
                             }else if(feedbackGiven){
                                 problemRow.append($("<td>").append(correct()));
@@ -742,7 +744,7 @@ function getIndividual(user, refresh) {
                         //Changing Folder Color
                         folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
                         console.log(folder.name + folderEarned + "/" +  folderAvailable);
-                        if(folderEarned == folderAvailable){
+                        if(folderEarned >= folderAvailable){
                             console.log("match");
                             $("#indivFolder-" + folder.id).removeClass("panel-warning");
                             $("#indivFolder-" + folder.id).addClass("panel-success");

@@ -230,6 +230,19 @@ ul {
 	margin-top: 3px;
 }
 
+.console {
+	background-color: #2a2b2b;
+	color: #dddddd;
+	padding: 3px 10px;
+}
+.textConsole {
+	width: 100%;
+	background-color: #edeff0;
+}
+
+.ISLP {
+	background-color: #F7F7F7;
+}
 
 </style>
 <script src="lib/codemirror.js"></script>
@@ -247,7 +260,6 @@ ul {
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="../">Bricks</a>
 			<a class="navbar-brand" href="#students" data-toggle="pill">Students</a>
 			<a class="navbar-brand" href="#admin" data-toggle="pill">Admins</a>
 			<a class="navbar-brand" href="#settings" data-toggle="pill">Settings</a>
@@ -620,12 +632,19 @@ ul {
 							"<span id="fbResponseMsg"></span>"
 						</div>
 
+
 						<textarea id="fbCodemirrorReadOnly"></textarea>
 
 					</div>
 
 					<div id="feedbackSubmitDiv">
 
+						<div id="fbConsoleHeader" class="console">
+						Test Results Console
+				        </div>
+						<textarea id="fbConsole" class="textConsole" readonly>
+				    	</textarea>
+				    	
 						<textarea name="fbCodemirror" id="fbCodemirror"></textarea>
 
 						<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
