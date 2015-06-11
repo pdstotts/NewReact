@@ -165,6 +165,7 @@ function addProbInfo (problem) {
 				highestCorrect = submission.value.correct;
 			}
 		});
+
 		$("#highestPtCorrect").empty().append(highestCorrect);
 		$("#highestPtStyle").empty().append(highestStyle);
 
@@ -191,8 +192,11 @@ function addProbInfo (problem) {
 			}else {
 	        	$("#styleCheck").append(wrong("8px"));
 			}
-		}		
+		}	
+		resizeWindow();
+	
 	});
+
 }
 
 function addSubmission(submission) {
@@ -425,7 +429,11 @@ function resizeWindow(){
     var height = parseInt(window_height) + parseInt(window_height2) + parseInt(window_height3);
     console.log(window_height + " " + window_height2 + " " + window_height3 + " "  + height);
     */
-    $('.scrollableAccordian').height($(window).height());
+    $('.scrollableAccordian').height("800px");
+	var height = $( document ).height();
+	var height = height - 100;
+    $('.scrollableAccordian').height(height);
+
 }
 
 function foldersReload() {
