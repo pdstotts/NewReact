@@ -199,7 +199,17 @@ function addSubmission(submission) {
 	var time = new Date(submission.updatedAt);
 	var timeString = time.toLocaleDateString() + " " + time.toLocaleTimeString();
     var link = $("<tr></tr>");
-	link.append("<td><a href='#'>" + timeString + "</a></td>");
+    var buttonTD = $("<td></td>");
+    var modalLink = $("<a></a>")
+        .attr("data-toggle","modal")  //save
+        .attr("data-target","#loadSubmissionModal")  //save
+		.text(timeString)
+        .click(function (event) {
+            event.preventDefault();
+            fillReloadModal(submission);
+        });
+    buttonTD.append(modalLink);
+	link.append(buttonTD);
     var gradeF = $("<td></td>");
     var gradeS = $("<td></td>");
     var results = { correct: false, style: false };
@@ -226,13 +236,11 @@ function addSubmission(submission) {
 	var shareButton = $("<td id='subShare" + submission.id + "'></td>");
 	link.append(shareButton);
 
-
+//#loadSubmission
     //make the problem link produce the submission code on click
-	$("a", link).click(function() {
-		if (confirm('Put the following into the console? \n' + submission.code)) {
-			editor.setValue(submission.code);
-		}
-	});
+	
+
+
     //attach the link to the submission
 	$("#subs").prepend(link);
 
@@ -252,6 +260,19 @@ function addSubmission(submission) {
 
 }
 
+function fillReloadModal(submission){
+    reloadEditor.setValue(submission.code);
+    //weird trick to make sure the codemirror box refreshes
+    var that = this;  
+    setTimeout(function() {
+        that.reloadEditor.refresh();
+    },10);
+
+    $("#loadSubmission").unbind('click');
+    $("#loadSubmission").click(function () { 
+		editor.setValue(submission.code);
+    });
+}
 function share(submission){
 	var button = $("<button></button>")
 		.attr("type","button")
@@ -417,6 +438,8 @@ function changeFontSize(size){
 var editor;
 var modalEditor;
 var requestModalEditor;
+var reloadEditor;
+
 window.onload = function () {
 	(function () {
 		var u = document.URL.split("/");
@@ -481,6 +504,28 @@ window.onload = function () {
             }
         }
     });
+	reloadEditor = CodeMirror.fromTextArea(reloadCodemirror, {
+        mode: "javascript",
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
+        theme: "mbo",
+        extraKeys: {
+            "F11": function (cm) {
+                if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+                    $(".CodeMirror").css("font-size", "150%");
+                } else {
+                    $(".CodeMirror").css("font-size", "115%");
+                }
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                $(".CodeMirror").css("font-size", "100%");
+            }
+        }
+    });
+
 	requestModalEditor = CodeMirror.fromTextArea(requestModalCodemirror, {
 		mode: "javascript",
 		styleActiveLine: true,
