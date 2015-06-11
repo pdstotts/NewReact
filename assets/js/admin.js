@@ -357,6 +357,47 @@ function fillModal(submission,user,problem){
 
 }
 
+function getFeedbackDash() {
+    //Generate feedback dash
+    $("#feedbackDash").empty();
+    $.post("/submission/read/", {feedback: true}, function(submissions){
+        submissions.forEach(function (submission) {
+            var row = $("<tr></tr>");
+            var time = submission.fbRequestTime;
+            if(time != null){
+                time = new Date(submission.fbRequestTime).toLocaleString();
+            }
+            var a = $("<a></a>")
+                .html(time)
+                .click(function (event) {
+                    fillFeedbackDash(submission);                
+               });
+            row.append($("<td></td>").append(a));
+            row.append($("<td></td>"));
+            row.append($("<td></td>"));
+            row.append($("<td></td>").append(scoreBadge(1,2)));
+            row.append($("<td></td>").append(scoreBadge(1,2)));
+
+            $("#feedbackDash").append(row);
+        });
+    });
+};
+
+function fillFeedbackDash(submission){
+    var time = submission.fbRequestTime;
+    if(time != null){
+        time = new Date(submission.fbRequestTime).toLocaleString();
+    }
+
+
+    $("#fbDashRequestTime").empty().append("<b>Request made at " + time + "</b>");
+
+    $("#fbDashRequestMsg").empty().append(submission.fbRequestMsg);
+    $("#fbDashConsole").empty().append(submission.message);
+    feedbackEditor.setValue(submission.code);
+
+}
+
 function getStudentList() {
     //Generate list of all students to view individuals
     $("#viewStudentsList").empty();
@@ -1034,6 +1075,7 @@ var editor;
 var fbEditor;
 var fbEditorReadOnly;
 var modalEditor;
+var feedbackEditor;
 window.onload = function () {
     curProblem = null;
     curStudent = null;
@@ -1050,6 +1092,8 @@ window.onload = function () {
 	reloadFolders();
     loadUsers();
     getStudentList();
+    getFeedbackDash();
+
     /*
     setInterval(
         function() {
@@ -1067,6 +1111,28 @@ window.onload = function () {
         30000 /* 30000 ms = 30 sec */
     );
     fbEditorReadOnly = CodeMirror.fromTextArea(fbCodemirrorReadOnly, {
+        mode: "javascript",
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
+        theme: "mbo",
+        extraKeys: {
+            "F11": function (cm) {
+                if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+                    $(".CodeMirror").css("font-size", "150%");
+                } else {
+                    $(".CodeMirror").css("font-size", "115%");
+                }
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                $(".CodeMirror").css("font-size", "100%");
+            }
+        }
+    });
+
+    feedbackEditor = CodeMirror.fromTextArea(fbDashCodemirror, {
         mode: "javascript",
         styleActiveLine: true,
         lineNumbers: true,

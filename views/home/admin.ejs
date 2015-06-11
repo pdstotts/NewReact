@@ -260,6 +260,7 @@ ul {
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
+			<a class="navbar-brand" href="#feedback" data-toggle="pill">Feedback</a>
 			<a class="navbar-brand" href="#students" data-toggle="pill">Students</a>
 			<a class="navbar-brand" href="#admin" data-toggle="pill">Admins</a>
 			<a class="navbar-brand" href="#settings" data-toggle="pill">Settings</a>
@@ -653,7 +654,7 @@ ul {
 
 					<div id="feedbackSubmitDiv">
 
-						<div id="fbConsoleHeader" class="console">
+						<div class="console">
 						Test Results Console
 				        </div>
 						<textarea id="fbConsole" class="textConsole" readonly>
@@ -669,8 +670,6 @@ ul {
 
 				</div>
 			</div>			
-
-
 
 			<button type="button" class="btn btn-danger" data-toggle='pill' id="submissionCollapseAll">Hide Student Info</button>
 
@@ -803,7 +802,52 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 			<h1>Settings</h1>
 			<h3>Feedback on/off</h3> 
 		</div>
-		<!-- HELP SECTION ENDS -->
+		<!-- SETTINGS SECTION ENDS -->
+
+		<!-- FEEDBACK SECTION -->
+		<div class="tab-pane" id="feedback">
+			<h1>Pending Feedback Requests</h1>
+		
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Feedback
+					</h4>
+				</div>
+
+				<div>
+					<div class="alert alert-warning" style="margin-top: 10px;">
+						<span id="fbDashRequestTime"></span><br /><br />
+						"<span id="fbDashRequestMsg" ></span>"
+					</div>
+					<div >
+						<div class="console">
+						Test Results Console
+				        </div>
+						<textarea id="fbDashConsole" class="textConsole" readonly>
+				    	</textarea>
+				   
+						<textarea id="fbDashCodemirror"></textarea>
+						<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
+						
+						<button id="submitFeedbackButtonDash" class="btn btn-primary form-control" >Submit Feedback</button>
+					</div>
+
+				</div>
+			</div>
+
+			<table class="table" style='margin-bottom:0px;'>
+			<thead>
+			<tr><th>Request Time</th>  <th>User</th>  <th>Problem</th>
+			<th>Functionality</th> <th>Style</td>
+			</tr>
+			</thead>
+			<tbody id="feedbackDash"> </tbody>
+			</table>
+
+		</div>
+		<!-- FEEDBACK SECTION ENDS -->
+
 
 	</div>
 	<!-- BODY ENDS -->
