@@ -110,8 +110,29 @@ module.exports = {
 
     var shareOK = req.param("shareOK");
     var shared = req.param("shared");
+    var feedbackSeen = req.param("feedbackSeen");
 
-    if(shared){
+
+    if(feedbackSeen){
+      if(shared == "true"){
+        shared = true;
+      }else {
+        shared = false;
+      }
+      Submission.update({id: id},{feedbackSeen:feedbackSeen},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
+          }
+      });
+    }else if(shared){
       if(shared == "true"){
         shared = true;
       }else {

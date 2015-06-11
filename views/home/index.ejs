@@ -5,6 +5,54 @@
     html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
         height: 95%;
     }
+
+/* @group Blink */
+
+.blink {
+    -webkit-animation: blink 1s linear infinite;
+    -moz-animation: blink 1s linear infinite;
+    -ms-animation: blink 1s linear infinite;
+    -o-animation: blink 1s linear infinite;
+    animation: blink 1s linear infinite;
+}
+
+@-webkit-keyframes blink {
+    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
+    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
+    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+}
+
+@-moz-keyframes blink {
+    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
+    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
+    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+}
+
+@-ms-keyframes blink {
+    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
+    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
+    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+}
+
+@-o-keyframes blink {
+    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
+    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
+    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+}
+
+@keyframes blink {
+    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
+    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
+    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+}
+
+/* @end */
+
     .left-menu {
     	height:100%;
     }

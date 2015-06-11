@@ -196,7 +196,7 @@ function addProbInfo (problem) {
 }
 
 function addSubmission(submission) {
-	var time = new Date(submission.updatedAt);
+	var time = new Date(submission.createdAt);
 	var timeString = time.toLocaleDateString() + " " + time.toLocaleTimeString();
     var link = $("<tr></tr>");
     var buttonTD = $("<td></td>");
@@ -394,12 +394,24 @@ function view(submission){
             alert("No user with that id found");
             return;
         }
+
+        if(!submission.feedbackSeen){
+        	var classBlink = "blink";
+        }else {
+        	var classBlink = " ";
+        }
+
 		var button = $("<a></a>")
 			.attr("href","feedback?subCode=" + submission.code.replace(/\n/g,"<br />") + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode.replace(/\n/g,"<br />") + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
 			.attr("target","_blank")
 			.attr("type","button")
-			.addClass("btn btn-sm btn-success")
-			.text("View");
+			.addClass("btn btn-sm btn-success " + classBlink)
+			.text("View").click(function () {
+				$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
+					console.log("feedbackseen!"  + submission.id)
+					view(submission);
+				});
+			});
 		$("#subReq" + submission.id).empty().append(button);
     });
 
