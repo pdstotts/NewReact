@@ -67,7 +67,7 @@ function addProblemToAccordian(problem,folderName){
 			$(earnedPointsDiv).empty().append(currentEarned);
 
 //			console.log(folderName + $("#panel-" + folderName).hasClass("panel-warning"));
-			if(availablePoints == currentEarned && true){
+			if(availablePoints <= currentEarned && $("#panel-" + folderName).hasClass("panel-warning")){
 				$(checkDiv).append(correct("8px").css("float","right"));
 				$("#panel-" + folderName).removeClass("panel-danger");
 				$("#panel-" + folderName).removeClass("panel-warning");
