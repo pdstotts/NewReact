@@ -25,18 +25,11 @@
     	width: 100%;
     	background-color: #edeff0;
     }
-    .pointbreakdownbox {
-    	float:right;
-    }
-    #pointbreakdown, #recentpointbreakdown {
-    	border: 2px solid gray;
-    	width:190px; 
-    	margin-left:5px;
-    	padding:8px;
-    	margin-bottom: 7px;
+   	.sidebarBuddy {
     }
     #instructions {
-    	margin-left: 15px;
+    	margin-left: 0;
+    	margin-right: 0;
     }
 	.folderCollapse {
 		list-style-type: none;
@@ -208,52 +201,58 @@ User.find({admin: true}).exec(function(err, users) {
 	<!--CODE-->
 	<div class="col-md-9" id="right-side">
 		<div class="row">
-			<div>
+			<div class="col-md-12" style="padding-right:0px;">
 		    	<div id="instructions" class='panel panel-default'>
 		      		<div class='panel-heading'> 
 						<h3 class='panel-title'><span id="desc-title">Instructions</span>
-							<button data-toggle="modal" data-target="#myModal" class="btn btn-default pull-right" id="initSubmit" disabled="disabled">Submit for Score</button>
-							<button id="test" type="button" class="btn btn-default pull-right">Test Locally</button> 
                         </h3>
 		      		</div>
 	  				<div class='panel-body'> 
-		  				<div class="pointbreakdownbox">
-		  					<div id="pointbreakdown" class="hidden">
-				  				<b>Highest Score:</b><br/>
-				  				Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
-				  				<br />
-				  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span class="availablePtStyle"></span></span>
-				  				<br />
-			  				</div>
-		  					<div id="recentpointbreakdown" class="hidden">
-				  				<b>Most Recent Score:</b><br/>
-				  				Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
-				  				<br />
-				  				Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
-				  				<br />
-			  				</div>
-			  			</div>
 		  				<div id="desc-body" >
 	   						Select a problem to run and submit.
 	   					</div>
 	  				</div>
 	 	    	</div>
 		 	</div>
-		</div>
-		<button id="reload" type="button" class="btn btn-default hidden">Reload last submission</button>
-
-		<div class="form-group">
-		  <label for="fontSize">Change font size of text editor:</label>
-		  <select class="form-control" id="fontSize">
-		    <option>8</option>
-		    <option>12</option>
-		    <option selected>14</option>
-		    <option>18</option>
-		    <option>24</option>
-		    <option>30</option>
-		    <option>36</option>
-		    <option>48</option>
-		  </select>
+	 	</div>
+		<div class="row" style="padding-left:15px;">
+			<div class="pointbreakdownbox ">
+				<div class="sidebarBuddy col-md-3 alert alert-info" style="padding:2px;">
+					<button id="test" type="button" class="btn btn-warning" style="width:100%">Test Locally</button> 
+					<button data-toggle="modal" data-target="#myModal" class="btn btn-success" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
+					<button id="reload" type="button" class="btn btn-primary" style="width:100%" disabled="disabled">Reload Latest Submission</button>
+				</div>
+				<div id="pointbreakdown" class="col-md-3 alert alert-warning sidebarBuddy hidden" style="height:106px;">
+  					<b>Highest Score:</b><br/>
+  					Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span></span>
+  					<br />
+	  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span></span>
+  					<br />
+				</div>
+				<div id="recentpointbreakdown" class="col-md-3 alert alert-warning sidebarBuddy hidden" style="height:106px;">
+	  				<b>Most Recent Score:</b><br/>
+  					Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
+  					<br />
+  					Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
+  					<br />
+				</div>
+				<div class="sidebarBuddy col-md-3 alert alert-info" style="height:106px;float:right">
+					<label class="control-label" for="fontSize">Font Size:</label>
+					<div class="form-group">
+					  <select class="form-control" id="fontSize">
+					    <option value="8">8pt</option>
+					    <option value="12">12pt</option>
+					    <option value="14" selected>14pt</option>
+					    <option value="18" >18pt</option>
+					    <option value="24">24pt</option>
+					    <option value="30">30pt</option>
+					    <option value="36">36pt</option>
+					    <option value="48">48pt</option>
+					  </select>
+					</div>			  				
+				</div>
+			</div>
+	  		
 		</div>
 
 		<div id="consoleHeader" class="console">

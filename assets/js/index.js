@@ -133,13 +133,13 @@ function addProbInfo (problem) {
 	if(problem.testMode == true) { problemName = problem.name + " (in Test Mode)" };
 	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
-	$("#pointbreakdown").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
   	$("#desc-title").empty().append(problemName);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
 	    $("#desc-title").html(problemName + "<i> in " + folder.name + "</i>");
 	});
 	$("#desc-body").empty().append(problem.text);
+	$("#console").empty();
 	curProblem = problem;
 	$(".availablePtStyle").empty().append(problem.value.style);
 	$(".availablePtCorrect").empty().append(problem.value.correct);
@@ -149,9 +149,11 @@ function addProbInfo (problem) {
         $("#subs").empty();
 
         if(submissions.length > 0){
-			$("#reload").removeClass("hidden");
+			$("#reload").removeAttr("disabled");
+			$("#pointbreakdown").removeClass("hidden");
         }else {
-			$("#reload").addClass("hidden");
+			$("#reload").attr("disabled","disabled");
+			$("#pointbreakdown").addClass("hidden");
         }
 
 		submissions.forEach( function (submission) {
@@ -165,6 +167,15 @@ function addProbInfo (problem) {
 		});
 		$("#highestPtCorrect").empty().append(highestCorrect);
 		$("#highestPtStyle").empty().append(highestStyle);
+
+		if((highestCorrect+highestStyle) >= (problem.value.style+problem.value.correct)){
+			$("#pointbreakdown").removeClass("alert-warning");
+			$("#pointbreakdown").addClass("alert-success");
+		}else {
+			$("#pointbreakdown").addClass("alert-warning");
+			$("#pointbreakdown").removeClass("alert-success");
+		}
+
 		$("#correctCheck").empty();
 		$("#styleCheck").empty();
 
@@ -490,7 +501,8 @@ window.onload = function () {
 				$(".CodeMirror").css("font-size", "100%");
 			}
 		}
-	});	var setConsoleResultMessage = function (msg) {
+	});	
+	var setConsoleResultMessage = function (msg) {
 		$("#console").empty();
 		$("#console").append(msg);
 	};
@@ -508,6 +520,17 @@ window.onload = function () {
 		}else {
         	$("#styleCheckRecent").empty().append(wrong("8px"));
 		}
+		var availF = $("#availptc").text();
+		var availS = $("#availpts").text();
+		console.log("herder f " + availF + " s " + availS);
+		if((earnedS+earnedF) >= (availF+availS)){
+			$("#recentpointbreakdown").removeClass("alert-warning");
+			$("#recentpointbreakdown").addClass("alert-success");
+		}else {
+			$("#recentpointbreakdown").addClass("alert-warning");
+			$("#recentpointbreakdown").removeClass("alert-success");
+		}
+
 	}
 	$("#test").click(function () {
 		var code = editor.getValue();
