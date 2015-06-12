@@ -346,14 +346,13 @@ function fillModal(submission,user,problem){
     setTimeout(function() {
         that.modalEditor.refresh();
     },10);
-    $("#shareSubmissionButton").unbind('click');
-    $("#shareSubmissionButton").click(function () { 
-        alert("this does nothing yet!!");
-    });
-    $("#projectSubmissionButton").unbind('click');
-    $("#projectSubmissionButton").click(function () { 
-        alert("this does nothing yet!!");
-    });
+    var button = $("<a></a>")
+        .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+        .attr("target","_blank")
+        .attr("type","button")
+        .addClass("btn btn-primary ")
+        .text("Project");
+    $("#projectSubmissionButton").empty().append(button);
 
 }
 

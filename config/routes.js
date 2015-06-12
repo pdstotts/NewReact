@@ -13,6 +13,9 @@ module.exports.routes = {
   '/feedback': {
     view: 'home/feedback'
   },
+  '/project': {
+    view: 'home/project'
+  },
   '/login': {
     view: 'home/login'
   },
