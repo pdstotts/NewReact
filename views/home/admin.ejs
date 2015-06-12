@@ -616,17 +616,14 @@ ul {
 				</div>
 				<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
 					<table class="table" style='margin-bottom:0px;'>
-					<thead>
-					<tr><th>Time of submission</th>
-					<th>Functionality</th> <th>Style</td> <th>Feedback</th>
-					</tr>
+					<thead><tr id="relatedSubmissionHead"></tr>
 					</thead>
 					<tbody id="relatedSubmissions"> </tbody>
 					</table>
 				</div>
 			</div>		
 
-			<div class="panel panel-default" id="additionalFeedbackPanel">
+			<div class="panel panel-default hidden" id="additionalFeedbackPanel">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#additionalFeedbackCollapse">
@@ -799,51 +796,53 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 		<!-- SETTINGS SECTION -->
 		<div class="tab-pane" id="settings">
 			<h1>Settings</h1>
-			<h3>Feedback on/off</h3> 
+			<div id="feedbackToggle" ></div>
+
 		</div>
 		<!-- SETTINGS SECTION ENDS -->
 
 		<!-- FEEDBACK SECTION -->
 		<div class="tab-pane" id="feedback">
 			<h1>Pending Feedback Requests</h1>
-		
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						Feedback
-					</h4>
-				</div>
-
-				<div>
-					<div class="alert alert-warning" style="margin-top: 10px;">
-						<span id="fbDashRequestTime"></span><br /><br />
-						"<span id="fbDashRequestMsg" ></span>"
+			<div id="fbDashBody">
+				<div class="panel panel-default" >
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							Feedback
+						</h4>
 					</div>
+
 					<div >
-						<div class="console">
-						Test Results Console
-				        </div>
-						<textarea id="fbDashConsole" class="textConsole" readonly>
-				    	</textarea>
-				   
-						<textarea id="fbDashCodemirror"></textarea>
-						<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
-						
-						<button id="submitFeedbackButtonDash" class="btn btn-primary form-control" >Submit Feedback</button>
+						<div class="alert alert-warning" style="margin-top: 10px;">
+							<span id="fbDashRequestTime"></span><br /><br />
+							"<span id="fbDashRequestMsg" ></span>"
+						</div>
+						<div >
+							<div class="console">
+							Test Results Console
+					        </div>
+							<textarea id="fbDashConsole" class="textConsole" readonly>
+					    	</textarea>
+					   
+							<textarea id="fbDashCodemirror"></textarea>
+							<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
+							
+							<button id="submitFeedbackButtonDash" class="btn btn-primary form-control" >Submit Feedback</button>
+						</div>
+
 					</div>
-
 				</div>
+
+				<table class="table" style='margin-bottom:0px;'>
+				<thead>
+				<tr><th>Request Time</th>  <th>User</th>  <th>Problem</th>
+				<th>Functionality</th> <th>Style</td>
+				</tr>
+				</thead>
+				<tbody id="feedbackDash"> </tbody>
+				</table>
+
 			</div>
-
-			<table class="table" style='margin-bottom:0px;'>
-			<thead>
-			<tr><th>Request Time</th>  <th>User</th>  <th>Problem</th>
-			<th>Functionality</th> <th>Style</td>
-			</tr>
-			</thead>
-			<tbody id="feedbackDash"> </tbody>
-			</table>
-
 		</div>
 		<!-- FEEDBACK SECTION ENDS -->
 

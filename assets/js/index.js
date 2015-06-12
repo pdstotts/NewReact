@@ -155,6 +155,10 @@ function addProbInfo (problem) {
 			$("#reload").attr("disabled","disabled");
 			$("#pointbreakdown").addClass("hidden");
         }
+        if(feedbackOn){
+			$("#subsHead").append("<td>Feedback</td>");
+        }
+		$("#subsHead").append("<td>Share</td>");
 
 		submissions.forEach( function (submission) {
 			addSubmission(submission);
@@ -235,8 +239,10 @@ function addSubmission(submission) {
     link.append(gradeF);
     link.append(gradeS);
 
-	var requestFeedbackButton = $("<td id='subReq" + submission.id + "'></td>");
-	link.append(requestFeedbackButton);
+    if(feedbackOn){
+		var requestFeedbackButton = $("<td id='subReq" + submission.id + "'></td>");
+		link.append(requestFeedbackButton);
+    }
 	var shareButton = $("<td id='subShare" + submission.id + "'></td>");
 	link.append(shareButton);
 
@@ -459,14 +465,24 @@ var editor;
 var modalEditor;
 var requestModalEditor;
 var reloadEditor;
+var feedbackOn;
 
 window.onload = function () {
+
 	(function () {
 		var u = document.URL.split("/");
 		u.pop();
 		$("#target").val(u.join("/") + "/login/authenticate");
 	})();
     
+    $.post("/setting/read/", {name: "feedback"}, function(setting){
+        if(setting.on == true || setting.on == "true"){
+            feedbackOn = true;
+        }else {
+            feedbackOn = false;
+        }
+    });
+
     //save student's code on interval
     setInterval(
         function() {

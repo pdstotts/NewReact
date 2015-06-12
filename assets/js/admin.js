@@ -228,7 +228,7 @@ function problemCorrect(user, problem, student, totalStudents){
     var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
     var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
 
-    var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false};
+    var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
     $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username, reverse: true}, function(submissions){
         if(submissions.length == 0){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
@@ -249,11 +249,13 @@ function problemCorrect(user, problem, student, totalStudents){
 
             results.tried = true;
             submissions.forEach(function(submission) {
-                if(submission.fbRequested == true && submission.fbResponseTime == null){
-                    results.feedbackRequested = true;
-                    $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+                if(feedbackOn){
+                    if(submission.fbRequested == true && submission.fbResponseTime == null){
+                        results.feedbackRequested = true;
+                        $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+                    }
                 }
-                if(submission.shareOK && submission.shared == false){
+                if(submission.shareOK){
                     results.shareRequested = true;
                 }
                 if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
@@ -488,7 +490,6 @@ function getSubmission(submission,user,problem) {
         $("#SstyleCheck").empty().append(wrong("8px"));
     }
 
-    $("#additionalFeedbackPanel").removeClass("panel-danger");
 
     var submissionMessage = submission.message;
     if(!submission.message) { submissionMessage = "No message" }
@@ -506,67 +507,23 @@ function getSubmission(submission,user,problem) {
     },1);
 
     //FILLING IN FEEDBACK PANEL
-    if(submission.fbRequested == true && submission.fbResponseTime == null){
-        $("#additionalFeedbackPanel").addClass("panel-danger")
-    }
-
-    if(submission.fbRequested){
-        $("#feedbackRequestedDiv").removeClass("hidden");
-        
-        //Request Message
-        var message = submission.fbRequestMsg;
-        $("#fbRequestMsg").empty().append(message);
-     
-        //Request Time
-        var time = submission.fbRequestTime;
-        if(time != null){
-            time = new Date(submission.fbRequestTime).toLocaleString();
-        }
-        $("#feedbackRequestTime").empty().append("<b>" + user.displayName + "</b> requested feedback on <b>" + time + "</b>");
-    }else {
-        $("#feedbackRequestedDiv").addClass("hidden");
-    }
-
-    if(submission.fbResponseTime == null){ //No feedback given yet
-        $("#feedbackDisplayDiv").addClass("hidden");
-        $("#feedbackSubmitDiv").removeClass("hidden");
-        $('#fbConsole').val(submission.message);
-
-        $('#fbResponseMessage').empty();
-        fbEditor.setValue(submission.code);
-        //weird trick to make sure the codemirror box refreshes
-        var that = this;  
-        setTimeout(function() {
-            that.fbEditor.refresh();
-        },1);
-    }else { //Feedback has been given
-        $("#feedbackSubmitDiv").addClass("hidden");
-        $("#feedbackDisplayDiv").removeClass("hidden");
-        var editorText = "";
-        if(submission.fbCode){
-            editorText = submission.fbCode;
-        }
-        fbEditorReadOnly.setValue(editorText);
-        //weird trick to make sure the codemirror box refreshes
-        var that = this;  
-        setTimeout(function() {
-            that.fbEditorReadOnly.refresh();
-        },1);
-        $("#feedbackResponder").empty().append(submission.fbResponder);
-        time = submission.fbResponseTime;
-        if(time != null){
-            time = new Date(submission.fbResponseTime).toLocaleString();
-        }
-        $("#feedbackResponseTime").empty().append("Feedback from " + time);
-        $.post("/user/read", {id: submission.fbResponder}, function (user) {
-            if (user) {
-                $("#feedbackResponseTime").empty().append("<b>" + user.displayName + "</b> provided feedback on <b>" + time + "</ b>");
-            }
-        });
-        $("#fbResponseMsg").empty().append(submission.fbResponseMsg);
+    if(feedbackOn == true){
+        $("#additionalFeedbackPanel").removeClass("hidden");
+        fillSubmissionFeedback(submission,user);
+    } else {
+        $("#additionalFeedbackPanel").addClass("hidden");
     }
 
     $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
+        $("#relatedSubmissionHead").empty();
+
+        $("#relatedSubmissionHead").append("<td>Time of Submission</td>");
+        $("#relatedSubmissionHead").append("<td>Functionality</td>");
+        $("#relatedSubmissionHead").append("<td>Style</td>");
+        if(feedbackOn == true){
+            $("#relatedSubmissionHead").append("<td>Feedback</td>");
+        }
+
         submissions.forEach( function (submission) {
             var d = new Date(submission.createdAt);
             var row = $("<tr></tr>")
@@ -589,23 +546,94 @@ function getSubmission(submission,user,problem) {
             var b = $("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
             var c = $("<td></td>").append(scoreBadge(submission.value.style,problem.value.style));
             var d = $("<td></td>");
-            if(submission.fbRequested){
-                d.append("<span class='glyphicon glyphicon-exclamation-sign' style='color:red;''></span>");
-            }
-            if(submission.fbResponseTime){
-                d.empty().append("<span class='glyphicon glyphicon-ok' style='color:green;''></span>");
-            }
 
             row.append(a);
             row.append(b);
             row.append(c);
-            row.append(d);
+
+            if(feedbackOn == true){
+                if(submission.fbRequested){
+                    d.append("<span class='glyphicon glyphicon-exclamation-sign' style='color:red;''></span>");
+                }
+                if(submission.fbResponseTime){
+                    d.empty().append("<span class='glyphicon glyphicon-ok' style='color:green;''></span>");
+                }
+                row.append(d);
+
+            }
 
             $("#relatedSubmissions").append(row);
         });
     });
-    setTimeout( editor.refresh(), 0 );
+    setTimeout( editor.refresh(), 0 );    
+
+  
 }
+
+
+function fillSubmissionFeedback(submission,user){
+    $("#additionalFeedbackPanel").removeClass("panel-danger");
+
+    if(submission.fbRequested == true && submission.fbResponseTime == null){
+                $("#additionalFeedbackPanel").addClass("panel-danger")
+            }
+
+            if(submission.fbRequested){
+                $("#feedbackRequestedDiv").removeClass("hidden");
+                
+                //Request Message
+                var message = submission.fbRequestMsg;
+                $("#fbRequestMsg").empty().append(message);
+             
+                //Request Time
+                var time = submission.fbRequestTime;
+                if(time != null){
+                    time = new Date(submission.fbRequestTime).toLocaleString();
+                }
+                $("#feedbackRequestTime").empty().append("<b>" + user.displayName + "</b> requested feedback on <b>" + time + "</b>");
+            }else {
+                $("#feedbackRequestedDiv").addClass("hidden");
+            }
+
+            if(submission.fbResponseTime == null){ //No feedback given yet
+                $("#feedbackDisplayDiv").addClass("hidden");
+                $("#feedbackSubmitDiv").removeClass("hidden");
+                $('#fbConsole').val(submission.message);
+
+                $('#fbResponseMessage').empty();
+                fbEditor.setValue(submission.code);
+                //weird trick to make sure the codemirror box refreshes
+                var that = this;  
+                setTimeout(function() {
+                    that.fbEditor.refresh();
+                },1);
+            }else { //Feedback has been given
+                $("#feedbackSubmitDiv").addClass("hidden");
+                $("#feedbackDisplayDiv").removeClass("hidden");
+                var editorText = "";
+                if(submission.fbCode){
+                    editorText = submission.fbCode;
+                }
+                fbEditorReadOnly.setValue(editorText);
+                //weird trick to make sure the codemirror box refreshes
+                var that = this;  
+                setTimeout(function() {
+                    that.fbEditorReadOnly.refresh();
+                },1);
+                $("#feedbackResponder").empty().append(submission.fbResponder);
+                time = submission.fbResponseTime;
+                if(time != null){
+                    time = new Date(submission.fbResponseTime).toLocaleString();
+                }
+                $("#feedbackResponseTime").empty().append("Feedback from " + time);
+                $.post("/user/read", {id: submission.fbResponder}, function (user) {
+                    if (user) {
+                        $("#feedbackResponseTime").empty().append("<b>" + user.displayName + "</b> provided feedback on <b>" + time + "</ b>");
+                    }
+                });
+                $("#fbResponseMsg").empty().append(submission.fbResponseMsg);
+            }          }
+
 
 function getIndividual(user, refresh) {
     //Generate page for particular individual student    
@@ -644,7 +672,12 @@ function getIndividual(user, refresh) {
             var folderEarned = 0;
             var folderAvailable = 0;
             var toggleLabel = '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#Icollapse-'+ folder.id + '">' + folder.name + '</a></h4>';
-            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td> <th>Feedback</th></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+            if(feedbackOn){
+                var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td> <th>Feedback</th></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+            }else {
+                var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+            }
+
 //            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + " <span id='Iearned-"+ folder.id + "'>0</span>/<span id='Iavail-"+ folder.id + "'></span><span id='Icheck-"+ folder.id + "'></span></h4></div><ul id = 'ISL" + folder.id + "' class='panel-collapse collapse folderCollapse'></ul></div></div>";
 
 //            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
@@ -702,12 +735,14 @@ function getIndividual(user, refresh) {
                             submissionRow.append(a);
                             submissionRow.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
                             submissionRow.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
-                            if(submission.fbRequested == true && submission.fbResponseTime == null){
-                                submissionRow.append($('<td><span class="glyphicon glyphicon-exclamation-sign"></span></td>').css("color", "red"));
-                            }else  if(submission.fbResponseTime != null){
-                                submissionRow.append($("<td></td>").append(correct()));
-                            }else {
-                                submissionRow.append($("<td></td>"));
+                            if(feedbackOn){
+                                if(submission.fbRequested == true && submission.fbResponseTime == null){
+                                    submissionRow.append($('<td><span class="glyphicon glyphicon-exclamation-sign"></span></td>').css("color", "red"));
+                                }else  if(submission.fbResponseTime != null){
+                                    submissionRow.append($("<td></td>").append(correct()));
+                                }else {
+                                    submissionRow.append($("<td></td>"));
+                                }
                             }
                             problemRowSubmissions.push(submissionRow);
 
@@ -756,14 +791,16 @@ function getIndividual(user, refresh) {
                             problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
                             problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
                             
-                            console.log(folder.name + "  r" + feedbackRequested + "  g" + feedbackGiven)
-                            if(feedbackRequested){
-                                problemRow.append($("<td>").append(exclam()));
-                            }else if(feedbackGiven){
-                                problemRow.append($("<td>").append(correct()));
-                            }else {
-                                problemRow.append($("<td>"));
+                            if(feedbackOn){
+                                if(feedbackRequested){
+                                    problemRow.append($("<td>").append(exclam()));
+                                }else if(feedbackGiven){
+                                    problemRow.append($("<td>").append(correct()));
+                                }else {
+                                    problemRow.append($("<td>"));
+                                }
                             }
+
                             $("#ISL" + folder.id).append(problemRow);
                             var index;
                             for (index = 0; index < problemRowSubmissions.length; index++) {
@@ -788,9 +825,7 @@ function getIndividual(user, refresh) {
 
                         //Changing Folder Color
                         folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
-                        console.log(folder.name + folderEarned + "/" +  folderAvailable);
                         if(folderEarned >= folderAvailable){
-                            console.log("match");
                             $("#indivFolder-" + folder.id).removeClass("panel-warning");
                             $("#indivFolder-" + folder.id).addClass("panel-success");
                         }                        
@@ -1059,6 +1094,39 @@ function loadUsers() {
     });
 }
 
+function getSettings(){
+    console.log("get settings" + feedbackOn);
+    feedbackToggle(feedbackOn);
+}
+
+function feedbackToggle(boolean){
+    console.log("toggle" + boolean);
+    if(boolean){
+        var button = $("<button></button>")
+            .addClass("btn btn-danger")
+            .text("Turn Off Feedback")
+            .click(function (event) {
+                if(confirm("Are you sure you want to turn this feature off? This will refresh the page.")){
+                    $.post("/setting/update/", {name: "feedback", on:false}, function(setting){
+                         location.reload();   
+                    });
+                }
+            });
+    }else {
+        var button = $("<button></button>")
+            .addClass("btn btn-success")
+            .text("Turn On Feedback")
+            .click(function (event) {
+                if(confirm("Are you sure you want to turn this feature on? This will refresh the page.")){
+                    $.post("/setting/update/", {name: "feedback", on:true}, function(setting){
+                         location.reload();  
+                    });
+                }
+            });        
+    }
+    $("#feedbackToggle").empty().append(button);
+}
+
 //controls for the blinking on the edit folder side
 var blinkTimer;
 function blinking(elm) {
@@ -1075,6 +1143,7 @@ var fbEditor;
 var fbEditorReadOnly;
 var modalEditor;
 var feedbackEditor;
+var feedbackOn;
 window.onload = function () {
     curProblem = null;
     curStudent = null;
@@ -1088,10 +1157,26 @@ window.onload = function () {
     numearned = 0; //num students earned full points
     numpoints = 0; //num of total points it is possible to earn
 
+    $.post("/setting/read/", {name: "feedback"}, function(setting){
+        console.log(setting.on);
+        if(setting.on == true || setting.on == "true"){
+            feedbackOn = true;
+        }else {
+            feedbackOn = false;
+        }
+        console.log(feedbackOn);
+        getSettings();
+        if(feedbackOn){
+            getFeedbackDash();
+        }else {
+            $("#fbDashBody").empty().append("Feedback feature turned off.");
+        }
+
+    });
+
 	reloadFolders();
     loadUsers();
     getStudentList();
-    getFeedbackDash();
 
     /*
     setInterval(
