@@ -438,6 +438,21 @@ function resizeWindow(){
 
 }
 
+
+function submitFoldersReload(folderid) {
+	//reload accordian folder for a single folder (ie after you make a submission within it)
+	var accordianFolderName = "accoridanFolder" + folderid;
+	$("#" + accordianFolderName).empty();
+	var earnedPointsDiv = "#earned-" +accordianFolderName;
+	$(earnedPointsDiv).empty().append(0);
+	$.post("/problem/read", {folder: curProblem.folder, phase: 2}, function (problems) {
+		problems.forEach( function (problem) {
+			var link = addProblemToAccordian(problem, accordianFolderName);
+			$("#" + accordianFolderName).append(link);
+		});
+	});
+}
+
 function foldersReload() {
     $("#folderAccordion").empty();
 	$.post("/folder/read", {}, function (folders) {
@@ -612,7 +627,6 @@ window.onload = function () {
 		}
 		var availF = $("#availptc").text();
 		var availS = $("#availpts").text();
-		console.log("herder f " + availF + " s " + availS);
 		if((earnedS+earnedF) >= (availF+availS)){
 			$("#recentpointbreakdown").removeClass("alert-warning");
 			$("#recentpointbreakdown").addClass("alert-success");
@@ -664,7 +678,8 @@ window.onload = function () {
 				var ssOb = pnut.collectStructureStyleFacts(AST);    // return a analysis of style grading by checking AST
 				$.post("/submission/create", {problem: problem, code: code, style: JSON.stringify(ssOb)}, function (submission) {
 					addSubmission(submission);
-					foldersReload();
+					//foldersReload();
+					submitFoldersReload(curProblem.folder);
 					setRecentScore(submission.value.correct, submission.value.style);
 					setConsoleResultMessage(submission.message);
 				});
