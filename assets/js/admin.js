@@ -563,6 +563,14 @@ function getSubmission(submission,user,problem) {
         });
     });
     setTimeout( editor.refresh(), 0 );    
+    var button = $("<a></a>")
+            .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+            .attr("target","_blank")
+            .attr("type","button")
+            .addClass("btn btn-primary ")
+            .text("Project this code in new window");
+            
+    $('#submissionProject').empty().append(button);
 
   
 }
