@@ -255,9 +255,6 @@ function problemCorrect(user, problem, student, totalStudents){
                         $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
                     }
                 }
-                if(submission.shareOK){
-                    results.shareRequested = true;
-                }
                 if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
                     results.correct = true;
                     results.style = true;
@@ -266,12 +263,12 @@ function problemCorrect(user, problem, student, totalStudents){
                 else if(submission.value.correct == problem.value.correct && submission.value.style != problem.value.style) {
                     results.correct = true;
                 }
-            });
-            submissions.forEach(function(submission) {
-                if(submission.shareOK == true){
-                    console.log("shareOK");
-                    $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
-                }else {
+
+                if(shareOn){
+                    if(submission.shareOK){
+                        results.shareRequested = true;
+                        $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
+                    }
                 }
             });
         }
@@ -1097,6 +1094,7 @@ function loadUsers() {
 function getSettings(){
     console.log("get settings" + feedbackOn);
     feedbackToggle(feedbackOn);
+    shareToggle(shareOn);
 }
 
 function feedbackToggle(boolean){
@@ -1125,6 +1123,34 @@ function feedbackToggle(boolean){
             });        
     }
     $("#feedbackToggle").empty().append(button);
+}
+
+function shareToggle(boolean){
+    console.log("toggle" + boolean);
+    if(boolean){
+        var button = $("<button></button>")
+            .addClass("btn btn-danger")
+            .text("Turn Off Sharing")
+            .click(function (event) {
+                if(confirm("Are you sure you want to turn this feature off? This will refresh the page.")){
+                    $.post("/setting/update/", {name: "share", on:false}, function(setting){
+                         location.reload();   
+                    });
+                }
+            });
+    }else {
+        var button = $("<button></button>")
+            .addClass("btn btn-success")
+            .text("Turn On Sharing")
+            .click(function (event) {
+                if(confirm("Are you sure you want to turn this feature on? This will refresh the page.")){
+                    $.post("/setting/update/", {name: "share", on:true}, function(setting){
+                         location.reload();  
+                    });
+                }
+            });        
+    }
+    $("#shareToggle").empty().append(button);
 }
 
 //controls for the blinking on the edit folder side
@@ -1164,14 +1190,19 @@ window.onload = function () {
         }else {
             feedbackOn = false;
         }
-        console.log(feedbackOn);
-        getSettings();
         if(feedbackOn){
             getFeedbackDash();
         }else {
             $("#fbDashBody").empty().append("Feedback feature turned off.");
         }
-
+        $.post("/setting/read/", {name: "share"}, function(setting){
+            if(setting.on == true || setting.on == "true"){
+                shareOn = true;
+            }else {
+                shareOn = false;
+            }
+            getSettings();
+        });
     });
 
 	reloadFolders();

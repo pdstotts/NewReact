@@ -155,11 +155,6 @@ function addProbInfo (problem) {
 			$("#reload").attr("disabled","disabled");
 			$("#pointbreakdown").addClass("hidden");
         }
-        if(feedbackOn){
-			$("#subsHead").append("<td>Feedback</td>");
-        }
-		$("#subsHead").append("<td>Share</td>");
-
 		submissions.forEach( function (submission) {
 			addSubmission(submission);
 			if(submission.value.style > highestStyle){
@@ -243,9 +238,10 @@ function addSubmission(submission) {
 		var requestFeedbackButton = $("<td id='subReq" + submission.id + "'></td>");
 		link.append(requestFeedbackButton);
     }
-	var shareButton = $("<td id='subShare" + submission.id + "'></td>");
-	link.append(shareButton);
-
+    if(shareOn){
+		var shareButton = $("<td id='subShare" + submission.id + "'></td>");
+		link.append(shareButton);
+	}
 //#loadSubmission
     //make the problem link produce the submission code on click
 	
@@ -466,6 +462,7 @@ var modalEditor;
 var requestModalEditor;
 var reloadEditor;
 var feedbackOn;
+var shareOn;
 
 window.onload = function () {
 
@@ -478,8 +475,20 @@ window.onload = function () {
     $.post("/setting/read/", {name: "feedback"}, function(setting){
         if(setting.on == true || setting.on == "true"){
             feedbackOn = true;
+			$("#subsHead").append("<td>Feedback</td>");
+
         }else {
             feedbackOn = false;
+        }
+            
+    });
+    $.post("/setting/read/", {name: "share"}, function(setting){
+        if(setting.on == true || setting.on == "true"){
+            shareOn = true;
+			$("#subsHead").append("<td>Share</td>");
+
+        }else {
+            shareOn = false;
         }
     });
 
