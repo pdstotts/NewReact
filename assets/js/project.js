@@ -3,13 +3,18 @@ var editor;
 function changeFontSize(size){
   editor.getWrapperElement().style["font-size"] = size+"px";
   editor.refresh();
+  	$( "#console" ).css("font-size",size);
+	$( "#consoleHeader" ).css("font-size",size);
+
 }
 
 function resizeWindow(){
 	var height = $( window ).height() - 100;
 	var width = $( window ).width() - 40;
 
-	editor.setSize(width, height)
+	editor.setSize(width, height);
+
+
 }
 window.onload = function () {
    	$( "#fontSize" ).change(function() {
@@ -26,7 +31,6 @@ window.onload = function () {
 		styleActiveLine: true,
 		lineNumbers: true,
 		lineWrapping: true,
-		readOnly: true,
 		theme: "mbo",
 		extraKeys: {
 			"F11": function (cm) {
@@ -40,6 +44,18 @@ window.onload = function () {
 				if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
 				$(".CodeMirror").css("font-size", "100%");
 			}
+		}
+	});
+
+	$("#test").click(function () {
+		var code = editor.getValue();
+		$("#console").empty();
+		try {
+			eval(code);
+			$("#console").append("No error reports");
+		} catch (e) {
+			//alert(e);
+			$("#console").append(e);
 		}
 	});
 

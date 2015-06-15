@@ -612,14 +612,26 @@ function getSubmission(submission,user,problem) {
         });
     });
     setTimeout( editor.refresh(), 0 );    
-    var button = $("<a></a>")
-            .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
-            .attr("target","_blank")
-            .attr("type","button")
-            .addClass("btn btn-primary ")
-            .text("Project this code in new window");
-            
-    $('#submissionProject').empty().append(button);
+    if(submission.shareOK == true){
+        var button = $("<a></a>")
+                .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+                .attr("target","_blank")
+                .attr("type","button")
+                .addClass("btn btn-primary ")
+                .text("Project this code in new window");
+                
+        $('#submissionProject').empty().append(button);
+    }else {
+        var button = $("<a></a>")
+                .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+                .attr("target","_blank")
+                .attr("type","button")
+                .attr("disabled","disabled")
+                .addClass("btn btn-primary ")
+                .text("Project this code in new window (lacking permission)");
+                
+        $('#submissionProject').empty().append(button);
+    }
 
   
 }
