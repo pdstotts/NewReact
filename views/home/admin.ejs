@@ -60,6 +60,21 @@
 	.panel-collapse {padding:20px; }
 	.panel-collapse p {margin:0 20px; padding:0; }
 
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
 /* @group Blink */
 
 .blink {
@@ -730,10 +745,15 @@ ul {
 		<div class="tab-pane" id="individualStudent">
 			<h1 id="individualName" style="float:left;margin-left:15px"></h1>
 			
-			<button type="button" class="btn btn-primary" data-toggle='pill' disabled="disabled" id="studentRefresh" style="float:right;margin-top:22px">refresh</button>
+			<button type="button" class="btn btn-primary" data-toggle='pill' disabled="disabled" id="studentRefresh" style="float:right;margin-top:22px">Refresh Progress</button>
 
 			<!-- PROGRESS BAR-->
-			<div id="individualProgessBar" class="hidden col-md-12" style="margin-top:10px"></div>
+			<div id="row">
+				<div id="individualProgessBar" class="hidden col-md-11" style="margin-top:10px"></div>
+				<div class=" hidden col-md-1" id="studentScore" >
+					<button id="studentScoreButton" class="badge" style="font-size:12pt" data-toggle="tooltip" data-placement="top" title="Click to recalculate score just to be sure it's accurate!"></button>
+				</div>
+			</div>
 
 			<!--SUBMISSION LIST-->
 			<div class="col-md-12 panel-group" id="individualSubmissionList" ></div>

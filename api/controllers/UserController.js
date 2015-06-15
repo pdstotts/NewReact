@@ -19,6 +19,7 @@ module.exports = {
     read: function (req, res) {
         var id = req.param("id") || null;
         var onyen = req.param("onyen") || null;
+        var me = req.param("me") || null;
 
         if(id){
                 User.findOne({id:id}).exec(function (err, user) {
@@ -38,7 +39,18 @@ module.exports = {
                     res.send(user);
                 }
             });
-        }else {
+        }else if(me){
+                User.findOne({username:req.user.username}).exec(function (err, user) {
+                if (err) {
+                    res.send(500, {error: "DB error finding user"});
+                    return;
+                } else {
+                    console.log(user.currentScore);
+                    res.send(user);
+                }
+            });
+
+        } else {
             User.find()
             .sort({"displayName": 1})
             .exec(function(err, users) {
@@ -94,6 +106,20 @@ module.exports = {
     removeAdmin: function (req, res) {
         var id = req.param("id");
         User.update({id: id}, {admin: false}).exec(function(err, user) {
+            if(err) {
+                console.log(err);
+            } else {
+                res.send(user);
+            }
+        });
+    },
+
+    updateScore: function (req, res) {
+        var id = req.param("user");
+        var onyen = req.param("onyen");
+        var currentScore = req.param("currentScore");
+        console.log("called updatedScore" + onyen + currentScore);
+        User.update({username: onyen}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
             if(err) {
                 console.log(err);
             } else {

@@ -20,6 +20,7 @@ function scoreBadge(a,b){
     return $("<span></span>").append(badge).append(check);
 }
 
+
 function fillProblemEdit(problem) {
 	$("#edit").removeClass("hidden");
 	$("#editPlaceholder").addClass("hidden");
@@ -408,8 +409,14 @@ function getStudentList() {
         var student = $("<tr></tr>");
         var count = 0;
         users.forEach(function (user) {
+            var badge = $("<span class='badge'></span>").append(user.currentScore + "/" + "?");
+            var link = $("<a></a>")
+                .attr("href","#individualStudent")
+                .attr("data-toggle","pill")
+                .append(user.displayName)
+                .append(badge);
             var a = $("<td></td>")
-                .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
+                .append(link)
                 .click(function (event) {
                     event.preventDefault();
                     $.post("/user/read/" + user.id, {}, function (user) {
@@ -651,10 +658,21 @@ function getIndividual(user, refresh) {
     $("#pbp-green").css("width","0%");
     $("#pbp-red").css("width","0%");
     $("#individualProgessBar").removeClass("hidden");
+    $("#studentScore").removeClass("hidden");
     $("#individualSubmissionList").empty();
     $("#studentRefresh").attr("disabled", "disabled");
+    $("#studentRefresh").attr("disabled", "disabled");
+
+    $("#studentScoreButton").unbind('click');
+    $('#studentScoreButton').on('click', function() {
+        if(confirm("This recalculates the student score just to be sure it's accurate.")) {
+            studentScore(user.username);
+        }
+    });
+
 
     $("#individualName").html(user.displayName + " " + user.username);
+    $("#studentScoreButton").html(user.currentScore);
 
     var tooltipGreen = "Problems for which full points were earned";
     var tooltipYellow = "Attempted problems that did not recieve full credit";
@@ -865,6 +883,7 @@ function getIndividualNone(onyen) {
     $("#pbp-red").css("width","0%");
     $("#individualSubmissionList").empty();
     $("#individualProgessBar").addClass("hidden");
+    $("#studentScore").addClass("hidden");
 
     $("#individualName").html("No user with found with onyen <i>\"" + onyen + "\"</i>");
     var heading = $("<h3></h3>");
@@ -1159,6 +1178,43 @@ function shareToggle(boolean){
             });        
     }
     $("#shareToggle").empty().append(button);
+}
+
+function studentScore(onyen){
+    console.log("studentScore for " + onyen);
+    $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+    $.post("/submission/read/", {student: onyen}, function(submissions){
+        var totalSubmissionNumber = submissions.length;
+        var submissionCount = 0;
+        $.post("/folder/read", {}, function (folders) {
+            studScore = 0;
+            totScore = 0;
+            folders.forEach( function (folder) {
+                $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                    problems.forEach( function (problem) {
+                        var maxScore = 0;
+                        $.post("/submission/read/", {id: problem.id, student: onyen}, function(submissions){
+                            submissions.forEach( function (submission) {
+                                submissionCount++;
+                                var curSubScore = Number(submission.value.correct)+Number(submission.value.style);
+                                if(curSubScore > maxScore) {
+                                    maxScore = curSubScore;
+                                }
+                            });
+                            studScore += maxScore;
+                            if(totalSubmissionNumber == submissionCount){
+                                console.log("preping to update..." + studScore);
+                                $.post("/user/updateScore/", {onyen:onyen, currentScore:studScore}, function(user){
+                                    console.log("updated score of " + onyen);
+                                    $("#studentScoreButton").empty().append(studScore);
+                                });
+                            }
+                        });
+                    });
+                });
+            });
+        });
+    });
 }
 
 //controls for the blinking on the edit folder side
@@ -1460,7 +1516,7 @@ window.onload = function () {
             reloadFolders();
         }
     });
-
+    
     $('#onyenSearchButton').on('click', function( event ) {
         var onyenValue = $("#onyen").val();
         if(onyenValue == ""){

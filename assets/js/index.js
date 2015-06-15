@@ -75,7 +75,7 @@ function addProblemToAccordian(problem,folderName){
 			}
 
 		}
-		$("#grade").empty().append(studScore + "/" + totScore);
+		//$("#grade").empty().append(studScore + "/" + totScore);
 		});
 	}
 	return link;
@@ -505,6 +505,10 @@ window.onload = function () {
         }else {
             shareOn = false;
         }
+    });
+
+    $.post("/user/read/", {me: true}, function(user){
+		$("#grade").empty().append(user.currentScore + "/" + "??");
     });
 
     //save student's code on interval

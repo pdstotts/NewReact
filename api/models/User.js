@@ -25,6 +25,9 @@ module.exports = {
     latestCode: {
         type: 'string',
         required: true
+    },
+    currentScore: {
+        type: 'integer',
     }
   }
 };

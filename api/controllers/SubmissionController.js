@@ -19,7 +19,25 @@ module.exports = {
 				res.send(500, {error: "DB Error creating new team"});
                 console.log(err);
 			} else {
-                res.send(submission);
+        var currentScore = parseInt(submissionDetails.value.correct) + parseInt(submissionDetails.value.style);
+        User.findOne({username:req.user.username}).exec(function (err, user) {
+            if (err) {
+                res.send(500, {error: "DB error finding user"});
+                return;
+            } else {
+                console.log("old score " + user.currentScore);
+                currentScore = user.currentScore + currentScore;
+                console.log("new score update" + currentScore);
+                User.update({username: req.user.username}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        res.send(user);
+                    }
+                });
+            }
+        });
+        res.send(submission);
 			} 
 		});
 	},
