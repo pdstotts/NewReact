@@ -91,6 +91,7 @@ function shareButton(submission,user,problem){
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
         .attr("data-target","#myModal")  //save
+        .attr("id","shareMe" + submission.id)
         .css("color","#627E86")
         .attr("class","")
         .css("padding-left","4px;")
@@ -121,7 +122,8 @@ function getStudentResults(problem) {
 
             var matrixSquarehover = $("<div></div>")
                 .attr('class','matrixSquareHover')
-                .attr('id','matrixHover' + user.id);
+                .attr('id','matrixHover' + user.id)
+                .attr('data-iconcount',0);
 
             var userButton = $("<a href='#individualStudent' data-toggle='pill' data-toggle='tooltip' data-placement='bottom' title='View User'></a>")
             .css("color","#627E86")
@@ -254,8 +256,23 @@ function problemCorrect(user, problem, student, totalStudents){
                     if(submission.fbRequested == true && submission.fbResponseTime == null){
                         results.feedbackRequested = true;
                         $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+                        var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
                     }
                 }
+                if(shareOn){
+                    if(submission.shareOK && submission.shared != true){
+                        results.shareRequested = true;
+                        $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
+                        var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                    }
+                }
+
                 if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
                     results.correct = true;
                     results.style = true;
@@ -265,12 +282,6 @@ function problemCorrect(user, problem, student, totalStudents){
                     results.correct = true;
                 }
 
-                if(shareOn){
-                    if(submission.shareOK){
-                        results.shareRequested = true;
-                        $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
-                    }
-                }
             });
         }
 
@@ -350,9 +361,40 @@ function fillModal(submission,user,problem){
         .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
         .attr("target","_blank")
         .attr("type","button")
-        .addClass("btn btn-primary ")
-        .text("Project");
+        .addClass("btn btn-success ")
+        .text("Project").click(function (event) {
+            $.post("/submission/update", {id: submission.id, shared:true}, function (submission) {
+                $("#shareMe" + submission.id).remove();
+                var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                iconCount = parseInt(iconCount);
+                iconCount--;
+                $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                if(iconCount == 0){
+                    $("#matrix" + user.id).removeClass("blink");
+                }
+            });
+       });
     $("#projectSubmissionButton").empty().append(button);
+
+    var button = $("<a></a>")
+        .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+        .attr("target","_blank")
+        .attr("data-dismiss","modal")
+        .addClass("btn btn-danger ")
+        .text("Dismiss").click(function (event) {
+            $.post("/submission/update", {id: submission.id, shared:true}, function (submission) {
+                $("#shareMe" + submission.id).remove();
+                var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                iconCount = parseInt(iconCount);
+                iconCount--;
+                $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                if(iconCount == 0){
+                    $("#matrix" + user.id).removeClass("blink");
+                }
+            });
+       });
+
+    $("#dimissShareButton").empty().append(button);
 
 }
 

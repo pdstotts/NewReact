@@ -259,10 +259,12 @@ function addSubmission(submission) {
     	view(submission);
     }
 
-    if(submission.shareOK == false){
-    	share(submission);
-    }else {
+    console.log(submission.shareOk);
+    if(submission.shareOK == true){
     	unshare(submission);
+
+    }else {
+    	share(submission);
     }
 
 }
