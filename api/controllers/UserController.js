@@ -22,7 +22,7 @@ module.exports = {
         var me = req.param("me") || null;
 
         if(id){
-                User.findOne({id:id}).exec(function (err, user) {
+            User.findOne({id:id}).exec(function (err, user) {
                 if (err) {
                     res.send(500, {error: "DB error finding user"});
                     return;
@@ -31,7 +31,7 @@ module.exports = {
                 }
             });
         }else if(onyen){
-                User.findOne({username:onyen}).exec(function (err, user) {
+            User.findOne({username:onyen}).exec(function (err, user) {
                 if (err) {
                     res.send(500, {error: "DB error finding user"});
                     return;
@@ -40,12 +40,11 @@ module.exports = {
                 }
             });
         }else if(me){
-                User.findOne({username:req.user.username}).exec(function (err, user) {
+            User.findOne({username:req.user.username}).exec(function (err, user) {
                 if (err) {
                     res.send(500, {error: "DB error finding user"});
                     return;
                 } else {
-                    console.log(user.currentScore);
                     res.send(user);
                 }
             });
@@ -115,17 +114,30 @@ module.exports = {
     },
 
     updateScore: function (req, res) {
+        console.log("called updatedScore");
         var id = req.param("user");
         var onyen = req.param("onyen");
         var currentScore = req.param("currentScore");
-        console.log("called updatedScore" + onyen + currentScore);
-        User.update({username: onyen}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
-            if(err) {
-                console.log(err);
-            } else {
-                res.send(user);
-            }
-        });
+        if(onyen){
+            console.log("called updatedScore" + onyen + currentScore);
+            User.update({username: onyen}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    res.send(user);
+                }
+            });
+        }else {
+            console.log("called updatedScore w no onyen for "  + req.user.username+ currentScore);
+
+            User.update({username: req.user.username}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    res.send(user);
+                }
+            });
+        }
     },
 
     //Save student's current draft of code to appear next time they reload the window

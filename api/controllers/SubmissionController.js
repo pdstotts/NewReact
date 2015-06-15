@@ -20,23 +20,6 @@ module.exports = {
                 console.log(err);
 			} else {
         var currentScore = parseInt(submissionDetails.value.correct) + parseInt(submissionDetails.value.style);
-        User.findOne({username:req.user.username}).exec(function (err, user) {
-            if (err) {
-                res.send(500, {error: "DB error finding user"});
-                return;
-            } else {
-                console.log("old score " + user.currentScore);
-                currentScore = user.currentScore + currentScore;
-                console.log("new score update" + currentScore);
-                User.update({username: req.user.username}, {currentScore: parseInt(currentScore)}).exec(function(err, user) {
-                    if(err) {
-                        console.log(err);
-                    } else {
-                        res.send(user);
-                    }
-                });
-            }
-        });
         res.send(submission);
 			} 
 		});
@@ -54,6 +37,7 @@ module.exports = {
         var reverse = req.param("reverse");
         var recent = req.param("recent");
         var feedback = req.param("feedback");
+        var currentUser = req.param("currentUser");
 
         var direction = 1;
         if(reverse){
@@ -100,7 +84,7 @@ module.exports = {
                     res.send(submissions);
                 }
             });
-        } else {
+        } else if(!currentUser){
             Submission.find().sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -108,7 +92,15 @@ module.exports = {
                     res.send(submissions);
                 }
             });
-       }   
+       } else {
+            Submission.find({user: req.user.username}).sort({createdAt: direction}).exec(function(err, submissions) {
+                if (err) {
+                    console.log("error getting submissions from database");
+                } else {
+                    res.send(submissions);
+                }
+            });
+       }
   },
 
 

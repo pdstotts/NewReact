@@ -259,7 +259,6 @@ function addSubmission(submission) {
     	view(submission);
     }
 
-    console.log(submission.shareOk);
     if(submission.shareOK == true){
     	unshare(submission);
 
@@ -492,6 +491,44 @@ var feedbackOn;
 var shareOn;
 var points;
 
+function studentScore(){
+	console.log("studentScore");
+    $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+    $.post("/submission/read/", {currentUser: true}, function(submissions){
+        var totalSubmissionNumber = submissions.length;
+        var submissionCount = 0;
+        $.post("/folder/read", {}, function (folders) {
+            studScore = 0;
+            totScore = 0;
+            folders.forEach( function (folder) {
+            	console.log(folder.name);
+                $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                    problems.forEach( function (problem) {
+                        var maxScore = 0;
+                        $.post("/submission/read/", {id: problem.id}, function(submissions){
+                            submissions.forEach( function (submission) {
+                                submissionCount++;
+                                var curSubScore = Number(submission.value.correct)+Number(submission.value.style);
+                                if(curSubScore > maxScore) {
+                                    maxScore = curSubScore;
+                                }
+                            });
+                            studScore += maxScore;
+                            console.log(studScore + "totalSubmissionNumber:" + totalSubmissionNumber + "submissionCount" + submissionCount);
+                            if(totalSubmissionNumber == submissionCount){
+                                console.log("preping to update..." + studScore);
+                                $.post("/user/updateScore/", {currentScore:studScore}, function(user){
+                                    updateScore();
+                                });
+                            }
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
 window.onload = function () {
 
 	(function () {
@@ -697,7 +734,7 @@ window.onload = function () {
 					submitFoldersReload(curProblem.folder);
 					setRecentScore(submission.value.correct, submission.value.style);
 					setConsoleResultMessage(submission.message);
-					updateScore();
+					studentScore();
 				});
 			} catch (e) {
 				$("#console").append("Error! Be sure to test your code locally before submitting.");

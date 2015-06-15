@@ -358,7 +358,7 @@ function fillModal(submission,user,problem){
         that.modalEditor.refresh();
     },10);
     var button = $("<a></a>")
-        .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+        .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
         .attr("target","_blank")
         .attr("type","button")
         .addClass("btn btn-success ")
@@ -377,7 +377,7 @@ function fillModal(submission,user,problem){
     $("#projectSubmissionButton").empty().append(button);
 
     var button = $("<a></a>")
-        .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+        .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
         .attr("target","_blank")
         .attr("data-dismiss","modal")
         .addClass("btn btn-danger ")
@@ -614,7 +614,7 @@ function getSubmission(submission,user,problem) {
     setTimeout( editor.refresh(), 0 );    
     if(submission.shareOK == true){
         var button = $("<a></a>")
-                .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+                .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
                 .attr("target","_blank")
                 .attr("type","button")
                 .addClass("btn btn-primary ")
@@ -623,7 +623,7 @@ function getSubmission(submission,user,problem) {
         $('#submissionProject').empty().append(button);
     }else {
         var button = $("<a></a>")
-                .attr("href","project?subCode=" + submission.code.replace(/\n/g,"<br />") + "&msg=" + submission.message)
+                .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
                 .attr("target","_blank")
                 .attr("type","button")
                 .attr("disabled","disabled")
