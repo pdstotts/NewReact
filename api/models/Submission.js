@@ -101,6 +101,7 @@ module.exports = {
 
 							//subtract function points
 							score.f = score.f - deduction;
+							score.f = +score.f.toFixed(2);
 							if(score.f < 0){
 								score.f = 0;
 							}
@@ -123,6 +124,7 @@ module.exports = {
 
 							//subtract style points
 							score.s = score.s - deduction;
+							score.s = +score.s.toFixed(2);
 							if(score.s < 0){
 								score.s = 0;
 							}
