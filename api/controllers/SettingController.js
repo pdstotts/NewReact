@@ -27,12 +27,13 @@ module.exports = {
    */
    
    update: function (req, res) {
-
         var name = req.param("name");
         var on = req.param("on");
         var value = req.param("value");
+        console.log(name + value);
 
-        if(on !== null){
+        if(on && !value){
+            console.log("on is not null");
           if(on == "true"){
             on = true;
           }else {
@@ -46,6 +47,8 @@ module.exports = {
                 }
             });
         }else {
+            console.log("setting..." + name + value);
+
             Setting.update({name:name}, {value: parseInt(value)}).exec(function(err2, setting) {
                 if(err2) {
                     console.log(err2);

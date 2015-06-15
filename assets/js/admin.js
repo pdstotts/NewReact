@@ -1271,6 +1271,40 @@ function studentScore(onyen){
     });
 }
 
+function recalculateAvailableScore(){
+    $.post("/folder/read", {}, function (folders) {
+        var totalProblemCount = 0;
+        folders.forEach( function (folder) {
+            $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                problems.forEach( function (problem) {
+                    totalProblemCount++;
+                });
+                var problemCount = 0;
+                $.post("/folder/read", {}, function (folders) {
+                    var totalScore = 0;
+                    folders.forEach( function (folder) {
+                        $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                            problems.forEach( function (problem) {
+                                problemCount++;
+                                totalScore += parseInt(problem.value.correct) + parseInt(problem.value.style);
+                                console.log(problem.name + totalScore);
+                                console.log(problemCount + "/" + totalProblemCount);
+                                if(totalProblemCount == problemCount){
+                                    console.log("preping to update..." + totalScore);
+                                    $.post("/setting/update/", {name:"points", value:totalScore}, function(setting){
+                                        console.log("updated points to " + totalScore);
+                                    });
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
+
 //controls for the blinking on the edit folder side
 var blinkTimer;
 function blinking(elm) {
@@ -1502,7 +1536,7 @@ window.onload = function () {
                     setTimeout(function() {
                         $("#problemCreatedSuccess").remove();
                     }, 2000);
-
+                    recalculateAvailableScore();
                 });
             });
         }
@@ -1547,6 +1581,7 @@ window.onload = function () {
                 $("#editProblemError").append(updateSuccessMessage);
                 curProblem = problem;
                 reloadFolders();
+                recalculateAvailableScore();
             });
         }
 	});

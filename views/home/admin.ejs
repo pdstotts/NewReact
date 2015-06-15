@@ -747,13 +747,13 @@ ul {
 		<div class="tab-pane" id="individualStudent">
 			<h1 id="individualName" style="float:left;margin-left:15px"></h1>
 			
-			<button type="button" class="btn btn-primary" data-toggle='pill' disabled="disabled" id="studentRefresh" style="float:right;margin-top:22px">Refresh Progress</button>
+			<button type="button" class="btn btn-primary" data-toggle='pill' disabled="disabled" id="studentRefresh" style="float:right;margin-top:22px" data-toggle="tooltip" data-placement="top" title="Reload from database">Refresh Progress</button>
 
 			<!-- PROGRESS BAR-->
 			<div id="row">
 				<div id="individualProgessBar" class="hidden col-md-11" style="margin-top:10px"></div>
 				<div class=" hidden col-md-1" id="studentScore" >
-					<button id="studentScoreButton" class="badge" style="font-size:12pt" data-toggle="tooltip" data-placement="top" title="Click to recalculate score just to be sure it's accurate!"></button>
+					<button id="studentScoreButton" class="badge" style="font-size:12pt" data-toggle="tooltip" data-placement="top" title="Recompute score"></button>
 				</div>
 			</div>
 
