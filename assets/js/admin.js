@@ -1332,6 +1332,9 @@ window.onload = function () {
 	reloadFolders();
     loadUsers();
     getStudentList();
+    $("#refreshStudentListScores").click(function (event) {
+        getStudentList();
+    });
 
     /*
     setInterval(
