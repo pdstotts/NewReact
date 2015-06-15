@@ -75,6 +75,7 @@ function addProblemToAccordian(problem,folderName){
 			}
 
 		}
+		//setting/update
 		//$("#grade").empty().append(studScore + "/" + totScore);
 		});
 	}
@@ -181,12 +182,12 @@ function addProbInfo (problem) {
 
 		//append checks xs if they have attempted
 		if(submissions.length > 0){
-			if(problem.value.correct == highestCorrect){
+			if(highestCorrect >= problem.value.correct){
 				$("#correctCheck").append(correct("8px"));
 			}else {
 	        	$("#correctCheck").append(wrong("8px"));
 			}	
-			if(problem.value.style == highestStyle){
+			if(highestStyle >= problem.value.style){
 				$("#styleCheck").append(correct("8px"));
 			}else {
 	        	$("#styleCheck").append(wrong("8px"));
@@ -216,8 +217,8 @@ function addSubmission(submission) {
     var gradeF = $("<td></td>");
     var gradeS = $("<td></td>");
     var results = { correct: false, style: false };
-    results.correct = results.correct || (submission.value.correct == curProblem.value.correct);
-    results.style = results.style || (submission.value.style == curProblem.value.style);
+    results.correct = results.correct || (submission.value.correct >= curProblem.value.correct);
+    results.style = results.style || (submission.value.style >= curProblem.value.style);
 
     $(gradeF).append("<span class='badge'>" + submission.value.correct + "/" +curProblem.value.correct + "</span>");
     if (results.correct) {
@@ -467,6 +468,15 @@ function foldersReload() {
     }
 }
 
+function updateScore(){
+    $.post("/setting/read/", {name: "points"}, function(setting){
+		points = setting.value;
+	    $.post("/user/read/", {me: true}, function(user){
+			$("#grade").empty().append(user.currentScore + "/" + points);
+	    });
+    });
+}
+
 function changeFontSize(size){
   editor.getWrapperElement().style["font-size"] = size+"px";
   editor.refresh();
@@ -478,6 +488,7 @@ var requestModalEditor;
 var reloadEditor;
 var feedbackOn;
 var shareOn;
+var points;
 
 window.onload = function () {
 
@@ -507,9 +518,7 @@ window.onload = function () {
         }
     });
 
-    $.post("/user/read/", {me: true}, function(user){
-		$("#grade").empty().append(user.currentScore + "/" + "??");
-    });
+    updateScore();
 
     //save student's code on interval
     setInterval(
@@ -619,12 +628,12 @@ window.onload = function () {
 		$("#recentpointbreakdown").removeClass("hidden");
 		$("#recentPtCorrect").empty().append(earnedF);
 		$("#recentPtStyle").empty().append(earnedS);
-		if(earnedF == curProblem.value.correct){
+		if(earnedF >= curProblem.value.correct){
 			$("#correctCheckRecent").empty().append(correct("8px"));
 		}else {
         	$("#correctCheckRecent").empty().append(wrong("8px"));
 		}	
-		if(earnedS == curProblem.value.style){
+		if(earnedS >= curProblem.value.style){
 			$("#styleCheckRecent").empty().append(correct("8px"));
 		}else {
         	$("#styleCheckRecent").empty().append(wrong("8px"));
@@ -686,6 +695,7 @@ window.onload = function () {
 					submitFoldersReload(curProblem.folder);
 					setRecentScore(submission.value.correct, submission.value.style);
 					setConsoleResultMessage(submission.message);
+					updateScore();
 				});
 			} catch (e) {
 				$("#console").append("Error! Be sure to test your code locally before submitting.");

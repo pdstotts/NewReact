@@ -409,7 +409,7 @@ function getStudentList() {
         var student = $("<tr></tr>");
         var count = 0;
         users.forEach(function (user) {
-            var badge = $("<span class='badge'></span>").append(user.currentScore + "/" + "?");
+            var badge = $("<span class='badge'></span>").append(user.currentScore + "/" + points);
             var link = $("<a></a>")
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
@@ -672,7 +672,7 @@ function getIndividual(user, refresh) {
 
 
     $("#individualName").html(user.displayName + " " + user.username);
-    $("#studentScoreButton").html(user.currentScore);
+    $("#studentScoreButton").html(user.currentScore + "/" + points);
 
     var tooltipGreen = "Problems for which full points were earned";
     var tooltipYellow = "Attempted problems that did not recieve full credit";
@@ -1206,7 +1206,7 @@ function studentScore(onyen){
                                 console.log("preping to update..." + studScore);
                                 $.post("/user/updateScore/", {onyen:onyen, currentScore:studScore}, function(user){
                                     console.log("updated score of " + onyen);
-                                    $("#studentScoreButton").empty().append(studScore);
+                                    $("#studentScoreButton").empty().append(studScore + "/" + points);
                                 });
                             }
                         });
@@ -1234,6 +1234,8 @@ var fbEditorReadOnly;
 var modalEditor;
 var feedbackEditor;
 var feedbackOn;
+var points;
+
 window.onload = function () {
     curProblem = null;
     curStudent = null;
@@ -1267,6 +1269,10 @@ window.onload = function () {
             }
             getSettings();
         });
+    });
+
+    $.post("/setting/read/", {name: "points"}, function(setting){
+        points = setting.value;
     });
 
 	reloadFolders();

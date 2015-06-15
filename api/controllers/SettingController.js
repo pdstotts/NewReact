@@ -30,6 +30,7 @@ module.exports = {
 
         var name = req.param("name");
         var on = req.param("on");
+        var value = req.param("value");
 
         if(on !== null){
           if(on == "true"){
@@ -44,7 +45,15 @@ module.exports = {
                     res.send(setting);
                 }
             });
-        } 
+        }else {
+            Setting.update({name:name}, {value: parseInt(value)}).exec(function(err2, setting) {
+                if(err2) {
+                    console.log(err2);
+                } else {
+                    res.send(setting);
+                }
+            });
+        }
   },
 
 
