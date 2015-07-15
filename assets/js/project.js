@@ -13,7 +13,7 @@ function resizeWindow(){
 	var width = $( window ).width() - 40;
 
 	editor.setSize(width, height);
-
+  	$( "#cWrap" ).css("width",width);
 
 }
 window.onload = function () {
@@ -47,6 +47,15 @@ window.onload = function () {
 		}
 	});
 
+	console.log("submissionId");
+	var submissionId = $("#submissionId").html();
+	console.log(submissionId);
+	$.post("/submission/read/", {subId: submissionId}, function (submission) {
+		$("#console").empty().append(submission.message);
+        editor.setValue(submission.code);
+
+	});
+
 	$("#test").click(function () {
 		var code = editor.getValue();
 		$("#console").empty();
@@ -58,6 +67,8 @@ window.onload = function () {
 			$("#console").append(e);
 		}
 	});
+
+
 
 	resizeWindow();
 	changeFontSize(24);

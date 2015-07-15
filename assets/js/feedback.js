@@ -45,8 +45,31 @@ window.onload = function () {
 			}
 		}
 	});
+	
+	console.log("submissionId");
+	var submissionId = $("#submissionId").html();
+	console.log(submissionId);
+	$.post("/submission/read/", {subId: submissionId}, function (submission) {
+		console.log("submisison Message");
 
+		$("#console").empty().append(submission.message);
+		$("#responseTime").empty().append(submission.fbResponseTime);
+		$("#responseMsg").empty().append(submission.fbResponseMsg);
+    	$.post("/user/read/" + submission.fbResponder, {}, function (user) {
+	        if (!user) {
+	            alert("No user with that id found");
+	            return;
+	        }
+			$("#responder").empty().append(user.displayName);	
+		});
 
+		$("#requestTime").empty().append(submission.fbRequestTime);
+		$("#requestMsg").empty().append(submission.fbRequestMsg);
+
+        editor2.setValue(submission.code);
+        editor.setValue(submission.fbCode);
+
+	});
 
 };
 

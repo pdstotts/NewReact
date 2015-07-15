@@ -1,18 +1,11 @@
 var curProblem = null;
 
-var allFolders = {};
-var folderTotScore = 0;
-var folderStudScore = 0;
-var totScore = 0;
-var studScore = 0;
-
 function addProblemToAccordian(problem,folderName){
 	var earnedPointsDiv = "#earned-" +folderName;
 	var availPointsDiv = "#avail-" +folderName;
 	var checkDiv = "#check-" +folderName;
 	var maxScore = 0;
 	var probMax = Number(problem.value.correct) + Number(problem.value.style);
-	totScore += probMax;
 	var problemName = problem.name;
 	if(problem.testMode == true) { problemName = problem.name + " (Test Mode)" };
 	var bg = "";
@@ -49,7 +42,6 @@ function addProblemToAccordian(problem,folderName){
 				}
 
 			});
-			studScore += maxScore;
 			if (maxScore < probMax) {
 				$("#" + problem.id).css("color", "#ae4345");
 				$("a", link).css("color", "#ae4345");
@@ -75,8 +67,6 @@ function addProblemToAccordian(problem,folderName){
 			}
 
 		}
-		//setting/update
-		//$("#grade").empty().append(studScore + "/" + totScore);
 		});
 	}
 	return link;
@@ -134,6 +124,7 @@ function addProbInfo (problem) {
 	if(problem.testMode == true) { problemName = problem.name + " (in Test Mode)" };
 	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
+	$("#hideInst").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
   	$("#desc-title").empty().append(problemName);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
@@ -397,31 +388,25 @@ function view(submission){
 	var rqTime = new Date(submission.fbRequestTime);
 	var rpTime = new Date(submission.fbResponseTime);
 
-    $.post("/user/read/" + submission.fbResponder, {}, function (user) {
-        if (!user) {
-            alert("No user with that id found");
-            return;
-        }
+    if(!submission.feedbackSeen){
+    	var classBlink = "blink";
+    }else {
+    	var classBlink = " ";
+    }
 
-        if(!submission.feedbackSeen){
-        	var classBlink = "blink";
-        }else {
-        	var classBlink = " ";
-        }
-
-		var button = $("<a></a>")
-			.attr("href","feedback?subCode=" + submission.code.replace(/\n/g,"<br />") + "&rqMsg=" + submission.fbRequestMsg + "&rpMsg=" + submission.fbResponseMsg + "&rpCode=" + submission.fbCode.replace(/\n/g,"<br />") + "&rqTime=" + rqTime + "&rpTime=" + rpTime + "&responder=" + user.displayName + "&console=" + submission.message)
-			.attr("target","_blank")
-			.attr("type","button")
-			.addClass("btn btn-sm btn-success " + classBlink)
-			.text("View").click(function () {
-				$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
-					console.log("feedbackseen!"  + submission.id)
-					view(submission);
-				});
+	var button = $("<a></a>")
+		.attr("href","feedback?subId=" + submission.id)
+		.attr("target","_blank")
+		.attr("type","button")
+		.addClass("btn btn-sm btn-success " + classBlink)
+		.text("View").click(function () {
+			$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
+				console.log("feedbackseen!"  + submission.id)
+				view(submission);
 			});
-		$("#subReq" + submission.id).empty().append(button);
-    });
+		});
+	$("#subReq" + submission.id).empty().append(button);
+
 
 }
 
@@ -436,7 +421,12 @@ function resizeWindow(){
     $('.scrollableAccordian').height("800px");
 	var height = $( document ).height();
 	var height = height - 100;
-    $('.scrollableAccordian').height(height);
+	console.log($( window ).width());
+	if($( window ).width() > 990){
+	    $('.scrollableAccordian').height(height);
+	}else {
+    	$('.scrollableAccordian').height("400px");
+	}
 
 }
 
@@ -458,8 +448,6 @@ function submitFoldersReload(folderid) {
 function foldersReload() {
     $("#folderAccordion").empty();
 	$.post("/folder/read", {}, function (folders) {
-        studScore = 0;
-        totScore = 0;
 		folders.forEach( function (folder) {
 			addFolder(folder);
 		});
@@ -491,17 +479,17 @@ var feedbackOn;
 var shareOn;
 var points;
 
-function studentScore(){
+function studentScore(){ //recalculate and re-store the student's score
 	console.log("studentScore");
+	$("#grade").empty().append('<span class="glyphicon glyphicon-refresh spin"></span>');
     $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
     $.post("/submission/read/", {currentUser: true}, function(submissions){
         var totalSubmissionNumber = submissions.length;
         var submissionCount = 0;
+        var called = false; //make sure the update only gets called once.
         $.post("/folder/read", {}, function (folders) {
-            studScore = 0;
-            totScore = 0;
+            var studScore = 0;
             folders.forEach( function (folder) {
-            	console.log(folder.name);
                 $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
                     problems.forEach( function (problem) {
                         var maxScore = 0;
@@ -515,7 +503,8 @@ function studentScore(){
                             });
                             studScore += maxScore;
                             console.log(studScore + "totalSubmissionNumber:" + totalSubmissionNumber + "submissionCount" + submissionCount);
-                            if(totalSubmissionNumber == submissionCount){
+                            if(totalSubmissionNumber == submissionCount && called == false){
+                            	called = true; //make sure the update only gets called once.
                                 console.log("preping to update..." + studScore);
                                 $.post("/user/updateScore/", {currentScore:studScore}, function(user){
                                     updateScore();

@@ -358,7 +358,7 @@ function fillModal(submission,user,problem){
         that.modalEditor.refresh();
     },10);
     var button = $("<a></a>")
-        .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
+        .attr("href","project?subId=" + submission.id)
         .attr("target","_blank")
         .attr("type","button")
         .addClass("btn btn-success ")
@@ -377,7 +377,7 @@ function fillModal(submission,user,problem){
     $("#projectSubmissionButton").empty().append(button);
 
     var button = $("<a></a>")
-        .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
+        .attr("href","project?subId=" + submission.id)
         .attr("target","_blank")
         .attr("data-dismiss","modal")
         .addClass("btn btn-danger ")
@@ -455,7 +455,7 @@ function getStudentList() {
             var link = $("<a></a>")
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
-                .append(user.displayName)
+                .append(user.displayName + "<br />")
                 .append(badge);
             var a = $("<td></td>")
                 .append(link)
@@ -614,7 +614,7 @@ function getSubmission(submission,user,problem) {
     setTimeout( editor.refresh(), 0 );    
     if(submission.shareOK == true){
         var button = $("<a></a>")
-                .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
+                .attr("href","project?subId=" + submission.id)
                 .attr("target","_blank")
                 .attr("type","button")
                 .addClass("btn btn-primary ")
@@ -623,7 +623,7 @@ function getSubmission(submission,user,problem) {
         $('#submissionProject').empty().append(button);
     }else {
         var button = $("<a></a>")
-                .attr("href","project?subCode=" + submission.code + "&msg=" + submission.message)
+                .attr("href","project?subId=" + submission.id)
                 .attr("target","_blank")
                 .attr("type","button")
                 .attr("disabled","disabled")
@@ -977,8 +977,8 @@ function addFolder(folder) {
     var accordianFolderId = "accoridanFolder" + folder.id;
     var toggleLabel = '<a data-toggle="collapse" data-parent="#accordion" href="#'+ accordianFolderId + '">' + folder.name + '</a>';
     var accordian = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + "</h4></div><div id = 'accoridanFolder" + folder.id + "' class='panel-collapse collapse folderCollapse'></div>";
-    $("#leftSideFolders").append(accordian);
 
+    $("#leftSideFolders").append(accordian);
     $("#" + accordianFolderId).empty();
     $.post("/problem/read", {folder: folder.id}, function (problems) {
         problems.forEach( function (problem) {
@@ -987,6 +987,19 @@ function addFolder(folder) {
             $("#" + accordianFolderId).append(link);
         });
     });
+}
+
+function refreshFolder(folderid){
+    var accordianFolderId = "accoridanFolder" + folderid;
+    $("#" + accordianFolderId).empty();
+    $.post("/problem/read", {folder: folderid}, function (problems) {
+        problems.forEach( function (problem) {
+            numpoints += parseInt(problem.value.style) + parseInt(problem.value.correct);
+            var link = addProblemToAccordian(problem, accordianFolderId);
+            $("#" + accordianFolderId).append(link);
+        });
+    });
+
 }
 
 function addProblemToAccordian(problem,folderName){
@@ -1272,35 +1285,36 @@ function studentScore(onyen){
 }
 
 function recalculateAvailableScore(){
+    console.log("recalculateAvailableScore()... ");
     $.post("/folder/read", {}, function (folders) {
         var totalProblemCount = 0;
+        var problemCount = 0;
+        var totalScore = 0;
+
         folders.forEach( function (folder) {
             $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
                 problems.forEach( function (problem) {
                     totalProblemCount++;
                 });
-                var problemCount = 0;
-                $.post("/folder/read", {}, function (folders) {
-                    var totalScore = 0;
-                    folders.forEach( function (folder) {
-                        $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
-                            problems.forEach( function (problem) {
-                                problemCount++;
-                                totalScore += parseInt(problem.value.correct) + parseInt(problem.value.style);
-                                console.log(problem.name + totalScore);
-                                console.log(problemCount + "/" + totalProblemCount);
-                                if(totalProblemCount == problemCount){
-                                    console.log("preping to update..." + totalScore);
-                                    $.post("/setting/update/", {name:"points", value:totalScore}, function(setting){
-                                        console.log("updated points to " + totalScore);
-                                    });
-                                }
-                            });
-                        });
-                    });
-                });
             });
         });
+
+        folders.forEach( function (folder) {
+            $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                problems.forEach( function (problem) {
+                    problemCount++;
+                    totalScore += parseInt(problem.value.correct) + parseInt(problem.value.style);
+                    console.log(problem.name + totalScore);
+                    console.log(problemCount + "/" + totalProblemCount);
+                    if(totalProblemCount == problemCount){
+                        console.log("preping to update..." + totalScore);
+                        $.post("/setting/update/", {name:"points", value:totalScore}, function(setting){
+                            console.log("updated points to " + totalScore);
+                        });
+                    }
+                });
+            });
+        });        
     });
 }
 
@@ -1580,7 +1594,7 @@ window.onload = function () {
                 }, 2000);
                 $("#editProblemError").append(updateSuccessMessage);
                 curProblem = problem;
-                reloadFolders();
+                refreshFolder(problem.folder);
                 recalculateAvailableScore();
             });
         }
@@ -1644,6 +1658,8 @@ window.onload = function () {
         $.post("/submission/update", {id: curSubmission.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
             $("#feedbackSubmitDiv").addClass("hidden");
             $("#feedbackDisplayDiv").removeClass("hidden");
+            $("#additionalFeedbackPanel").removeClass("panel-danger");
+
             time = submission.fbResponseTime;
             if(time != null){
                time = submission.fbResponseTime.toLocaleString()

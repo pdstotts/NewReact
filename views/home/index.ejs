@@ -6,6 +6,43 @@
         height: 95%;
     }
 
+.spin {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+     -webkit-transform-origin: 50% 58%;
+         transform-origin:50% 58%;
+         -ms-transform-origin:50% 58%; /* IE 9 */
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* @group Blink */
 
 .blink {
@@ -17,38 +54,38 @@
 }
 
 @-webkit-keyframes blink {
-    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
-    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
-    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
-    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    0% { color:white; }
+    50% { color:white; }
+    50.01% { color:black; }
+    100% { color:black; }
 }
 
 @-moz-keyframes blink {
-    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
-    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
-    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
-    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    0% { color:white; }
+    50% { color:white; }
+    50.01% { color:black; }
+    100% { color:black; }
 }
 
 @-ms-keyframes blink {
-    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
-    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
-    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
-    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    0% { color:white; }
+    50% { color:white; }
+    50.01% { color:black; }
+    100% { color:black; }
 }
 
 @-o-keyframes blink {
-    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
-    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
-    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
-    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    0% { color:white; }
+    50% { color:white; }
+    50.01% { color:black; }
+    100% { color:black; }
 }
 
 @keyframes blink {
-    0% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e; }
-    50% { background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%); border-color: #3e8f3e }
-    50.01% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
-    100% { background-image: linear-gradient(to bottom,#f0ad4e 0,#eb9316 100%); border-color: #e38d13; }
+    0% { color:white; }
+    50% { color:white; }
+    50.01% { color:black; }
+    100% { color:black; }
 }
 
 /* @end */
@@ -88,6 +125,10 @@
 		padding: 0px;
 		margin: 0px;
 	}
+  .row {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 
 
 </style>
@@ -254,91 +295,80 @@ User.find({admin: true}).exec(function(err, users) {
 </div>
 
 <!--Content-->
-<div class="left-menu container-fluid">
-	<!--Question Info -->
-  	<div class="col-md-3">
-    	<div class="row">
-      		<div>
-      			<button type="button" id="accShow" class="btn btn-default" aria-label="Left Align" >
-      			Expand Folders</button>
-      		    <div class="panel-group scrollableAccordian" id="folderAccordion" >
-
-			    </div>
-      			<!--Folder Nav-->
-      		</div>
-    	</div>
-	</div>
+<!--Question Info -->
+	<div class="col-md-3" >
+		<button type="button" id="accShow" class="btn btn-default" aria-label="Left Align" >
+		Expand Folders</button>
+    <div class="panel-group scrollableAccordian" id="folderAccordion" >
+    </div>
+    <!--Folder Nav-->
+  </div>
 	<!--CODE-->
-	<div class="col-md-9" id="right-side">
-		<div class="row">
-			<div class="col-md-12" style="padding-right:0px;">
-		    	<div id="instructions" class='panel panel-default'>
-		      		<div class='panel-heading'> 
-						<h3 class='panel-title'><span id="desc-title">Instructions</span>
-                        </h3>
-		      		</div>
-	  				<div class='panel-body'> 
-		  				<div id="desc-body" >
-	   						Select a problem to run and submit.
-	   					</div>
-	  				</div>
-	 	    	</div>
-		 	</div>
+	<div class="col-md-9" id="right-side" style="padding-left:0px">
+		<div class="row hidden" id="hideInst" >
+    	<div id="instructions" class='panel panel-default'>
+      		<div class='panel-heading'> 
+				    <h3 class='panel-title'><span id="desc-title">Instructions</span></h3>
+      		</div>
+				<div class='panel-body'> 
+  				<div id="desc-body" >
+ 						Select a problem to run and submit.
+ 					</div>
+				</div>
+	    	</div>
 	 	</div>
-		<div class="row" style="padding-left:15px;">
-			<div class="pointbreakdownbox ">
-				<div class="sidebarBuddy col-md-3 alert alert-info" style="padding:2px;">
-					<button id="test" type="button" class="btn btn-warning" style="width:100%">Test Locally</button> 
-					<button data-toggle="modal" data-target="#myModal" class="btn btn-success" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
-					<button id="reload" type="button" class="btn btn-primary" style="width:100%" disabled="disabled">Reload Latest Submission</button>
-				</div>
-				<div id="pointbreakdown" class="col-md-3 alert alert-warning sidebarBuddy hidden" style="height:106px;">
-  					<b>Highest Score:</b><br/>
-  					Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span></span>
-  					<br />
-	  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span></span>
-  					<br />
-				</div>
-				<div id="recentpointbreakdown" class="col-md-3 alert alert-warning sidebarBuddy hidden" style="height:106px;">
-	  				<b>Most Recent Score:</b><br/>
-  					Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
-  					<br />
-  					Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
-  					<br />
-				</div>
-				<div class="sidebarBuddy col-md-3 alert alert-info" style="height:106px;float:right">
-					<label class="control-label" for="fontSize">Font Size:</label>
-					<div class="form-group">
-					  <select class="form-control" id="fontSize">
-					    <option value="8">8pt</option>
-					    <option value="12">12pt</option>
-					    <option value="14" selected>14pt</option>
-					    <option value="18" >18pt</option>
-					    <option value="24">24pt</option>
-					    <option value="30">30pt</option>
-					    <option value="36">36pt</option>
-					    <option value="48">48pt</option>
-					  </select>
-					</div>			  				
-				</div>
+		<div class="row pointbreakdownbox">
+			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
+				<button id="test" type="button" class="btn btn-warning" style="width:100%">Test Locally</button> 
+				<button data-toggle="modal" data-target="#myModal" class="btn btn-success" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
+				<button id="reload" type="button" class="btn btn-primary" style="width:100%" disabled="disabled">Reload Latest Submission</button>
+			</div>
+			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
+					<b>Highest Score:</b><br/>
+					Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span></span>
+					<br />
+  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span></span>
+					<br />
+			</div>
+			<div id="recentpointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
+  				<b>Most Recent Score:</b><br/>
+					Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
+					<br />
+					Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
+					<br />
+			</div>
+			<div class="sidebarBuddy alert alert-info" style="height:106px;width:25%;float:left;">
+				<label class="control-label" for="fontSize">Font Size:</label>
+				<div class="form-group">
+				  <select class="form-control" id="fontSize">
+				    <option value="8">8pt</option>
+				    <option value="12">12pt</option>
+				    <option value="14" selected>14pt</option>
+				    <option value="18" >18pt</option>
+				    <option value="24">24pt</option>
+				    <option value="30">30pt</option>
+				    <option value="36">36pt</option>
+				    <option value="48">48pt</option>
+				  </select>
+				</div>			  				
 			</div>
 	  		
 		</div>
-
-		<div id="consoleHeader" class="console">
-		Test Results Console
-        </div>
-		<textarea id="console" class="textConsole" readonly>
-    	</textarea>
-
-		<!--CodeMirror Start-->
+    <div class="row">
+    		<div id="consoleHeader" class="console">
+    		Test Results Console
+            </div>
+    		<textarea id="console" class="textConsole" readonly>
+        	</textarea>
+    </div>
+  	<!--CodeMirror Start-->
         <% if (req.isAuthenticated()) { %>
             <textarea id="codemirror"><%=req.user.latestCode%></textarea>
         <%} else {%>
             <textarea id="codemirror"></textarea>
         <%}%>
-		<!--CodeMirror End-->
-
+  	<!--CodeMirror End-->
+    <div class="row" style="padding-top: 10px;">
     	<div id="submissions" class='panel panel-default hidden'>
       		<div class='panel-heading'> 
 				<h3 class='panel-title'>Past Submissions
@@ -353,8 +383,7 @@ User.find({admin: true}).exec(function(err, users) {
 			<tbody id="subs"> </tbody>
 			</table>
 	    </div>
-
-
+    </div>
     	
     	
 		<!--

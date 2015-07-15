@@ -122,10 +122,16 @@ form > button {
 	background-color: #2a2b2b;
 	color: #dddddd;
 	padding: 3px 10px;
+
 }
+
+#cWrap{
+	margin: auto;
+}
+
 .textConsole {
-	width: 100%;
 	background-color: #edeff0;
+	width: 100%;
 }
 #codemirror {
 	width: 100%;
@@ -171,23 +177,19 @@ form > button {
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
 </nav>
+<div id ="submissionId" style="display:none;"><%= req.query.subId %></div>
 
 <div class="container-fluid " style="padding: 5px">
-	<!--
-  		<div id="consoleHeader" class="console">
-		Test Results Console
-        </div>
-		<textarea id="console" class="textConsole" readonly><%= req.query.msg %>
-    	</textarea>
-    -->
+	<div id="cWrap">
 		<div id="consoleHeader" class="console">
 		Test Results Console
         </div>
 		<textarea id="console" class="textConsole" readonly>
     	</textarea>
 
+    </div>
     <div class="col-sm-6" style="margin-right:0px;padding-right:2px;">
-		<textarea id="codemirror"><%= req.query.subCode %></textarea>
+		<textarea id="codemirror"></textarea>
     </div>
 
 

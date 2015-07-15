@@ -32,6 +32,7 @@ module.exports = {
    */
    read: function (req, res) {
         var problem = req.param("id");
+        var subId = req.param("subId");
         var highest = req.param("highest");
         var student = req.param("student");
         var reverse = req.param("reverse");
@@ -44,7 +45,16 @@ module.exports = {
           direction = -1;
         }
 
-        if(feedback){
+        if(subId){
+          console.log("get submission by id");
+            Submission.findOne({id:subId}).exec(function (err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
+        }else if(feedback){
             Submission.find({fbRequested: true, fbResponseTime: null}).sort({fbRequestTime: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
