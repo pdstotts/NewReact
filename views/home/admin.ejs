@@ -60,19 +60,41 @@
 	.panel-collapse {padding:20px; }
 	.panel-collapse p {margin:0 20px; padding:0; }
 
-.glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
-    -webkit-animation: spin2 .7s infinite linear;
+.spin {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+     -webkit-transform-origin: 50% 58%;
+         transform-origin:50% 58%;
+         -ms-transform-origin:50% 58%; /* IE 9 */
 }
 
-@-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* @group Blink */
@@ -746,15 +768,16 @@ ul {
 		<!-- INDIVIDUAL STUDENT SECTION -->
 		<div class="tab-pane" id="individualStudent">
 			<h1 id="individualName" style="float:left;margin-left:15px"></h1>
-			
-			<button type="button" class="btn btn-primary" data-toggle='pill' disabled="disabled" id="studentRefresh" style="float:right;margin-top:22px" data-toggle="tooltip" data-placement="top" title="Reload from database">Refresh Progress</button>
 
 			<!-- PROGRESS BAR-->
-			<div id="row">
-				<div id="individualProgessBar" class="hidden col-md-11" style="margin-top:10px"></div>
-				<div class=" hidden col-md-1" id="studentScore" >
-					<button id="studentScoreButton" class="badge" style="font-size:12pt" data-toggle="tooltip" data-placement="top" title="Recompute score"></button>
-				</div>
+			<div id="col-md-12" style="clear:both;padding-left:15px;padding-right:15px;">
+
+				<button type="button" class="btn btn-primary" disabled="disabled" id="studentRefresh" style="float:right;font-size:12pt;padding:4px;"  data-toggle="tooltip" data-placement="top" title="Reload from database"><span class='glyphicon glyphicon-refresh' id="studentRefreshGlyph"></button>
+
+				<button type="button" class="btn btn-primary" id="studentScoreButton" style="font-size:12pt;float:right;padding:4px;" data-toggle="tooltip" data-placement="top" title="Recompute Score"></button>
+
+				<div id="individualProgessBar" class="hidden" style="margin-top:0px;"></div>
+
 			</div>
 
 			<!--SUBMISSION LIST-->

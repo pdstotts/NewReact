@@ -715,11 +715,12 @@ function getIndividual(user, refresh) {
     $("#studentScore").removeClass("hidden");
     $("#individualSubmissionList").empty();
     $("#studentRefresh").attr("disabled", "disabled");
-    $("#studentRefresh").attr("disabled", "disabled");
+    $("#studentRefreshGlyph").addClass("spin");
 
     $("#studentScoreButton").unbind('click');
     $('#studentScoreButton').on('click', function() {
         if(confirm("This recalculates the student score just to be sure it's accurate.")) {
+            $("#studentScoreButton").attr("disabled", "disabled");
             studentScore(user.username);
         }
     });
@@ -730,7 +731,7 @@ function getIndividual(user, refresh) {
 
     var tooltipGreen = "Problems for which full points were earned";
     var tooltipYellow = "Attempted problems that did not recieve full credit";
-    $("#individualProgessBar").empty().append('<div class="progress"><div id="pbgreen" class="progress-bar progress-bar-success" style="width: 0%;" data-toggle="tooltip" data-placement="top" title="' + tooltipGreen + '"><span class="sr-only">35% Complete (success)</span></div> <div id="pbyellow" class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" data-toggle="tooltip" data-placement="top" title="' + tooltipYellow + '"><span class="sr-only">20% Complete (warning)</span></div><div id="pbred" class="progress-bar progress-bar-danger" style="width: 0%"><span class="sr-only">10% Complete (danger)</span></div></div>');
+    $("#individualProgessBar").empty().append('<div class="progress" style="height:33px"><div id="pbgreen" class="progress-bar progress-bar-success" style="width: 0%;" data-toggle="tooltip" data-placement="top" title="' + tooltipGreen + '"><span class="sr-only">35% Complete (success)</span></div> <div id="pbyellow" class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" data-toggle="tooltip" data-placement="top" title="' + tooltipYellow + '"><span class="sr-only">20% Complete (warning)</span></div><div id="pbred" class="progress-bar progress-bar-danger" style="width: 0%"><span class="sr-only">10% Complete (danger)</span></div></div>');
     //must enable tooltips
     $('[data-toggle="tooltip"]').tooltip()
     var totalSubmissionNumber = 100000000000000;
@@ -740,6 +741,7 @@ function getIndividual(user, refresh) {
     });
     if(totalSubmissionNumber == 0){
         $("#studentRefresh").removeAttr('disabled');
+        $("#studentRefreshGlyph").removeClass("spin");
     }
     var submissionCount = 0;
     $.post("/folder/read", null, function (folders) {
@@ -781,6 +783,8 @@ function getIndividual(user, refresh) {
                             submissionCount++;
                             if(totalSubmissionNumber == submissionCount){
                                 $("#studentRefresh").removeAttr('disabled');
+                                $("#studentRefreshGlyph").removeClass("spin");
+
                             }
                             if(submission.fbRequested && submission.fbResponseTime == null){
                                 feedbackRequested = true;
@@ -923,6 +927,7 @@ function getIndividual(user, refresh) {
             }else {
                 getIndividual(user, true);
                 $("#studentRefresh").attr("disabled", "disabled");
+                $("#studentRefreshGlyph").addClass("spin");
             }
         });
 
@@ -1249,7 +1254,7 @@ function shareToggle(boolean){
 
 function studentScore(onyen){
     console.log("studentScore for " + onyen);
-    $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+    $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh spin"></span>');
     $.post("/submission/read/", {student: onyen}, function(submissions){
         var totalSubmissionNumber = submissions.length;
         var submissionCount = 0;
@@ -1274,6 +1279,7 @@ function studentScore(onyen){
                                 $.post("/user/updateScore/", {onyen:onyen, currentScore:studScore}, function(user){
                                     console.log("updated score of " + onyen);
                                     $("#studentScoreButton").empty().append(studScore + "/" + points);
+                                    $("#studentScoreButton").removeAttr("disabled");
                                 });
                             }
                         });
@@ -1381,7 +1387,10 @@ window.onload = function () {
     loadUsers();
     getStudentList();
     $("#refreshStudentListScores").click(function (event) {
-        getStudentList();
+        $.post("/setting/read/", {name: "points"}, function(setting){
+            points = setting.value;
+            getStudentList();
+        });
     });
 
     /*
