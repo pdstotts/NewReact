@@ -287,6 +287,8 @@ ul {
 <script src="../addon/selection/active-line.js"></script>
 <script src="../addon/display/fullscreen.js"></script>
 
+<% if (req.isAuthenticated() && req.user.admin) {%>
+
 <nav style="margin-bottom: 0" class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -316,32 +318,33 @@ ul {
 </nav>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Share Submission?</h4>
-        </div>
-        <div class="modal-body">
-        	<b><span id="subModal"></span></b><br /><br />
-			<textarea id="modalCodemirror"></textarea>
-        </div>
-        <div class="modal-footer">
-          <span id="projectSubmissionButton"></span>
-          <span id="dimissShareButton"></span>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Hold</button>
-        </div>
-      </div>
-      
-    </div>
-</div>
+	<div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Share Submission?</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<b><span id="subModal"></span></b><br /><br />
+				<textarea id="modalCodemirror"></textarea>
+	        </div>
+	        <div class="modal-footer">
+	          <span id="projectSubmissionButton"></span>
+	          <span id="dimissShareButton"></span>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Hold</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	</div>
+
 
 <div class="container-fluid " style="padding-top: 4px">
-<% if (req.isAuthenticated() && req.user.admin) {%>
 
+	
 	<!-- SIDE BAR -->
 	<div id="navigationPanel" class="panel panel-default col-md-3  ">
 		<button id="sortFolders" type="button" class="btn btn-default">Edit Folders</button>
