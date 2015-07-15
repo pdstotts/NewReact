@@ -306,7 +306,7 @@ function unshare(submission){
 function pending(submission){
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
-        .attr("data-target","#myPendingModal")  //save
+        .attr("data-target","#pendingRequestModal")  //save
 		.addClass("btn btn-sm btn-warning")
 		.text("Pending")
         .click(function (event) {
@@ -323,16 +323,17 @@ function fillPendingRequestModal(submission){
     $("#modalText2").empty().append("You requested feedback on " + d.toLocaleString());
 
     var submissionmessage = submission.fbRequestMsg;
-    console.log("submission message =p " + submissionmessage);
 	if(!submissionmessage){ submissionmessage = "You did not include a message with this request."}
     $("#submissionMessage").empty().append(submissionmessage);
 
     modalEditor.setValue(submission.code);
+    modalEditor.refresh();
     //weird trick to make sure the codemirror box refreshes
     var that = this;  
     setTimeout(function() {
         that.modalEditor.refresh();
     },10);
+
     $("#cancelRequest").unbind('click');
     $("#cancelRequest").click(function () { 
 		if(confirm("Sure you want to cancel this request?")){
@@ -648,6 +649,20 @@ window.onload = function () {
 			}
 		}
 	});	
+
+	$('#submitRequestModal').on('shown.bs.modal', function (e) {
+		requestModalEditor.refresh();
+	})
+
+	$('#pendingRequestModal').on('shown.bs.modal', function (e) {
+		modalEditor.refresh();
+	})
+
+	$('#loadSubmissionModal').on('shown.bs.modal', function (e) {
+		reloadEditor.refresh();
+	})
+
+
 	var setConsoleResultMessage = function (msg) {
 		$("#console").empty();
 		$("#console").append(msg);

@@ -90,7 +90,7 @@ function feedbackRequestButton(submission,user,problem){
 function shareButton(submission,user,problem){
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
-        .attr("data-target","#myModal")  //save
+        .attr("data-target","#shareSubmissionModal")  //save
         .attr("id","shareMe" + submission.id)
         .css("color","#627E86")
         .attr("class","")
@@ -125,11 +125,11 @@ function getStudentResults(problem) {
                 .attr('id','matrixHover' + user.id)
                 .attr('data-iconcount',0);
 
-            var userButton = $("<a href='#individualStudent' data-toggle='pill' data-toggle='tooltip' data-placement='bottom' title='View User'></a>")
+            var userButton = $("<a href='#individualStudent' ></a>")
             .css("color","#627E86")
             .css("padding-left","4px;")
             .attr("class","")
-            .html('<span class="glyphicon glyphicon-user"></span>') // the trailing space is important!
+            .html("<span class='glyphicon glyphicon-user' data-toggle='pill' data-toggle='tooltip' data-placement='bottom' title='View User' ></span>") // the trailing space is important!
             .click(function () {
                 event.preventDefault();
                 $.post("/user/read/" + user.id, {}, function (user) {
@@ -140,7 +140,6 @@ function getStudentResults(problem) {
                     getIndividual(user,false);
                 });
             });
-
             //must enable tooltips
             //$('[data-toggle="tooltip"]').tooltip()
 
@@ -1691,6 +1690,9 @@ window.onload = function () {
         console.log('submitting fedback');
     });
 
+    $('#shareSubmissionModal').on('shown.bs.modal', function (e) {
+        modalEditor.refresh();
+    })
 
     $('#submissionCollapseAll').on('click', function() {
         if($(this).text() == 'Hide Student Info') {
