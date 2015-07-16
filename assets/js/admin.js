@@ -468,7 +468,11 @@ function fillFeedbackDash(submission){
 
     $("#fbDashConsole").empty().append(submission.message);
     feedbackEditor.setValue(submission.code);
-
+    var that = this;
+    setTimeout(function() {
+        that.feedbackEditor.refresh();
+    },1);
+    
     if(submission.message == "" || submission.message == null){
         $("#fbDashRequestMsg").empty().append("No message");
     }else {

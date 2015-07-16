@@ -53,8 +53,13 @@ window.onload = function () {
 		console.log("submisison Message");
 
 		$("#console").empty().append(submission.message);
-		$("#responseTime").empty().append(submission.fbResponseTime);
-		$("#responseMsg").empty().append(submission.fbResponseMsg);
+		var d = new Date(submission.fbResponseTime);
+    	$("#responseTime").empty().append(d.toLocaleString());
+    	if(submission.fbResponseMsg == "" || submission.fbResponseMsg == null){
+			$("#responseMsg").empty().append("No message.");
+    	}else {
+			$("#responseMsg").empty().append(submission.fbResponseMsg);
+    	}
     	$.post("/user/read/" + submission.fbResponder, {}, function (user) {
 	        if (!user) {
 	            alert("No user with that id found");
@@ -63,8 +68,14 @@ window.onload = function () {
 			$("#responder").empty().append(user.displayName);	
 		});
 
-		$("#requestTime").empty().append(submission.fbRequestTime);
-		$("#requestMsg").empty().append(submission.fbRequestMsg);
+		var d = new Date(submission.fbRequestTime);
+
+		console.log('message'+submission.fbRequestMsg);
+    	if(submission.fbRequestMsg == '' || submission.fbRequestMsg == null){
+			$("#request").empty().append('<b>On ' + d.toLocaleString() + ' you requested feedback');
+    	}else {
+			$("#request").empty().append('<b>On ' + d.toLocaleString() + ' you asked the following:</b><br /><br />"' + submission.fbRequestMsg + '"');
+    	}
 
         editor2.setValue(submission.code);
         editor.setValue(submission.fbCode);
