@@ -503,7 +503,6 @@ function studentScore(){ //recalculate and re-store the student's score
                                 }
                             });
                             studScore += maxScore;
-                            console.log(studScore + "totalSubmissionNumber:" + totalSubmissionNumber + "submissionCount" + submissionCount);
                             if(totalSubmissionNumber == submissionCount && called == false){
                             	called = true; //make sure the update only gets called once.
                                 console.log("preping to update..." + studScore);
@@ -662,11 +661,13 @@ window.onload = function () {
 		reloadEditor.refresh();
 	})
 
-
 	var setConsoleResultMessage = function (msg) {
 		$("#console").empty();
 		$("#console").append(msg);
+		var eachLine = msg.split('\n');
+		$('#console').attr("rows", eachLine.length);
 	};
+
 	var setRecentScore = function (earnedF,earnedS) {
 		$("#recentpointbreakdown").removeClass("hidden");
 		$("#recentPtCorrect").empty().append(earnedF);

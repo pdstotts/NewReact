@@ -489,6 +489,8 @@ function getStudentList() {
     var tbl = $("<table class='table' id='viewStudentsTable'></table>");
     //var tbl = $("<ul id='viewStudentsTable'></ul>");
 
+    var csv = "onyen%2Cgrade";
+
     $("#viewStudentsList").append(tbl);
     $.post("/user/read/", {}, function(users){
         total = users.length;
@@ -501,6 +503,8 @@ function getStudentList() {
                 .attr("data-toggle","pill")
                 .append(user.displayName + "<br />")
                 .append(badge);
+
+            csv = csv + "%0A" + user.username + "," + user.currentScore;
             var a = $("<td></td>")
                 .append(link)
                 .click(function (event) {
@@ -520,6 +524,9 @@ function getStudentList() {
                 student = $("<tr></tr>");
                 count = 0;
             }
+        });
+        $("#exportCSV").click(function (event) {
+            window.location.href = 'data:application/octet-stream,' + csv;
         });
         $("#viewStudentsTable").append(student);
     });
@@ -768,7 +775,6 @@ function getIndividual(user, refresh) {
             studentScore(user.username);
         }
     });
-
 
     $("#individualName").html(user.displayName + " " + user.username);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
@@ -1438,6 +1444,7 @@ window.onload = function () {
             getStudentList();
         });
     });
+
 
     /*
     setInterval(
