@@ -123,19 +123,11 @@ module.exports = {
     var fbRequested = req.param("fbRequested");
     var fbRequestTime = req.param("fbRequestTime");
     var fbRequestMsg = req.param("fbRequestMsg");
-    console.log(id);
-    console.log(fbRequested);
-    console.log(fbRequestTime);
-    console.log(fbRequestMsg);
 
     var fbResponder = req.param("fbResponder");
     var fbResponseTime = req.param("fbResponseTime");
     var fbResponseMsg = req.param("fbResponseMsg");
     var fbCode = req.param("fbCode");
-    console.log(fbResponder);
-    console.log(fbResponseTime);
-    console.log(fbResponseMsg);
-    console.log(fbCode);
 
     var shareOK = req.param("shareOK");
     var shared = req.param("shared");

@@ -398,27 +398,48 @@ function fillModal(submission,user,problem){
 }
 
 function getFeedbackDash() {
+    if(curFeedback != null){
+        fillFeedbackDash(curFeedback); 
+    }
+
     //Generate feedback dash
     $("#feedbackDash").empty();
     $.post("/submission/read/", {feedback: true}, function(submissions){
         submissions.forEach(function (submission) {
-            var row = $("<tr></tr>");
-            var time = submission.fbRequestTime;
-            if(time != null){
-                time = new Date(submission.fbRequestTime).toLocaleString();
-            }
-            var a = $("<a></a>")
-                .html(time)
-                .click(function (event) {
-                    fillFeedbackDash(submission);                
-               });
-            row.append($("<td></td>").append(a));
-            row.append($("<td></td>"));
-            row.append($("<td></td>"));
-            row.append($("<td></td>").append(scoreBadge(1,2)));
-            row.append($("<td></td>").append(scoreBadge(1,2)));
 
-            $("#feedbackDash").append(row);
+            $.post("/problem/read", {id: submission.problem}, function (problem) {
+                if (problem) {
+                    var row = $("<tr></tr>");
+                    var time = submission.fbRequestTime;
+                    if(time != null){
+                        time = new Date(submission.fbRequestTime).toLocaleString();
+                    }
+                    var a = $("<a></a>")
+                        .html(time)
+                        .click(function (event) {
+                            curFeedback = submission;            
+                            getFeedbackDash();
+                            $("#fbDashBody").removeClass("hidden");
+                       });
+                    if(curFeedback != null){
+                        if(curFeedback.id == submission.id){
+                            console.log('match');
+                            row.append($("<td></td>").append(time));
+                        }else {
+                            row.append($("<td></td>").append(a));
+                        }
+                    }else {
+                        row.append($("<td></td>").append(a));
+                    }
+
+                    row.append($("<td></td>").append(submission.user));
+                    row.append($("<td></td>").append(problem.name));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+
+                    $("#feedbackDash").append(row);
+                }
+            });
         });
     });
 };
@@ -429,14 +450,34 @@ function fillFeedbackDash(submission){
         time = new Date(submission.fbRequestTime).toLocaleString();
     }
 
+    console.log(submission.user);
+    $.post("/user/read", {onyen: submission.user}, function (user) {
+        if (user) {
+            $("#fbDashRequester").empty().append("<b> by " + user.displayName +  "</b>");
+        }
+    });
+
+    $.post("/problem/read", {id: submission.problem}, function (problem) {
+        if (problem) {
+            $("#desc-body").empty().append(problem.text);
+            $("#desc-title").empty().append(problem.name);
+        }
+    });
 
     $("#fbDashRequestTime").empty().append("<b>Request made at " + time + "</b>");
 
-    $("#fbDashRequestMsg").empty().append(submission.fbRequestMsg);
     $("#fbDashConsole").empty().append(submission.message);
     feedbackEditor.setValue(submission.code);
 
+    if(submission.message == "" || submission.message == null){
+        $("#fbDashRequestMsg").empty().append("No message");
+    }else {
+        $("#fbDashRequestMsg").empty().append('"' + submission.fbRequestMsg + '"');
+
+    }
+
 }
+
 
 function getStudentList() {
     //Generate list of all students to view individuals
@@ -1348,6 +1389,7 @@ window.onload = function () {
     curStudent = null;
     curFolder = null;
     curSubmission = null;
+    curFeedback = null;
 
     numProblems = 0;
     numfunct = 0; //num solutions with correct functionality
@@ -1365,6 +1407,7 @@ window.onload = function () {
         }
         if(feedbackOn){
             getFeedbackDash();
+            $('#feedbackNav').append('<a class="navbar-brand" href="#feedback" data-toggle="pill">Feedback</a>');
         }else {
             $("#fbDashBody").empty().append("Feedback feature turned off.");
         }
@@ -1435,7 +1478,6 @@ window.onload = function () {
         styleActiveLine: true,
         lineNumbers: true,
         lineWrapping: true,
-        readOnly: true,
         theme: "mbo",
         extraKeys: {
             "F11": function (cm) {
@@ -1687,6 +1729,45 @@ window.onload = function () {
 
         });
     
+        console.log('submitting fedback');
+    });
+
+    $('#submitFeedbackButtonDash').on('click', function( event ) {
+        $("#fbDashSuccess").removeClass("hidden");
+        $("#fbDashBody").addClass("hidden");
+
+        var fbResponseMsg = $('#fbResponseMessageDash').val();
+        var fbCode = feedbackEditor.getValue();
+        console.log("codemirrot ext" + fbCode);
+
+        var now = new Date();
+        var fbResponseTime = now.toLocaleString();
+        var fbResponder = $("#userid").text();
+
+        $.post("/submission/update", {id: curFeedback.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
+            $("#feedbackSubmitDiv").addClass("hidden");
+            $("#feedbackDisplayDiv").removeClass("hidden");
+            $("#additionalFeedbackPanel").removeClass("panel-danger");
+
+            time = submission.fbResponseTime;
+            if(time != null){
+               time = submission.fbResponseTime.toLocaleString()
+            }
+            $("#feedbackResponseTime").empty().append("<b>Feedback submitted!</b>");
+            $("#fbResponseMsg").empty().append(fbResponseMsg);
+            var editorText = "";
+            if(fbCode){
+                editorText = fbCode;
+            }
+
+            setTimeout(function() {
+                $("#fbDashSuccess").addClass("hidden");
+                $("#fbResponseMessageDash").val("");
+                getFeedbackDash();
+            }, 2000);
+
+        });
+
         console.log('submitting fedback');
     });
 
