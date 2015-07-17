@@ -79,7 +79,7 @@ function feedbackRequestButton(submission,user,problem){
         .css("color","#627E86")
         .attr("class","")
         .css("padding-left","4px;")
-        .html('<span class="glyphicon glyphicon-exclamation-sign"></span>') // the trailing space is important!
+        .html('<span><span class="glyphicon glyphicon-exclamation-sign"  data-toggle="tooltip" data-placement="top" title="Feedback Request"></span>') // the trailing space is important!
         .click(function (event) {
             event.preventDefault();
             getSubmission(submission,user,problem);
@@ -96,7 +96,7 @@ function shareButton(submission,user,problem){
         .attr("class","")
         .css("padding-left","4px;")
         .css("cursor","pointer")
-        .html('<span class="glyphicon glyphicon-share"></span>')
+        .html('<span><span class="glyphicon glyphicon-share" data-toggle="tooltip" data-placement="top" title="Share Request"></span>')
         .click(function (event) {
             event.preventDefault();
             fillModal(submission,user,problem);
@@ -125,11 +125,11 @@ function getStudentResults(problem) {
                 .attr('id','matrixHover' + user.id)
                 .attr('data-iconcount',0);
 
-            var userButton = $("<a href='#individualStudent' ></a>")
+            var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
             .css("color","#627E86")
             .css("padding-left","4px;")
             .attr("class","")
-            .html("<span class='glyphicon glyphicon-user' data-toggle='pill' data-toggle='tooltip' data-placement='bottom' title='View User' ></span>") // the trailing space is important!
+            .html("<span><span class='glyphicon glyphicon-user' data-toggle='tooltip' data-placement='top' title='View User' ></span>") // the trailing space is important!
             .click(function () {
                 event.preventDefault();
                 $.post("/user/read/" + user.id, {}, function (user) {
@@ -140,6 +140,8 @@ function getStudentResults(problem) {
                     getIndividual(user,false);
                 });
             });
+            $('[data-toggle="tooltip"]').tooltip();
+
             //must enable tooltips
             //$('[data-toggle="tooltip"]').tooltip()
 
@@ -255,6 +257,7 @@ function problemCorrect(user, problem, student, totalStudents){
                     if(submission.fbRequested == true && submission.fbResponseTime == null){
                         results.feedbackRequested = true;
                         $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
                         var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
                         iconCount = parseInt(iconCount);
                         iconCount++;
@@ -265,6 +268,7 @@ function problemCorrect(user, problem, student, totalStudents){
                     if(submission.shareOK && submission.shared != true){
                         results.shareRequested = true;
                         $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
                         var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
                         iconCount = parseInt(iconCount);
                         iconCount++;
@@ -788,187 +792,187 @@ function getIndividual(user, refresh) {
     
     $.post("/submission/read/", {student: user.username}, function(submissions){
         totalSubmissionNumber = submissions.length;
-    });
-    if(totalSubmissionNumber == 0){
-        $("#studentRefresh").removeAttr('disabled');
-        $("#studentRefreshGlyph").removeClass("spin");
-    }
-    var submissionCount = 0;
-    $.post("/folder/read", null, function (folders) {
-        var totalEarned = 0;
-        var totalAttempted = 0;
-        folders.forEach(function (folder) {
-            var folderEarned = 0;
-            var folderAvailable = 0;
-            var toggleLabel = '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#Icollapse-'+ folder.id + '">' + folder.name + '</a></h4>';
-            if(feedbackOn){
-                var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td> <th>Feedback</th></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
-            }else {
-                var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
-            }
+        if(totalSubmissionNumber == 0){
+            $("#studentRefresh").removeAttr('disabled');
+            $("#studentRefreshGlyph").removeClass("spin");
+        }
+        var submissionCount = 0;
+        $.post("/folder/read", null, function (folders) {
+            var totalEarned = 0;
+            var totalAttempted = 0;
+            folders.forEach(function (folder) {
+                var folderEarned = 0;
+                var folderAvailable = 0;
+                var toggleLabel = '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#Icollapse-'+ folder.id + '">' + folder.name + '</a></h4>';
+                if(feedbackOn){
+                    var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td> <th>Feedback</th></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+                }else {
+                    var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
+                }
 
-//            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + " <span id='Iearned-"+ folder.id + "'>0</span>/<span id='Iavail-"+ folder.id + "'></span><span id='Icheck-"+ folder.id + "'></span></h4></div><ul id = 'ISL" + folder.id + "' class='panel-collapse collapse folderCollapse'></ul></div></div>";
+    //            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + " <span id='Iearned-"+ folder.id + "'>0</span>/<span id='Iavail-"+ folder.id + "'></span><span id='Icheck-"+ folder.id + "'></span></h4></div><ul id = 'ISL" + folder.id + "' class='panel-collapse collapse folderCollapse'></ul></div></div>";
 
-//            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
-            $("#individualSubmissionList").append(accordian);
+    //            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
+                $("#individualSubmissionList").append(accordian);
 
-            $.post("/problem/read", {folder: folder.id}, function (problems) {
-                problems.forEach( function (problem) {
-                    folderAvailable += parseInt(problem.value.style) + parseInt(problem.value.correct);
-                });
+                $.post("/problem/read", {folder: folder.id}, function (problems) {
+                    problems.forEach( function (problem) {
+                        folderAvailable += parseInt(problem.value.style) + parseInt(problem.value.correct);
+                    });
 
-                problems.forEach( function (problem) {
-                    var availableStylePoints = problem.value.style;
-                    var availableFuncPoints = problem.value.correct;
-                    var earnedStylePoints = parseInt(0);
-                    var earnedFuncPoints = parseInt(0);
-                    var attemptedStylePoints = parseInt(0);
-                    var attemptedFuncPoints = parseInt(0);
-                    var feedbackRequested = false;
-                    var feedbackGiven = false;
-                    var problemRow = $("<tr>");
-                    var problemRowSubmissions = [];
-                    $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
-                        submissions.forEach( function (submission) {
-                            submissionCount++;
-                            if(totalSubmissionNumber == submissionCount){
-                                $("#studentRefresh").removeAttr('disabled');
-                                $("#studentRefreshGlyph").removeClass("spin");
+                    problems.forEach( function (problem) {
+                        var availableStylePoints = problem.value.style;
+                        var availableFuncPoints = problem.value.correct;
+                        var earnedStylePoints = parseInt(0);
+                        var earnedFuncPoints = parseInt(0);
+                        var attemptedStylePoints = parseInt(0);
+                        var attemptedFuncPoints = parseInt(0);
+                        var feedbackRequested = false;
+                        var feedbackGiven = false;
+                        var problemRow = $("<tr>");
+                        var problemRowSubmissions = [];
+                        $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
+                            submissions.forEach( function (submission) {
+                                submissionCount++;
+                                if(totalSubmissionNumber == submissionCount){
+                                    $("#studentRefresh").removeAttr('disabled');
+                                    $("#studentRefreshGlyph").removeClass("spin");
 
-                            }
-                            if(submission.fbRequested && submission.fbResponseTime == null){
-                                feedbackRequested = true;
-                            }
-                            if(submission.fbResponseTime != null){
-                                feedbackGiven = true;
-                            }
-
-							var d = new Date(submission.createdAt);
-
-                            var a = $("<td></td>")
-                            .html("<a href='#submission' data-toggle='pill'>" + d.toLocaleString() + "</a>")
-                            .click(function (event) {
-                                event.preventDefault();
-                                    getSubmission(submission,user,problem);
-                            });
-                            if(submission.value.correct == problem.value.correct){
-                                var checkF = correct("8px");
-                            }else {
-                                var checkF = wrong("8px");
-                            }
-                            if(submission.value.style == problem.value.style){
-                                var checkS = correct("8px");
-                            }else {
-                                var checkS = wrong("8px");
-                            }
-                            var submissionRow = $("<tr>").addClass("hidden ISLP ISLP" + problem.id);
-                            submissionRow.append($("<td></td>"));
-                            submissionRow.append(a);
-                            submissionRow.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
-                            submissionRow.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
-                            if(feedbackOn){
-                                if(submission.fbRequested == true && submission.fbResponseTime == null){
-                                    submissionRow.append($('<td><span class="glyphicon glyphicon-exclamation-sign"></span></td>').css("color", "red"));
-                                }else  if(submission.fbResponseTime != null){
-                                    submissionRow.append($("<td></td>").append(correct()));
-                                }else {
-                                    submissionRow.append($("<td></td>"));
                                 }
-                            }
-                            problemRowSubmissions.push(submissionRow);
+                                if(submission.fbRequested && submission.fbResponseTime == null){
+                                    feedbackRequested = true;
+                                }
+                                if(submission.fbResponseTime != null){
+                                    feedbackGiven = true;
+                                }
 
-//                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
-                            if (parseInt(submission.value.style) > parseInt(earnedStylePoints)){
-                                earnedStylePoints = parseInt(submission.value.style);
-                                totalEarned += parseInt(earnedStylePoints);
+                                var d = new Date(submission.createdAt);
+
+                                var a = $("<td></td>")
+                                .html("<a href='#submission' data-toggle='pill'>" + d.toLocaleString() + "</a>")
+                                .click(function (event) {
+                                    event.preventDefault();
+                                        getSubmission(submission,user,problem);
+                                });
+                                if(submission.value.correct == problem.value.correct){
+                                    var checkF = correct("8px");
+                                }else {
+                                    var checkF = wrong("8px");
+                                }
+                                if(submission.value.style == problem.value.style){
+                                    var checkS = correct("8px");
+                                }else {
+                                    var checkS = wrong("8px");
+                                }
+                                var submissionRow = $("<tr>").addClass("hidden ISLP ISLP" + problem.id);
+                                submissionRow.append($("<td></td>"));
+                                submissionRow.append(a);
+                                submissionRow.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                                submissionRow.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+                                if(feedbackOn){
+                                    if(submission.fbRequested == true && submission.fbResponseTime == null){
+                                        submissionRow.append($('<td><span class="glyphicon glyphicon-exclamation-sign"></span></td>').css("color", "red"));
+                                    }else  if(submission.fbResponseTime != null){
+                                        submissionRow.append($("<td></td>").append(correct()));
+                                    }else {
+                                        submissionRow.append($("<td></td>"));
+                                    }
+                                }
+                                problemRowSubmissions.push(submissionRow);
+
+    //                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
+                                if (parseInt(submission.value.style) > parseInt(earnedStylePoints)){
+                                    earnedStylePoints = parseInt(submission.value.style);
+                                    totalEarned += parseInt(earnedStylePoints);
+                                }
+                                if (parseInt(submission.value.correct) > parseInt(earnedFuncPoints)){
+                                    earnedFuncPoints = parseInt(submission.value.correct);
+                                    totalEarned += parseInt(earnedFuncPoints);
+                                }
+                                var percent = parseInt(totalEarned) / parseInt(numpoints) * parseInt(100);
+                                percent = percent + "%";
+                                $("#pbgreen").css("width",percent);
+
+                            });
+
+                            if(submissions.length > 0){
+                                $("#indivFolder-" + folder.id).removeClass("panel-danger");
+                                $("#indivFolder-" + folder.id).addClass("panel-warning");
+
+                                totalAttempted += parseInt(availableStylePoints) - parseInt(earnedStylePoints);
+                                totalAttempted += parseInt(availableFuncPoints) - parseInt(earnedFuncPoints);
+                                if(earnedFuncPoints == availableFuncPoints){
+                                    var checkF = correct("8px");
+                                }else {
+                                    var checkF = wrong("8px");
+                                }
+                                if(earnedStylePoints == availableStylePoints){
+                                    var checkS = correct("8px");
+                                }else {
+                                    var checkS = wrong("8px");
+                                }
+                                var a = $("<a></a>")
+                                    .html(problem.name)
+                                    .click(function (event) {
+                                        if($(".ISLP"+problem.id).hasClass("hidden")) {
+                                            $(".ISLP"+problem.id).removeClass('hidden');
+                                        } else {
+                                            $(".ISLP"+problem.id).addClass('hidden');
+                                        }
+                                });
+                                problemRow.append($("<td>").append(a));
+                                problemRow.append($("<td></td>").append(submissions.length));
+                                problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
+                                problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
+                                
+                                if(feedbackOn){
+                                    if(feedbackRequested){
+                                        problemRow.append($("<td>").append(exclam()));
+                                    }else if(feedbackGiven){
+                                        problemRow.append($("<td>").append(correct()));
+                                    }else {
+                                        problemRow.append($("<td>"));
+                                    }
+                                }
+
+                                $("#ISL" + folder.id).append(problemRow);
+                                var index;
+                                for (index = 0; index < problemRowSubmissions.length; index++) {
+                                    $("#ISL" + folder.id).append(problemRowSubmissions[index]);
+                                }
+
+                            }else {
+                                problemRow.append($("<td>").append(problem.name));
+                                problemRow.append($("<td></td>").append("0"));
+                                problemRow.append($("<td>"));
+                                problemRow.append($("<td>"));
+                                problemRow.append($("<td>"));
+                                $("#ISL" + folder.id).append(problemRow);
                             }
-                            if (parseInt(submission.value.correct) > parseInt(earnedFuncPoints)){
-                                earnedFuncPoints = parseInt(submission.value.correct);
-                                totalEarned += parseInt(earnedFuncPoints);
+                            if(submissions.length >= 0){
+                                $("#ipCount" + problem.id).append("<div class='left'>" + submissions.length + " submissons</div>");
                             }
-                            var percent = parseInt(totalEarned) / parseInt(numpoints) * parseInt(100);
+                            var percent = parseInt(totalAttempted) / parseInt(numpoints) * parseInt(100);
                             percent = percent + "%";
-                            $("#pbgreen").css("width",percent);
+                            $("#pbyellow").css("width",percent);
+                            $("#ipPoints" + problem.id).append("<div class='left'>Functionality: " + earnedStylePoints  + "/" + availableStylePoints + "</div><div class='left'>Style: " + earnedFuncPoints + "/" + availableFuncPoints + "</div>")
+
+                            //Changing Folder Color
+                            folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
+                            if(folderEarned >= folderAvailable){
+                                $("#indivFolder-" + folder.id).removeClass("panel-warning");
+                                $("#indivFolder-" + folder.id).addClass("panel-success");
+                            }                        
 
                         });
 
-                        if(submissions.length > 0){
-                            $("#indivFolder-" + folder.id).removeClass("panel-danger");
-                            $("#indivFolder-" + folder.id).addClass("panel-warning");
-
-                            totalAttempted += parseInt(availableStylePoints) - parseInt(earnedStylePoints);
-                            totalAttempted += parseInt(availableFuncPoints) - parseInt(earnedFuncPoints);
-                            if(earnedFuncPoints == availableFuncPoints){
-                                var checkF = correct("8px");
-                            }else {
-                                var checkF = wrong("8px");
-                            }
-                            if(earnedStylePoints == availableStylePoints){
-                                var checkS = correct("8px");
-                            }else {
-                                var checkS = wrong("8px");
-                            }
-                            var a = $("<a></a>")
-                                .html(problem.name)
-                                .click(function (event) {
-                                    if($(".ISLP"+problem.id).hasClass("hidden")) {
-                                        $(".ISLP"+problem.id).removeClass('hidden');
-                                    } else {
-                                        $(".ISLP"+problem.id).addClass('hidden');
-                                    }
-                            });
-                            problemRow.append($("<td>").append(a));
-                            problemRow.append($("<td></td>").append(submissions.length));
-                            problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
-                            problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
-                            
-                            if(feedbackOn){
-                                if(feedbackRequested){
-                                    problemRow.append($("<td>").append(exclam()));
-                                }else if(feedbackGiven){
-                                    problemRow.append($("<td>").append(correct()));
-                                }else {
-                                    problemRow.append($("<td>"));
-                                }
-                            }
-
-                            $("#ISL" + folder.id).append(problemRow);
-                            var index;
-                            for (index = 0; index < problemRowSubmissions.length; index++) {
-                                $("#ISL" + folder.id).append(problemRowSubmissions[index]);
-                            }
-
-                        }else {
-                            problemRow.append($("<td>").append(problem.name));
-                            problemRow.append($("<td></td>").append("0"));
-                            problemRow.append($("<td>"));
-                            problemRow.append($("<td>"));
-                            problemRow.append($("<td>"));
-                            $("#ISL" + folder.id).append(problemRow);
-                        }
-                        if(submissions.length >= 0){
-                            $("#ipCount" + problem.id).append("<div class='left'>" + submissions.length + " submissons</div>");
-                        }
-                        var percent = parseInt(totalAttempted) / parseInt(numpoints) * parseInt(100);
-                        percent = percent + "%";
-                        $("#pbyellow").css("width",percent);
-                        $("#ipPoints" + problem.id).append("<div class='left'>Functionality: " + earnedStylePoints  + "/" + availableStylePoints + "</div><div class='left'>Style: " + earnedFuncPoints + "/" + availableFuncPoints + "</div>")
-
-                        //Changing Folder Color
-                        folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
-                        if(folderEarned >= folderAvailable){
-                            $("#indivFolder-" + folder.id).removeClass("panel-warning");
-                            $("#indivFolder-" + folder.id).addClass("panel-success");
-                        }                        
-
                     });
-
                 });
-
-
             });
         });
+
     });
+    
     $("#studentRefresh").unbind('click');
     $("#studentRefresh").click(function () { 
         $.post("/user/read", {id: curStudent}, function (user) {
@@ -1709,6 +1713,8 @@ window.onload = function () {
 
     $('#submitFeedbackButton').on('click', function( event ) {
         var fbResponseMsg = $('#fbResponseMessage').val();
+        $("#fbResponseMessage").val("");
+
         var fbCode = fbEditor.getValue();
         console.log("codemirrot ext" + fbCode);
 

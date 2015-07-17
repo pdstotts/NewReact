@@ -749,6 +749,7 @@ window.onload = function () {
 					studentScore();
 				});
 			} catch (e) {
+				alert("this shouldn't happen!");
 				$("#console").append("Error! Be sure to test your code locally before submitting.");
 			}
 
