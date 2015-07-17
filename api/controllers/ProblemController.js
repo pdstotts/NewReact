@@ -48,9 +48,13 @@ module.exports = {
    read: function (req, res) {
         var folder = req.param("folder") || null;
         var ph = Number(req.param("phase")) || 3;
+        var ignoreTest = req.param("ignoreTest") || false;
+        if(ignoreTest != false){
+          ignoreTest = true;
+        }
 
         if (folder) {
-          if(req.isAuthenticated() && req.user.admin){
+          if(req.isAuthenticated() && req.user.admin && !ignoreTest){
               Problem.find({folder: folder,phase: {'<': ph}})
               .sort({"num": 1}) 
               .exec(function(err, problems) {

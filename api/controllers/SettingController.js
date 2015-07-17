@@ -39,13 +39,13 @@ module.exports = {
           }else {
             on = false;
           }
-            Setting.update({name:name}, {on: on}).exec(function(err2, setting) {
-                if(err2) {
-                    console.log(err2);
-                } else {
-                    res.send(setting);
-                }
-            });
+          Setting.update({name:name}, {on: on}).exec(function(err2, setting) {
+              if(err2) {
+                  console.log(err2);
+              } else {
+                  res.send(setting);
+              }
+          });
         }else {
             console.log("setting..." + name + value);
 

@@ -1348,7 +1348,7 @@ function recalculateAvailableScore(){
         var totalScore = 0;
 
         folders.forEach( function (folder) {
-            $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+            $.post("/problem/read", {folder: folder.id, phase: 2, ignoreTest: "true"}, function (problems) {
                 problems.forEach( function (problem) {
                     totalProblemCount++;
                 });
@@ -1356,11 +1356,11 @@ function recalculateAvailableScore(){
         });
 
         folders.forEach( function (folder) {
-            $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+            $.post("/problem/read", {folder: folder.id, phase: 2, ignoreTest: "true"}, function (problems) {
                 problems.forEach( function (problem) {
                     problemCount++;
                     totalScore += parseInt(problem.value.correct) + parseInt(problem.value.style);
-                    console.log(problem.name + totalScore);
+                    console.log(problem.name + "   " + totalScore);
                     console.log(problemCount + "/" + totalProblemCount);
                     if(totalProblemCount == problemCount){
                         console.log("preping to update..." + totalScore);
