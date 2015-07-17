@@ -462,7 +462,14 @@ function updateScore(){
     $.post("/setting/read/", {name: "points"}, function(setting){
 		points = setting.value;
 	    $.post("/user/read/", {me: true}, function(user){
-			$("#grade").empty().append(user.currentScore + "/" + points);
+			$("#grade").empty().append("0" + "/" + points);
+	    	if($.isNumeric(user.currentScore)){ 
+				$("#grade").empty().append(user.currentScore + "/" + points);
+			}else { //if first log in
+				console.log('is not number');
+                $.post("/user/updateScore/", {currentScore:"0"}, function(user){
+                });
+			}
 	    });
     });
 }
