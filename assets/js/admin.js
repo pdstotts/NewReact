@@ -1062,14 +1062,21 @@ function refreshFolder(folderid){
 }
 
 function addProblemToAccordian(problem,folderName){
+    var name = problem.name;
+    if (problem.testMode){
+        name = name + " (Test Mode)";
+    }
     var link = $("<p></p>").append(
         $("<a></a>")
             .attr("href","#questions")
             .attr("data-toggle","pill")
-            .append(problem.name)
+            .append(name)
     );
     if(problem.phase == 0) {
         link.css("text-decoration", "line-through");
+    }
+    if(problem.testMode){
+        link.css("background-color", "#ededed");
     }
     link.click(function () { 
         curProblem = problem;
