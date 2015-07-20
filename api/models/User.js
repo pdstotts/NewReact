@@ -27,7 +27,7 @@ module.exports = {
         required: true
     },
     currentScore: {
-        type: 'integer',
+        type: 'float',
     }
   }
 };

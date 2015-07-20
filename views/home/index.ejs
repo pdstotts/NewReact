@@ -149,11 +149,13 @@
 <script src="/js/index.js"></script>
 
 <script>
-<% if (req.isAuthenticated()) { %>
-	var loggedIn = true;
+<% if (!req.isAuthenticated()) { %>
+   <% res.redirect("/login"); %>
+    var loggedIn = false;
+
 <% } else { %>
-	var loggedIn = false;
-<% } %>
+  var loggedIn = true;
+
 <%
 User.find({admin: true}).exec(function(err, users) {
     if(err) {
@@ -468,3 +470,4 @@ User.find({admin: true}).exec(function(err, users) {
   </div>
 </div>
 
+<%} %>

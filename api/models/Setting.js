@@ -20,7 +20,7 @@ module.exports = {
         type: 'boolean',
     },
     value: {
-        type: 'integer',
+        type: 'float',
     },
   
   }

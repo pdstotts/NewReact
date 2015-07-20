@@ -48,8 +48,8 @@ module.exports = {
           });
         }else {
             console.log("setting..." + name + value);
-
-            Setting.update({name:name}, {value: parseInt(value)}).exec(function(err2, setting) {
+            var float = parseFloat(value);
+            Setting.update({name:name}, {value: float}).exec(function(err2, setting) {
                 if(err2) {
                     console.log(err2);
                 } else {

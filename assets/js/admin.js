@@ -817,16 +817,16 @@ function getIndividual(user, refresh) {
 
                 $.post("/problem/read", {folder: folder.id}, function (problems) {
                     problems.forEach( function (problem) {
-                        folderAvailable += parseInt(problem.value.style) + parseInt(problem.value.correct);
+                        folderAvailable += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
                     });
 
                     problems.forEach( function (problem) {
                         var availableStylePoints = problem.value.style;
                         var availableFuncPoints = problem.value.correct;
-                        var earnedStylePoints = parseInt(0);
-                        var earnedFuncPoints = parseInt(0);
-                        var attemptedStylePoints = parseInt(0);
-                        var attemptedFuncPoints = parseInt(0);
+                        var earnedStylePoints = parseFloat(0);
+                        var earnedFuncPoints = parseFloat(0);
+                        var attemptedStylePoints = parseFloat(0);
+                        var attemptedFuncPoints = parseFloat(0);
                         var feedbackRequested = false;
                         var feedbackGiven = false;
                         var problemRow = $("<tr>");
@@ -881,15 +881,15 @@ function getIndividual(user, refresh) {
                                 problemRowSubmissions.push(submissionRow);
 
     //                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
-                                if (parseInt(submission.value.style) > parseInt(earnedStylePoints)){
-                                    earnedStylePoints = parseInt(submission.value.style);
-                                    totalEarned += parseInt(earnedStylePoints);
+                                if (parseFloat(submission.value.style) > parseFloat(earnedStylePoints)){
+                                    earnedStylePoints = parseFloat(submission.value.style);
+                                    totalEarned += parseFloat(earnedStylePoints);
                                 }
-                                if (parseInt(submission.value.correct) > parseInt(earnedFuncPoints)){
-                                    earnedFuncPoints = parseInt(submission.value.correct);
-                                    totalEarned += parseInt(earnedFuncPoints);
+                                if (parseFloat(submission.value.correct) > parseFloat(earnedFuncPoints)){
+                                    earnedFuncPoints = parseFloat(submission.value.correct);
+                                    totalEarned += parseFloat(earnedFuncPoints);
                                 }
-                                var percent = parseInt(totalEarned) / parseInt(numpoints) * parseInt(100);
+                                var percent = parseFloat(totalEarned) / parseFloat(numpoints) * parseInt(100);
                                 percent = percent + "%";
                                 $("#pbgreen").css("width",percent);
 
@@ -899,8 +899,8 @@ function getIndividual(user, refresh) {
                                 $("#indivFolder-" + folder.id).removeClass("panel-danger");
                                 $("#indivFolder-" + folder.id).addClass("panel-warning");
 
-                                totalAttempted += parseInt(availableStylePoints) - parseInt(earnedStylePoints);
-                                totalAttempted += parseInt(availableFuncPoints) - parseInt(earnedFuncPoints);
+                                totalAttempted += parseFloat(availableStylePoints) - parseFloat(earnedStylePoints);
+                                totalAttempted += parseFloat(availableFuncPoints) - parseFloat(earnedFuncPoints);
                                 if(earnedFuncPoints == availableFuncPoints){
                                     var checkF = correct("8px");
                                 }else {
@@ -952,13 +952,13 @@ function getIndividual(user, refresh) {
                             if(submissions.length >= 0){
                                 $("#ipCount" + problem.id).append("<div class='left'>" + submissions.length + " submissons</div>");
                             }
-                            var percent = parseInt(totalAttempted) / parseInt(numpoints) * parseInt(100);
+                            var percent = parseFloat(totalAttempted) / parseFloat(numpoints) * parseInt(100);
                             percent = percent + "%";
                             $("#pbyellow").css("width",percent);
                             $("#ipPoints" + problem.id).append("<div class='left'>Functionality: " + earnedStylePoints  + "/" + availableStylePoints + "</div><div class='left'>Style: " + earnedFuncPoints + "/" + availableFuncPoints + "</div>")
 
                             //Changing Folder Color
-                            folderEarned += parseInt(earnedStylePoints) + parseInt(earnedFuncPoints);
+                            folderEarned += parseFloat(earnedStylePoints) + parseFloat(earnedFuncPoints);
                             if(folderEarned >= folderAvailable){
                                 $("#indivFolder-" + folder.id).removeClass("panel-warning");
                                 $("#indivFolder-" + folder.id).addClass("panel-success");
@@ -1041,7 +1041,7 @@ function addFolder(folder) {
     $("#" + accordianFolderId).empty();
     $.post("/problem/read", {folder: folder.id}, function (problems) {
         problems.forEach( function (problem) {
-            numpoints += parseInt(problem.value.style) + parseInt(problem.value.correct);
+            numpoints += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
             var link = addProblemToAccordian(problem, accordianFolderId);
             $("#" + accordianFolderId).append(link);
         });
@@ -1053,7 +1053,7 @@ function refreshFolder(folderid){
     $("#" + accordianFolderId).empty();
     $.post("/problem/read", {folder: folderid}, function (problems) {
         problems.forEach( function (problem) {
-            numpoints += parseInt(problem.value.style) + parseInt(problem.value.correct);
+            numpoints += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
             var link = addProblemToAccordian(problem, accordianFolderId);
             $("#" + accordianFolderId).append(link);
         });
@@ -1370,7 +1370,7 @@ function recalculateAvailableScore(){
             $.post("/problem/read", {folder: folder.id, phase: 2, ignoreTest: "true"}, function (problems) {
                 problems.forEach( function (problem) {
                     problemCount++;
-                    totalScore += parseInt(problem.value.correct) + parseInt(problem.value.style);
+                    totalScore += parseFloat(problem.value.correct) + parseFloat(problem.value.style);
                     console.log(problem.name + "   " + totalScore);
                     console.log(problemCount + "/" + totalProblemCount);
                     if(totalProblemCount == problemCount){

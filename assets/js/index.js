@@ -115,7 +115,7 @@ function addFolder (folder) {
 	$.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
 		problems.forEach( function (problem) {
 			var link = addProblemToAccordian(problem, accordianFolderName);
-			folderScore += parseInt(problem.value.style) + parseInt(problem.value.correct);
+			folderScore += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
 			$("#" + accordianFolderName).append(link);
 		});
 		$("#avail-" + accordianFolderName).empty().append(folderScore);

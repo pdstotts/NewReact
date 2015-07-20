@@ -19,7 +19,7 @@ module.exports = {
 				res.send(500, {error: "DB Error creating new team"});
                 console.log(err);
 			} else {
-        var currentScore = parseInt(submissionDetails.value.correct) + parseInt(submissionDetails.value.style);
+        var currentScore = parseFloat(submissionDetails.value.correct) + parseFloat(submissionDetails.value.style);
         res.send(submission);
 			} 
 		});
