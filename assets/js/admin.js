@@ -1073,10 +1073,10 @@ function addProblemToAccordian(problem,folderName){
             .append(name)
     );
     if(problem.phase == 0) {
-        link.css("text-decoration", "line-through");
-    }
-    if(problem.testMode){
         link.css("background-color", "#ededed");
+    }
+    if(problem.testMode == true){
+        link.css("background-color", "#DDECF2");
     }
     link.click(function () { 
         curProblem = problem;

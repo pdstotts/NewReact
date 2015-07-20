@@ -7,19 +7,21 @@ function addProblemToAccordian(problem,folderName){
 	var maxScore = 0;
 	var probMax = Number(problem.value.correct) + Number(problem.value.style);
 	var problemName = problem.name;
-	if(problem.testMode == true) { problemName = problem.name + " (Test Mode)" };
-	var bg = "";
 	if(problem.testMode == true){
-		bg = "style='background-color: #ededed'";
+		problemName = problem.name + " (Test Mode)"
 	}
-	var link = $('<li id="' + problem.id +  '" ' + bg  + '></li>').append(
+	var link = $('<li id="' + problem.id +  '" ></li>').append(
 		$("<a></a>")
 			.attr("href","#")
 			.append(problemName)
 	);
 	if(problem.phase == 0) {
-	    link.css("text-decoration", "line-through");
+	    link.css("background-color", "#ededed");
 	}
+	if(problem.testMode == true){
+	    link.css("background-color", "#DDECF2");
+	}
+
 	link.click(function () { addProbInfo(problem); });
 
 	if (loggedIn) {
@@ -66,6 +68,9 @@ function addProblemToAccordian(problem,folderName){
 				$("#panel-" + folderName).addClass("panel-success");
 			}
 
+		}else {
+			var probGrade = $('<span style="float:right;">' +  (Number(problem.value.correct) + Number(problem.value.style)) +"pts</span>");
+			$("a", link).append(probGrade);
 		}
 		});
 	}
@@ -130,7 +135,11 @@ function addProbInfo (problem) {
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
 	    $("#desc-title").html(problemName + "<i> in " + folder.name + "</i>");
 	});
-	$("#desc-body").empty().append(problem.text);
+	$("#desc-body").empty()
+	if(problem.phase == 0){
+		$("#desc-body").append('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span><span class="sr-only">Error:</span>Since this problem is overdue, you can only earn half credit.</div>');
+	}
+	$("#desc-body").append(problem.text);
 	$("#console").empty();
 	curProblem = problem;
 	$(".availablePtStyle").empty().append(problem.value.style);
@@ -750,7 +759,7 @@ window.onload = function () {
 				});
 			} catch (e) {
 				alert("this shouldn't happen!");
-				$("#console").append("Error! Be sure to test your code locally before submitting.");
+				$("#console").append("Internal Error with Pnut!");
 			}
 
 		}
