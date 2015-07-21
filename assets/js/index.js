@@ -528,7 +528,12 @@ function setHighestScore(submissions,problem){
 	$("#highestPtCorrect").empty().append(highestCorrect);
 	$("#highestPtStyle").empty().append(highestStyle);
 
-	if((highestCorrect+highestStyle) >= (problem.value.style+problem.value.correct)){
+	console.log("highestCorrect+highestStyle" + highestCorrect + " " + highestStyle);
+	console.log("problem.style+problem.correct" + problem.value.style + " " + problem.value.correct);
+
+	var myScore = parseFloat(highestCorrect) + parseFloat(highestStyle);
+	var theScore = parseFloat(problem.value.style) + parseFloat(problem.value.correct);
+	if(myScore >= theScore){
 		$("#pointbreakdown").removeClass("alert-warning");
 		$("#pointbreakdown").addClass("alert-success");
 	}else {
