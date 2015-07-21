@@ -22,7 +22,9 @@ function scoreBadge(a,b){
 
 
 function fillProblemEdit(problem) {
-	$("#edit").removeClass("hidden");
+    console.log("fillProblemEdit");
+    $("#editForm").removeClass("hidden");
+    $("#deleteProblem").removeClass("hidden");
 	$("#editPlaceholder").addClass("hidden");
 	$("#editType").val(problem.type);
 	$("#editPhase").val(problem.phase);
@@ -54,7 +56,8 @@ function fillProblemEdit(problem) {
 
 function emptyProblem(){
     console.log("empty");
-    $("#edit").addClass("hidden");
+    $("#editForm").addClass("hidden");
+    $("#deleteProblem").addClass("hidden");
     $("#editPlaceholder").removeClass("hidden");
     $("#pointbreakdown").addClass("hidden");
     $("#problemDisplayName").empty().append("Choose a Problem");
@@ -563,7 +566,7 @@ function getSubmission(submission,user,problem) {
     $("#submissionCreatedBy").empty().append(studentLink);
 
     var problemLink = $("<a></>")
-    	.attr("href","#questions")
+    	.attr("href","#edit")
     	.attr("data-toggle","pill")
     	.html(problem.name)
         .click(function (event) {
@@ -1068,8 +1071,6 @@ function addProblemToAccordian(problem,folderName){
     }
     var link = $("<p></p>").append(
         $("<a></a>")
-            .attr("href","#questions")
-            .attr("data-toggle","pill")
             .append(name)
     );
     if(problem.phase == 0) {
@@ -1078,12 +1079,16 @@ function addProblemToAccordian(problem,folderName){
     if(problem.testMode == true){
         link.css("background-color", "#DDECF2");
     }
-    link.click(function () { 
+
+    link.click(function () {
+        console.log(problem.name + " was clicked");
         curProblem = problem;
         fillProblemEdit(curProblem);
         fillProblemDisplay(curProblem);
         getStudentResults(curProblem);
     });
+
+  
     return link;
 }
 
@@ -1428,7 +1433,7 @@ window.onload = function () {
         }
         if(feedbackOn){
             getFeedbackDash();
-            $('#feedbackNav').append('<a class="navbar-brand" href="#feedback" data-toggle="pill">Feedback</a>');
+            $('#feedbackNav').append('<a class="navbar-brand " href="#feedback" data-toggle="pill">Feedback</a>');
         }else {
             $("#fbDashBody").empty().append("Feedback feature turned off.");
         }
@@ -1456,7 +1461,6 @@ window.onload = function () {
         });
     });
 
-
     /*
     setInterval(
         function() {
@@ -1467,7 +1471,7 @@ window.onload = function () {
     
     setInterval(
         function() {
-            if($("#questions").hasClass("active")){
+            if($("#edit").hasClass("active")){
                 updateProblemProgressBar();
             }
         },
@@ -1799,6 +1803,15 @@ window.onload = function () {
         modalEditor.refresh();
     })
 
+    $('.matrixLink').on('click', function() {
+        $("#leftSideFolders").detach().appendTo('#moveMatrix');
+    });
+
+    $('.editLink').on('click', function() {
+        console.log('move');
+        $("#leftSideFolders").detach().appendTo('#moveEdit');
+    });
+
     $('#submissionCollapseAll').on('click', function() {
         if($(this).text() == 'Hide Student Info') {
             $(this).text('Show Student Info');
@@ -1809,6 +1822,7 @@ window.onload = function () {
         }
         return false;
     });
+
 
     //enable tooltips
     $('[data-toggle="tooltip"]').tooltip()

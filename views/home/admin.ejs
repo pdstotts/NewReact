@@ -144,7 +144,7 @@
 
 /* @end */
 
-#navigationPanel {
+.navigationPanel {
 	padding: 0px;
 	border:none;
 }
@@ -292,17 +292,20 @@ ul {
 <nav style="margin-bottom: 0" class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
+		<div class="navbar-header" style="width:70%;">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
+			<a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">Matrix</a>
+			<a class="navbar-brand editLink" href="#edit" data-toggle="pill">Edit</a>
+			<a class="navbar-brand " href="#addquestion" data-toggle="pill">Add</a>
 			<span id='feedbackNav'></span>
-			<a class="navbar-brand" href="#students" data-toggle="pill">Students</a>
-			<a class="navbar-brand" href="#admin" data-toggle="pill">Admins</a>
-			<a class="navbar-brand" href="#settings" data-toggle="pill">Settings</a>
+			<a class="navbar-brand " href="#students" data-toggle="pill">Students</a>
+			<a class="navbar-brand " href="#admin" data-toggle="pill">Admins</a>
+			<a class="navbar-brand " href="#settings" data-toggle="pill">Settings</a>
 
 			<a class="navbar-brand" href="#help" data-toggle="pill">Help</a>
 		</div>
@@ -345,191 +348,215 @@ ul {
 <div class="container-fluid " style="padding-top: 4px">
 
 	
-	<!-- SIDE BAR -->
-	<div id="navigationPanel" class="panel panel-default col-md-3  ">
-		<button id="sortFolders" type="button" class="btn btn-default">Edit Folders</button>
-		<button id="sortFolders" type="button" class="btn btn-default" href="#addquestion" data-toggle="pill">Add Problem</button>
-		<p>
-		<div class="panel-group" id="leftSideFolders"></div>
-	</div>
-	<!-- END SIDE BAR -->
+
 
 
 	<!-- BODY -->
-	<div class="tab-content  col-md-9 ">
+	<div class="tab-content " id="mainBody">
 
-		<!-- QUESTION SECTION -->
-		<div class="tab-pane active" id="questions">
+		<!-- MATRIX SECTION -->
 
-			<!-- DISPLAY QUESTION SECTION -->
-			<div class="panel panel-default">
+		<div class="tab-pane active" id="matrix">
 
-				<!-- DISPLAY QUESTION HEADING -->
-				<div class="panel-heading">
-					 <h4 class="panel-title" >
-							<a data-toggle="collapse" data-parent="#accordion" href="#displayQuestionCollapse" aria-expanded="true" id="problemDisplayName"> Choose a Problem</a>
-					</h4>
-				</div>
-
-				<!-- DISPLAY QUESTION BODY -->
-				<div class="collapse" id="displayQuestionCollapse">
-					<div class="panel-body">
-						<div id="pointbreakdown" class="hidden" >
-							Point Breakdown:<br/>
-							Style- <span id="availablePtStyle"></span>
-							<br />
-							Func- <span id="availablePtCorrect"></span>
-							<br />
-						</div>
-						<div id="problemDisplayBody" >
-							Select a problem from the left to view more information.
-						</div>
-					</div>
+			<!-- SIDE BAR -->
+			<div class=" navigationPanel panel panel-default col-md-3 ">
+				<div id="moveMatrix">
+					<div class="panel-group" id="leftSideFolders"></div>
 				</div>
 			</div>
-			<!-- DISPLAY QUESTION SECTION END -->
+			<!-- END SIDE BAR -->
 
-			<!-- EDIT QUESTION SECTION -->
-			<div class="panel panel-default">
+			<div class="col-md-9">
+				
+				<!-- DISPLAY QUESTION SECTION -->
+				<div class="panel panel-default ">
 
-				<!-- EDIT QUESTION HEADING -->
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#editQuestionCollapse" aria-expanded="true" >Edit</a>
-					</h4>
-				</div>
+					<!-- DISPLAY QUESTION HEADING -->
+					<div class="panel-heading">
+						 <h4 class="panel-title" >
+								<a data-toggle="collapse" data-parent="#accordion" href="#displayQuestionCollapse" aria-expanded="true" id="problemDisplayName"> Choose a Problem</a>
+						</h4>
+					</div>
 
-				<!-- EDIT QUESTION BODY -->
-				<div class="panel-collapse collapse" id="editQuestionCollapse">
-					<div class="panel-body">
-						<p id="editPlaceholder">Select a problem from the left to edit it</p>
-						<form id="edit" class="form hidden">
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-3">
-										<label class="control-label" for="editType">Type</label>
-										<select id="editType" name="editType" class="form-control">
-											<option value="twit">twit</option>
-											<option value="diy">diy</option>
-											<option value="wall">wall</option>
-											<option value="exam">exam</option>
-										</select>
-									</div>
-									<div class="col-md-3">
-										<label class="control-label" for="editPhase">Phase</label>
-										<select id="editPhase" name="editPhase" class="form-control">
-											<option value="0">Past</option>
-											<option value="1">Present</option>
-											<option value="2">Future</option>
-										</select>
-									</div>
-									<div class="col-md-3">
-										<label class="control-label">Function Points</label>
-										<input id="editCorrectPoints" class="form-control">
-									</div>
-									<div class="col-md-3">
-										<label class="control-label">Style Points</label>
-										<input id="editStylePoints" class="form-control">
-									</div>
-									<div class="col-md-3">
-										<label class="control-label" for="editProblemLanguage">Language</label>
-										<select name="editLanguage" id="editLanguageDropdown" class="form-control">
-											<option value="javascript">JavaScript</option>
-											<option value="java">Java</option>
-										</select>
-									</div>
-									<div class="col-md-3">
-										<label class="control-label" for="editMode">Mode</label>
-										<select name="editMode" id="editModeDropdown" class="form-control">
-											<option value="true">Test</option>
-											<option value="false">Live</option>
-										</select>
-									</div>
-								</div>
+					<!-- DISPLAY QUESTION BODY -->
+					<div class="collapse" id="displayQuestionCollapse">
+						<div class="panel-body">
+							<div id="pointbreakdown" class="hidden" >
+								Point Breakdown:<br/>
+								Style- <span id="availablePtStyle"></span>
+								<br />
+								Func- <span id="availablePtCorrect"></span>
+								<br />
 							</div>
-							<div class="row">
-								<div class="form-group">
-									<div class="col-md-6">
-										<label class="control-label" for="editProblemName">Name</label>
-										<input id="editProblemName" name="editName" type="text" class="form-control"></input>
-									</div>
-									<div class="col-md-6">
-										<label name="editFolder" class="control-label" for="folder">Folder</label>
-										<select id="editFolderDropdown" class="form-control">  </select>
-									</div> 
-								</div>
+							<div id="problemDisplayBody" >
+								Select a problem from the left to view more information.
 							</div>
-							<label class="control-label" for="editDescription">Description</label>
-							<textarea name="editDescription" id="editDescription" class="form-control"></textarea>
-							<label class="control-label" for="editOnSubmit">Function to run on submission</label>
-							<textarea name="editOnSubmit" id="editOnSubmit" class="form-control" 
-									 style="font-family:Consolas, monospace">
-							</textarea>
-							<div id="editProblemError"></div>
-
-							<button class="btn btn-success form-control" id="editProblem">Update Problem</button>
-
-						</form>
-					</div>
-				</div>
-			</div>
-			<!-- EDIT QUESTION SECTION END -->
-
-			<!-- PROGRESS BAR SECTION -->
-			<div class="progress">
-				<div class="progress-bar progress-bar-success" style="width: 0%" id="pbp-green" data-toggle="tooltip" data-placement="top" title="Students who earned full points">
-					<span class="sr-only">35% Complete (success)</span>
-				</div>
-				<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" id="pbp-yellow" data-toggle="tooltip" data-placement="top" title="Students who submitted but did not earn full points">
-					<span class="sr-only">20% Complete (warning)</span>
-				</div>
-				<div class="progress-bar progress-bar-danger" style="width: 0%" id="pbp-red">
-					<span class="sr-only">10% Complete (danger)</span>
-				</div>
-			</div>
-			<!-- PROGRESS BAR SECTION END -->
-
-			<!-- MATRIX SECTION -->
-			<div class="panel panel-default">
-
-				<!-- MATRIX HEADING -->
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
-					</h4>
-				</div>
-
-				<!-- MATRIX BODY -->
-				<div class="panel-collapse collapse" id="problemMatrix">
-					<div class="panel-body" style="padding:2px">
-						<div id="matrixBody">
 						</div>
 					</div>
 				</div>
-			</div>
+				<!-- DISPLAY QUESTION SECTION END -->
 
-			<!-- MATRIX SECTION END -->
-
-			<!-- STUDENT PROGRESS SECTION -->
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTable" aria-expanded="true" >Student Attempts</a>
-						<span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
-						<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
-
-					</h4>
-				</div>
-				<div class="panel-collapse collapse" id="allStudents1ProblemTable">
-					<div class="panel-body">
-						Select a problem to view student progress
+				<!-- PROGRESS BAR SECTION -->
+				<div class="progress 9">
+					<div class="progress-bar progress-bar-success" style="width: 0%" id="pbp-green" data-toggle="tooltip" data-placement="top" title="Students who earned full points">
+						<span class="sr-only">35% Complete (success)</span>
+					</div>
+					<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" id="pbp-yellow" data-toggle="tooltip" data-placement="top" title="Students who submitted but did not earn full points">
+						<span class="sr-only">20% Complete (warning)</span>
+					</div>
+					<div class="progress-bar progress-bar-danger" style="width: 0%" id="pbp-red">
+						<span class="sr-only">10% Complete (danger)</span>
 					</div>
 				</div>
+				<!-- PROGRESS BAR SECTION END -->
+
+				<!-- MATRIX SECTION -->
+				<div class="panel panel-default ">
+
+					<!-- MATRIX HEADING -->
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
+						</h4>
+					</div>
+
+					<!-- MATRIX BODY -->
+					<div class="panel-collapse " id="problemMatrix">
+						<div class="panel-body" style="padding:2px">
+							<div id="matrixBody">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- MATRIX SECTION END -->
+
+				<!-- STUDENT PROGRESS SECTION -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTable" aria-expanded="true" >Student Attempts</a>
+							<span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
+							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
+
+						</h4>
+					</div>
+					<div class="panel-collapse collapse" id="allStudents1ProblemTable">
+						<div class="panel-body">
+							Select a problem to view student progress
+						</div>
+					</div>
+				</div>
+				<!-- STUDENT PROGRESS SECTION ENDS -->
 			</div>
-			<!-- STUDENT PROGRESS SECTION ENDS -->
-			<button class="btn btn-danger form-control hidden" id="deleteProblem">Delete Problem</button>
+
 		</div>
-		<!-- QUESTION SECTION ENDS -->
+		<!-- MATRIX SECTION ENDS -->
+
+		<!-- EDIT SECTION -->
+		<div class="tab-pane " id="edit">
+
+			<!-- SIDE BAR -->
+			<div class="navigationPanel panel panel-default col-md-3 ">
+				<button id="sortFolders" type="button" class="btn btn-default">Edit Folders</button>
+				<button id="sortFolders" type="button" class="btn btn-default" href="#addquestion" data-toggle="pill">Add Problem</button>
+				<p>
+				<div id="moveEdit">
+				</div>
+			</div>
+			<!-- END SIDE BAR -->
+
+			<div class="col-md-9">
+				<!-- EDIT QUESTION SECTION -->
+				<div class="panel panel-default">
+
+					<!-- EDIT QUESTION HEADING -->
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#editQuestionCollapse" aria-expanded="true" >Edit</a>
+						</h4>
+					</div>
+
+					<!-- EDIT QUESTION BODY -->
+					<div class="" id="editQuestionCollapse">
+						<div class="panel-body">
+							<p id="editPlaceholder">Select a problem from the left to edit it</p>
+							<form id="editForm" class="form hidden">
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-3">
+											<label class="control-label" for="editType">Type</label>
+											<select id="editType" name="editType" class="form-control">
+												<option value="twit">twit</option>
+												<option value="diy">diy</option>
+												<option value="wall">wall</option>
+												<option value="exam">exam</option>
+											</select>
+										</div>
+										<div class="col-md-3">
+											<label class="control-label" for="editPhase">Phase</label>
+											<select id="editPhase" name="editPhase" class="form-control">
+												<option value="0">Past</option>
+												<option value="1">Present</option>
+												<option value="2">Future</option>
+											</select>
+										</div>
+										<div class="col-md-3">
+											<label class="control-label">Function Points</label>
+											<input id="editCorrectPoints" class="form-control">
+										</div>
+										<div class="col-md-3">
+											<label class="control-label">Style Points</label>
+											<input id="editStylePoints" class="form-control">
+										</div>
+										<div class="col-md-3">
+											<label class="control-label" for="editProblemLanguage">Language</label>
+											<select name="editLanguage" id="editLanguageDropdown" class="form-control">
+												<option value="javascript">JavaScript</option>
+												<option value="java">Java</option>
+											</select>
+										</div>
+										<div class="col-md-3">
+											<label class="control-label" for="editMode">Mode</label>
+											<select name="editMode" id="editModeDropdown" class="form-control">
+												<option value="true">Test</option>
+												<option value="false">Live</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-6">
+											<label class="control-label" for="editProblemName">Name</label>
+											<input id="editProblemName" name="editName" type="text" class="form-control"></input>
+										</div>
+										<div class="col-md-6">
+											<label name="editFolder" class="control-label" for="folder">Folder</label>
+											<select id="editFolderDropdown" class="form-control">  </select>
+										</div> 
+									</div>
+								</div>
+								<label class="control-label" for="editDescription">Description</label>
+								<textarea name="editDescription" id="editDescription" class="form-control"></textarea>
+								<label class="control-label" for="editOnSubmit">Function to run on submission</label>
+								<textarea name="editOnSubmit" id="editOnSubmit" class="form-control" 
+										 style="font-family:Consolas, monospace">
+								</textarea>
+								<div id="editProblemError"></div>
+
+								<button class="btn btn-success form-control" id="editProblem">Update Problem</button>
+
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- EDIT QUESTION SECTION END -->
+				<button class="btn btn-danger form-control hidden" id="deleteProblem">Delete Problem</button>
+			</div>
+
+		</div>
+		<!-- EDIT SECTION ENDS -->
 
 
 		<!-- ADD QUESTION SECTION -->
@@ -612,7 +639,6 @@ ul {
 							</div>
 						</div>
 					</div>
-					<button class="btn btn-default form-control" id="addProblem">Add Problem</button>
 					<div id="newProblemError"></div>
 				</form>
 			</div>
