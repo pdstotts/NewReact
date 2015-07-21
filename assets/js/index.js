@@ -158,41 +158,10 @@ function addProbInfo (problem) {
         }
 		submissions.forEach( function (submission) {
 			addSubmission(submission);
-			if(submission.value.style > highestStyle){
-				highestStyle = submission.value.style;
-			}
-			if(submission.value.correct > highestCorrect){
-				highestCorrect = submission.value.correct;
-			}
 		});
 
-		$("#highestPtCorrect").empty().append(highestCorrect);
-		$("#highestPtStyle").empty().append(highestStyle);
+		setHighestScore(submissions,problem);
 
-		if((highestCorrect+highestStyle) >= (problem.value.style+problem.value.correct)){
-			$("#pointbreakdown").removeClass("alert-warning");
-			$("#pointbreakdown").addClass("alert-success");
-		}else {
-			$("#pointbreakdown").addClass("alert-warning");
-			$("#pointbreakdown").removeClass("alert-success");
-		}
-
-		$("#correctCheck").empty();
-		$("#styleCheck").empty();
-
-		//append checks xs if they have attempted
-		if(submissions.length > 0){
-			if(highestCorrect >= problem.value.correct){
-				$("#correctCheck").append(correct("8px"));
-			}else {
-	        	$("#correctCheck").append(wrong("8px"));
-			}	
-			if(highestStyle >= problem.value.style){
-				$("#styleCheck").append(correct("8px"));
-			}else {
-	        	$("#styleCheck").append(wrong("8px"));
-			}
-		}	
 		resizeWindow();
 	
 	});
@@ -534,6 +503,84 @@ function studentScore(){ //recalculate and re-store the student's score
     });
 }
 
+function setConsoleResultMessage(msg) {
+	$("#console").empty();
+	$("#console").append(msg);
+	var eachLine = msg.split('\n');
+	$('#console').attr("rows", eachLine.length);
+};
+
+function setHighestScore(submissions,problem){
+	var highestStyle = 0;
+	var highestCorrect = 0;
+	console.log('nerp');
+
+	submissions.forEach( function (submission) {
+		console.log('derp');
+		if(submission.value.style > highestStyle){
+			highestStyle = submission.value.style;
+		}
+		if(submission.value.correct > highestCorrect){
+			highestCorrect = submission.value.correct;
+		}
+	});
+
+	$("#highestPtCorrect").empty().append(highestCorrect);
+	$("#highestPtStyle").empty().append(highestStyle);
+
+	if((highestCorrect+highestStyle) >= (problem.value.style+problem.value.correct)){
+		$("#pointbreakdown").removeClass("alert-warning");
+		$("#pointbreakdown").addClass("alert-success");
+	}else {
+		$("#pointbreakdown").addClass("alert-warning");
+		$("#pointbreakdown").removeClass("alert-success");
+	}
+
+	$("#correctCheck").empty();
+	$("#styleCheck").empty();
+
+	//append checks xs if they have attempted
+	if(submissions.length > 0){
+		if(highestCorrect >= problem.value.correct){
+			$("#correctCheck").append(correct("8px"));
+		}else {
+        	$("#correctCheck").append(wrong("8px"));
+		}	
+		if(highestStyle >= problem.value.style){
+			$("#styleCheck").append(correct("8px"));
+		}else {
+        	$("#styleCheck").append(wrong("8px"));
+		}
+	}	
+}
+
+function setRecentScore (earnedF,earnedS) {
+	$("#pointbreakdown").removeClass("hidden");
+	$("#recentpointbreakdown").removeClass("hidden");
+	$("#recentPtCorrect").empty().append(earnedF);
+	$("#recentPtStyle").empty().append(earnedS);
+	if(earnedF >= curProblem.value.correct){
+		$("#correctCheckRecent").empty().append(correct("8px"));
+	}else {
+    	$("#correctCheckRecent").empty().append(wrong("8px"));
+	}	
+	if(earnedS >= curProblem.value.style){
+		$("#styleCheckRecent").empty().append(correct("8px"));
+	}else {
+    	$("#styleCheckRecent").empty().append(wrong("8px"));
+	}
+	var availF = $("#availptc").text();
+	var availS = $("#availpts").text();
+	if((earnedS+earnedF) >= (availF+availS)){
+		$("#recentpointbreakdown").removeClass("alert-warning");
+		$("#recentpointbreakdown").addClass("alert-success");
+	}else {
+		$("#recentpointbreakdown").addClass("alert-warning");
+		$("#recentpointbreakdown").removeClass("alert-success");
+	}
+
+}
+
 window.onload = function () {
 
 	(function () {
@@ -677,38 +724,7 @@ window.onload = function () {
 		reloadEditor.refresh();
 	})
 
-	var setConsoleResultMessage = function (msg) {
-		$("#console").empty();
-		$("#console").append(msg);
-		var eachLine = msg.split('\n');
-		$('#console').attr("rows", eachLine.length);
-	};
-
-	var setRecentScore = function (earnedF,earnedS) {
-		$("#recentpointbreakdown").removeClass("hidden");
-		$("#recentPtCorrect").empty().append(earnedF);
-		$("#recentPtStyle").empty().append(earnedS);
-		if(earnedF >= curProblem.value.correct){
-			$("#correctCheckRecent").empty().append(correct("8px"));
-		}else {
-        	$("#correctCheckRecent").empty().append(wrong("8px"));
-		}	
-		if(earnedS >= curProblem.value.style){
-			$("#styleCheckRecent").empty().append(correct("8px"));
-		}else {
-        	$("#styleCheckRecent").empty().append(wrong("8px"));
-		}
-		var availF = $("#availptc").text();
-		var availS = $("#availpts").text();
-		if((earnedS+earnedF) >= (availF+availS)){
-			$("#recentpointbreakdown").removeClass("alert-warning");
-			$("#recentpointbreakdown").addClass("alert-success");
-		}else {
-			$("#recentpointbreakdown").addClass("alert-warning");
-			$("#recentpointbreakdown").removeClass("alert-success");
-		}
-
-	}
+	
 	$("#test").click(function () {
 		var code = editor.getValue();
 		$("#console").empty();
@@ -743,16 +759,20 @@ window.onload = function () {
 			alert("You must select a problem before submitting");
 		} else {
 			$("#console").empty();
-			var problem = curProblem.id;
 			var code = editor.getValue();
 			try {
 				var AST = acorn.parse(code);    // return an abstract syntax tree structure
 				// var types = pnut.listTopLevelTypes(AST);
 				var ssOb = pnut.collectStructureStyleFacts(AST);    // return a analysis of style grading by checking AST
-				$.post("/submission/create", {problem: problem, code: code, style: JSON.stringify(ssOb)}, function (submission) {
+				$.post("/submission/create", {problem: curProblem.id, code: code, style: JSON.stringify(ssOb)}, function (submission) {
 					addSubmission(submission);
-					//foldersReload();
 					submitFoldersReload(curProblem.folder);
+					$.post("/submission/read/" + curProblem.id, {}, function (submissions) {
+							submissions.forEach( function (submission) {
+								console.log('whale');
+							});
+						setHighestScore(submissions,curProblem);	
+					});
 					setRecentScore(submission.value.correct, submission.value.style);
 					setConsoleResultMessage(submission.message);
 					studentScore();
