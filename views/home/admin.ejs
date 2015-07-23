@@ -396,20 +396,6 @@ ul {
 				</div>
 				<!-- DISPLAY QUESTION SECTION END -->
 
-				<!-- PROGRESS BAR SECTION -->
-				<div class="progress 9">
-					<div class="progress-bar progress-bar-success" style="width: 0%" id="pbp-green" data-toggle="tooltip" data-placement="top" title="Students who earned full points">
-						<span class="sr-only">35% Complete (success)</span>
-					</div>
-					<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" id="pbp-yellow" data-toggle="tooltip" data-placement="top" title="Students who submitted but did not earn full points">
-						<span class="sr-only">20% Complete (warning)</span>
-					</div>
-					<div class="progress-bar progress-bar-danger" style="width: 0%" id="pbp-red">
-						<span class="sr-only">10% Complete (danger)</span>
-					</div>
-				</div>
-				<!-- PROGRESS BAR SECTION END -->
-
 				<!-- MATRIX SECTION -->
 				<div class="panel panel-default ">
 
@@ -435,15 +421,33 @@ ul {
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTable" aria-expanded="true" >Student Attempts</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTableCollapse" aria-expanded="true" >Student Attempts</a>
 							<span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
 							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
-
+							<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;margin-right:10px;" class="form-control">
+							  <option value="0">Manual</option>
+							  <option value="2">2 seconds</option>
+							  <option value="5">5 seconds</option>
+							  <option value="60">1 minute</option>
+							  <option value="300">5 minutes</option>
+							</select>
 						</h4>
 					</div>
-					<div class="panel-collapse collapse" id="allStudents1ProblemTable">
-						<div class="panel-body">
-							Select a problem to view student progress
+					<div class="panel-collapse collapse" id="allStudents1ProblemTableCollapse">
+						<!-- PROGRESS BAR SECTION -->
+						<div class="progress" style="margin-bottom:0px;">
+							<div class="progress-bar progress-bar-success" style="width: 0%" id="pbp-green" data-toggle="tooltip" data-placement="top" title="Students who earned full points">
+								<span class="sr-only">35% Complete (success)</span>
+							</div>
+							<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" id="pbp-yellow" data-toggle="tooltip" data-placement="top" title="Students who submitted but did not earn full points">
+								<span class="sr-only">20% Complete (warning)</span>
+							</div>
+							<div class="progress-bar progress-bar-danger" style="width: 0%" id="pbp-red">
+								<span class="sr-only">10% Complete (danger)</span>
+							</div>
+						</div>
+						<!-- PROGRESS BAR SECTION END -->
+						<div id="allStudents1ProblemTable">
 						</div>
 					</div>
 				</div>
@@ -797,21 +801,31 @@ ul {
 
 		<!-- INDIVIDUAL STUDENT SECTION -->
 		<div class="tab-pane" id="individualStudent">
-			<h1 id="individualName" style="float:left;margin-left:15px"></h1>
+			<h1 id="individualName" style="margin-left:15px"></h1>
+			<div id="individualFeedback" class='panel panel-default col-md-3' style="padding:0px">
+	      		<div class='panel-heading'> 
+					<h3 class='panel-title'>Feedback</h3>
+	      		</div>
+				<div class='panel-body' id="individualFeedbackSummary"> 
+ 					Description
+	    		</div>
+	    	</div>
 
-			<!-- PROGRESS BAR-->
-			<div id="col-md-12" style="clear:both;padding-left:15px;padding-right:15px;">
+			<div class="col-md-9">
+				<!-- PROGRESS BAR-->
+				<div style="clear:both;">
 
-				<button type="button" class="btn btn-primary" disabled="disabled" id="studentRefresh" style="float:right;font-size:12pt;padding:4px;"  data-toggle="tooltip" data-placement="top" title="Reload from database"><span class='glyphicon glyphicon-refresh' id="studentRefreshGlyph"></button>
+					<button type="button" class="btn btn-primary" disabled="disabled" id="studentRefresh" style="float:right;font-size:12pt;padding:4px;"  data-toggle="tooltip" data-placement="top" title="Reload from database"><span class='glyphicon glyphicon-refresh' id="studentRefreshGlyph"></button>
 
-				<button type="button" class="btn btn-primary" id="studentScoreButton" style="font-size:12pt;float:right;padding:4px;" data-toggle="tooltip" data-placement="top" title="Recompute Score"></button>
+					<button type="button" class="btn btn-primary" id="studentScoreButton" style="font-size:12pt;float:right;padding:4px;" data-toggle="tooltip" data-placement="top" title="Recompute Score"></button>
 
-				<div id="individualProgessBar" class="hidden" style="margin-top:0px;"></div>
+					<div id="individualProgessBar" class="hidden" style="margin-top:0px;"></div>
 
+				</div>
+
+				<!--SUBMISSION LIST-->
+				<div class="panel-group" id="individualSubmissionList" ></div>
 			</div>
-
-			<!--SUBMISSION LIST-->
-			<div class="col-md-12 panel-group" id="individualSubmissionList" ></div>
 
 		</div>
 		<!-- INDIVIDUAL STUDENT SECTION ENDS -->

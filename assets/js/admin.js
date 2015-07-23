@@ -1589,6 +1589,29 @@ window.onload = function () {
     $("#refreshData").click(function() {
         getStudentResults(curProblem);
     });
+
+    var intervalID;
+    $( "#studentListRefresh" ).change(function() {
+        var str = "";
+        $( "#studentListRefresh option:selected" ).each(function() {
+            str += $( this ).val() + " ";
+        });
+        clearInterval(intervalID);
+        var seconds = parseInt(str)*parseInt(1000);
+        if(seconds > 0){
+            intervalID = setInterval(function(){
+                if(!$("#matrix").hasClass("active")){
+                    clearInterval(intervalID);
+                    $("#studentListRefresh").val(0);
+                }else {
+                    getStudentResults(curProblem);
+                }
+            }, seconds);
+        }
+        
+    });
+
+    
     //add problems
 	$("#addProblem").click(function (event) {
 		// Grab the values from the form and submit to the server.
