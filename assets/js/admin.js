@@ -369,6 +369,7 @@ function fillModal(submission,user,problem){
         .attr("type","button")
         .addClass("btn btn-success ")
         .text("Project").click(function (event) {
+            /*
             $.post("/submission/update", {id: submission.id, shared:true}, function (submission) {
                 $("#shareMe" + submission.id).remove();
                 var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
@@ -379,6 +380,7 @@ function fillModal(submission,user,problem){
                     $("#matrix" + user.id).removeClass("blink");
                 }
             });
+            */
        });
     $("#projectSubmissionButton").empty().append(button);
 
