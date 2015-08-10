@@ -48,7 +48,7 @@ module.exports = {
           });
         }else {
             console.log("setting..." + name + value);
-            var float = parseFloat(value);
+            var float = parseFloat(parseFloat(value).toFixed(4));
             Setting.update({name:name}, {value: float}).exec(function(err2, setting) {
                 if(err2) {
                     console.log(err2);

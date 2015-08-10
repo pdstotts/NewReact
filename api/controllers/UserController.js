@@ -120,8 +120,8 @@ module.exports = {
         var currentScore = req.param("currentScore");
         if(onyen){
             console.log("called updatedScore" + onyen + parseFloat(currentScore));
-            var float = parseFloat(currentScore);
-            User.update({username: onyen}, {currentScore: float}).exec(function(err, user) {
+            var float = parseFloat(parseFloat(currentScore).toFixed(4));
+            User.update({username: onyen}, {currentScore: float.toFixed(4)}).exec(function(err, user) {
                 if(err) {
                     console.log(err);
                 } else {
@@ -131,8 +131,8 @@ module.exports = {
             });
         }else {
             console.log("called updatedScore w no onyen for "  + req.user.username+ currentScore);
-            var float = parseFloat(currentScore);
-            User.update({username: req.user.username}, {currentScore: float}).exec(function(err, user) {
+            var float = parseFloat(parseFloat(currentScore).toFixed(4));
+            User.update({username: req.user.username}, {currentScore: float.toFixed(4)}).exec(function(err, user) {
                 if(err) {
                     console.log(err);
                 } else {

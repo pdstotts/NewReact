@@ -155,11 +155,13 @@ module.exports = {
    *    `/assignment/delete`
    */
    delete: function (req, res) {
+    console.log("delete problem");
     var id = req.param("id");
     Problem.destroy({id: id}).done(function(err, problem){
         if(err){
             console.log(err);
         } else {
+          res.end();
         }
     });
     //delete all children submissions
@@ -169,6 +171,7 @@ module.exports = {
             if(err){
                 console.log(err);
             } else {
+              res.end();
             }
           });
       });

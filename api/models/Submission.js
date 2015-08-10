@@ -74,6 +74,8 @@ module.exports = {
 			var onSubmit = new Function("batch", "code", "style", "solution", "fail", "pass", p.onSubmit);
 			try {
 				var updatePoints = function () {
+					score.f = parseFloat(parseFloat(score.f).toFixed(4));
+					score.s = parseFloat(parseFloat(score.s).toFixed(4));
 					values.value = {
 						correct: score.f,  
 						style:   score.s
@@ -101,7 +103,7 @@ module.exports = {
 
 							//subtract function points
 							score.f = score.f - deduction;
-							score.f = +score.f.toFixed(3);
+							score.f = +score.f;
 							if(score.f < 0){
 								score.f = 0;
 							}
@@ -124,7 +126,7 @@ module.exports = {
 
 							//subtract style points
 							score.s = score.s - deduction;
-							score.s = +score.s.toFixed(3);
+							score.s = +score.s;
 							if(score.s < 0){
 								score.s = 0;
 							}

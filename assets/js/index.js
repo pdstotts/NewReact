@@ -576,10 +576,11 @@ function setRecentScore (earnedF,earnedS) {
 	}
 	var availF = $("#availptc").text();
 	var availS = $("#availpts").text();
-	if((earnedS+earnedF) >= (availF+availS)){
+	if(parseFloat(earnedS+earnedF) >= (parseFloat(availF)+parseFloat(availS))){
 		$("#recentpointbreakdown").removeClass("alert-warning");
 		$("#recentpointbreakdown").addClass("alert-success");
 	}else {
+		console.log("not bigger");
 		$("#recentpointbreakdown").addClass("alert-warning");
 		$("#recentpointbreakdown").removeClass("alert-success");
 	}

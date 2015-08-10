@@ -144,6 +144,11 @@
 
 /* @end */
 
+
+body {
+	padding-bottom: 20px;
+
+}
 .navigationPanel {
 	padding: 0px;
 	border:none;
@@ -165,7 +170,6 @@ form > button {
 		margin-bottom: 0;
 }
 #pointbreakdown {
-	border: 2px solid gray;
 	float:right; 
 	width:233px; 
 	margin-left:5px;
@@ -264,6 +268,8 @@ ul {
 
 #feedbackRequestedDiv, #feedbackDisplayDiv, #feedbackSubmitDiv {
 	margin: 10px;
+	margin-left:0px;
+	margin-right:0px;
 	margin-top: 3px;
 }
 
@@ -281,6 +287,13 @@ ul {
 	background-color: #F7F7F7;
 }
 
+.folderCollapse p {
+	margin:0px;
+	padding-left: 5px;
+}
+
+
+
 </style>
 <script src="lib/codemirror.js"></script>
 <script src="../mode/javascript/javascript.js"></script>
@@ -291,32 +304,40 @@ ul {
 
 <nav style="margin-bottom: 0" class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header" style="width:70%;">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">Matrix</a>
-			<a class="navbar-brand editLink" href="#edit" data-toggle="pill">Edit</a>
-			<a class="navbar-brand " href="#addquestion" data-toggle="pill">Add</a>
-			<span id='feedbackNav'></span>
-			<a class="navbar-brand " href="#students" data-toggle="pill">Students</a>
-			<a class="navbar-brand " href="#admin" data-toggle="pill">Admins</a>
-			<a class="navbar-brand " href="#settings" data-toggle="pill">Settings</a>
 
-			<a class="navbar-brand" href="#help" data-toggle="pill">Help</a>
-		</div>
-		<div class="navbar-right">
-			<p class="navbar-text"><%= req.user.displayName %></p>
-			<p class="hidden" id="userid"><%= req.user.id %></p>
+		<div class="navbar-header">
+	     	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      	</button>
+	    </div>
 
-			<form class="navbar-form navbar-right">
-				<a href="/login/logout" id="logout" class="btn btn-default">Logout</a>
-			</form>
-		</div>
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	     	<ul class="nav navbar-nav">
+				<li><a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">Matrix</a></li>
+				<li><a class="navbar-brand editLink" href="#edit" data-toggle="pill">Edit</a></li>
+				<li><a class="navbar-brand " href="#addquestion" data-toggle="pill">Add</a></li>
+				<li id='feedbackNav'></li>
+				<li><a class="navbar-brand " href="#students" data-toggle="pill">Students</a>
+				</li>
+				<li><a class="navbar-brand " href="#admin" data-toggle="pill">Admins</a></li>
+				<li><a class="navbar-brand " href="#settings" data-toggle="pill">Settings</a></li>
+				<li><a class="navbar-brand" href="#help" data-toggle="pill">Help</a></li>
+	     	</ul>
+
+	     	<div class="navbar-right">
+				<p class="navbar-text"><%= req.user.displayName %></p>
+				<p class="hidden" id="userid"><%= req.user.id %></p>
+
+				<form class="navbar-form navbar-right">
+					<a href="/login/logout" id="logout" class="btn btn-default">Logout</a>
+				</form>
+			</div>
+	    </div>
+
+		
 	</div><!-- /.container-fluid -->
 </nav>
 
@@ -361,13 +382,20 @@ ul {
 			<!-- SIDE BAR -->
 			<div class=" navigationPanel panel panel-default col-md-3 ">
 				<div id="moveMatrix">
-					<div class="panel-group" id="leftSideFolders"></div>
+					<div id="moveMe">
+						<button type="button" class="btn btn-default" id="sortFolderButton">Edit Folders</button>
+						<div class="panel-group" id="navigableFolders"></div>
+						<div class="panel-group" id="sortableFolders"></div>
+					</div>
 				</div>
 			</div>
 			<!-- END SIDE BAR -->
 
 			<div class="col-md-9">
-				
+				<div class="alert alert-danger hidden problemDeleted">
+					Deleting Problem... <span class="glyphicon glyphicon-refresh spin" />
+				</div>
+
 				<!-- DISPLAY QUESTION SECTION -->
 				<div class="panel panel-default ">
 
@@ -381,11 +409,11 @@ ul {
 					<!-- DISPLAY QUESTION BODY -->
 					<div class="collapse" id="displayQuestionCollapse">
 						<div class="panel-body">
-							<div id="pointbreakdown" class="hidden" >
-								Point Breakdown:<br/>
-								Style- <span id="availablePtStyle"></span>
+							<div id="pointbreakdown" class="hidden alert alert-info" >
+								<b>Point Breakdown:</b><br/>
+								Functionality: <span id="availablePtCorrect"></span>
 								<br />
-								Func- <span id="availablePtCorrect"></span>
+								Style: <span id="availablePtStyle"></span>
 								<br />
 							</div>
 							<div id="problemDisplayBody" >
@@ -462,17 +490,17 @@ ul {
 
 			<!-- SIDE BAR -->
 			<div class="navigationPanel panel panel-default col-md-3 ">
-				<button id="sortFolders" type="button" class="btn btn-default">Edit Folders</button>
-				<button id="sortFolders" type="button" class="btn btn-default" href="#addquestion" data-toggle="pill">Add Problem</button>
-				<p>
 				<div id="moveEdit">
 				</div>
 			</div>
 			<!-- END SIDE BAR -->
 
 			<div class="col-md-9">
+				<div class="alert alert-danger hidden problemDeleted">
+					Deleting Problem... <span class="glyphicon glyphicon-refresh spin" />
+				</div>
 				<!-- EDIT QUESTION SECTION -->
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="editQuestionpanel">
 
 					<!-- EDIT QUESTION HEADING -->
 					<div class="panel-heading">
@@ -545,8 +573,7 @@ ul {
 								<textarea name="editDescription" id="editDescription" class="form-control"></textarea>
 								<label class="control-label" for="editOnSubmit">Function to run on submission</label>
 								<textarea name="editOnSubmit" id="editOnSubmit" class="form-control" 
-										 style="font-family:Consolas, monospace">
-								</textarea>
+										 style="font-family:Consolas, monospace"></textarea>
 								<div id="editProblemError"></div>
 
 								<button class="btn btn-success form-control" id="editProblem">Update Problem</button>
@@ -564,87 +591,94 @@ ul {
 
 
 		<!-- ADD QUESTION SECTION -->
-		<div  class="panel panel-default tab-pane" id="addquestion">
-			<div class="panel-heading">
-				Add a new question
+		<div class=" tab-pane " id="addquestion">
+			<div class="col-md-3">
+				<div id="newProblemError"></div>
 			</div>
-			<div class="panel-body">
-				<form id="addProblemForm" class="form">
-					<div class="row">
-						<div class="form-group">
-							<div class="col-md-3">
-								<label class="control-label" for="type">Type</label>
-								<select  id="type" class="form-control">
-									<option value="twit">twit</option>
-									<option value="diy">diy</option>
-									<option value="wall">wall</option>
-									<option value="exam">exam</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<label class="control-label" for="phase">Phase</label>
-								<select  id="phase" class="form-control">
-									<option value="2">Future</option>
-									<option value="1">Present</option>
-									<option value="0">Past</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<label class="control-label">Function Points</label>
-								<input id="correctPoints" value=2 class="form-control">
-							</div>
-							<div class="col-md-3">
-								<label class="control-label">Style Points</label>
-								<input id="stylePoints" value=2 class="form-control">
-							</div>
-							<div class="col-md-3">
-								<label class="control-label" for="language">Language</label>
-								<select id="languageDropdown" class="form-control">
-									<option value="javascript">JavaScript</option>
-									<option value="java">Java</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<label class="control-label" for="mode">Mode</label>
-								<select name="mode" id="modeDropdown" class="form-control">
-									<option value="true">Test</option>
-									<option value="false">Live</option>
-								</select>
-							</div>
-						</div>
+			<div class="col-md-9">
+				<div  class="panel panel-default tab-pane " id="addquestion">
+					<div class="panel-heading">
+						Add a new question
 					</div>
-					<div class="row">
-						<div class="form-group">
-							<div class="col-md-6">
-								<label class="control-label" for="name">Name</label>
-								<input  id="problemName" type="text" class="form-control">
+					<div class="panel-body">
+						<form id="addProblemForm" class="form">
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-3">
+										<label class="control-label" for="type">Type</label>
+										<select  id="type" class="form-control">
+											<option value="twit">twit</option>
+											<option value="diy">diy</option>
+											<option value="wall">wall</option>
+											<option value="exam">exam</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="control-label" for="phase">Phase</label>
+										<select  id="phase" class="form-control">
+											<option value="2">Future</option>
+											<option value="1">Present</option>
+											<option value="0">Past</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="control-label">Function Points</label>
+										<input id="correctPoints" value=2 class="form-control">
+									</div>
+									<div class="col-md-3">
+										<label class="control-label">Style Points</label>
+										<input id="stylePoints" value=2 class="form-control">
+									</div>
+									<div class="col-md-3">
+										<label class="control-label" for="language">Language</label>
+										<select id="languageDropdown" class="form-control">
+											<option value="javascript">JavaScript</option>
+											<option value="java">Java</option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="control-label" for="mode">Mode</label>
+										<select name="mode" id="modeDropdown" class="form-control">
+											<option value="true">Test</option>
+											<option value="false">Live</option>
+										</select>
+									</div>
+								</div>
 							</div>
-							<div class="col-md-6">
-								<label class="control-label" for="folder">Folder</label>
-								<select id="folderDropdown" class="form-control"> </select>
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-6">
+										<label class="control-label" for="name">Name</label>
+										<input  id="problemName" type="text" class="form-control">
+									</div>
+									<div class="col-md-6">
+										<label class="control-label" for="folder">Folder</label>
+										<select id="folderDropdown" class="form-control"> </select>
+									</div>
+								</div>
 							</div>
-						</div>
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12">
+										<label class="control-label" for="description">Description</label>
+										<textarea id="description" class="form-control"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12">
+										<label class="control-label" for="onSubmit">Function to run on submission</label>
+										<textarea id="onSubmit" class="form-control" 
+											 style="font-family:Consolas, monospace">
+										</textarea>
+									</div>
+								</div>
+							</div>
+							<button class="btn btn-success form-control" id="addProblem">Add Problem</button>
+						</form>
 					</div>
-					<div class="row">
-						<div class="form-group">
-							<div class="col-md-12">
-								<label class="control-label" for="description">Description</label>
-								<textarea id="description" class="form-control"></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<div class="col-md-12">
-								<label class="control-label" for="onSubmit">Function to run on submission</label>
-								<textarea id="onSubmit" class="form-control" 
-									 style="font-family:Consolas, monospace">
-								</textarea>
-							</div>
-						</div>
-					</div>
-					<div id="newProblemError"></div>
-				</form>
+				</div>
 			</div>
 		</div>
 		<!-- ADD QUESTION SECTION ENDS -->
@@ -670,77 +704,76 @@ ul {
 						Created By: <span id="submissionCreatedBy"></span><br />
 						Problem: <span id="submissionProblem"></span><br />
 						Created At: <span id="submissionCreatedAt"></span><br /><br />
-						<div class="alert alert-warning" id="submissionMessage"></div>
-					</div>
-				</div>
-			</div>		
-
-			<textarea id="codemirror"></textarea>
 						<div id="submissionProject"></div>
 
-			<br />
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#relatedSubmissionCollapse" id="submissionTitle">
-							Related Submissions
-						</a>
-					</h4>
-				</div>
-				<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
-					<table class="table" style='margin-bottom:0px;'>
-					<thead><tr id="relatedSubmissionHead"></tr>
-					</thead>
-					<tbody id="relatedSubmissions"> </tbody>
-					</table>
+					</div>
 				</div>
 			</div>		
+			<div class="row">
+				<div class="col-sm-6" style="padding-right:0px;">
 
-			<div class="panel panel-default hidden" id="additionalFeedbackPanel">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#additionalFeedbackCollapse">
-							Feedback
-						</a>
-					</h4>
-				</div>
-				<div id="additionalFeedbackCollapse" class="panel-collapse collapse in submissionCollapse">
-					<div id="feedbackRequestedDiv" class="alert alert-warning" style="margin-top: 10px;">
-						<span id="feedbackRequestTime"></span><br /><br />
-						"<span id="fbRequestMsg" ></span>"
-					</div>
+				  <!-- Nav tabs -->
+				  <ul class="nav nav-tabs" role="tablist" id="submissionTabMenu">
+				    <li id="submissionTabSubmission" role="presentation" class="active"><a href="#submissionTab" aria-controls="submissionTab" role="tab" data-toggle="tab">Submission</a></li>
+				    <li id="submissionTabFeedback" role="presentation"><a href="#feedbackTab" aria-controls="feedbackTab" role="tab" data-toggle="tab">Feedback</a></li>
+				  </ul>
 
-					<div id="feedbackDisplayDiv" class="hidden">
-						<div class="alert alert-success" style="margin-bottom: 10px">
-							<span id="feedbackResponseTime"></span><br /><br />
-							"<span id="fbResponseMsg"></span>"
+				  <!-- Tab panes -->
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="submissionTab">
+						<div id="feedbackRequestAlertSubTab" class="alert alert-danger " style="margin-left:0px;margin-right:0px;" >
+							<span class="feedbackRequestTime"></span>
+							<div class="fbRequestMsg" style="clear:both;margin-top:10px;"></div>
 						</div>
-
-
-						<textarea id="fbCodemirrorReadOnly"></textarea>
-
-					</div>
-
-					<div id="feedbackSubmitDiv">
-
-						<div class="console">
+						<div class="console" style="margin-top:10px;">
 						Test Results Console
 				        </div>
 						<textarea id="fbConsole" class="textConsole" readonly>
 				    	</textarea>
-				    	
-						<textarea name="fbCodemirror" id="fbCodemirror"></textarea>
+						<div id="readOnlySubmission">
+							<textarea id="codemirror"></textarea>
+						</div>
+						<div id="feedbackSubmitDiv">
+							<textarea name="fbCodemirror" id="fbCodemirror"></textarea>
 
-						<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
-						
-						<button id="submitFeedbackButton" class="btn btn-primary form-control" >Submit Feedback</button>
-					</div>
+							<textarea name="fbResponseMessage" id="fbResponseMessage" class="form-control" placeholder="Enter message for student here..."></textarea>
+							
+							<button id="submitFeedbackButton" class="btn btn-primary form-control" >Submit Feedback</button>
+						</div>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="feedbackTab">
+						<div id="feedbackRequestAlertFbTab" class="alert alert-danger " style="margin-left:0px;margin-right:0px;" >
+							<span class="feedbackRequestTime"></span>
+							<div class="fbRequestMsg" style="clear:both;margin-top:10px;"></div>
+						</div>
+						<div class="alert alert-success" style="margin-bottom: 10px">
+							<span id="feedbackResponseTime"></span>
+							<div id="fbResponseMsg" style="clear:both;margin-top:10px;"></div>
+						</div>
+						<textarea id="fbCodemirrorReadOnly"></textarea>
 
-
+				    </div>
+				  </div>						
 				</div>
-			</div>			
-
-			<!--<button type="button" class="btn btn-danger" data-toggle='pill' id="submissionCollapseAll">Hide Student Info</button>-->
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#relatedSubmissionCollapse" id="submissionTitle">
+									Related Submissions
+								</a>
+							</h4>
+						</div>
+						<div id="relatedSubmissionCollapse" class="panel-collapse collapse in submissionCollapse">
+							<table class="table" style='margin-bottom:0px;'>
+							<thead><tr id="relatedSubmissionHead"></tr>
+							</thead>
+							<tbody id="relatedSubmissions"> </tbody>
+							</table>
+						</div>
+					</div>	
+				</div>			
+			</div>
 
 		</div>
 		<!-- SUBMISSION SECTION ENDS -->
@@ -802,14 +835,8 @@ ul {
 		<!-- INDIVIDUAL STUDENT SECTION -->
 		<div class="tab-pane" id="individualStudent">
 			<h1 id="individualName" style="margin-left:15px"></h1>
-			<div id="individualFeedback" class='panel panel-default col-md-3' style="padding:0px">
-	      		<div class='panel-heading'> 
-					<h3 class='panel-title'>Feedback</h3>
-	      		</div>
-				<div class='panel-body' id="individualFeedbackSummary"> 
- 					Description
-	    		</div>
-	    	</div>
+			<div id="individualFeedback" class="col-md-3">
+			</div>
 
 			<div class="col-md-9">
 				<!-- PROGRESS BAR-->
@@ -893,9 +920,18 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 
 		<!-- FEEDBACK SECTION -->
 		<div class="tab-pane" id="feedback">
-			<h1>Pending Feedback Requests</h1>
+			<div class="col-md-5" style="padding:0px;">
+				<table class="table" style='margin-bottom:0px;'>
+				<thead>
+				<tr><th>Submission</th>  <th>User</th>  <th>Problem</th>
+				<th>Func</th> <th>Style</td>
+				</tr>
+				</thead>
+				<tbody id="feedbackDash"> </tbody>
+				</table>
+			</div>
 
-			<div id="fbDashBody" class="hidden">
+			<div id="fbDashBody" class="hidden col-md-7">
 				<div id="instructions" class='panel panel-default' style="margin-bottom:3px">
 		      		<div class='panel-heading'> 
 						<h3 class='panel-title'><span id="desc-title">Problem</span></h3>
@@ -925,16 +961,7 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 				</div>
 			</div>
 
-			<div class='alert alert-success hidden' id='fbDashSuccess' role='alert'>Feedback Submitted!</div>
-
-			<table class="table" style='margin-bottom:0px;'>
-			<thead>
-			<tr><th>Request Time</th>  <th>User</th>  <th>Problem</th>
-			<th>Functionality</th> <th>Style</td>
-			</tr>
-			</thead>
-			<tbody id="feedbackDash"> </tbody>
-			</table>
+			<div class='alert alert-success hidden col-md-7' id='fbDashSuccess' role='alert'>Feedback Submitted!</div>
 
 		</div>
 		<!-- FEEDBACK SECTION ENDS -->

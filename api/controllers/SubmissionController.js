@@ -19,7 +19,7 @@ module.exports = {
 				res.send(500, {error: "DB Error creating new team"});
                 console.log(err);
 			} else {
-        var currentScore = parseFloat(submissionDetails.value.correct) + parseFloat(submissionDetails.value.style);
+        var currentScore = parseFloat(submissionDetails.value.correct).toFixed(4) + parseFloat(submissionDetails.value.style).toFixed(4);
         res.send(submission);
 			} 
 		});
@@ -39,6 +39,7 @@ module.exports = {
         var recent = req.param("recent");
         var feedback = req.param("feedback");
         var currentUser = req.param("currentUser");
+        var mostRecent = req.param("mostRecent");
 
         var direction = 1;
         if(reverse){
@@ -52,6 +53,18 @@ module.exports = {
                     console.log("error getting submission from database");
                 } else {
                     res.send(submission);
+                }
+            });
+        }else if(mostRecent){
+            var now = new Date();
+           // now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+            now.setSeconds(now.getSeconds() - mostRecent);
+            console.log(now);
+            Submission.find({problem: problem, mostRecent: null, createdAt: { $gte: now }}).exec(function(err, submissions) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(submissions);
                 }
             });
         }else if(feedback){
