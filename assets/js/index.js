@@ -36,6 +36,9 @@ function addProblemToAccordian(problem,folderName){
 		var results = { correct: false, style: false };
 		$.post("/submission/read/" + problem.id, {currentUser:true}, function (submissions) {
 		if (!submissions.length == 0) {
+			$("#panel-" + folderName).removeClass("panel-danger");
+			$("#panel-" + folderName).addClass("panel-warning");
+			
 			submissions.forEach( function (submission) {
 				var curSubScore = Number(submission.value.correct)+Number(submission.value.style);
 				if(curSubScore > maxScore) {
@@ -46,11 +49,7 @@ function addProblemToAccordian(problem,folderName){
 				results.style = results.style || (submission.value.style == problem.value.style);
 				if (results.correct && results.style) { return true; } 
 
-				if($("#panel-" + folderName).hasClass("panel-danger")){
-					$("#panel-" + folderName).removeClass("panel-danger");
-					$("#panel-" + folderName).addClass("panel-warning");
-				}
-
+				
 			});
 			if (maxScore < probMax) {
 				$("#" + problem.id).css("color", "#ae4345");
@@ -158,7 +157,7 @@ function addProbInfo (problem) {
 	$(".availablePtCorrect").empty().append(problem.value.correct);
 	var highestStyle = 0;
 	var highestCorrect = 0;
-	$.post("/submission/read/" + problem.id, {currentUser:true}, function (submissions) {
+	$.post("/submission/read/" + problem.id, {currentUser:true, ascending: true}, function (submissions) {
         $("#subs").empty();
 
 		var remaining = problem.maxSubmissions - submissions.length;
@@ -472,6 +471,7 @@ function foldersReload() {
     $("#folderAccordion").empty();
 	$.post("/folder/read", {}, function (folders) {
 		folders.forEach( function (folder) {
+			console.log("ADDING " + folder.name);
 			addFolder(folder);
 		});
 	});
@@ -787,7 +787,7 @@ window.onload = function () {
 	});
 	
 	$("#reload").click(function () {
-		$.post("/submission/read/" + curProblem.id, {currentUser: true}, function (submissions) {
+		$.post("/submission/read/" + curProblem.id, {currentUser: true, limitOne: true}, function (submissions) {
 			submissions.forEach( function (submission) {
 				editor.setValue(submission.code);
 			});
