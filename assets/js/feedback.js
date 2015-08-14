@@ -56,7 +56,7 @@ window.onload = function () {
 		var d = new Date(submission.fbResponseTime);
     	$("#responseTime").empty().append(d.toLocaleString());
     	if(submission.fbResponseMsg == "" || submission.fbResponseMsg == null){
-			$("#responseMsg").empty().append("No message.");
+			$("#responseMsg").addClass('hidden');
     	}else {
 			$("#responseMsg").empty().append(submission.fbResponseMsg);
     	}
@@ -71,11 +71,15 @@ window.onload = function () {
 		var d = new Date(submission.fbRequestTime);
 
 		console.log('message'+submission.fbRequestMsg);
-    	if(submission.fbRequestMsg == '' || submission.fbRequestMsg == null){
-			$("#request").empty().append('<b>On ' + d.toLocaleString() + ' you requested feedback');
-    	}else {
-			$("#request").empty().append('<b>On ' + d.toLocaleString() + ' you asked the following:</b><br /><br />"' + submission.fbRequestMsg + '"');
-    	}
+		if(submission.fbRequestTime){
+	    	if(submission.fbRequestMsg == '' || submission.fbRequestMsg == null){
+				$("#request").empty().append('<b>On ' + d.toLocaleString() + ', you requested feedback');
+	    	}else {
+				$("#request").empty().append('<b>On ' + d.toLocaleString() + ', you asked the following:</b><br /><br />' + submission.fbRequestMsg);
+	    	}
+		}else {
+			$("#request").addClass('hidden');
+		}
 
         editor2.setValue(submission.code);
         editor.setValue(submission.fbCode);

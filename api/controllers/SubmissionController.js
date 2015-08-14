@@ -42,6 +42,7 @@ create: function (req, res) {
         var student = req.param("student");
         var recent = req.param("recent");
         var feedback = req.param("feedback");
+        var feedbackSeen = req.param("feedbackSeen");
         var currentUser = req.param("currentUser");
         var mostRecent = req.param("mostRecent");
         var deleteCount = req.param("deleteCount");
@@ -89,21 +90,30 @@ create: function (req, res) {
             opts['fbRequested'] = true;
             opts['fbResponseTime'] = null;
           }
+          if(feedbackSeen){
+            opts['feedbackSeen'] = feedbackSeen;
+          }
 
           ///////////////////////////
 
           var sort = {};
-          if(!feedback){
-            if(ascending){
-              sort['createdAt'] = 1;
-            }else {
-              sort['createdAt'] = -1;
-            }
-          }else {
+          if(feedback){
             if(ascending){
               sort['fbRequestTime'] = 1;
             }else {
               sort['fbRequestTime'] = -1;
+            }     
+          }else if(feedbackSeen){
+            if(ascending){
+              sort['fbResponseTime'] = 1;
+            }else {
+              sort['fbResponseTime'] = -1;
+            }     
+          }else {
+            if(ascending){
+              sort['createdAt'] = 1;
+            }else {
+              sort['createdAt'] = -1;
             }
           }
 
@@ -240,7 +250,7 @@ create: function (req, res) {
       }else {
         shared = false;
       }
-      Submission.update({id: id},{feedbackSeen:feedbackSeen},{ upsert: true }).exec(function(err, submission) {
+      Submission.update({id: id},{feedbackSeen:Boolean(feedbackSeen)},{ upsert: true }).exec(function(err, submission) {
           if(err) {
               console.log(err);
           } else {
@@ -311,7 +321,7 @@ create: function (req, res) {
           }
       });
     }else {
-      Submission.update({id: id},{fbResponder:fbResponder, fbResponseTime:fbResponseTime, fbResponseMsg:fbResponseMsg, fbCode:fbCode},{ upsert: true }).exec(function(err, submission) {
+      Submission.update({id: id},{fbResponder:fbResponder, fbResponseTime:fbResponseTime, fbResponseMsg:fbResponseMsg, fbCode:fbCode, feedbackSeen:false},{ upsert: true }).exec(function(err, submission) {
           if(err) {
               console.log(err);
           } else {

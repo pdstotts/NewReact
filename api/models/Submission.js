@@ -55,6 +55,9 @@ module.exports = {
 		fbCode: {
 			type: 'string'
 		},
+		feedbackSeen: { //where null implies no feedback given
+			type:'boolean'
+		},
 		shareOK: {
 			type: 'boolean'
 		},

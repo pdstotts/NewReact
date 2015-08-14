@@ -1,4 +1,5 @@
 var curProblem = null;
+var unseenFeedback = null;
 
 function isNull(item){
 	if(item == null || item == "null" || item == "" || item == ''){
@@ -407,6 +408,7 @@ function fillSubmitRequestModal(submission){
 }
 
 function view(submission){
+	console.log("view called");
 	var rqTime = new Date(submission.fbRequestTime);
 	var rpTime = new Date(submission.fbResponseTime);
 
@@ -422,10 +424,16 @@ function view(submission){
 		.attr("type","button")
 		.addClass("btn btn-sm btn-success " + classBlink)
 		.text("View").click(function () {
-			$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
-				console.log("feedbackseen!"  + submission.id)
-				view(submission);
-			});
+			if(submission.feedbackSeen == false){
+				$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
+					console.log("feedbackseen!"  + submission.id)
+					unseenFeedback = unseenFeedback - 1;
+					if(unseenFeedback == 0){
+						$("#unseenFeedbackButton").remove();
+					}
+					view(submission);
+				});
+			}
 		});
 	$("#subReq" + submission.id).empty().append(button);
 
@@ -630,6 +638,48 @@ function setRecentScore (earnedF,earnedS) {
 
 }
 
+function fillUnseenFeedbackModal(submissions){
+	$("#unseenFeedbackBody").empty();
+	var myArray = [];
+	submissions.forEach( function (submission) {
+		console.log(submission.fbResponseTime + submission.user);
+		var rqTime = new Date(submission.fbRequestTime);
+		var rpTime = new Date(submission.fbResponseTime);
+
+		myArray.push(submission.problem);
+	});
+
+	$.unique(myArray);
+    for (var i = 0; i < myArray.length; i++){
+    
+		$.post("/problem/read", {id: myArray[i]}, function (problem) {
+			$.post("/folder/read", {id: problem.folder}, function (folder) {
+				var button = $("<a></a>")
+					.attr("data-dismiss","modal")
+					.html(problem.name + " in " + folder.name).click(function () {
+							addProbInfo(problem);
+					});
+				$("#unseenFeedbackBody").append($("<li>").append(button));
+			});
+
+			/*var button = $("<a></a>")
+				.attr("href","feedback?subId=" + submission.id)
+				.attr("target","_blank")
+				.attr("data-dismiss","modal")
+				.text(problem.name + rpTime.toLocaleString() ).click(function () {
+					$(this).detach();
+					$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
+					});
+					$.post("/problem/read", {id: submission.problem}, function (problem) {
+						addProbInfo(problem);
+					});
+				});*/
+
+		});
+
+	}
+}
+
 window.onload = function () {
 
 	(function () {
@@ -642,7 +692,27 @@ window.onload = function () {
         if(setting.on == true || setting.on == "true"){
             feedbackOn = true;
 			$("#subsHead").append("<td>Feedback</td>");
-
+	        $.post("/submission/read/", {feedbackSeen: false,currentUser:true}, function(submissions){
+	        	unseenFeedback = submissions.length;
+	        	if(submissions.length > 0){
+				    var modalLink = $("<button></button>")
+				    	.attr("id","unseenFeedbackButton")
+						.attr("type","button")
+						.css("float","right")
+						.css("margin-top","7px")
+						.addClass("btn btn-success")
+				        .attr("data-toggle","modal")  //save
+				        .attr("data-target","#unseenFeedbackModal")  //save
+						.text("Feedback")
+				        .click(function (event) {
+				            event.preventDefault();
+				            $.post("/submission/read/", {feedbackSeen: false,currentUser:true}, function(submissions){
+			           			fillUnseenFeedbackModal(submissions);
+			           		});		   	
+				        });
+			  	  	$("#navbarHeader").append(modalLink);
+	        	}
+	        });
         }else {
             feedbackOn = false;
         }
@@ -657,6 +727,9 @@ window.onload = function () {
             shareOn = false;
         }
     });
+
+
+
 
     updateScore();
 

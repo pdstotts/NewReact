@@ -947,7 +947,7 @@ function getIndividual(user, refresh) {
     //            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
                 $("#individualSubmissionList").append(accordian);
 
-                $.post("/problem/read", {folder: folder.id}, function (problems) {
+                $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
                     problems.forEach( function (problem) {
                         folderAvailable += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
                     });
@@ -1233,6 +1233,9 @@ function loadSingleFolderSidebarNavigable(folderid){
             if (problem.testMode){
                 name = name + " (Test Mode)";
             }
+            if(problem.phase == 2){
+                name = name + " *(Future)";
+            }
             var link = $("<p></p>").append(
                 $("<a></a>")
                     .append(name)
@@ -1294,6 +1297,8 @@ function loadSingleFolderSidebarSortable(folderid) {
             var extras = "";
             if(problem.phase == 0){
                 extras = extras + " (Past)";
+            }else if(problem.phase == 2){
+                extras = extras + " *(Future)";
             }
             if(Boolean(problem.testMode) == true){
                 extras = extras + " (Test)";
@@ -1594,6 +1599,9 @@ window.onload = function () {
             feedbackOn = true;
         }else {
             feedbackOn = false;
+            $("#submissionTabMenu").addClass("hidden");
+            $("#feedbackRequestAlertSubTab").addClass("hidden");
+            $("#feedbackSubmitDiv").addClass("hidden");
         }
         if(feedbackOn){
             var feedbackNavButton = $("<a></>")
