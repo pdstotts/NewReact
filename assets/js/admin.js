@@ -25,6 +25,14 @@ function scoreBadge(a,b){
     return $("<span></span>").append(badge).append(check);
 }
 
+function isNull(item){
+    if(item == null || item == "null" || item == "" || item == ''){
+        return true;
+    }else {
+        return false;
+    }
+}
+
 function fillProblemEdit(problem) {
     console.log("fillProblemEdit");
     $("#editForm").removeClass("hidden");
@@ -42,6 +50,15 @@ function fillProblemEdit(problem) {
     }else {
         $("#editModeDropdown").val("false");
     }
+    if(isNull(problem.maxSubmissions)){
+        $( "#editMaxSubmissions" ).prop( "checked", false );
+        $("#editSubmissionLimit").val("");
+        $("#editSubmissionLimit").attr("disabled","disabled");
+    }else {
+        $( "#editMaxSubmissions" ).prop( "checked", true );
+        $("#editSubmissionLimit").val(problem.maxSubmissions);
+        $("#editSubmissionLimit").removeAttr("disabled");
+    }
     $("#editDescription").val(problem.text);
     $("#editStylePoints").val(problem.value.style),
     $("#editCorrectPoints").val(problem.value.correct),
@@ -52,6 +69,33 @@ function fillProblemEdit(problem) {
             deleteProblem(problem);
         }
     });
+    fillProblemAdd(problem);
+}
+
+function fillProblemAdd(problem){
+    $("#type").val(problem.type);
+    $("#phase").val(problem.phase);
+    $("#problemName").val("{ " + (problem.name).toUpperCase() + " COPY }");
+    $("#folderDropdown").val(problem.folder);
+    $("#languageDropdown").val(problem.language);
+    if(problem.testMode == true){
+        $("#modeDropdown").val("true");
+    }else {
+        $("#modeDropdown").val("false");
+    }
+    if(isNull(problem.maxSubmissions)){
+        $( "#maxSubmissions" ).prop( "checked", false );
+        $("#submissionLimit").val("");
+        $("#submissionLimit").attr("disabled","disabled");
+    }else {
+        $( "#maxSubmissions" ).prop( "checked", true );
+        $("#submissionLimit").val(problem.maxSubmissions);
+        $("#submissionLimit").removeAttr("disabled");
+    }
+    $("#description").val(problem.text);
+    $("#stylePoints").val(problem.value.style);
+    $("#correctPoints").val(problem.value.correct);
+    $("#onSubmit").val(problem.onSubmit);
 }
 
 function deleteProblem(problem){
@@ -146,11 +190,13 @@ function updateStudentResults(problem,seconds) {
     console.log('updateStudentResults');
     $.post("/submission/read/" + problem.id, {id: problem.id, mostRecent: seconds}, function(submissions){
         submissions.forEach(function (submission) {
+
+            //$("#matrix" + user.id).removeClass("alert-danger").addClass("alert-warning");
+
             console.log("submission!!!  = " + submission.createdAt);
             console.log(submission.code);
         });
     });
-
 
 }
 
@@ -722,7 +768,7 @@ function getSubmission(submission,user,problem) {
                 .attr("target","_blank")
                 .attr("type","button")
                 .addClass("btn btn-primary ")
-                .text("Project this code in new window");
+                .text("Project code in new window");
                 
         $('#submissionProject').empty().append(button);
     }else {
@@ -732,7 +778,7 @@ function getSubmission(submission,user,problem) {
                 .attr("type","button")
                 .attr("disabled","disabled")
                 .addClass("btn btn-primary ")
-                .text("Project this code in new window (lacking permission)");
+                .text("Project code (requires student permission)");
                 
         $('#submissionProject').empty().append(button);
     }
@@ -1712,8 +1758,8 @@ window.onload = function () {
                     $("#studentListRefresh").val(0);
                 }else {
                     //updateStudentResults(curProblem,seconds);
+                    //updateStudentResults(curProblem,str);
                     getStudentResults(curProblem);
-
                 }
             }, seconds);
         }
@@ -1728,7 +1774,11 @@ window.onload = function () {
 
 		// Grab the values from the form and submit to the server.
 		// TODO - this might be better in a $(form).submit(...)
-		event.preventDefault();
+        var subLimit = $("#editSubmissionLimit").val();
+        if(subLimit == "" || !($('#maxSubmissions').is(":checked"))){
+            subLimit = null;
+        }        
+        event.preventDefault();
 		var opts = {
 			type: $("#type").val(),
 			phase: $("#phase").val(),
@@ -1736,6 +1786,7 @@ window.onload = function () {
 			folder: $("#folderDropdown").val(),
             language: $("#languageDropdown").val(),
             testMode: $("#modeDropdown").val(),
+            maxSubmissions: subLimit,
 			text: $("#description").val(),
             style: $("#stylePoints").val(),
             correct: $("#correctPoints").val(),
@@ -1790,6 +1841,11 @@ window.onload = function () {
 
 		// Grab the values from the form and submit to the server.
 		// TODO - this might be better in a $(form).submit(...)
+        var subLimit = $("#editSubmissionLimit").val();
+        console.log("editSubmissionLimit" + subLimit);
+        if(subLimit == ""){
+            subLimit = null;
+        }
 		event.preventDefault();
 		var opts = {
             id: curProblem.id,
@@ -1799,6 +1855,7 @@ window.onload = function () {
 			folder: $("#editFolderDropdown").val(),
             language: $("#editLanguageDropdown").val(),
             testMode: $("#editModeDropdown").val(),
+            maxSubmissions: subLimit,
 			text: $("#editDescription").val(),
             correct: $("#editCorrectPoints").val(),
             style: $("#editStylePoints").val(),
@@ -1830,6 +1887,7 @@ window.onload = function () {
                 recalculateAvailableScore();
                 $("#editProblem").removeAttr("disabled");
                 $("#editProblem").empty().append("Update Problem");
+                fillProblemAdd(problem);
             });
         }
 	});
@@ -1873,7 +1931,25 @@ window.onload = function () {
            }
         }
     });
-    
+
+    $('#maxSubmissions').change(function() {
+        if($(this).is(":checked")) {
+            $("#submissionLimit").removeAttr('disabled');
+        }else {
+            $("#submissionLimit").attr('disabled','disabled');
+            $("#submissionLimit").val("");
+        }
+    });
+    $('#editMaxSubmissions').change(function() {
+        if($(this).is(":checked")) {
+            $("#editSubmissionLimit").removeAttr('disabled');
+            $("#editSubmissionLimit").val("1");
+        }else {
+            $("#editSubmissionLimit").attr('disabled','disabled');
+            $("#editSubmissionLimit").val("");
+        }
+    });
+
     $('#onyenSearchButton').on('click', function( event ) {
         var onyenValue = $("#onyen").val();
         if(onyenValue == ""){
@@ -1904,7 +1980,10 @@ window.onload = function () {
 
         $.post("/submission/update", {id: curSubmission.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
             fillSubmissionFeedback(submission,null);
-      /*      
+            if(submission.problem == curProblem.id){
+                getStudentResults(curProblem)
+            }
+        /*      
             $("#feedbackSubmitDiv").addClass("hidden");
             poioloooioim stupidio
 

@@ -48,6 +48,9 @@ module.exports = {
     testMode: {
         type: 'boolean', // is it in test mode
     },
+    maxSubmissions: {
+        type: 'integer', //maximum number of submissions that should be accepted
+    },
 	onSubmit: 'string' // text of a function that decides the correctness of the submission
 						// isCorrect( code /* function */, semanticData /* json */, solution /* json */ )
     

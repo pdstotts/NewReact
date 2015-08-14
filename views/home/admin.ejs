@@ -454,10 +454,11 @@ ul {
 							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
 							<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;margin-right:10px;" class="form-control">
 							  <option value="0">Manual</option>
-							  <option value="2">2 seconds</option>
-							  <option value="5">5 seconds</option>
+							  <option value="2">2 seconds DELETE</option>
+							  <option value="10">10 seconds</option>
+							  <option value="20">20 seconds</option>
 							  <option value="60">1 minute</option>
-							  <option value="300">5 minutes</option>
+							  <option value="180">3 minutes</option>
 							</select>
 						</h4>
 					</div>
@@ -555,6 +556,11 @@ ul {
 												<option value="false">Live</option>
 											</select>
 										</div>
+										<div class="col-md-3">
+											<label class="control-label" for="editMaxSubmissions">Submission Limit</label>
+									     	<input type="checkbox" id="editMaxSubmissions">
+											<input disabled id="editSubmissionLimit" class="form-control">
+										</div>
 									</div>
 								</div>
 								<div class="row">
@@ -583,7 +589,9 @@ ul {
 					</div>
 				</div>
 				<!-- EDIT QUESTION SECTION END -->
+				<!--
 				<button class="btn btn-danger form-control hidden" id="deleteProblem">Delete Problem</button>
+				-->
 			</div>
 
 		</div>
@@ -642,6 +650,11 @@ ul {
 											<option value="true">Test</option>
 											<option value="false">Live</option>
 										</select>
+									</div>
+									<div class="col-md-3">
+										<label class="control-label" for="maxSubmissions">Submission Limit</label>
+								     	<input type="checkbox" id="maxSubmissions">
+										<input disabled id="submissionLimit" class="form-control">
 									</div>
 								</div>
 							</div>

@@ -4,26 +4,32 @@
 
 module.exports = {
 
-	create: function (req, res) {
-		var submissionDetails = {
-			user: req.user.username,
-			problem: req.param("problem"),
-			code: req.param("code"),
-			style: JSON.parse(req.param("style")),
-			value: {correct: 2, style: 2},
+create: function (req, res) {
+    console.log("creating submission");
+    var submissionDetails = {
+      user: req.user.username,
+      problem: req.param("problem"),
+      code: req.param("code"),
+      style: JSON.parse(req.param("style")),
+      value: {correct: 2, style: 2},
       fbRequested: false
+    };
+    Submission.create(submissionDetails).done(function(err, submission) {
+    console.log("creating submission...");
 
-		};
-		Submission.create(submissionDetails).done(function(err, submission) {
-			if (err) {
-				res.send(500, {error: "DB Error creating new team"});
+      if (err) {
+            console.log("err:" + err);
+
+        res.send(500, {error: "DB Error creating new team"});
                 console.log(err);
-			} else {
+      } else {
+            console.log("creating submission!!!");
+
         var currentScore = parseFloat(submissionDetails.value.correct).toFixed(4) + parseFloat(submissionDetails.value.style).toFixed(4);
         res.send(submission);
-			} 
-		});
-	},
+      } 
+    });
+  },
 
 
   /**
@@ -57,10 +63,13 @@ module.exports = {
             });
         }else if(mostRecent){
             var now = new Date();
-           // now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-            now.setSeconds(now.getSeconds() - mostRecent);
+            console.log("-------------------------" );
+            var currentSeconds = parseFloat(now.getSeconds());
+            var changeSeconds = parseFloat(mostRecent);
+            var seconds = currentSeconds - changeSeconds - 5; ///FUDGE FACTOR of 5 seconds so stuff doesn't slip between cracks
+            now.setSeconds(seconds);
             console.log(now);
-            Submission.find({problem: problem, mostRecent: null, createdAt: { $gte: now }}).exec(function(err, submissions) {
+            Submission.find({problem: problem, mostRecent: null, updatedAt: { '>': now }}).exec(function(err, submissions) {
                 if (err) {
                     console.log(err);
                 } else {

@@ -25,6 +25,7 @@ module.exports = {
                 folder: req.param("folder"),
                 language: req.param("language"),
                 testMode: mode,
+                maxSubmissions: req.param("maxSubmissions"),
                 text: req.param("text"),
                 value: {correct: req.param("correct"), style: req.param("style")},
                 onSubmit: req.param("onSubmit")
@@ -99,7 +100,7 @@ module.exports = {
    *    `/assignment/update`
    */
    update: function (req, res) {
-
+    console.log("update with maxSubmission of " + req.param("maxSubmissions"));
     var id = req.param("id");
     var name = req.param("name");
     var newIndex = req.param("newIndex");
@@ -134,6 +135,7 @@ module.exports = {
             folder: req.param("folder"),
             language: req.param("language"),
             testMode: mode,
+            maxSubmissions: req.param("maxSubmissions"),
             text: req.param("text"),
             value: {correct: req.param("correct"), style: req.param("style")},
             onSubmit: req.param("onSubmit")

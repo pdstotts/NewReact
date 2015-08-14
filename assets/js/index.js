@@ -1,5 +1,13 @@
 var curProblem = null;
 
+function isNull(item){
+	if(item == null || item == "null" || item == "" || item == ''){
+		return true;
+	}else {
+		return false;
+	}
+}
+
 function addProblemToAccordian(problem,folderName){
 	var earnedPointsDiv = "#earned-" +folderName;
 	var availPointsDiv = "#avail-" +folderName;
@@ -127,7 +135,6 @@ function addFolder (folder) {
 function addProbInfo (problem) {
 	var problemName = problem.name;
 	if(problem.testMode == true) { problemName = problem.name + " (in Test Mode)" };
-	$("#initSubmit").removeAttr("disabled");
 	$("#submissions").removeClass("hidden");
 	$("#hideInst").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
@@ -137,7 +144,12 @@ function addProbInfo (problem) {
 	});
 	$("#desc-body").empty()
 	if(problem.phase == 0){
-		$("#desc-body").append('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span><span class="sr-only">Error:</span>Since this problem is overdue, you can only earn half credit.</div>');
+		$("#desc-body").append('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span>Since this problem is overdue, you may only earn partial credit.</div>');
+	}
+	console.log("problem.maxSubmissions" + problem.maxSubmissions);
+    if(!isNull(problem.maxSubmissions)){
+		console.log(problem.maxSubmissions + "problem.maxSubmissions");
+		$("#desc-body").append('<div class="alert alert-danger" role="alert" id="remainingAttempts"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span>The number of submissions allowed for this problem is limited to ' + problem.maxSubmissions + '.</div>');
 	}
 	$("#desc-body").append(problem.text);
 	$("#console").empty();
@@ -149,6 +161,15 @@ function addProbInfo (problem) {
 	$.post("/submission/read/" + problem.id, {}, function (submissions) {
         $("#subs").empty();
 
+		var remaining = problem.maxSubmissions - submissions.length;
+		console.log("problem.maxSubmissions" + problem.maxSubmissions + "submissions.length" + submissions.length);
+		if(remaining < 0){
+			remaining = 0;
+		}
+	    if(!isNull(problem.maxSubmissions)){
+			$("#remainingAttempts").append(' You have ' + remaining + ' remaining attempts.');
+		}
+
         if(submissions.length > 0){
 			$("#reload").removeAttr("disabled");
 			$("#pointbreakdown").removeClass("hidden");
@@ -156,6 +177,12 @@ function addProbInfo (problem) {
 			$("#reload").attr("disabled","disabled");
 			$("#pointbreakdown").addClass("hidden");
         }
+        if(parseInt(submissions.length) < parseInt(problem.maxSubmissions) || isNull(problem.maxSubmissions)){
+			$("#initSubmit").removeAttr("disabled");
+        }else {
+    		$("#initSubmit").attr("disabled","disabled");
+        }
+
 		submissions.forEach( function (submission) {
 			addSubmission(submission);
 		});
@@ -168,7 +195,26 @@ function addProbInfo (problem) {
 
 }
 
+function limitCheck(submission,problem){
+	$.post("/submission/read/" + problem.id, {}, function (submissions) {
+
+		var remaining = problem.maxSubmissions - submissions.length;
+		if(remaining < 0){
+			remaining = 0;
+		}
+
+		$("#remainingAttempts").empty().append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span>The number of submissions allowed for this problem is limited to ' + problem.maxSubmissions + '. You have ' + remaining + ' remaining attempts.');
+        
+        if(parseInt(submissions.length) < parseInt(problem.maxSubmissions)){
+			$("#initSubmit").removeAttr("disabled");
+        }else {
+    		$("#initSubmit").attr("disabled","disabled");
+        }
+    });
+
+}
 function addSubmission(submission) {
+	console.log("addSubmission");
 	var time = new Date(submission.createdAt);
 	var timeString = time.toLocaleDateString() + " " + time.toLocaleTimeString();
     var link = $("<tr></tr>");
@@ -212,21 +258,19 @@ function addSubmission(submission) {
 		var shareButton = $("<td id='subShare" + submission.id + "'></td>");
 		link.append(shareButton);
 	}
-//#loadSubmission
-    //make the problem link produce the submission code on click
-	
-
 
     //attach the link to the submission
 	$("#subs").prepend(link);
 
-    if(submission.fbRequested == false){
-    	request(submission);
-    }else if(submission.fbResponseTime == null) {
-    	pending(submission);
-    }else {
+	if(submission.fbResponseTime == null){
+    	if(submission.fbRequested == false){
+    		request(submission);
+    	}else {
+    		pending(submission);
+    	}
+	}else {
     	view(submission);
-    }
+	}
 
     if(submission.shareOK == true){
     	unshare(submission);
@@ -580,7 +624,6 @@ function setRecentScore (earnedF,earnedS) {
 		$("#recentpointbreakdown").removeClass("alert-warning");
 		$("#recentpointbreakdown").addClass("alert-success");
 	}else {
-		console.log("not bigger");
 		$("#recentpointbreakdown").addClass("alert-warning");
 		$("#recentpointbreakdown").removeClass("alert-success");
 	}
@@ -761,9 +804,12 @@ window.onload = function () {
 	});
 	
 	$("#submit").click(function () {
+		console.log("submit clicked");
 		if (curProblem == null) {
 			alert("You must select a problem before submitting");
 		} else {
+			console.log("gonna add it");
+
 			$("#console").empty();
 			var code = editor.getValue();
 			try {
@@ -772,6 +818,9 @@ window.onload = function () {
 				var ssOb = pnut.collectStructureStyleFacts(AST);    // return a analysis of style grading by checking AST
 				$.post("/submission/create", {problem: curProblem.id, code: code, style: JSON.stringify(ssOb)}, function (submission) {
 					addSubmission(submission);
+					if(!isNull(curProblem.maxSubmissions)){
+						limitCheck(submission,curProblem);
+					}
 					submitFoldersReload(curProblem.folder);
 					$.post("/submission/read/" + curProblem.id, {}, function (submissions) {
 							submissions.forEach( function (submission) {
