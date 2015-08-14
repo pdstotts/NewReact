@@ -46,13 +46,14 @@ create: function (req, res) {
         var feedback = req.param("feedback");
         var currentUser = req.param("currentUser");
         var mostRecent = req.param("mostRecent");
+        var deleteCount = req.param("deleteCount");
 
         var direction = 1;
         if(reverse){
           direction = -1;
         }
 
-        if(subId){
+        if(subId){  // Get Submission by its Id
           console.log("get submission by id");
             Submission.findOne({id:subId}).exec(function (err, submission) {
                 if (err) {
@@ -61,7 +62,16 @@ create: function (req, res) {
                     res.send(submission);
                 }
             });
-        }else if(mostRecent){
+        } else if(deleteCount){ 
+          console.log("deleteCount");
+            Submission.find({problem: problem}).exec(function(err, submissions) {
+                if (err) {
+                    console.log("error getting submissions from database");
+                } else {
+                    res.send(submissions);
+                }
+            });
+        }else if(mostRecent){ // Get most recent submission for a problem
             var now = new Date();
             console.log("-------------------------" );
             var currentSeconds = parseFloat(now.getSeconds());
@@ -76,7 +86,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        }else if(feedback){
+        }else if(feedback){ // Get all Submission awaiting feedback
             Submission.find({fbRequested: true, fbResponseTime: null}).sort({fbRequestTime: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -84,7 +94,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        }else if(recent){
+        }else if(recent){ // Get User's problems sorted by most recent first
             Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).limit(1).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -92,7 +102,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        } else if (problem && !student) {
+        } else if (problem && !student) { //Gets all my Submissions for problem
             Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -100,7 +110,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        } else if (problem && student) {
+        } else if (problem && student) { //Gets all specific user's submisions for a problem
             Submission.find({problem: problem, user: student}).sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -108,7 +118,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        } else if (!problem && student) {
+        } else if (!problem && student) { //Gets all a user's submissions
             Submission.find({user: student}).sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
@@ -116,7 +126,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-        } else if(!currentUser){
+        } else if(!currentUser){ 
             Submission.find().sort({createdAt: direction}).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");

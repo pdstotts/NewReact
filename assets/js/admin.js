@@ -100,29 +100,34 @@ function fillProblemAdd(problem){
 
 function deleteProblem(problem){
     console.log("deleteProblem");
+                            console.log(problem);
+
     $("#deleteProblem").addClass("hidden");
     $(".problemDeleted").removeClass('hidden'); 
 
     var problemPoints = parseFloat(problem.value.correct) + parseFloat(problem.value.style);
     var toDelete = problem;
+
     $.post("/problem/delete", {id: problem.id}, function (problem) {
         $.post("/problem/reorder", {folder: toDelete.folder}, function () {
             console.log("curProblem");
             console.log(curProblem);
             console.log("toDelete");
             console.log(toDelete);
-            if(toDelete.id == curProblem.id){
-                console.log("was curProblem deleted");
-                $("#editForm").addClass("hidden");
-                $("#editPlaceholder").removeClass("hidden");
-                $("#problemDisplayName").empty().append("Choose a Problem");
-                $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
-                $("#pointbreakdown").addClass("hidden");
-                $("#matrixBody").empty();
-                $("#allStudents1ProblemTable").empty();
-                $("#pbp-green").css("width","0%");
-                $("#pbp-yellow").css("width","0%");
-                curProblem == null;
+            if(curProblem){
+                if(toDelete.id == curProblem.id){
+                    console.log("was curProblem deleted");
+                    $("#editForm").addClass("hidden");
+                    $("#editPlaceholder").removeClass("hidden");
+                    $("#problemDisplayName").empty().append("Choose a Problem");
+                    $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
+                    $("#pointbreakdown").addClass("hidden");
+                    $("#matrixBody").empty();
+                    $("#allStudents1ProblemTable").empty();
+                    $("#pbp-green").css("width","0%");
+                    $("#pbp-yellow").css("width","0%");
+                    curProblem == null;
+                }
             }
             console.log(toDelete);
             if(toDelete.phase != 2 && Boolean(toDelete.testMode) == false){
@@ -1268,7 +1273,21 @@ function loadSingleFolderSidebarSortable(folderid) {
             .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right" ></span>') // the trailing space is important!
             .click(function () {
                 if (confirm('Are you sure you wish to delete the problem "' + problem.name + '"?')) {
-                    deleteProblem(problem);
+                    $.post("/submission/read/" + problem.id, {id: problem.id, deleteCount: true}, function(submissions){
+                        console.log(problem);
+                        var myArray = [];
+                        submissions.forEach(function (submission) {
+                            myArray.push(submission.user);
+                        });
+                        $.unique(myArray);
+                        var print = "";
+                        for (var i = 0; i < myArray.length; i++){
+                            print = print + myArray[i] + " ";
+                        }
+                        if(confirm('This will delete ' + submissions.length + ' submission(s) from the following ' + myArray.length + ' user(s): \n' + print + '\nThese users\' scores may become inaccurate as a result of this deletion.')){
+                            deleteProblem(problem);
+                        }
+                    });
                 }
             });
 
@@ -1806,6 +1825,11 @@ window.onload = function () {
             $("#newProblemError").empty().append(noPointsError);
         } else {
             $.post("/problem/create", opts, function (problem) {
+                curProblem = problem;
+                fillProblemEdit(curProblem);
+                fillProblemDisplay(curProblem);
+                getStudentResults(curProblem);
+
                 $.post("/problem/reorder", {folder: problem.folder}, function () {
                     loadSingleFolderSidebarNavigable(problem.folder);
                     loadSingleFolderSidebarSortable(problem.folder);
