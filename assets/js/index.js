@@ -34,7 +34,7 @@ function addProblemToAccordian(problem,folderName){
 
 	if (loggedIn) {
 		var results = { correct: false, style: false };
-		$.post("/submission/read/" + problem.id, {}, function (submissions) {
+		$.post("/submission/read/" + problem.id, {currentUser:true}, function (submissions) {
 		if (!submissions.length == 0) {
 			submissions.forEach( function (submission) {
 				var curSubScore = Number(submission.value.correct)+Number(submission.value.style);
@@ -158,7 +158,7 @@ function addProbInfo (problem) {
 	$(".availablePtCorrect").empty().append(problem.value.correct);
 	var highestStyle = 0;
 	var highestCorrect = 0;
-	$.post("/submission/read/" + problem.id, {}, function (submissions) {
+	$.post("/submission/read/" + problem.id, {currentUser:true}, function (submissions) {
         $("#subs").empty();
 
 		var remaining = problem.maxSubmissions - submissions.length;
@@ -196,7 +196,7 @@ function addProbInfo (problem) {
 }
 
 function limitCheck(submission,problem){
-	$.post("/submission/read/" + problem.id, {}, function (submissions) {
+	$.post("/submission/read/" + problem.id, {currentUser: true}, function (submissions) {
 
 		var remaining = problem.maxSubmissions - submissions.length;
 		if(remaining < 0){
@@ -523,7 +523,7 @@ function studentScore(){ //recalculate and re-store the student's score
                 $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
                     problems.forEach( function (problem) {
                         var maxScore = 0;
-                        $.post("/submission/read/", {id: problem.id}, function(submissions){
+                        $.post("/submission/read/", {id: problem.id, currentUser: true}, function(submissions){
                             submissions.forEach( function (submission) {
                                 submissionCount++;
                                 var curSubScore = Number(submission.value.correct)+Number(submission.value.style);
@@ -787,7 +787,7 @@ window.onload = function () {
 	});
 	
 	$("#reload").click(function () {
-		$.post("/submission/read/" + curProblem.id, {}, function (submissions) {
+		$.post("/submission/read/" + curProblem.id, {currentUser: true}, function (submissions) {
 			submissions.forEach( function (submission) {
 				editor.setValue(submission.code);
 			});
@@ -822,10 +822,7 @@ window.onload = function () {
 						limitCheck(submission,curProblem);
 					}
 					submitFoldersReload(curProblem.folder);
-					$.post("/submission/read/" + curProblem.id, {}, function (submissions) {
-							submissions.forEach( function (submission) {
-								console.log('whale');
-							});
+					$.post("/submission/read/" + curProblem.id, {currentUser: true}, function (submissions) {
 						setHighestScore(submissions,curProblem);	
 					});
 					setRecentScore(submission.value.correct, submission.value.style);

@@ -39,19 +39,15 @@ create: function (req, res) {
    read: function (req, res) {
         var problem = req.param("id");
         var subId = req.param("subId");
-        var highest = req.param("highest");
         var student = req.param("student");
-        var reverse = req.param("reverse");
         var recent = req.param("recent");
         var feedback = req.param("feedback");
         var currentUser = req.param("currentUser");
         var mostRecent = req.param("mostRecent");
         var deleteCount = req.param("deleteCount");
 
-        var direction = 1;
-        if(reverse){
-          direction = -1;
-        }
+        var ascending = req.param("ascending");
+        var limitOne = req.param("limitOne");
 
         if(subId){  // Get Submission by its Id
           console.log("get submission by id");
@@ -62,6 +58,77 @@ create: function (req, res) {
                     res.send(submission);
                 }
             });
+        }else if(mostRecent){ // Get most recent submission for a problem
+            var now = new Date();
+            console.log("-------------------------" );
+            var currentSeconds = parseFloat(now.getSeconds());
+            var changeSeconds = parseFloat(mostRecent);
+            var seconds = currentSeconds - changeSeconds - 5; ///FUDGE FACTOR of 5 seconds so stuff doesn't slip between cracks
+            now.setSeconds(seconds);
+            console.log(now);
+            Submission.find({problem: problem, mostRecent: null, updatedAt: { '>': now }}).exec(function(err, submissions) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(submissions);
+                }
+            });
+        }else {
+
+          var opts = {};
+          if(problem){
+            opts['problem'] = problem;
+          }
+          if(student){
+            opts['user'] = student;
+          }
+          if(currentUser){
+            opts['user'] = req.user.username;
+          }
+          if(feedback){
+            opts['fbRequested'] = true;
+            opts['fbResponseTime'] = null;
+          }
+
+          ///////////////////////////
+
+          var sort = {};
+          if(!feedback){
+            if(ascending){
+              sort['createdAt'] = 1;
+            }else {
+              sort['createdAt'] = -1;
+            }
+          }else {
+            if(ascending){
+              sort['fbRequestTime'] = 1;
+            }else {
+              sort['fbRequestTime'] = -1;
+            }
+          }
+
+          ///////////////////////////
+
+          var limit = "";
+          if(limitOne){
+            limit = 1;
+          }
+
+          console.log(opts);
+          console.log(sort);
+          console.log(limit);
+          Submission.find(opts).sort(sort).limit(limit).exec(function(err, submissions) {
+                if (err) {
+                    console.log("error getting submissions from database");
+                } else {
+                    res.send(submissions);
+                }
+            });
+
+        }
+
+        /*
+
         } else if(deleteCount){ 
           console.log("deleteCount");
             Submission.find({problem: problem}).exec(function(err, submissions) {
@@ -143,6 +210,7 @@ create: function (req, res) {
                 }
             });
        }
+      */
   },
 
 

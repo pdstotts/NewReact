@@ -334,7 +334,7 @@ function problemCorrect(user, problem, student, totalStudents){
     var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
 
     var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
-    $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username, reverse: true}, function(submissions){
+    $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username}, function(submissions){
         if(submissions.length == 0){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
         } else {
@@ -1273,7 +1273,7 @@ function loadSingleFolderSidebarSortable(folderid) {
             .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right" ></span>') // the trailing space is important!
             .click(function () {
                 if (confirm('Are you sure you wish to delete the problem "' + problem.name + '"?')) {
-                    $.post("/submission/read/" + problem.id, {id: problem.id, deleteCount: true}, function(submissions){
+                    $.post("/submission/read/" + problem.id, {id: problem.id}, function(submissions){
                         console.log(problem);
                         var myArray = [];
                         submissions.forEach(function (submission) {
