@@ -125,7 +125,6 @@ module.exports = {
                 if(err) {
                     console.log(err);
                 } else {
-                    console.log("value for " + user.onyen + " i saved is..." + user.currentScore)
                     res.send(user);
                 }
             });
@@ -154,7 +153,17 @@ module.exports = {
         });
     },
 
-
+    changeName: function (req, res) {
+        var name = req.param("name");
+        var onyen = req.param("onyen");
+        User.update({username: onyen}, {displayName: name}).exec(function(err, user) {
+            if(err) {
+                console.log(err);
+            } else {
+                res.send(user);
+            }
+        });
+    },
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to UserController)

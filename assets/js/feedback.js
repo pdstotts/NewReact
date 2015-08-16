@@ -51,8 +51,10 @@ window.onload = function () {
 	console.log(submissionId);
 	$.post("/submission/read/", {subId: submissionId}, function (submission) {
 		console.log("submisison Message");
-
 		$("#console").empty().append(submission.message);
+		var eachLine = submission.message.split('\n');
+		$('#console').attr("rows", eachLine.length);
+
 		var d = new Date(submission.fbResponseTime);
     	$("#responseTime").empty().append(d.toLocaleString());
     	if(submission.fbResponseMsg == "" || submission.fbResponseMsg == null){
@@ -62,10 +64,11 @@ window.onload = function () {
     	}
     	$.post("/user/read/" + submission.fbResponder, {}, function (user) {
 	        if (!user) {
-	            alert("No user with that id found");
-	            return;
+	            console.log("The user who responded could not be found.")
+				$("#responder").empty().append("someone");	
+	        }else {
+				$("#responder").empty().append(user.displayName);	
 	        }
-			$("#responder").empty().append(user.displayName);	
 		});
 
 		var d = new Date(submission.fbRequestTime);

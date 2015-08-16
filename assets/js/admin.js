@@ -603,7 +603,7 @@ function getStudentList() {
         var student = $("<tr></tr>");
         var count = 0;
         users.forEach(function (user) {
-            var badge = $("<span class='badge'></span>").append(user.currentScore + "/" + points);
+            var badge = $("<span id='studentListBadge" + user.username + "' class='badge'></span>").append(user.currentScore + "/" + points);
             var link = $("<a></a>")
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
@@ -831,6 +831,8 @@ function fillSubmissionFeedback(submission,user){
         $("#readOnlySubmission").addClass("hidden");
         $("#feedbackSubmitDiv").removeClass("hidden");
         $('#fbConsole').val(submission.message);
+        var eachLine = submission.message.split('\n');
+        $('#fbConsole').attr("rows", eachLine.length);
 
         $('#fbResponseMessage').empty();
         fbEditor.setValue(submission.code);
@@ -1410,6 +1412,7 @@ function loadUsers() {
         admins.forEach(function(admin) {
             var removeButton = $("<a href='#'></a>")
             .css("color","red")
+            .css("float","left")
             .html("<span class='glyphicon glyphicon-remove'></span> ") // the trailing space is important!
             .click(function () {
                 if (confirm('Are you sure you wish to delete ?')) {
@@ -1418,10 +1421,46 @@ function loadUsers() {
                     });
                 }
              });
-            var label = $("<li></li>").attr("class","list-group-item").append(removeButton).append(admin.displayName);
+
+            var nameSpace = $("<div></div>").attr('id',"adminName" + admin.username).append(admin.displayName).append(adminEditButton(admin));
+
+            var label = $("<li></li>").attr("class","list-group-item").append(removeButton).append(nameSpace);
             $("#admins").append(label);
         });
     });
+}
+
+function adminEditButton(admin){
+     var editButton = $("<a href='#'></a>")
+        .css("color","green")
+        .html("<span class='glyphicon glyphicon-pencil'></span> ") // the trailing space is important!
+        .click(function () {
+            var editDiv = $("<div class='input-group'></div>")
+            .append("<input type='text' id='nameChange" + admin.username + "' class='form-control' placeholder='" + admin.displayName + "'></input>")
+            .append($("<span class='input-group-btn' ></span>").append(adminSaveEditButton(admin)))
+            $("#adminName" + admin.username).empty().append(editDiv).append("<div id='nameChangeError'></div>");
+        });
+    return editButton;
+}
+function adminSaveEditButton(admin){
+    var saveButton = $("<button type='submit' id='changeNameBtn' class='btn btn-default'></button>")
+        .append("<span class='glyphicon glyphicon-thumbs-up' style='color:green;'></span>")
+        .click( function() {
+            if($("#nameChange" + admin.username).val()==""){
+                var noNameError = $("<div class='alert alert-danger' role='alert'>Please enter a name</div>");
+                $("#nameChangeError").append(noNameError);
+            } else {
+                var name = $("#nameChange" + admin.username).val();
+                name = String(name);
+                if(confirm("Are you sure you want to change the display name of the user with onyen '" + admin.username + "'' from '" + admin.displayName + "'' to '" + name + "'?")){
+                    $.post("/user/changeName/", {"onyen": admin.username, "name":name}, function(user){
+                        $("#adminName" + admin.username).empty().append(name);
+                        $("#namesHaveChanged").removeClass("hidden");
+                    });
+                }
+            }
+        });
+    return saveButton;
 }
 
 function getSettings(){
@@ -1514,6 +1553,7 @@ function studentScore(onyen){
                                     console.log("updated score of " + onyen);
                                     $("#studentScoreButton").empty().append(studScore + "/" + points);
                                     $("#studentScoreButton").removeAttr("disabled");
+                                    $("#studentListBadge" + onyen).empty().append(studScore + "/" + points);
                                 });
                             }
                         });
@@ -2089,7 +2129,7 @@ window.onload = function () {
         console.log('move');
         $("#moveMe").detach().appendTo('#moveEdit');
     });
-
+    
     $('.nav-tabs').on('click', function() {
         console.log("nav tabs clicked");
         var that = this;  

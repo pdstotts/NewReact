@@ -631,11 +631,11 @@ ul {
 									</div>
 									<div class="col-md-3">
 										<label class="control-label">Function Points</label>
-										<input id="correctPoints" value=2 class="form-control">
+										<input id="correctPoints" value=1 class="form-control">
 									</div>
 									<div class="col-md-3">
 										<label class="control-label">Style Points</label>
-										<input id="stylePoints" value=2 class="form-control">
+										<input id="stylePoints" value=1 class="form-control">
 									</div>
 									<div class="col-md-3">
 										<label class="control-label" for="language">Language</label>
@@ -800,22 +800,26 @@ ul {
 
 		<!-- ADMIN SECTION -->
 		<div class="tab-pane" id="admin">
-			<p>View admins and give administrative privileges here</p>
-			 <div class="panel panel-default">
-				<div class="panel-heading">Manage admins</div>
- 
-				 <ul id="admins" class="list-group"></ul>
+			<div class="col-md-5">
+				<div class="panel panel-default ">
+					<div class="panel-heading">Manage admins</div>
+	 
+					 <ul id="admins" class="list-group"></ul>
 
-				 <div class="panel-body">
-					 <div class="input-group">
-						<input type="text" id="newAdmin" class="form-control" placeholder="Type username..."></input>
-						<span class="input-group-btn">
-							 <button type="submit" id="newAdminBtn" class="btn btn-default"><span class="glyphicon glyphicon-plus" style="color:green;"></span></button>
-						</span>
+					 <div class="panel-body">
+						 <div class="input-group">
+							<input type="text" id="newAdmin" class="form-control" placeholder="Type username..."></input>
+							<span class="input-group-btn">
+								 <button type="submit" id="newAdminBtn" class="btn btn-default"><span class="glyphicon glyphicon-plus" style="color:green;"></span></button>
+							</span>
+						 </div>
+						 <div id="newAdminError"></div>
 					 </div>
-					 <div id="newAdminError"></div>
-				 </div>
-			 </div>
+				</div>
+				<div class="alert alert-danger hidden" id="namesHaveChanged">
+					Please refresh page to observe name changes.
+				</div>
+			</div>
 		</div>
 		<!-- ADMIN SECTION ENDS -->
 

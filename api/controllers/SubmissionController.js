@@ -124,9 +124,6 @@ create: function (req, res) {
             limit = 1;
           }
 
-          console.log(opts);
-          console.log(sort);
-          console.log(limit);
           Submission.find(opts).sort(sort).limit(limit).exec(function(err, submissions) {
                 if (err) {
                     console.log("error getting submissions from database");
