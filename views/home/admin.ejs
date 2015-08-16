@@ -431,6 +431,14 @@ ul {
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
+								<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;" class="form-control">
+								<option value="0">Manual</option>
+								<option value="2">2 seconds DELETE</option>
+								<option value="10">10 seconds</option>
+								<option value="20">20 seconds</option>
+								<option value="60">1 minute</option>
+								<option value="180">3 minutes</option>
+							</select>
 						</h4>
 					</div>
 
@@ -451,15 +459,7 @@ ul {
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTableCollapse" aria-expanded="true" >Student Attempts</a>
 							<span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
-							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="Progress Bar updates in realtime. Use refresh to update table below.">Refresh</button>
-							<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;margin-right:10px;" class="form-control">
-							  <option value="0">Manual</option>
-							  <option value="2">2 seconds DELETE</option>
-							  <option value="10">10 seconds</option>
-							  <option value="20">20 seconds</option>
-							  <option value="60">1 minute</option>
-							  <option value="180">3 minutes</option>
-							</select>
+							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="This panel does not update with the matrix above.   Refresh to fill progress bar and table with most recent data.">Refresh</button>
 						</h4>
 					</div>
 					<div class="panel-collapse collapse" id="allStudents1ProblemTableCollapse">

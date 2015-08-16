@@ -61,12 +61,10 @@ create: function (req, res) {
             });
         }else if(mostRecent){ // Get most recent submission for a problem
             var now = new Date();
-            console.log("-------------------------" );
             var currentSeconds = parseFloat(now.getSeconds());
             var changeSeconds = parseFloat(mostRecent);
             var seconds = currentSeconds - changeSeconds - 5; ///FUDGE FACTOR of 5 seconds so stuff doesn't slip between cracks
             now.setSeconds(seconds);
-            console.log(now);
             Submission.find({problem: problem, mostRecent: null, updatedAt: { '>': now }}).exec(function(err, submissions) {
                 if (err) {
                     console.log(err);

@@ -159,8 +159,9 @@ function fillProblemDisplay(problem) {
     $("#availablePtCorrect").empty().append(problem.value.correct);
 }
 
-function feedbackRequestButton(submission,user,problem){
+function feedbackRequestButton(submission,username,problem){
     var button = $("<a></a>")
+        .attr("id","feedbackPlease" + submission.id)
         .attr("href","#submission")
         .attr("data-toggle","pill")  //save
         .css("color","#627E86")
@@ -169,12 +170,18 @@ function feedbackRequestButton(submission,user,problem){
         .html('<span><span class="glyphicon glyphicon-exclamation-sign"  data-toggle="tooltip" data-placement="top" title="Feedback Request"></span>') // the trailing space is important!
         .click(function (event) {
             event.preventDefault();
-            getSubmission(submission,user,problem);
+            $.post("/user/read", {onyen: username}, function (user) {
+                if (user) {
+                    getSubmission(submission,user,problem);
+                }else {
+                    alert("error! user not found");
+                }
+            });
         });
     return button;
 }
 
-function shareButton(submission,user,problem){
+function shareButton(submission,username,problem){
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
         .attr("data-target","#shareSubmissionModal")  //save
@@ -186,7 +193,7 @@ function shareButton(submission,user,problem){
         .html('<span><span class="glyphicon glyphicon-share" data-toggle="tooltip" data-placement="top" title="Share Request"></span>')
         .click(function (event) {
             event.preventDefault();
-            fillModal(submission,user,problem);
+            fillModal(submission,username,problem);
         });
     return button;
 }
@@ -194,7 +201,49 @@ function shareButton(submission,user,problem){
 function updateStudentResults(problem,seconds) {
     console.log('updateStudentResults');
     $.post("/submission/read/" + problem.id, {id: problem.id, mostRecent: seconds}, function(submissions){
+        console.log(submissions.length);
         submissions.forEach(function (submission) {
+           
+            if(!$("#matrix"+submission.user).hasClass("alert-success")){
+                var submissionValue = parseFloat(parseFloat(submission.value.correct) + parseFloat(submission.value.style));
+                var problemValue = parseFloat(parseFloat(problem.value.correct) + parseFloat(problem.value.style));
+                if( submissionValue < problemValue ){
+                    $("#matrix"+submission.user).removeClass("alert-danger");
+                    $("#matrix"+submission.user).addClass("alert-warning");
+                    console.log("less than what we want");
+                }else {
+                    $("#matrix"+submission.user).removeClass("alert-warning");
+                    $("#matrix"+submission.user).removeClass("alert-danger");
+                    $("#matrix"+submission.user).addClass("alert-success");
+                    console.log("not less than the right amount");
+                }
+            }
+            if(feedbackOn){
+                if(submission.fbRequested == true && submission.fbResponseTime == null){
+                    if ( !$( "#feedbackPlease" + submission.id ).length ) {
+                        $("#matrix" + submission.user).addClass("blink");
+                        $("#matrixHover" + submission.user).append(feedbackRequestButton(submission,submission.user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
+                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
+                    }
+                }
+            }
+            if(shareOn){
+                if(submission.shareOK && submission.shared != true){
+                    if ( !$( "#shareMe" + submission.id ).length ) {
+                        $("#matrix" + submission.user).addClass("blink");
+                        $("#matrixHover" + submission.user).append(shareButton(submission,submission.user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
+                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
+                    }
+                }
+            }
 
             //$("#matrix" + user.id).removeClass("alert-danger").addClass("alert-warning");
 
@@ -219,11 +268,11 @@ function getStudentResults(problem) {
         users.forEach(function (user) {
             var matrixSquare = $("<div></div>")
                 .attr('class','matrixSquare alert alert-danger')
-                .attr('id','matrix' + user.id);
+                .attr('id','matrix' + user.username);
 
             var matrixSquarehover = $("<div></div>")
                 .attr('class','matrixSquareHover')
-                .attr('id','matrixHover' + user.id)
+                .attr('id','matrixHover' + user.username)
                 .attr('data-iconcount',0);
 
             var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
@@ -255,8 +304,8 @@ function getStudentResults(problem) {
 
 
             $("#matrixBody").append(matrixSquare);
-            $('#matrix' + user.id).mouseover(function() { $('#matrixHover' + user.id).css('visibility','visible'); });
-            $('#matrix' + user.id).mouseout(function() { $('#matrixHover' + user.id).css('visibility','hidden'); });
+            $('#matrix' + user.username).mouseover(function() { $('#matrixHover' + user.username).css('visibility','visible'); });
+            $('#matrix' + user.username).mouseout(function() { $('#matrixHover' + user.username).css('visibility','hidden'); });
 
             var a = $("<td></td>")
                 .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
@@ -342,10 +391,10 @@ function problemCorrect(user, problem, student, totalStudents){
             var a = $("<a></a>")
                 .html(submissions.length)
                 .click(function (event) {
-                    if($(".submissionUser"+user.id).hasClass("hidden")) {
-                        $(".submissionUser"+user.id).removeClass('hidden');
+                    if($(".submissionUser"+user.username).hasClass("hidden")) {
+                        $(".submissionUser"+user.username).removeClass('hidden');
                     } else {
-                        $(".submissionUser"+user.id).addClass('hidden');
+                        $(".submissionUser"+user.username).addClass('hidden');
                     }
             });
 
@@ -357,23 +406,23 @@ function problemCorrect(user, problem, student, totalStudents){
                 if(feedbackOn){
                     if(submission.fbRequested == true && submission.fbResponseTime == null){
                         results.feedbackRequested = true;
-                        $("#matrixHover" + user.id).append(feedbackRequestButton(submission,user,problem));
+                        $("#matrixHover" + user.username).append(feedbackRequestButton(submission,user.username,problem));
                         $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                        var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
                         iconCount = parseInt(iconCount);
                         iconCount++;
-                        $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                        $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
                     }
                 }
                 if(shareOn){
                     if(submission.shareOK && submission.shared != true){
                         results.shareRequested = true;
-                        $("#matrixHover" + user.id).append(shareButton(submission,user,problem));
+                        $("#matrixHover" + user.username).append(shareButton(submission,user.username,problem));
                         $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                        var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
                         iconCount = parseInt(iconCount);
                         iconCount++;
-                        $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                        $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
                     }
                 }
 
@@ -390,11 +439,11 @@ function problemCorrect(user, problem, student, totalStudents){
         }
 
         if(results.feedbackRequested == true || results.shareRequested == true){
-            $("#matrix" + user.id).addClass("blink");
+            $("#matrix" + user.username).addClass("blink");
         }
         if(results.tried) {
             numattempted++;
-            $("#matrix" + user.id).removeClass("alert-danger").addClass("alert-warning");
+            $("#matrix" + user.username).removeClass("alert-danger").addClass("alert-warning");
 
             if(results.correct) {
                 numfunct++;
@@ -410,7 +459,7 @@ function problemCorrect(user, problem, student, totalStudents){
             }
             if(results.correct && results.style){
                 numearned++;
-                $("#matrix" + user.id).removeClass("alert-warning").addClass("alert-success");
+                $("#matrix" + user.username).removeClass("alert-warning").addClass("alert-success");
             }
         }
 
@@ -418,7 +467,7 @@ function problemCorrect(user, problem, student, totalStudents){
         var myRows = [];
 		submissions.forEach( function (submission) {
             var width = $( "#allStudents1ProblemTable" ).width();
-            var submissionRow = $("<tr class='hidden submissionUser" + user.id + "'>");
+            var submissionRow = $("<tr class='hidden submissionUser" + user.username + "'>");
             var d = new Date(submission.createdAt);
 			var a = $("<a></a>")
 				.attr("href","#submission")
@@ -452,7 +501,7 @@ function problemCorrect(user, problem, student, totalStudents){
     });
 }
 
-function fillModal(submission,user,problem){
+function fillModal(submission,username,problem){
     var d = new Date(submission.createdAt);
     $("#subModal").empty().append(user.displayName + " on " + d.toLocaleString());
     modalEditor.setValue(submission.code);
@@ -490,12 +539,12 @@ function fillModal(submission,user,problem){
         .text("Dismiss").click(function (event) {
             $.post("/submission/update", {id: submission.id, shared:true}, function (submission) {
                 $("#shareMe" + submission.id).remove();
-                var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
+                var iconCount = $("#matrixHover" + username).attr("data-iconcount");
                 iconCount = parseInt(iconCount);
                 iconCount--;
-                $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
+                $("#matrixHover" + username).attr("data-iconcount",iconCount);
                 if(iconCount == 0){
-                    $("#matrix" + user.id).removeClass("blink");
+                    $("#matrix" + username).removeClass("blink");
                 }
             });
        });
@@ -1812,25 +1861,24 @@ window.onload = function () {
 
     var intervalID;
     $( "#studentListRefresh" ).change(function() {
-        var str = "";
+        var seconds = "";
         $( "#studentListRefresh option:selected" ).each(function() {
-            str += $( this ).val() + " ";
+            seconds = $( this ).val();
         });
         clearInterval(intervalID);
-        var seconds = parseInt(str)*parseInt(1000);
-        if(seconds > 0){
+        var millseconds = parseInt(seconds)*parseInt(1000);
+        if(millseconds > 0){
             intervalID = setInterval(function(){
                 if(!$("#matrix").hasClass("active")){
                     clearInterval(intervalID);
                     $("#studentListRefresh").val(0);
                 }else {
-                    //updateStudentResults(curProblem,seconds);
-                    //updateStudentResults(curProblem,str);
-                    getStudentResults(curProblem);
+                    updateStudentResults(curProblem,seconds);
+                    //getStudentResults(curProblem);
                 }
-            }, seconds);
+            }, millseconds);
         }
-        
+        getStudentResults(curProblem);        
     });
 
     
