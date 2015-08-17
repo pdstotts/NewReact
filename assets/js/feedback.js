@@ -62,7 +62,7 @@ window.onload = function () {
     	}else {
 			$("#responseMsg").empty().append(submission.fbResponseMsg);
     	}
-    	$.post("/user/read/" + submission.fbResponder, {}, function (user) {
+	    $.post("/user/read", {onyen: submission.fbResponder}, function (user) {
 	        if (!user) {
 	            console.log("The user who responded could not be found.")
 				$("#responder").empty().append("someone");	

@@ -157,6 +157,12 @@ function fillProblemDisplay(problem) {
     $("#problemDisplayBody").empty().append(problem.text);
     $("#availablePtStyle").empty().append(problem.value.style);
     $("#availablePtCorrect").empty().append(problem.value.correct);
+    if(isNull(problem.maxSubmissions)){
+        $("#submissionLimitDisplay").addClass("hidden");
+    }else {
+        $("#submissionLimitDisplay").removeClass("hidden");
+        $("#maxSubmissionLimit").empty().append(problem.maxSubmissions);
+    }
 }
 
 function feedbackRequestButton(submission,username,problem){
@@ -503,7 +509,7 @@ function problemCorrect(user, problem, student, totalStudents){
 
 function fillModal(submission,username,problem){
     var d = new Date(submission.createdAt);
-    $("#subModal").empty().append(user.displayName + " on " + d.toLocaleString());
+    $("#subModal").empty().append(username + " on " + d.toLocaleString());
     modalEditor.setValue(submission.code);
     //weird trick to make sure the codemirror box refreshes
     var that = this;  
@@ -916,13 +922,12 @@ function fillSubmissionFeedback(submission,user){
         setTimeout(function() {
             that.fbEditorReadOnly.refresh();
         },1);
-        $("#feedbackResponder").empty().append(submission.fbResponder);
         time = submission.fbResponseTime;
         if(time != null){
             time = new Date(submission.fbResponseTime).toLocaleString();
         }
         $("#feedbackResponseTime").empty().append("Feedback from " + time);
-        $.post("/user/read", {id: submission.fbResponder}, function (user) {
+        $.post("/user/read", {onyen: submission.fbResponder}, function (user) {
             if (user) {
                 $("#feedbackResponseTime").empty().append("<b>" + user.displayName + "</b> provided feedback on <b>" + time + "</ b>");
             }
@@ -2096,7 +2101,7 @@ window.onload = function () {
 
         var now = new Date();
         var fbResponseTime = now.toLocaleString();
-        var fbResponder = $("#userid").text();
+        var fbResponder = $("#userOnyen").text();
 
         $.post("/submission/update", {id: curSubmission.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
             fillSubmissionFeedback(submission,null);
@@ -2137,7 +2142,7 @@ window.onload = function () {
 
         var now = new Date();
         var fbResponseTime = now.toLocaleString();
-        var fbResponder = $("#userid").text();
+        var fbResponder = $("#userOnyen").text();
 
         $.post("/submission/update", {id: curFeedback.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
             $("#feedbackSubmitDiv").addClass("hidden");

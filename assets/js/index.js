@@ -903,8 +903,8 @@ window.onload = function () {
 					studentScore();
 				});
 			} catch (e) {
-				alert("this shouldn't happen!");
-				$("#console").append("Internal Error with Pnut!");
+				alert("Parsing Analysis Exception");
+				$("#console").append("Did you test your code locally? You might have a syntax error.");
 			}
 
 		}

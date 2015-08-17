@@ -169,9 +169,9 @@ form > button {
 		margin-top: 10px;
 		margin-bottom: 0;
 }
-#pointbreakdown {
+.pointbreakdown {
 	float:right; 
-	width:233px; 
+	width:200px; 
 	margin-left:5px;
 	padding:5px;
 }
@@ -329,7 +329,7 @@ ul {
 
 	     	<div class="navbar-right">
 				<p class="navbar-text"><%= req.user.displayName %></p>
-				<p class="hidden" id="userid"><%= req.user.id %></p>
+				<p class="hidden" id="userOnyen"><%= req.user.username %></p>
 
 				<form class="navbar-form navbar-right">
 					<a href="/login/logout" id="logout" class="btn btn-default">Logout</a>
@@ -409,12 +409,17 @@ ul {
 					<!-- DISPLAY QUESTION BODY -->
 					<div class="collapse" id="displayQuestionCollapse">
 						<div class="panel-body">
-							<div id="pointbreakdown" class="hidden alert alert-info" >
-								<b>Point Breakdown:</b><br/>
-								Functionality: <span id="availablePtCorrect"></span>
-								<br />
-								Style: <span id="availablePtStyle"></span>
-								<br />
+							<div class="pointbreakdown">
+								<div id="pointbreakdown" class=" hidden alert alert-info" >
+									<b>Point Breakdown:</b><br/>
+									Functionality: <span id="availablePtCorrect"></span>
+									<br />
+									Style: <span id="availablePtStyle"></span>
+									<br />
+								</div>
+								<div id="submissionLimitDisplay" class=" hidden alert alert-danger" >
+									<b>Submission Limit: </b><span id="maxSubmissionLimit"></span>
+								</div>
 							</div>
 							<div id="problemDisplayBody" >
 								Select a problem from the left to view more information.

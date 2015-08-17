@@ -44,10 +44,13 @@ var pnut = (function () {
     /*    e. isAnyFuncVar(ast)             ==> boolean ? true:false   */
     /******************************************************************/
       nDV      : numDecVars(ast),
-      nUDV     : numUndecVars(ast),
       nVU      : numVarsUsed(ast),
+      nUUDV    : numUnUsedDecVars(ast),
+      nUDV     : numUndecVars(ast),
       nVFUGV   : numVarsInFuncsUseGloVars(ast),
       isFV     : isAnyFuncVar(ast),
+      nVW      : numVarsWritten(ast),  // pds add
+      nVR      : numVarsRead(ast),     // pds add
 
 
     /******************************************************************/
@@ -118,23 +121,36 @@ var pnut = (function () {
 
     /******************************************************************/
     /* 7. Style Grading for Recursive Function                        */
-    /*    a. isRecursiveFunction(ast)  ==> boolean ? true:false        */
+    /*    a. isRecursiveFunction(ast)  ==> boolean ? true:false       */
     /******************************************************************/   
       isRF     : isRecursiveFunction(ast),
 
     /******************************************************************/
     /* Stotts' old pnut API                                           */
     /******************************************************************/
-      nTFD     : numTopFuncDecls(ast),
-      nTFC     : numTopFuncCalls(ast),
-      nBGD     : numBadGlobalDecls(ast),
-      nBGU     : numBadGlobalUses(ast),
-      nTFL     : numForLoops(ast),
-      nTWL     : numWhileLoops(ast),
-      uBGV     : usesBadGlobalVars(ast),
-      nAFL     : numForLoopsInAllFuncDecls(ast),
-      nAWL     : numWhileLoopsInAllFuncDecls(ast),
-      isAFD1C  : isAllFuncDeclsPlusOneCall(ast),
+      hasUSF    : hasUseStrictFirst(ast),
+      isAFD1C   : isAllFuncDeclsPlusOneCall(ast),
+      nBGD      : numBadGlobalDecls(ast),
+      nBGU      : numBadGlobalUses(ast),
+      nTFD      : numTopFuncDecls(ast),
+      nTFC      : numTopFuncCalls(ast),
+      nTNC      : numTopNumberCalls(ast),
+      nTLFC     : numTopLHSFuncCalls(ast),
+      nTFL      : numForLoops(ast),
+      nTWL      : numWhileLoops(ast),
+      uBGV      : usesBadGlobalVars(ast),
+      nAFL      : numForLoopsInAllFuncDecls(ast),
+      nAWL      : numWhileLoopsInAllFuncDecls(ast),
+      isJOTFC   : isJustOneTopFuncCall(ast),
+      isJTTFC   : isJustTwoTopFuncCall(ast),
+      nTAOV     : numTopAlertOnVar(ast),
+      nTAOL     : numTopAlertOnLit(ast),
+      nTAOBE    : numTopAlertOnBinExp(ast),
+      hasOTAOV  : hasOneTopAlertOnVar(ast),
+      hasOTAOBE  : hasOneTopAlertOnBinExp(ast),
+      hasOTAOL  : hasOneTopAlertOnLit(ast),
+      hasTTAOV  : hasTwoTopAlertOnVar(ast),
+      hasTTAOBE  : hasTwoTopAlertOnBinExp(ast)
     };
 
     return dObj;
@@ -163,8 +179,13 @@ var pnut = (function () {
 //          }
 //------------------------------------------------------------------------  
   function numDecVars(ast) {
-    console.log("numDecVars: "+listDecVars(ast).list.length);
-    return listDecVars(ast).list.length;
+    var lm_dv = listVarsDeclared(ast);
+    var l_dv = lm_dv.list;
+    var m_dv = lm_dv.map;
+    var n_dv = l_dv.length;
+    console.log("numDecVars: " + n_dv + " : " + JSON.stringify(l_dv) );
+    console.log("numDecVars: map :" + JSON.stringify(m_dv) );
+    return n_dv;
   }
 
 //------------------------------------------------------------------------
@@ -172,9 +193,26 @@ var pnut = (function () {
 //      that get used in a program
 //------------------------------------------------------------------------  
   function numUndecVars(ast) {
-    console.log("numUndecVars: " + listUndecVars(ast).length);
-    return listUndecVars(ast).length;
+    //console.log("in numUndecVars, loc 1");
+    var l_udv = listVarsUndeclared(ast);
+    //console.log("in numUndecVars, loc 2");
+    var n_udv = l_udv.length;
+    //console.log("in numUndecVars, loc 3");
+    console.log("numUndecVars: " + n_udv + " : " + JSON.stringify(l_udv) );
+    return n_udv;
   } 
+
+//------------------------------------------------------------------------
+// 1-b1. calculate total number of declared variables
+//      that get NOT used in a program
+//------------------------------------------------------------------------
+  function numUnUsedDecVars(ast) {
+    var l_uudv = listVarsDeclaredNotUsed(ast);
+    var n_uudv = l_uudv.length;
+    console.log("numUnUsedDecVars: " + n_uudv + " : " + JSON.stringify(l_uudv) );
+    return n_uudv;
+  }
+
 
 //------------------------------------------------------------------------
 // 1-c. calculate total number of variables used in a program
@@ -184,9 +222,59 @@ var pnut = (function () {
 //          num = val + 1 (num and val both get used)
 //------------------------------------------------------------------------
   function numVarsUsed(ast) {
-    console.log("numVarsUsed: " + listVarsUsed(ast).list.length);
-    return listVarsUsed(ast).list.length;
+    //console.log("in numVarsUsed, loc 1");
+    var lm_vu = listVarsUsed(ast);
+
+    //console.log("in numVarsUsed, loc 2");
+    var l_vu = lm_vu.list;
+
+    //console.log("in numVarsUsed, loc 3");
+    var m_vu = lm_vu.map;
+
+    //console.log("in numVarsUsed, loc 4");
+    var n_vu = l_vu.length;
+
+    console.log("numVarsUsed: " + n_vu + " : " + JSON.stringify(l_vu) );
+    console.log("numVarsUsed: map: " + JSON.stringify(m_vu) );
+    return n_vu;
   }
+
+  function numVarsRead(ast) {  // pds added
+    //console.log("in numVarsRead, loc 1");
+    var lm_vr = listVarsUsed(ast);
+
+    //console.log("in numVarsRead, loc 2");
+    var l_vr = lm_vr.list;
+
+    //console.log("in numVarsRead, loc 3");
+    var m_vr = lm_vr.map;
+
+    //console.log("in numVarsRead, loc 4");
+    var n_vr = l_vr.length;
+
+    console.log("numVarsRead: " + n_vr + " : " + JSON.stringify(l_vr) );
+    console.log("numVarsRead: map: " + JSON.stringify(m_vr) );
+    return n_vr;
+  }
+
+  function numVarsWritten(ast) {  // pds add
+    console.log("in numVarsWritten, loc 1");
+    var lm_vw = listVarsWritten(ast);
+
+    console.log("in numVarsWritten, loc 2");
+    var l_vw = lm_vw.list;
+
+    console.log("in numVarsWritten, loc 3");
+    var m_vw = lm_vw.map;
+
+    console.log("in numVarsWritten, loc 4");
+    var n_vw = l_vw.length;
+
+    console.log("numVarsWritten: " + n_vw + " : " + JSON.stringify(l_vw) );
+    console.log("numVarsWritten: map: " + JSON.stringify(m_vw) );
+    return n_vw;
+  } 
+
 
 
 //------------------------------------------------------------------------
@@ -200,8 +288,10 @@ var pnut = (function () {
 //          }
 //------------------------------------------------------------------------
   function numVarsInFuncsUseGloVars(ast) {
-    console.log("numVarsInFuncsUseGloVars: " + listVarsInFuncsUseGloVars(ast).length);
-    return listVarsInFuncsUseGloVars(ast).length;
+    var l_vifugv = listVarsInFuncsUseGloVars(ast);
+    var n_vifugv = l_vifugv.length;
+    console.log( "numVarsInFuncsUseGloVars: " + n_vifugv );
+    return n_vifugv;
   }
 
 
@@ -211,8 +301,10 @@ var pnut = (function () {
 //          var f2 = bar;
 //------------------------------------------------------------------------
   function isAnyFuncVar(ast) {
-    console.log("isAnyFuncVar: " + (dictFuncVars(ast).useds.keys().length>0));
-    return (dictFuncVars(ast).useds.keys().length>0);
+    var d_fv =  dictFuncVars(ast);
+    var n_fv =  d_fv.useds.keys().length;
+    console.log("isAnyFuncVar: " + (n_fv>0) );
+    return (n_fv>0);
   }
 
 
@@ -220,7 +312,7 @@ var pnut = (function () {
 // private function:
 // list all declared variables in a program
 //------------------------------------------------------------------------ 
-  function listDecVars(ast, decVars) {
+  function listVarsDeclared(ast, decVars) {
     var map, nd, m, n, decs;
     var list    = [];
     var floop    = " <= for { }";
@@ -228,11 +320,7 @@ var pnut = (function () {
     var ifblock  = " <= if { }";
     var funblock = " <= Function ";
 
-    if(arguments.length==2) { 
-      map = decVars; 
-    } else {
-      map = new HashMap(); 
-    }
+    if(arguments.length==2) { map = decVars; } else { map = new HashMap(); }
 
     for(m in ast.body) {
       nd = ast.body[m];
@@ -242,34 +330,38 @@ var pnut = (function () {
           decs = nd.declarations;
 
           for(n in decs) {
-            var add = 0;
-            if(decs[n].init!=null) { // make sure a declaration trys to bind a var with a value;
 
-              if(decs[n].init.type=="Identifier") {  // check for variable pointer 
-                var pos = map.getItem(decs[n].init.name);
+            var added = false;
 
-                if(pos!=undefined && pos[0]<nd.start && pos[1]>nd.end) {
-                  list.push("var " + decs[n].id.name); 
-                  add = 1;
-                }
-              } 
-              else if(decs[n].init.type=="Literal") {// check for variable initialization    
-                list.push("var " + decs[n].id.name);
-                add = 1;
+            if(decs[n].init != null) { 
+              // has an initialization
+              if(decs[n].init.type != "FunctionExpression") { 
+                // this includes
+                //   var x = 12;       Literal
+                //   var x = y;        Identifier
+                //   var x = y*12;     BinaryExpression
+                //   var x = y++;      UpdateExpression
+                //   var x = foo(12);  CallExpression
+                list.push("var " + decs[n].id.name); 
+                added = true;
               }
             }
-            else if(decs[n].id.type=="Identifier"){
+            else if(decs[n].id.type=="Identifier"){ 
+              // no initialization
+              // includes
+              //   var x;
+              //   var x, y, m;
               list.push("var " + decs[n].id.name); 
-              add = 1;
+              added = true;
             }
-
-            if(add==1 && map.getItem(decs[n].id.name)==undefined) {
+            if(added && map.getItem(decs[n].id.name)==undefined) {
               map.setItem(decs[n].id.name, [ast.start, ast.end]);
             }
-          }
-          break;
-        case "ForStatement":
 
+          } // end for each decl
+          break;
+
+        case "ForStatement":
           // check vars in loop initilization
           if(nd.init!=null                      && 
             nd.init.type=="VariableDeclaration" &&
@@ -299,40 +391,47 @@ var pnut = (function () {
 
           // check vars in loop body
           if(nd.body.body.length > 0) { 
-            var obj    = listDecVars(nd.body, map);
+            var obj    = listVarsDeclared(nd.body, map);
             var lpVars = obj.list;
             map        = obj.map;
 
             for(n in lpVars) { list.push(lpVars[n] + floop); }
           }
           break;
+
         case "WhileStatement":
           if(nd.body.body.length > 0) { 
-            var obj    = listDecVars(nd.body, map);
+            var obj    = listVarsDeclared(nd.body, map);
             var wpVars = obj.list;
             map        = obj.map;
 
             for(n in wpVars) { list.push(wpVars[n] + wloop); }
           }
           break;
+
         case "IfStatement":
           if(nd.consequent.body.length > 0) {
-            var obj    = listDecVars(nd.consequent, map);
+            var obj    = listVarsDeclared(nd.consequent, map);
             var ifVars = obj.list;
             map        = obj.map;
 
             for(n in ifVars) { list.push(ifVars[n] + ifblock); }
           }
           break;
+
         case "FunctionDeclaration":
           if(nd.body.body.length > 0) {
             var ndName = nd.id.name;
-            var obj    = listDecVars(nd.body, map);
+            var obj    = listVarsDeclared(nd.body, map);
             var ndVars = obj.list;
             map        = obj.map;
 
             for(n in ndVars) { list.push(ndVars[n] + funblock + ndName + "()"); }
           }
+          break;
+        case "SwitchStatement":
+          break;
+        case "BlockStatement":
           break;
       }
     }
@@ -390,15 +489,18 @@ var pnut = (function () {
 
 //------------------------------------------------------------------------
 // private function:
-// list all undeclacred variables that get used in a program
+// list all undeclared variables that get used in a program
 //------------------------------------------------------------------------ 
-  function listUndecVars(ast) {
-    var decVars  = listDecVars(ast).map;
+  function listVarsUndeclared(ast) {
+    var decVars  = listVarsDeclared(ast).map;
+    console.log("in listVarsUndeclared: decVars map: " + JSON.stringify(decVars) );
     var usedVars = listVarsUsed(ast).map;
+    console.log("in listVarsUndeclared: usedVars map: " + JSON.stringify(usedVars) );
     var keys     = usedVars.keys();
+    console.log("in listVarsUndeclared: usedVars keys: " + JSON.stringify(keys) );
     var list     = [];
 
-    // check for the use of undelcared vars
+    // check for the use of undeclared vars
     for(m in keys) { 
       var scopeDecVar  = decVars.getItem(keys[m]);
       var scopeUsedVar = usedVars.getItem(keys[m]);
@@ -415,48 +517,82 @@ var pnut = (function () {
   } 
 
 
+
 //------------------------------------------------------------------------
 // private function:
 // list all variables that are used in a program
 //------------------------------------------------------------------------ 
-  function listVarsUsed(ast, varUsed) {
+  function listVarsUsed(ast, varMap) {
+
+    // we want to really look for vars that are read...
+    //
+    // vars that have values retrieved from memory
+    // this includes
+    //    var x = y;  decls with init (RHS is read)
+    //    x = y + z;  RHS of assignment
+    //    foo(z);     arg lists of calls
+    //    if (x==4) {}     if conditionals
+    //    while (x==4) {}  while conditionals
+    //    for (x=1; x<10; x++) {}  for structures
+    //    x++;                     update expressions
+
     var list    = [];
-    var nd, args, cal, add, left, right, lList, rList, map;
+    var nd, args, cal, left, right, lList, rList, map;
     var floop    = " <= for { }";
     var wloop    = " <= while { }";
     var ifblock  = " <= if { }";
     var funblock = " <= Function ";
 
-    if(arguments.length==2) { 
-      map = varUsed; 
-    } else {
-      map = new HashMap(); 
-    }
+    if (arguments.length==2) { map = varMap; } else { map = new HashMap(); }
 
-    for(m in ast.body) {
+    for(var m in ast.body) {
       nd = ast.body[m];
 
       switch(nd.type) { // base case
+
         case "VariableDeclaration":
+
           decs = nd.declarations;
 
-          for(d in decs) {
+          for(var d in decs) {
 
-            if(decs[d].init!=null && decs[d].init.type=="Identifier") {
-              list.push(decs[d].init.name);
-
+            if (decs[d].init!=null) { 
+              // there is initialization 
+              // LHS is used via init
+              list.push(decs[d].id.name);
               if(map.getItem(decs[d].id.name)==undefined) {
                 map.setItem(decs[d].id.name, [nd.start, nd.end]);
               }
-            }
-            else if(decs[d].init!=null && decs[d].init.type=="BinaryExpression") {
-              left   = listOperatorVars(decs[d].init.left, map);
-              map    = left.map;
-              right  = listOperatorVars(decs[d].init.right, map);
-              map    = right.map;
-              list   = list.concat(left.list);
-              list   = list.concat(right.list);
-            }
+              
+              // now deal with RHS
+              if(decs[d].init.type=="Literal") { 
+                // ex: x = 12;
+                // nothing to do
+              }
+              else if(decs[d].init.type=="Identifier") { 
+                // ex: x = y;
+                list.push(decs[d].init.name); // y is used
+              }
+              else if(decs[d].init.type=="BinaryExpression") { 
+                // ex: x = 12*y;
+                left   = listOperatorVars(decs[d].init.left, map);
+                map    = left.map;
+                right  = listOperatorVars(decs[d].init.right, map);
+                map    = right.map;
+                list   = list.concat(left.list);
+                list   = list.concat(right.list);
+              }
+              else if(decs[d].init.type=="UpdateExpression") { 
+                // ex: x = y++;
+                // need to do this one
+              }
+              else if(decs[d].init.type=="CallExpression") { 
+                // ex: x = foo(m);
+                // need to do this one
+              }
+
+            } // end has initialization 
+
           }
           break;
         case "ExpressionStatement":
@@ -465,7 +601,6 @@ var pnut = (function () {
           switch(exp.type) {
             case "UpdateExpression":
               list.push(exp.argument.name);
-
               if(map.getItem(exp.argument.name)==undefined) {
                 map.setItem(exp.argument.name, [nd.start, nd.end]);
               }
@@ -487,12 +622,21 @@ var pnut = (function () {
 
                 if(args.length>0) {
                   for(n in args) {
-                    if(args[n].type=="Identifier") {
-                      list.push(args[n].name);
+                    if(args[n].type=="Identifier") { // ex: foo( x );
+                      list.push(args[n].name); // x is used
 
                       if(map.getItem(args[n].name)==undefined) {
                         map.setItem(args[n].name, [nd.start, nd.end]);
                       }
+                    }
+                    else if(args[n].type=="BinaryExpression") { // ex: foo( 12*x );
+                      // pds added this
+                      left   = listOperatorVars(args[n].left, map);
+                      map    = left.map;
+                      right  = listOperatorVars(args[n].right, map);
+                      map    = right.map;
+                      list   = list.concat(left.list);
+                      list   = list.concat(right.list);
                     }
                   }
                 }
@@ -604,9 +748,204 @@ var pnut = (function () {
           break;
       }
     }
-
     return {list:list, map:map};
   } 
+
+
+
+//------------------------------------------------------------------------
+// private function:
+// list all variables that are written in a program
+//------------------------------------------------------------------------ 
+
+  function listVarsWritten(ast, varMap) {
+    
+    // look for vars that are addigned to or have value changed...
+    //
+    // vars that have values put into memory
+    // this includes
+    //    var x = y;  LHS of decls with init (RHS is read)
+    //    x = y + z;  LHS of assignment
+    //    x++;                     update expressions
+    //    for (x=1; x<10; x++) {}  for structures, in init and update
+
+    var list    = [];
+    var nd, args, cal, add, left, right, lList, rList, map;
+    var floop    = " <= for { }";
+    var wloop    = " <= while { }";
+    var ifblock  = " <= if { }";
+    var funblock = " <= Function ";
+
+    console.log(" >>IN listVarsWritten (start)");
+
+    if(arguments.length==2) { map=varMap; } else { map=new HashMap(); }
+
+    for(m in ast.body) {
+      nd = ast.body[m];
+
+      switch(nd.type) { // base case
+
+        case "VariableDeclaration":
+          console.log(" >>IN listVarsWritten (case VarDecl)");
+          decs = nd.declarations;
+          for(dc=0; dc<decs.length; dc++) {
+            if (decs[dc].init!=null) { 
+              // there is initialization so LHS is written
+              list.push(decs[dc].id.name); 
+            } 
+          }
+          break;
+
+        case "ExpressionStatement":
+          console.log(" >>IN listVarsWritten (case ExprStmnt)");
+          exp = nd.expression;
+
+          switch(exp.type) {
+            case "UpdateExpression":
+              console.log(" >>IN listVarsWritten (case ExprStmnt.Update)");
+              list.push(exp.argument.name);
+              // if(map.getItem(exp.argument.name)==undefined) {
+              //  map.setItem(exp.argument.name, [nd.start, nd.end]);
+              // }
+              break;
+            case "AssignmentExpression":
+              console.log(" >>IN listVarsWritten (case ExprStmnt.Assn)");
+              list.push(exp.left.name);
+              break;
+            case "CallExpression":
+              console.log(" >>IN listVarsWritten (case ExprStmnt.Call)");
+              // nothing to do... func call doesnt write to a var
+              break;
+          }
+          break;
+
+        case "ForStatement":
+          console.log(" >>IN listVarsWritten (case For)");
+          // check for writes in loop init
+          // then check loop body
+
+          /* check vars in loop initilization */
+
+          if(nd.init != null && nd.init.type=="AssignmentExpression") { 
+            left   = listOperatorVars(nd.init.left, map);
+            map    = left.map;
+            right  = listOperatorVars(nd.init.right, map);
+            map    = right.map;
+            lList  = left.list;
+            rList  = rMap.list;
+
+            for(n in lList) { list.push(lList[n] + floop); }
+            for(n in rList) { list.push(rList[n] + floop); }
+          }
+          else if(nd.init != null && nd.init.type=="VariableDeclaration") { 
+
+            // left-hand side var declaration
+            var varName  = nd.init.declarations[0].id.name;
+            list.push(varName + floop);
+            if(map.getItem(varName)==undefined) { 
+              map.setItem(varName, [nd.start, nd.end]); 
+            }
+
+            // right-hand side possilble var assignment
+            if(nd.init.declarations[0].init.type=="BinaryExpression") {
+              left   = listOperatorVars(nd.init.declarations[0].init.left, map);
+              map    = left.map;
+              right  = listOperatorVars(nd.init.declarations[0].init.right, map);
+              map    = right.map;
+              lList  = left.list;
+              rList  = rMap.list;
+
+              for(n in lList) { list.push(lList[n] + floop); }
+              for(n in rList) { list.push(rList[n] + floop); }
+            }
+          } 
+
+          // check vars in loop body
+          if(nd.body.body.length > 0) { 
+            var obj     = listVarsUsed(nd.body, map);
+            var lpVars  = obj.list;
+            map         = obj.map;
+
+            for(n in lpVars) { list.push(lpVars[n] + floop); }
+          }
+          break;
+
+        case "WhileStatement":
+          console.log(" >>IN listVarsWritten (case While)");
+          /* skip conditional vars in while test bracket */
+
+          // check vars in loop body
+          if(nd.body.body.length > 0) { 
+            var obj    = listVarsUsed(nd.body, map);
+            var wpVars = obj.list;
+            map        = obj.map;
+
+            for(n in wpVars) { list.push(wpVars[n] + wloop); }
+          }
+
+          break;
+
+        case "IfStatement":
+          console.log(" >>IN listVarsWritten (case If)");
+          if(nd.consequent.body.length > 0) {
+            var obj    = listVarsUsed(nd.consequent, map);
+            var ifVars = obj.list;
+            map        = obj.map;
+
+            for(n in ifVars) { list.push(ifVars[n] + ifblock); }
+          }
+          break;
+
+        case "FunctionDeclaration":
+          console.log(" >>IN listVarsWritten (case FuncDecl)");
+          if(nd.body.body.length > 0) {
+            var ndName  = nd.id.name;
+            var obj     = listVarsUsed(nd.body, map);
+            var ndVars  = obj.list;
+            map         = obj.map;
+
+            for(n in ndVars) { list.push(ndVars[n] + funblock + ndName + "()"); }
+          }
+          break;
+      }
+    } // end for loop
+    return {list:list, map:map};
+  } 
+
+
+
+//------------------------------------------------------------------------
+// private function:
+// list all declared but unused variables in a program
+//------------------------------------------------------------------------ 
+// pds not done
+
+  function listVarsDeclaredNotUsed(ast) {
+    var decVars  = listVarsDeclared(ast).map;
+    var usedVars = listVarsUsed(ast).map;
+    //var ukeys     = usedVars.keys();
+    var dkeys     = decVars.keys();
+    var list     = [];
+
+
+    // pds // check for the use of each declared var
+    for(m in dkeys) { 
+      var scopeDecVar  = decVars.getItem(dkeys[m]);
+      var scopeUsedVar = usedVars.getItem(dkeys[m]);
+
+      if(scopeUsedVar == undefined) {
+        list.push(dkeys[m]);
+      } 
+/*
+// pds not sure what this scope is
+      else if(scopeUsedVar[0]<scopeDecVar[0] || scopeUsedVar[0]>scopeDecVar[1] ||
+        scopeUsedVar[1]<scopeDecVar[0] || scopeUsedVar[1]>scopeDecVar[1]) {
+        list.push(dkeys[m]);
+      }
+*/
+    }
+    return list;
+  }
 
 
 //------------------------------------------------------------------------
@@ -1845,20 +2184,19 @@ var pnut = (function () {
 //------------------------------------------------------------------------
 // 6-e. exam if any function is a pass-by-reference function or not
 //      ex: CORRECT: function bar(x) { return x; }
-//          WRONG:   funciton bar()  { return 5; }
+//          WRONG:   function bar()  { return 5; }
 //------------------------------------------------------------------------
   function isAnyDecFuncPassedByRef(ast) {
     var nd;
 
     for(m in ast.body) {
       nd = ast.body[m];
-      if(nd.type=="FunctionDeclaration" &&
-        nd.params.length>0) {
-        console.log("isADecFuncPassedByRef: " + true);
+      if(nd.type=="FunctionDeclaration" && nd.params.length>0) {
+        console.log("isAnyDecFuncPassedByRef: " + true);
         return true;
       }
     }
-    console.log("isADecFuncPassedByRef: " + false);
+    console.log("isAnyDecFuncPassedByRef: " + false);
     return false;
   }
 
@@ -1887,15 +2225,22 @@ var pnut = (function () {
           switch(rtn.argument.type) {
             case "Identifier":
               var set = setObjsInAFunc(nd.body);
-              if(set.has(rtn.argument.name)) { return true; }
+              if(set.has(rtn.argument.name)) { 
+                console.log("isAnyFuncReturnObj: " + true);
+                return true; 
+              }
               break;
             case "ObjectExpression":
-              if(rtn.argument.properties.length>0) { return true; }
+              if(rtn.argument.properties.length>0) { 
+                console.log("isAnyFuncReturnObj: " + true);
+                return true; 
+              }
               break;
           }
         }
       }
     }
+    console.log("isAnyFuncReturnObj: " + false);
     return false;
   } 
 
@@ -2213,7 +2558,10 @@ var pnut = (function () {
           subnd = nds[n];
 
           if(subnd.type=="ReturnStatement") {
-            if(recursionDetector(subnd.argument, name)) { return true; }
+            if(recursionDetector(subnd.argument, name)) { 
+              console.log("isRecursiveFunction: true");
+              return true; 
+            }
           }
           else if(subnd.type=="IfStatement") {
             csqt = subnd.consequent;
@@ -2221,6 +2569,7 @@ var pnut = (function () {
 
             // two checking cases: if(xxx) yyy or if(xxx) { yyy } 
             if(csqt.body==undefined && recursionDetector(csqt.argument, name)) {             
+              console.log("isRecursiveFunction: true");
               return true; 
             }
             else if(csqt.body!=undefined && csqt.body.length>0) {
@@ -2228,6 +2577,7 @@ var pnut = (function () {
 
               for(c in csqt) {
                 if(csqt[c].type=="ReturnStatement"&&recursionDetector(csqt[c].argument, name)) {
+                  console.log("isRecursiveFunction: true");
                   return true;
                 }
               }
@@ -2236,6 +2586,7 @@ var pnut = (function () {
             if(altn!=null) {
               // two checking cases: if(xxx) yyy or if(xxx) { yyy } 
               if(altn.argument!=undefined && recursionDetector(altn.argument, name)) {
+                console.log("isRecursiveFunction: true");
                 return true;
               }
               else if(altn.body!=undefined && altn.body.length>0) {
@@ -2243,6 +2594,7 @@ var pnut = (function () {
 
                 for(a in altn) {
                   if(altn[a].type=="ReturnStatement"&&recursionDetector(altn[a].argument, name)) {
+                    console.log("isRecursiveFunction: true");
                     return true;
                   }
                 }
@@ -2252,6 +2604,7 @@ var pnut = (function () {
         }
       }
     }
+    console.log("isRecursiveFunction: false");
     return false;
   }
 
@@ -2361,9 +2714,24 @@ var pnut = (function () {
 /*   numWhileNestLevels (ast)         ==>  integer >= 0
 /*   numTopFuncDecls (ast)            ==>  integer >= 0
 /*   numTopFuncCalls (ast)            ==>  integer >= 0
-/*   isFuncCall (obj)                 ==>  boolean
+/*   numTopNumberCalls (ast)          ==>  integer >= 0
+/*   numTopLHSFuncCalls (ast)         ==>  integer >= 0
+/*   nFuncCall (obj)                  ==>  boolean
+/*   nNumberCall (obj)                ==>  boolean
+/*   nLHSFuncCall (obj)               ==>  boolean
 /*   listTopLevelTypes (ast)          ==>  [ string ]
 /*   isAllFuncDeclsPlusOneCall (ast)  ==>  boolean
+/*   isJustOneTopFuncCall (ast)       ==>  boolean
+/*   isJustTwoTopFuncCall (ast)       ==>  boolean
+/*   hasUSF(ast)                      ==>  boolean
+/*   numTopAlertOnVar(ast)            ==>  integer >= 0
+/*   numTopAlertOnLit(ast)            ==>  integer >= 0
+/*   numTopAlertOnBinExp(ast)         ==>  integer >= 0
+/*   hasOneTopAlertOnVar(ast)         ==>  boolean
+/*   hasTwoTopAlertOnVar(ast)         ==>  boolean
+/*   hasOneTopAlertOnLit(ast)         ==>  boolean
+/*   hasOneTopAlertOnBinExp(ast)      ==>  boolean
+/*   hasTwoTopAlertOnBinExp(ast)      ==>  boolean
 /*
 /******************************************************************/ 
 
@@ -2375,18 +2743,28 @@ var pnut = (function () {
   function numBadGlobalDecls (ast) {
     // global var decl
     // but we exclude function value assignments to global
+    //console.log("in numBadGlobalDecls, loc a" );
     var count = 0;
     var nst = ast.body.length;
+    //console.log("in numBadGlobalDecls, len is "+ nst );
     var st;
     for (var i=0; i<nst; i++) {
       st = ast.body[i]; 
+      //console.log("in numBadGlobalDecls, st.type is " +st.type);
       if (st.type == "VariableDeclaration") {
         var decs = st.declarations; // an array of obj
+        //console.log("in numBadGlobalDecls,  decs len is " +decs.length);
+ 
         for (var d=0; d<decs.length; d++) {
-          if (decs[d].init.type != "FunctionExpression") { count++; }
-        }
-      }
-    }
+          if (decs[d].init == null) { count++; } 
+          else { 
+            // init not null here
+            if (decs[d].init.type != "FunctionExpression") { count++; }
+          } // end ite
+        } // end for
+      } // end var decls
+    } // end for
+    console.log("numBadGlobalDecls: "+count);
     return count;
   }
 
@@ -2400,15 +2778,20 @@ var pnut = (function () {
     for (var i=0; i<nst; i++) {
       st = ast.body[i]; 
       if (st.type == "ExpressionStatement") {
-        if (st.expression.type != "CallExpression") { count++; }
+        // assign, update, call, member, literal, identifier
+        if ((st.expression.type != "CallExpression")
+            && (st.expression.type != "Literal")) { count++; }
       }
     }
+    console.log("numBadGlobalUses: "+count);
     return count;
   }
 
 
   function usesBadGlobalVars(ast) { 
-    return (numBadGlobalDecls(ast) > 0 || numBadGlobalUses(ast) > 0); 
+    var boo = (numBadGlobalDecls(ast) > 0 || numBadGlobalUses(ast) > 0); 
+    console.log("usesBadGlobalVars: "+boo);
+    return boo; 
   }
 
 
@@ -2424,6 +2807,7 @@ var pnut = (function () {
     for (var i=0; i<nst; i++) {
       if (ast.body[i].type == "ForStatement") { count++; }
     }
+    console.log("numForLoops: "+count);
     return count;
   }
 
@@ -2435,6 +2819,7 @@ var pnut = (function () {
     for (var i=0; i<nst; i++) {
       if (ast.body[i].type == "WhileStatement") { count++; }
     }
+    console.log("numWhileLoops: "+count);
     return count;
   }
 
@@ -2463,9 +2848,9 @@ var pnut = (function () {
     for (var i=0; i<nst; i++) {
       if (ast.body[i].type == "FunctionDeclaration") { 
          count += numForLoops( ast.body[i].body);
-         //alert("in func for count: " +count);
       }
     }
+    console.log("numForLoopsInAllFuncDecls: "+count);
     return count;
   }
 
@@ -2478,9 +2863,9 @@ var pnut = (function () {
     for (var i=0; i<nst; i++) {
       if (ast.body[i].type == "FunctionDeclaration") { 
          count += numWhileLoops( ast.body[i].body);
-         //alert("in func for count: " +count);
       }
     }
+    console.log("numWhileLoopsInAllFuncDecls: "+count);
     return count;
   }
 
@@ -2507,30 +2892,247 @@ var pnut = (function () {
         // syntax: var foo = function (n) { ... } 
         var decs = st.declarations; // an array of obj
         for (var d=0; d<decs.length; d++) {
-          if (decs[d].init.type == "FunctionExpression") { count++; }
+          if (decs[d].init != null) {
+            if (decs[d].init.type == "FunctionExpression") { count++; }
+          }
         }
       } 
       else { // move along to next statement, nothing to do for now
       }
     } // end for loop
+    console.log("numTopFuncDecls: "+count);
     return count;
   }
 
 
-  function isFuncCall (ob) { 
+  function nNumberCall (ob) { 
+    // return 0 or 1 or 2 or...
+    // returning a 0 means false, it is not a func call
+    // returning 1 means true it is
+    // returning >1 will happen in var decl with several on a line
+    var count = 0;
     switch (ob.type) {
+      case "CallExpression":
+        if ( ob.callee.name == "Number") count++;
+        // now check the arg list)
+        var args = ob.arguments;
+        for (var d=0; d<args.length; d++) {
+          count += nNumberCall(args[d]); 
+        }
+        //console.log("  >>IN nNumberCall a, ret: "+ count);
+        return count;
+        break;
       case "ExpressionStatement":
-        if (ob.expression.type === "CallExpression") return true;
+        if (ob.expression.type === "CallExpression") {
+          if (ob.expression.callee.name == "Number") count++;
+          // now check the arg list
+          var args = ob.expression.arguments;
+          for (var ds=0; ds<args.length; ds++) { 
+            count += nNumberCall(args[ds]); 
+          }
+          //console.log("nNumberCall b: "+count );
+          return count;
+        }
         if (ob.expression.type === "AssignmentExpression") {
-    if (ob.expression.right.type === "CallExpression") return true;
+          if (ob.expression.right.type === "CallExpression") {
+            if (ob.expression.right.callee.name == "Number") count++;
+            // now check args
+            var aargs = ob.expression.right.arguments;
+            for (var dds=0; dds<aargs.length; dds++) { 
+              count += nNumberCall(aargs[dds]); 
+            }
+            //console.log("  >>IN nNumberCall c, ret: "+ count);
+            return count;
+          }
+          if (ob.expression.right.type === "BinaryExpression") {
+            count += nNumberCall(ob.expression.right.right);
+            count += nNumberCall(ob.expression.right.left);
+            //console.log("  >>IN nNumberCall d, ret: "+ count);
+            return count;
+          }
         }
         break;
-      case "VariableDeclaration":
-        if (ob.declarations[0].init.type === "CallExpression") return true;
+      case "BinaryExpression":
+        // pds look for Calls on each side 
+        count += nNumberCall(ob.left);
+        count += nNumberCall(ob.right);
+        //console.log("  >>IN nNumberCall e, ret: "+ count);
+        return count;
         break;
-      default: return false;
+      case "VariableDeclaration":
+        var decls = ob.declarations;
+        //console.log("length: "+decls.length);
+        for (var i=0; i<decls.length; i++) { 
+          //console.log("   type: "+decls[i].type);
+          if (decls[i].init != null) {
+            if (decls[i].init.type == "CallExpression")  {
+              if (decls[i].init.callee.name == "Number") count++; 
+              // now check the arg list
+              var args = decls[i].init.arguments;
+              for (var dd=0; dd<args.length; dd++) {
+                count += nNumberCall(args[dd]); 
+              }
+            }
+          }
+        }
+        //console.log("  >>IN nNumberCall f, ret: "+ count);
+        return count;
+        break;
+      default: 
+        //console.log("  >>IN nNumberCall g, ret: "+ count);
+        return count;
     }
-    return false; 
+    //console.log("  >>IN nNumberCall h, ret: "+ count);
+    return count; 
+  }
+
+
+  function nFuncCall (ob) { 
+    // return 0 or 1 or 2 or...
+    // returning a 0 means false, it is not a func call
+    // returning 1 means true it is
+    // returning >1 will happen in var decl with several on a line
+    var count = 0;
+    switch (ob.type) {
+      case "CallExpression":
+        count++;
+        // now check the arg list)
+        var args = ob.arguments;
+        for (var d=0; d<args.length; d++) {
+          count += nFuncCall(args[d]); 
+        }
+        //console.log("  >>IN nFuncCall a, ret: "+ count);
+        return count;
+        break;
+      case "ExpressionStatement":
+        if (ob.expression.type === "CallExpression") {
+          count++;
+          // now check the arg list
+          var args = ob.expression.arguments;
+          for (var ds=0; ds<args.length; ds++) { 
+            count += nFuncCall(args[ds]); 
+          }
+          //console.log("nFuncCall b: "+count );
+          return count;
+        }
+        if (ob.expression.type === "AssignmentExpression") {
+          if (ob.expression.right.type === "CallExpression") {
+            count++;
+            // now check args
+            var aargs = ob.expression.right.arguments;
+            for (var dds=0; dds<aargs.length; dds++) { 
+              count += nFuncCall(aargs[dds]); 
+            }
+            //console.log("  >>IN nFuncCall c, ret: "+ count);
+            return count;
+          }
+          if (ob.expression.right.type === "BinaryExpression") {
+            count += nFuncCall(ob.expression.right.right);
+            count += nFuncCall(ob.expression.right.left);
+            //console.log("  >>IN nFuncCall d, ret: "+ count);
+            return count;
+          }
+        }
+        break;
+      case "BinaryExpression":
+        // pds look for Calls on each side 
+        count += nFuncCall(ob.left);
+        count += nFuncCall(ob.right);
+        //console.log("  >>IN nFuncCall e, ret: "+ count);
+        return count;
+        break;
+      case "VariableDeclaration":
+        var decls = ob.declarations;
+        //console.log("length: "+decls.length);
+        for (var i=0; i<decls.length; i++) { 
+          //console.log("   type: "+decls[i].type);
+          if (decls[i].init != null) {
+            if (decls[i].init.type == "CallExpression")  {
+              count++; 
+              // now check the arg list
+              var args = decls[i].init.arguments;
+              for (var dd=0; dd<args.length; dd++) {
+                count += nFuncCall(args[dd]); 
+              }
+            }
+          }
+        }
+        //console.log("  >>IN nFuncCall f, ret: "+ count);
+        return count;
+        break;
+      default: 
+        //console.log("  >>IN nFuncCall g, ret: "+ count);
+        return count;
+    }
+    //console.log("  >>IN nFuncCall h, ret: "+ count);
+    return count; 
+  }
+
+  function nLHSFuncCall (ob) { 
+    // return 0 or 1 or 2 or...
+    // returning a 0 means false, it is not a func call
+    // returning 1 means true it is
+    // returning >1 will happen in var decl with several on a line
+    // 
+    // ex:  alert(x);
+    // ex:  subProg(a,b,12);
+    //
+    // calling a function and ignoring the return val 
+    //
+    var count = 0;
+    switch (ob.type) {
+      case "ExpressionStatement":
+        if (ob.expression.type === "CallExpression") {
+          count++;
+          //console.log("  >>IN nLHSFuncCall a, ret: "+count );
+          return count;
+        }
+/*
+        if (ob.expression.type === "AssignmentExpression") {
+          if (ob.expression.right.type === "CallExpression") {
+            count++;
+            //console.log("  >>IN nLHSFuncCall b, ret: "+ count);
+            return count;
+          }
+        }
+        break;
+*/
+/*
+      case "VariableDeclaration":
+        var decls = ob.declarations;
+        //console.log("length: "+decls.length);
+        for (var i=0; i<decls.length; i++) { 
+          //console.log("   type: "+decls[i].type);
+          if (decls[i].init != null) {
+            if (decls[i].init.type == "CallExpression")  count++; 
+          }
+        }
+        //console.log("  >>IN nLHSFuncCall c, ret: "+ count);
+        return count;
+        break;
+*/
+      default:
+        //console.log("  >>IN nLHSFuncCall d, ret: "+ count);
+        return count; 
+        break;
+    }
+    //console.log("  >>IN nLHSFuncCall e, ret: "+ count);
+    return count; 
+  }
+
+  function numTopNumberCalls (ast) {
+    var count = 0;
+    var nst = ast.body.length;
+    var st;
+    //console.log("in numTopNumberCalls: body length is "+nst);
+    for (var i=0; i<nst; i++) {
+      st = ast.body[i];
+      //console.log("item "+i+": "+st.type);
+      count += nNumberCall(st);
+    }
+      
+    console.log("numTopNumberCalls: "+count);
+    return count;
   }
 
 
@@ -2538,23 +3140,30 @@ var pnut = (function () {
     var count = 0;
     var nst = ast.body.length;
     var st;
+    //console.log("in numTopFuncCalls: body length is "+nst);
     for (var i=0; i<nst; i++) {
       st = ast.body[i];
-      if (isFuncCall(st)) count += 1;
+      //console.log("item "+i+": "+st.type);
+      count += nFuncCall(st);
     }
-    /*
+      
+    console.log("numTopFuncCalls: "+count);
+    return count;
+  }
+
+
+  function numTopLHSFuncCalls (ast) {
+    var count = 0;
+    var nst = ast.body.length;
+    var st;
+    //console.log("in numTopLHSFuncCalls: body length is "+nst);
     for (var i=0; i<nst; i++) {
       st = ast.body[i];
-      if (st.type == "ExpressionStatement") {
-        // syntax: myMain();
-        if (st.expression.type == "CallExpression") { count += 1; }
-        // syntax: z = myMain(); 
-        if (st.expression.type == "AssignmentStatement") { 
-    if (st.expression.right == "CallExpression") { count += 1; }
-        }
-      } 
-    } // end for loop
-    */
+      //console.log("item "+i+": "+st.type);
+      count += nLHSFuncCall(st);
+    }
+      
+    console.log("numTopLHSFuncCalls: "+count);
     return count;
   }
 
@@ -2573,14 +3182,297 @@ var pnut = (function () {
     return list; // array of strings
   }
 
+ 
+  function numVarsInExp(ob) {
+    // ob is an expression
+    // return number of var uses in the expression
+    // includes looking at function call args
+    count = 0;
+    if (ob.type == "Literal") {  // do nothing
+    }
+    else if (ob.type == "Identifier") {  // gotcha
+      count++; 
+    }
+    else if (ob.type == "CallExpression") {  // check args for vars
+      for (var da=0; da<ob.arguments.length; da++) {
+        count += numVarsInExp(ob.arguments[da]);
+      }
+    }
+    else if (ob.type == "BinaryExpression") {  // check both sides
+      count += numVarsInExp(ob.right);
+      count += numVarsInExp(ob.left);
+    } 
+    console.log("numVarsInExp ret: " + count);
+    return count;
+  }
+
+
+  function numTopAlertOnLitExp (ast) {
+
+    // pds adding not done yet
+
+    // alert with expression as param, but the expression
+    // has nothing but literals in it
+    var count=0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if ( (st.expression.arguments[0].type == "BinaryExpression")
+                   || (st.expression.arguments[0].type == "LogicalExpression")
+                   || (st.expression.arguments[0].type == "CallExpression")  ) 
+                 { count++; }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("numTopAlertOnLitExp ret: "+ count);
+    return count;
+  }
+
+  function numTopAlertOnBinExp (ast) {
+    var count=0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if ( (st.expression.arguments[0].type == "BinaryExpression")
+                   || (st.expression.arguments[0].type == "LogicalExpression")
+                   || (st.expression.arguments[0].type == "CallExpression")  ) 
+                 { count++; }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("numTopAlertOnBinExp ret: "+ count);
+    return count;
+  }
+
+  function numTopAlertOnVar (ast) {
+    var count=0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if (st.expression.arguments[0].type == "Identifier") { count++; }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("numTopAlertOnVar ret: "+ count);
+    return count;
+  }
+
+  function numTopAlertOnLit (ast) {
+    var count=0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if (st.expression.arguments[0].type == "Literal") { count++; }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("numTopAlertOnLit ret: "+ count);
+    return count;
+  }
+
+
+  function hasOneTopAlertOnLit (ast) {
+    if (numTopLHSFuncCalls(ast) != 1) {
+      console.log("hasOneTopAlertOnLit: "+ false);
+      return false;
+    }
+    
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if (st.expression.arguments[0].type == "Literal") { 
+                console.log("hasOneTopAlertOnLit: "+ true);
+                return true;
+              }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("hasOneTopAlertOnLit: "+ false);
+    return false ;
+  }
+
+
+
+  function hasOneTopAlertOnVar (ast) {
+    
+    if (numTopLHSFuncCalls(ast) != 1) {
+      console.log("hasOneTopAlertOnVar: "+ false);
+      return false;
+    }
+    
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if (st.expression.arguments[0].type == "Identifier") { 
+                console.log("hasOneTopAlertOnVar: "+ true);
+                return true;
+              }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("hasOneTopAlertOnVar: "+ false);
+    return false ;
+
+  }
+
+
+  function hasTwoTopAlertOnVar (ast) {
+    
+    if (numTopLHSFuncCalls(ast) != 2) {
+      console.log("hasTwoTopAlertOnVar: "+ false);
+      return false;
+    }
+    
+    var stList = listTopLevelTypes(ast); // array of strings
+    var count=0;
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if (st.expression.arguments[0].type == "Identifier") { 
+                count++;
+              }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("hasTwoTopAlertOnVar: "+ (count==2));
+    return (count==2);
+
+  }
+
+
+  function hasOneTopAlertOnBinExp (ast) {
+    
+    if (numTopLHSFuncCalls(ast) != 1) {
+      console.log("hasOneTopAlertOnBinExp: "+ false);
+      return false;
+    }
+    
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if ( (st.expression.arguments[0].type == "BinaryExpression")
+                   || (st.expression.arguments[0].type == "LogicalExpression")
+                   || (st.expression.arguments[0].type == "CallExpression")     ) { 
+                console.log("hasOneTopAlertOnBinExp: "+ true);
+                return true;
+              }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("hasOneTopAlertOnBinExp: "+ false);
+    return false ;
+
+  }
+
+
+  function hasTwoTopAlertOnBinExp (ast) {
+    
+    if (numTopLHSFuncCalls(ast) != 2) {
+      console.log("hasTwoTopAlertOnBinExp: "+ false);
+      return false;
+    }
+    
+    var stList = listTopLevelTypes(ast); // array of strings
+    var count=0;
+
+    for (var s=0; s<stList.length; s++) {
+      if (stList[s] == "ExpressionStatement") {
+        var st = ast.body[s];
+        if (st.expression.type == "CallExpression") {
+          if (st.expression.callee.name == "alert") {
+            if (st.expression.arguments.length==1) {
+              if ( (st.expression.arguments[0].type == "BinaryExpression") 
+                   || (st.expression.arguments[0].type == "LogicalExpression") 
+                   || (st.expression.arguments[0].type == "CallExpression")    ) { 
+                count++;
+              }
+            }
+          }
+        }
+      } 
+    } // end for loop
+
+    console.log("hasTwoTopAlertOnBinExp: "+ (count==2));
+    return (count==2) ;
+
+  }
+
 
   function isAllFuncDeclsPlusOneCall (ast) {
-    if (numTopFuncCalls(ast) != 1) return false;
+    
+    if (numTopFuncCalls(ast) != 1) {
+      console.log("isAllFuncDeclsPlusOneCall: "+ false);
+      return false;
+    }
     
     var numFuncDecls = 0;
     var stList = listTopLevelTypes(ast); // array of strings
 
     for (var s=0; s<stList.length; s++) {
+       var st = ast.body[s];
        switch (stList[s]) {
           case "FunctionDeclaration":
              // cool this is ok, so count and just keep going
@@ -2588,20 +3480,109 @@ var pnut = (function () {
              break;
           case "VariableDeclaration":
              // is this var decl really a func decl?
-             if (ast.body[s].declarations[0].init.type == "FunctionExpression") { 
-               numFuncDecls += 1; 
-             } else { 
+             if (st.declarations[0].init != null) { 
+               if (st.declarations[0].init.type == "FunctionExpression") { 
+                 numFuncDecls += 1; 
+               }
+             } 
+             else { 
+               console.log("isAllFuncDeclsPlusOneCall: "+ false);
                return false; 
              }
              break;
           case "ExpressionStatement":
              // is this expression a single func call?
-       if (!isFuncCall(ast.body[s])) return false;
+             var nfc = nFuncCall(st);
+             if (nfc != 1 ) {
+               console.log("isAllFuncDeclsPlusOneCall: "+ false);
+               return false;
+             }
              break;
-          default: return false;
+          default: 
+             console.log("isAllFuncDeclsPlusOneCall: "+ false);
+             return false;
        } // end switch
     } // end for loop
+    console.log("isAllFuncDeclsPlusOneCall: "+ (numFuncDecls>0));
     return ( numFuncDecls > 0 ) ;
+  }
+
+
+  function hasUseStrictFirst(ast) {
+    var boo = false;
+    if (ast.body[0].type=="ExpressionStatement") {
+      if (ast.body[0].expression.type=="Literal") {
+        if (ast.body[0].expression.value=="use strict") {
+          boo = true;
+        }
+      }
+    } 
+    console.log("hasUseStrictFirst: " + boo);
+    return boo;
+  }
+
+  function isJustOneTopFuncCall (ast) {
+    //if (numTopFuncCalls(ast) != 1) return false;
+    
+    var numFuncCalls = 0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+       switch (stList[s]) {
+          case "ExpressionStatement":
+             // is this expression a single func call?
+             var nfc = nFuncCall(ast.body[s]);
+             if (nfc > 0) { 
+               numFuncCalls += nfc;
+               if (numFuncCalls > 1) {
+                 console.log("isJustOneTopFuncCall: "+ false);
+                 return false;
+               }
+             }
+             else { 
+               console.log("isJustOneTopFuncCall: "+ false);
+               return false; 
+             }
+             break;
+          default: 
+             console.log("isJustOneTopFuncCall: "+ false);
+             return false;
+       } // end switch
+    } // end for loop
+    console.log("isJustOneTopFuncCall: "+ (numFuncCalls==1));
+    return ( numFuncCalls == 1 ) ;
+  }
+
+  function isJustTwoTopFuncCall (ast) {
+    //if (numTopFuncCalls(ast) != 1) return false;
+    
+    var numFuncCalls = 0;
+    var stList = listTopLevelTypes(ast); // array of strings
+
+    for (var s=0; s<stList.length; s++) {
+       switch (stList[s]) {
+          case "ExpressionStatement":
+             // is this expression a single func call?
+             var nfc = nFuncCall(ast.body[s]);
+             if (nfc > 0) { 
+               numFuncCalls += nfc;
+               if (numFuncCalls > 2) {
+                 console.log("isJustTwoTopFuncCall: "+ false);
+                 return false;
+               }
+             }
+             else { 
+               console.log("isJustTwoTopFuncCall: "+ false);
+               return false; 
+             }
+             break;
+          default: 
+             console.log("isJustTwoTopFuncCall: "+ false);
+             return false;
+       } // end switch
+    } // end for loop
+    console.log("isJustTwoTopFuncCall: "+ (numFuncCalls==2));
+    return ( numFuncCalls == 2 ) ;
   }
 
 
@@ -2617,6 +3598,8 @@ var pnut = (function () {
     numVarsUsed                : numVarsUsed,
     numVarsInFuncsUseGloVars   : numVarsInFuncsUseGloVars,
     isAnyFuncVar               : isAnyFuncVar,
+    numVarsWritten             : numVarsWritten,  // pds add
+    numVarsRead                : numVarsRead,     // pds add
 
     /* 2. Style Grading for Declaration and Use of Array      */
     numDecArrs                 : numDecArrs,
@@ -2655,7 +3638,7 @@ var pnut = (function () {
     isRecursiveFunction        : isRecursiveFunction,
 
     /* 8. Stotts' Old API Functions                           */
-    numBadGlobalDecls          : numBadGlobalDecls ,
+    numBadGlobalDecls          : numBadGlobalDecls,
     numBadGlobalUses           : numBadGlobalUses,
     usesBadGlobalVars          : usesBadGlobalVars,
     numForLoops                : numForLoops, 
@@ -2666,8 +3649,21 @@ var pnut = (function () {
     numWhileLoopsInAllFuncDecls: numWhileLoopsInAllFuncDecls,
     numTopFuncDecls            : numTopFuncDecls, 
     numTopFuncCalls            : numTopFuncCalls, 
+    numTopNumberCalls          : numTopNumberCalls, 
+    numTopLHSFuncCalls         : numTopLHSFuncCalls, 
     listTopLevelTypes          : listTopLevelTypes, 
     isAllFuncDeclsPlusOneCall  : isAllFuncDeclsPlusOneCall, 
+    isJustOneTopFuncCall       : isJustOneTopFuncCall, 
+    isJustTwoTopFuncCall       : isJustTwoTopFuncCall, 
+    hasUseStrictFirst          : hasUseStrictFirst,
+    numTopAlertOnVar           : numTopAlertOnVar, 
+    numTopAlertOnLit           : numTopAlertOnLit, 
+    numTopAlertOnBinExp        : numTopAlertOnBinExp, 
+    hasOneTopAlertOnVar        : hasOneTopAlertOnVar, 
+    hasOneTopAlertOnBinExp     : hasOneTopAlertOnBinExp, 
+    hasOneTopAlertOnLit        : hasOneTopAlertOnLit,
+    hasTwoTopAlertOnVar        : hasTwoTopAlertOnVar,
+    hasTwoTopAlertOnBinExp     : hasTwoTopAlertOnBinExp 
 
   }
 
