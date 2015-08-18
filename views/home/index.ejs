@@ -140,7 +140,9 @@
     overflow-y: scroll;
    overflow: -moz-scrollbars-vertical;
   }
-
+  .navbar-text {
+    color: #D2D2D2 !important;
+  }
 
 </style>
 <script src="lib/codemirror.js"></script>
@@ -255,6 +257,26 @@ User.find({admin: true}).exec(function(err, users) {
     </div>
 </div>
 
+<!-- Pending Feedback -->
+<div class="modal fade" id="pendingFeedbackModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Pending Requests</h4>
+        </div>
+        <div class="modal-body" >
+          <p>You have pending feedback requests on the following problems:</p>
+          <ul id='pendingFeedbackBody'><ul>
+          <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        </div>
+      </div>
+      
+    </div>
+</div>
+
 
 <!-- Pending Request Modal -->
 <div class="modal fade" id="pendingRequestModal" role="dialog">
@@ -354,8 +376,8 @@ User.find({admin: true}).exec(function(err, users) {
 		<div class="row pointbreakdownbox">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
 				<button id="test" type="button" class="btn btn-warning" style="width:100%">Test Locally</button> 
-				<button data-toggle="modal" data-target="#myModal" class="btn btn-success" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
-				<button id="reload" type="button" class="btn btn-primary" style="width:100%" disabled="disabled">Reload Latest Submission</button>
+				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
+				<button id="reload" type="button" class="btn btn-primary hidden" style="width:100%" disabled="disabled">Reload Latest Submission</button>
 			</div>
 			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
 					<b>Highest Score:</b><br/>

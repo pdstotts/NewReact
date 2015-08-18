@@ -12,7 +12,8 @@ create: function (req, res) {
       code: req.param("code"),
       style: JSON.parse(req.param("style")),
       value: {correct: 2, style: 2},
-      fbRequested: false
+      fbRequested: false,
+
     };
     Submission.create(submissionDetails).done(function(err, submission) {
     console.log("creating submission...");
@@ -46,6 +47,8 @@ create: function (req, res) {
         var currentUser = req.param("currentUser");
         var mostRecent = req.param("mostRecent");
         var deleteCount = req.param("deleteCount");
+        var shareOK = req.param("shareOK");
+        var shared = req.param("shared");
 
         var ascending = req.param("ascending");
         var limitOne = req.param("limitOne");
@@ -83,6 +86,12 @@ create: function (req, res) {
           }
           if(currentUser){
             opts['user'] = req.user.username;
+          }
+          if(shareOK){
+            opts['shareOK'] = shareOK;
+          }
+          if(shared){
+            opts['shared'] = null;
           }
           if(feedback){
             opts['fbRequested'] = true;

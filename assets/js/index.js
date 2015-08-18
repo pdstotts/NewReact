@@ -70,7 +70,7 @@ function addProblemToAccordian(problem,folderName){
 
 //			console.log(folderName + $("#panel-" + folderName).hasClass("panel-warning"));
 			if(availablePoints <= currentEarned && $("#panel-" + folderName).hasClass("panel-warning")){
-				$(checkDiv).append(correct("8px").css("float","right"));
+				$(checkDiv).empty().append(correct("8px").css("float","right"));
 				$("#panel-" + folderName).removeClass("panel-danger");
 				$("#panel-" + folderName).removeClass("panel-warning");
 				$("#panel-" + folderName).addClass("panel-success");
@@ -137,6 +137,8 @@ function addProbInfo (problem) {
 	if(problem.testMode == true) { problemName = problem.name + " (in Test Mode)" };
 	$("#submissions").removeClass("hidden");
 	$("#hideInst").removeClass("hidden");
+	$("#initSubmit").removeClass("hidden");
+	$("#reload").removeClass("hidden");
 	$("#recentpointbreakdown").addClass("hidden");
   	$("#desc-title").empty().append(problemName);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
@@ -362,6 +364,7 @@ function fillPendingRequestModal(submission){
 			$.post("/submission/update", {id: submission.id, fbRequested: false, fbRequestTime: null, fbRequestMsg: null}, function (submission) {
 				console.log("submission update in pending");
 				request(submission);
+				addPendingButton();
 			});
 		}
     });
@@ -402,6 +405,7 @@ function fillSubmitRequestModal(submission){
 			$.post("/submission/update", {id: submission.id, fbRequested: true, fbRequestTime: now, fbRequestMsg: message}, function (submission) {
 				console.log("submission update in request");
 				pending(submission);
+				addPendingButton();
 			});
 		}
     });
@@ -492,9 +496,9 @@ function updateScore(){
     $.post("/setting/read/", {name: "points"}, function(setting){
 		points = setting.value;
 	    $.post("/user/read/", {me: true}, function(user){
-			$("#grade").empty().append("0" + "/" + points);
+			$("#grade").empty().append("0" + " / " + points);
 	    	if($.isNumeric(user.currentScore)){ 
-				$("#grade").empty().append(user.currentScore + "/" + points);
+				$("#grade").empty().append(user.currentScore + " / " + points);
 			}else { //if first log in
 				console.log('is not number');
                 $.post("/user/updateScore/", {currentScore:"0"}, function(user){
@@ -680,6 +684,65 @@ function fillUnseenFeedbackModal(submissions){
 	}
 }
 
+function fillPendingFeedbackModal(submissions){
+	$("#pendingFeedbackBody").empty();
+	var myArray = [];
+	submissions.forEach( function (submission) {
+		console.log(submission.fbResponseTime + submission.user);
+		var rqTime = new Date(submission.fbRequestTime);
+		var rpTime = new Date(submission.fbResponseTime);
+
+		myArray.push(submission.problem);
+	});
+
+	$.unique(myArray);
+    for (var i = 0; i < myArray.length; i++){
+    
+		$.post("/problem/read", {id: myArray[i]}, function (problem) {
+			$.post("/folder/read", {id: problem.folder}, function (folder) {
+				var button = $("<a></a>")
+					.attr("data-dismiss","modal")
+					.html(problem.name + " in " + folder.name).click(function () {
+							addProbInfo(problem);
+					});
+				$("#pendingFeedbackBody").append($("<li>").append(button));
+			});
+		});
+
+	}
+	if(myArray.length == 0){
+		$("#pendingFeedbackBody").append("Oops! There are no pending requests! Try refreshing the page.");
+	}
+}
+
+function addPendingButton(){
+	$.post("/submission/read/", {currentUser:true, feedback: true}, function(submissions){
+    	if(submissions.length > 0){
+    		if(!$("#pendingFeedbackButton").length){
+			    var modalLink = $("<button></button>")
+			    	.attr("id","pendingFeedbackButton")
+					.attr("type","button")
+					.css("float","right")
+					.css("margin-top","7px")
+					.addClass("btn btn-warning")
+			        .attr("data-toggle","modal")  //save
+			        .attr("data-target","#pendingFeedbackModal")  //save
+					.text("Pending Requests")
+			        .click(function (event) {
+			            event.preventDefault();
+			            $.post("/submission/read/", {currentUser:true, feedback: true}, function(submissions){
+		           			fillPendingFeedbackModal(submissions);
+		           		});		   	
+			        });
+		  	  	$("#navbarHeader").append(modalLink);
+    		}
+    	}else {
+    		$("#pendingFeedbackButton").remove();
+    	}
+
+    });
+}
+
 window.onload = function () {
 
 	(function () {
@@ -703,7 +766,7 @@ window.onload = function () {
 						.addClass("btn btn-success")
 				        .attr("data-toggle","modal")  //save
 				        .attr("data-target","#unseenFeedbackModal")  //save
-						.text("Feedback")
+						.text("Unread Feedback")
 				        .click(function (event) {
 				            event.preventDefault();
 				            $.post("/submission/read/", {feedbackSeen: false,currentUser:true}, function(submissions){
@@ -713,6 +776,11 @@ window.onload = function () {
 			  	  	$("#navbarHeader").append(modalLink);
 	        	}
 	        });
+
+	        addPendingButton();
+
+	 
+
         }else {
             feedbackOn = false;
         }

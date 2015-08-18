@@ -966,7 +966,7 @@ function getIndividual(user, refresh) {
         }
     });
 
-    $("#individualName").html(user.displayName + " " + user.username);
+    $("#individualName").html(user.displayName + " (" + user.username + ")");
     $("#studentScoreButton").html(user.currentScore + "/" + points);
 
     var tooltipGreen = "Problems for which full points were earned";
@@ -1886,6 +1886,22 @@ window.onload = function () {
         getStudentResults(curProblem);        
     });
 
+    $( "#clearShareRequests" ).click(function (event) {
+        console.log("clearShareRequests");
+
+        $.post("/submission/read", { id:curProblem.id, shareOK: true, shared: false }, function(submissions) {
+            var length = submissions.length;
+            var count = 0;
+            submissions.forEach(function (submission) {
+                $.post("/submission/update", {id: submission.id, shared: true}, function (submission) {
+                    count = count + 1;
+                    if(count == length){
+                        getStudentResults(curProblem);
+                    }
+                });
+            });
+        });
+    });
     
     //add problems
 	$("#addProblem").click(function (event) {
@@ -2108,27 +2124,6 @@ window.onload = function () {
             if(submission.problem == curProblem.id){
                 getStudentResults(curProblem)
             }
-        /*      
-            $("#feedbackSubmitDiv").addClass("hidden");
-            poioloooioim stupidio
-
-            time = submission.fbResponseTime;
-            if(time != null){
-               time = submission.fbResponseTime.toLocaleString()
-            }
-            $("#feedbackResponseTime").empty().append("<b>Feedback submitted!</b>");
-            $("#fbResponseMsg").empty().append(fbResponseMsg);
-            var editorText = "";
-            if(fbCode){
-                editorText = fbCode;
-            }
-            fbEditorReadOnly.setValue(editorText);
-            //weird trick to make sure the codemirror box refreshes
-            var that = this;  
-            setTimeout(function() {
-                that.fbEditorReadOnly.refresh();
-            },1);
-*/
         });
     });
 
@@ -2164,6 +2159,13 @@ window.onload = function () {
                 $("#fbResponseMessageDash").val("");
                 getFeedbackDash();
             }, 2000);
+
+            if(curProblem){
+                if(submission.problem == curProblem.id){
+                    getStudentResults(curProblem)
+                }                
+            }
+
 
         });
 

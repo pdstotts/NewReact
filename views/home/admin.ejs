@@ -436,7 +436,11 @@ ul {
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
-								<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;" class="form-control">
+							<button style="float:right;margin-top:-6px;" class="btn btn-primary btn-sm" id="clearShareRequests" data-toggle="tooltip" data-placement="top" title="Dimiss all Share Requests">
+								<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+							</button>
+
+							<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;" class="form-control">
 								<option value="0">Manual</option>
 								<option value="2">2 seconds DELETE</option>
 								<option value="10">10 seconds</option>
@@ -444,6 +448,7 @@ ul {
 								<option value="60">1 minute</option>
 								<option value="180">3 minutes</option>
 							</select>
+
 						</h4>
 					</div>
 
