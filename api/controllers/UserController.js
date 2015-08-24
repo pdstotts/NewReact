@@ -59,6 +59,34 @@ module.exports = {
 
        
     },
+
+    delete: function (req, res) {
+        console.log("delete user");
+        var onyen = req.param("onyen");
+        console.log(onyen);
+        
+        User.destroy({username: onyen}).done(function(err, user){
+            if(err){
+                console.log(err);
+            } else {
+            }
+        });
+        //delete all children submissions
+        Submission.find({user: onyen}).done(function(err, submissions){
+          submissions.forEach( function (submission) {
+              Submission.destroy({id: submission.id}).done(function(err, submission){
+                if(err){
+                    console.log(err);
+                } else {
+                  res.end();
+                }
+              });
+          });
+        });
+
+
+    },
+
     readAdmin: function (req, res) {
         User.find({admin: true})
         .sort({"displayName": 1})

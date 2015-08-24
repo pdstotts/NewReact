@@ -923,10 +923,11 @@ function fillSubmissionFeedback(submission,user){
         }
         fbEditorReadOnly.setValue(editorText);
         //weird trick to make sure the codemirror box refreshes
-        var that = this;  
         setTimeout(function() {
-            that.fbEditorReadOnly.refresh();
-        },1);
+            fbEditorReadOnly.refresh();
+            console.log("fbEditorReadOnly refresh");
+        },10);
+
         time = submission.fbResponseTime;
         if(time != null){
             time = new Date(submission.fbResponseTime).toLocaleString();
@@ -948,6 +949,7 @@ function fillSubmissionFeedback(submission,user){
 
 
 function getIndividual(user, refresh) {
+
     //Generate page for particular individual student    
     if(curStudent == user.id && refresh == false){
         return;
@@ -972,6 +974,18 @@ function getIndividual(user, refresh) {
     });
 
     $("#individualName").html(user.displayName + " (" + user.username + ")");
+    var removeButton = $("<a href='#'></a>")
+        .css("color","red")
+        .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right" ></span>') // the trailing space is important!
+        .click(function () {
+            console.log("clicked");
+            if (confirm('Are you sure you wish to delete the person "' + user.username + '"?')) {
+                $.post("/user/delete", {onyen: user.username}, function(user){
+                    alert("This person is done for! Please refresh page!");
+                });
+            }
+        });
+    $("#individualName").append(removeButton);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
 
     var tooltipGreen = "Problems for which full points were earned";
@@ -2159,8 +2173,10 @@ window.onload = function () {
 
         $.post("/submission/update", {id: curSubmission.id, fbResponseTime: fbResponseTime, fbCode: fbCode, fbResponseMsg: fbResponseMsg, fbResponder: fbResponder}, function (submission) {
             fillSubmissionFeedback(submission,null);
-            if(submission.problem == curProblem.id){
-                getStudentResults(curProblem)
+            if(curProblem){
+                if(submission.problem == curProblem.id){
+                    getStudentResults(curProblem)
+                }
             }
         });
     });
@@ -2230,13 +2246,11 @@ window.onload = function () {
     
     $('.nav-tabs').on('click', function() {
         console.log("nav tabs clicked");
-        var that = this;  
         setTimeout(function() {
-            that.fbEditorReadOnly.refresh();
+            fbEditorReadOnly.refresh();
         },10);
-        var that = this;  
         setTimeout(function() {
-            that.fbEditor.refresh();
+            fbEditor.refresh();
         },10);
     });
 

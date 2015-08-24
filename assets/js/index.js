@@ -968,6 +968,7 @@ window.onload = function () {
 					});
 					setRecentScore(submission.value.correct, submission.value.style);
 					setConsoleResultMessage(submission.message);
+					console.log("studentScore tada");
 					studentScore();
 				});
 			} catch (e) {
