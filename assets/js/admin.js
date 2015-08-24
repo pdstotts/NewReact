@@ -2217,6 +2217,11 @@ window.onload = function () {
         console.log('move');
         $("#moveMe").detach().appendTo('#moveEdit');
     });
+
+    $('.addLink').on('click', function() {
+        console.log('move');
+        $("#moveMe").detach().appendTo('#moveAdd');
+    });
     
     $('.nav-tabs').on('click', function() {
         console.log("nav tabs clicked");

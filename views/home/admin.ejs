@@ -318,7 +318,7 @@ ul {
 	     	<ul class="nav navbar-nav">
 				<li><a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">Matrix</a></li>
 				<li><a class="navbar-brand editLink" href="#edit" data-toggle="pill">Edit</a></li>
-				<li><a class="navbar-brand " href="#addquestion" data-toggle="pill">Add</a></li>
+				<li><a class="navbar-brand addLink" href="#addquestion" data-toggle="pill">Add</a></li>
 				<li id='feedbackNav'></li>
 				<li><a class="navbar-brand " href="#students" data-toggle="pill">Students</a>
 				</li>
@@ -610,8 +610,9 @@ ul {
 
 		<!-- ADD QUESTION SECTION -->
 		<div class=" tab-pane " id="addquestion">
-			<div class="col-md-3">
-				<div id="newProblemError"></div>
+			<div class=" navigationPanel panel panel-default col-md-3 ">
+				<div id="moveAdd">
+				</div>
 			</div>
 			<div class="col-md-9">
 				<div  class="panel panel-default tab-pane " id="addquestion">
@@ -702,6 +703,7 @@ ul {
 						</form>
 					</div>
 				</div>
+				<div id="newProblemError"></div>
 			</div>
 		</div>
 		<!-- ADD QUESTION SECTION ENDS -->
