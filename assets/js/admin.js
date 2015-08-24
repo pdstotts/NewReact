@@ -287,6 +287,7 @@ function getStudentResults(problem) {
             .attr("class","")
             .html("<span><span class='glyphicon glyphicon-user' data-toggle='tooltip' data-placement='top' title='View User' ></span>") // the trailing space is important!
             .click(function () {
+                $("#matrixLink").removeClass("active");
                 event.preventDefault();
                 $.post("/user/read/" + user.id, {}, function (user) {
                     if (!user) {
@@ -316,6 +317,7 @@ function getStudentResults(problem) {
             var a = $("<td></td>")
                 .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
                 .click(function (event) {
+                    $("#matrixLink").removeClass("active");
                     event.preventDefault();
                     $.post("/user/read/" + user.id, {}, function (user) {
                         if (!user) {
@@ -663,7 +665,10 @@ function getStudentList() {
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
                 .append(user.displayName + "<br />")
-                .append(badge);
+                .append(badge)
+                .click(function (event){
+                    $("#studentsLink").removeClass("active");
+                });
 
             csv = csv + "%0A" + user.username + "," + user.currentScore;
             var a = $("<td></td>")
