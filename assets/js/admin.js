@@ -987,6 +987,10 @@ function getIndividual(user, refresh) {
         });
     $("#individualName").append(removeButton);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
+    $("#feedbackConversation").empty();
+    $("#feedbackHeader").addClass("hidden");
+    $("#shareRequestCount").empty().append("0");
+    $("#feedbackRequestCount").empty().append("0");
 
     var tooltipGreen = "Problems for which full points were earned";
     var tooltipYellow = "Attempted problems that did not recieve full credit";
@@ -1007,6 +1011,8 @@ function getIndividual(user, refresh) {
         $.post("/folder/read", null, function (folders) {
             var totalEarned = 0;
             var totalAttempted = 0;
+            var totalShareRequest = 0;
+            var totalFeedbackRequest = 0;
             folders.forEach(function (folder) {
                 var folderEarned = 0;
                 var folderAvailable = 0;
@@ -1044,13 +1050,37 @@ function getIndividual(user, refresh) {
                                 if(totalSubmissionNumber == submissionCount){
                                     $("#studentRefresh").removeAttr('disabled');
                                     $("#studentRefreshGlyph").removeClass("spin");
-
+                                    $("#shareRequestCount").empty().append(totalShareRequest);
+                                    $("#feedbackRequestCount").empty().append(totalFeedbackRequest);
                                 }
                                 if(submission.fbRequested && submission.fbResponseTime == null){
+                                    $("#feedbackHeader").removeClass("hidden");
                                     feedbackRequested = true;
+                                    var button = $("<a></a>")
+                                        .attr("href","#submission")
+                                        .css("color","#953032")
+                                        .attr("data-toggle","pill")  //save
+                                        .html(problem.name) // the trailing space is important!
+                                        .click(function (event) {
+                                            getSubmission(submission,user,problem);
+                                        });
+
+                                    var panel = $('<div class="panel panel-danger"></div>').append($('<div class="panel-heading"></div>').append(button));
+                                    if(submission.fbRequestMsg){
+                                        panel.append('<div class="panel-body">' + submission.fbRequestMsg + '</div>');
+                                    }
+                                    $("#feedbackConversation").append(panel);
                                 }
                                 if(submission.fbResponseTime != null){
                                     feedbackGiven = true;
+                                }
+                                if(submission.fbRequested){
+                                    console.log("totalFeedbackRequest");
+                                    totalFeedbackRequest = totalFeedbackRequest + 1;
+                                }
+                                if(submission.shareOK){
+                                    console.log("totalShareRequest");
+                                    totalShareRequest = totalShareRequest + 1;
                                 }
 
                                 var d = new Date(submission.createdAt);
