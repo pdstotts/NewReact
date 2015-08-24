@@ -1464,40 +1464,59 @@ function loadUsers() {
     $("#admins").empty();
     $.post("/user/readAdmin", null, function (admins) {
         admins.forEach(function(admin) {
-            var removeButton = $("<a href='#'></a>")
-            .css("color","red")
-            .css("float","left")
-            .html("<span class='glyphicon glyphicon-remove'></span> ") // the trailing space is important!
-            .click(function () {
-                if (confirm('Are you sure you wish to delete ?')) {
-                    $.post("/user/removeAdmin", {id: admin.id}, function () {
-                        loadUsers();
-                    });
-                }
-             });
+            var nameSpace = $("<div></div>").attr('id',"adminName" + admin.username).append(adminRemoveButton(admin)).append(admin.displayName + "  <i>(" + admin.username + ")</i>").append(adminEditButton(admin));
 
-            var nameSpace = $("<div></div>").attr('id',"adminName" + admin.username).append(admin.displayName).append(adminEditButton(admin));
-
-            var label = $("<li></li>").attr("class","list-group-item").append(removeButton).append(nameSpace);
+            var label = $("<li></li>").attr("class","list-group-item").append(nameSpace);
             $("#admins").append(label);
         });
+        $('[data-toggle="tooltip"]').tooltip()
+
     });
+}
+
+function adminRemoveButton(admin){
+    var removeButton = $("<a href='#'></a>")
+        .css("color","red")
+        .css("float","left")
+        .css("margin-right","5px")
+        .attr("data-toggle","tooltip")
+        .attr("data-placement","top")
+        .attr("title","Remove as Admin")
+        .html("<span class='glyphicon glyphicon-remove'></span> ") // the trailing space is important!
+        .click(function () {
+            if (confirm('Are you sure you wish to delete ?')) {
+                $.post("/user/removeAdmin", {id: admin.id}, function () {
+                    loadUsers();
+                });
+            }
+         }); 
+    return removeButton;
 }
 
 function adminEditButton(admin){
      var editButton = $("<a href='#'></a>")
         .css("color","green")
+        .css("margin-left","5px")
+        .attr("data-toggle","tooltip")
+        .attr("data-placement","top")
+        .attr("title","Edit Display Name")
         .html("<span class='glyphicon glyphicon-pencil'></span> ") // the trailing space is important!
         .click(function () {
             var editDiv = $("<div class='input-group'></div>")
-            .append("<input type='text' id='nameChange" + admin.username + "' class='form-control' placeholder='" + admin.displayName + "'></input>")
-            .append($("<span class='input-group-btn' ></span>").append(adminSaveEditButton(admin)))
+            .append("<input type='text' id='nameChange" + admin.username + "' class='form-control' placeholder='" + admin.displayName + "  (" + admin.username + ")" + "'></input>")
+            .append($("<span class='input-group-btn' ></span>").append(adminSaveEditButton(admin)).append(adminCancelEditButton(admin)))
             $("#adminName" + admin.username).empty().append(editDiv).append("<div id='nameChangeError'></div>");
+            $('[data-toggle="tooltip"]').tooltip()
+
         });
     return editButton;
 }
+
 function adminSaveEditButton(admin){
     var saveButton = $("<button type='submit' id='changeNameBtn' class='btn btn-default'></button>")
+        .attr("data-toggle","tooltip")
+        .attr("data-placement","top")
+        .attr("title","Save")
         .append("<span class='glyphicon glyphicon-thumbs-up' style='color:green;'></span>")
         .click( function() {
             if($("#nameChange" + admin.username).val()==""){
@@ -1513,6 +1532,20 @@ function adminSaveEditButton(admin){
                     });
                 }
             }
+        });
+    return saveButton;
+}
+
+function adminCancelEditButton(admin){
+    var saveButton = $("<button type='submit' id='changeNameBtn' class='btn btn-default'></button>")
+        .attr("data-toggle","tooltip")
+        .attr("data-placement","top")
+        .attr("title","Cancel")
+        .append("<span class='glyphicon glyphicon-thumbs-down' style='color:red;'></span>")
+        .click( function() {
+            $("#adminName" + admin.username).empty().append(adminRemoveButton(admin)).append(admin.displayName + "  <i>(" + admin.username + ")</i>").append(adminEditButton(admin));
+            $('[data-toggle="tooltip"]').tooltip()
+
         });
     return saveButton;
 }
