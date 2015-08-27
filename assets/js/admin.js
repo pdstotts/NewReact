@@ -266,6 +266,7 @@ function getStudentResults(problem) {
     numstyle = 0;
     numattempted = 0;
     numearned = 0;
+    var numpointsattempted = 0;
     $("#matrixBody").empty();
     var tbl = $("<table class='table' style='margin-bottom:0px;'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD'># Tries</th><th class='probStudentSubmissionTableTD'>Functionality</th><th class='probStudentSubmissionTableTD'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
     $("#allStudents1ProblemTable").empty().append(tbl);
@@ -365,6 +366,8 @@ function updateProblemProgressBar(){
 
                 if(results.tried) {
                     numattempted++;
+                    numpointsattempted = numpointsattempted + parseFloat(problem.value.correct) + parseFloat(problem.value.style);
+
                     if(results.correct) {
                         numfunct++;
                     }
@@ -376,6 +379,7 @@ function updateProblemProgressBar(){
                     }
                 }
                 //update progress labels
+                $("#answeredCorrect").empty().append(Math.floor((numearned/numattempted)*100)+"%");
                 $("#function").empty().append(Math.floor((numfunct/total)*100)+"%");
                 $("#style").empty().append(Math.floor((numstyle/total)*100)+"%");
                 $("#pbp-yellow").css("width",Math.floor(((numattempted-numearned)/total)*100)+"%");
@@ -502,6 +506,7 @@ function problemCorrect(user, problem, student, totalStudents){
         }
 
         //update progress labels
+        $("#answeredCorrect").empty().append(Math.floor((numearned/numattempted)*100)+"%");
         $("#function").empty().append(Math.floor((numfunct/total)*100)+"%");
         $("#style").empty().append(Math.floor((numstyle/total)*100)+"%");
         $("#pbp-yellow").css("width",Math.floor(((numattempted-numearned)/total)*100)+"%");
@@ -1045,6 +1050,7 @@ function getIndividual(user, refresh) {
                         var problemRow = $("<tr>");
                         var problemRowSubmissions = [];
                         $.post("/submission/read/", {id: problem.id, student: user.username}, function(submissions){
+                            var highestSubmission = { correct:0,style:0 };
                             submissions.forEach( function (submission) {
                                 submissionCount++;
                                 if(totalSubmissionNumber == submissionCount){
@@ -1126,6 +1132,10 @@ function getIndividual(user, refresh) {
                                     earnedFuncPoints = parseFloat(submission.value.correct);
                                     totalEarned += parseFloat(earnedFuncPoints);
                                 }
+                                if (parseFloat(submission.value.correct) + parseFloat(submission.value.style) > parseFloat(highestSubmission.correct) + parseFloat(highestSubmission.style)){
+                                    highestSubmission.correct = parseFloat(submission.value.correct);
+                                    highestSubmission.style = parseFloat(submission.value.style);
+                                }
                                 var percent = parseFloat(totalEarned) / parseFloat(points) * parseInt(100);
                                 percent = percent + "%";
                                 $("#pbgreen").css("width",percent);
@@ -1159,8 +1169,8 @@ function getIndividual(user, refresh) {
                                 });
                                 problemRow.append($("<td>").append(a));
                                 problemRow.append($("<td></td>").append(submissions.length));
-                                problemRow.append($("<td></td>").append(scoreBadge(earnedFuncPoints,availableFuncPoints)));
-                                problemRow.append($("<td></td>").append(scoreBadge(earnedStylePoints,availableStylePoints)));
+                                problemRow.append($("<td></td>").append(scoreBadge(highestSubmission.correct,availableFuncPoints)));
+                                problemRow.append($("<td></td>").append(scoreBadge(highestSubmission.style,availableStylePoints)));
                                 
                                 if(feedbackOn){
                                     if(feedbackRequested){
