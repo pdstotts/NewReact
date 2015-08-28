@@ -247,8 +247,27 @@ create: function (req, res) {
     var shared = req.param("shared");
     var feedbackSeen = req.param("feedbackSeen");
 
+    var correct = req.param("correct");
+    var style = req.param("style");
 
-    if(feedbackSeen){
+    if(correct){
+      console.log('updating pts');
+      var value = {correct:parseFloat(correct), style: parseFloat(style)}
+      console.log(value);
+      Submission.update({id: id},{value:value},{ upsert: true }).exec(function(err, submission) {
+          if(err) {
+              console.log(err);
+          } else {
+            Submission.findOne({id: id}).exec(function(err, submission) {
+                if (err) {
+                    console.log("error getting submission from database");
+                } else {
+                    res.send(submission);
+                }
+            });
+          }
+      });
+    } else if(feedbackSeen){
       if(shared == "true"){
         shared = true;
       }else {

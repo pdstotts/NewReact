@@ -338,12 +338,12 @@ function updateProblemProgressBar(){
                 } else {
                     results.tried = true;
                     submissions.forEach(function(submission) {
-                        if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
+                        if(submission.value.correct >= problem.value.correct && submission.value.style >= problem.value.style) {
                             results.correct = true;
                             results.style = true;
                             return true;
                         }
-                        else if(submission.value.correct == problem.value.correct && submission.value.style != problem.value.style) {
+                        else if(submission.value.correct >= problem.value.correct && submission.value.style != problem.value.style) {
                             results.correct = true;
                         }
                     });
@@ -453,12 +453,12 @@ function problemCorrect(user, problem, totalStudents, userButton){
                     }
                 }
 
-                if(submission.value.correct == problem.value.correct && submission.value.style == problem.value.style) {
+                if(submission.value.correct >= problem.value.correct && submission.value.style >= problem.value.style) {
                     results.correct = true;
                     results.style = true;
                     return true;
                 }
-                else if(submission.value.correct == problem.value.correct && submission.value.style != problem.value.style) {
+                else if(submission.value.correct >= problem.value.correct && submission.value.style != problem.value.style) {
                     results.correct = true;
                 }
 
@@ -506,8 +506,8 @@ function problemCorrect(user, problem, totalStudents, userButton){
                         getSubmission(submission,user,problem);
             });
             submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(a));
-            var iconF = submission.value.correct ==  problem.value.correct ? correct("8px") : wrong("8px");
-            var iconS = submission.value.style ==  problem.value.style ? correct("8px") : wrong("8px");
+            var iconF = submission.value.correct >=  problem.value.correct ? correct("8px") : wrong("8px");
+            var iconS = submission.value.style >=  problem.value.style ? correct("8px") : wrong("8px");
             submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
             submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.style,problem.value.style)));
             myRows.push(submissionRow);
@@ -763,12 +763,12 @@ function getSubmission(submission,user,problem) {
     $("#SavailablePtCorrect").html(problem.value.correct);
     $("#SearnedPtStyle").html(submission.value.style);
     $("#SavailablePtStyle").html(problem.value.style);
-    if(submission.value.correct == problem.value.correct){
+    if(submission.value.correct >= problem.value.correct){
         $("#ScorrectCheck").empty().append(correct("8px"));
     }else {
         $("#ScorrectCheck").empty().append(wrong("8px"));
     }
-    if(submission.value.style == problem.value.style){
+    if(submission.value.style >= problem.value.style){
         $("#SstyleCheck").empty().append(correct("8px"));
     }else {
         $("#SstyleCheck").empty().append(wrong("8px"));
@@ -820,12 +820,15 @@ function getSubmission(submission,user,problem) {
                     getSubmission(submission,user,problem);
                 });
             }
-            var b = $("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
-            var c = $("<td></td>").append(scoreBadge(submission.value.style,problem.value.style));
             if(currentId == submission.id){
                 var d = $("<td id='activeSubmission' ></td>");
+                var b = $("<td id='activeSubmissionScoreF'></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
+                var c = $("<td id='activeSubmissionScoreS'></td>").append(scoreBadge(submission.value.style,problem.value.style));
             }else {
                 var d = $("<td></td>");
+                var b = $("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
+                var c = $("<td></td>").append(scoreBadge(submission.value.style,problem.value.style));
+
             }
 
             row.append(a);
@@ -1112,12 +1115,12 @@ function getIndividual(user, refresh) {
                                     event.preventDefault();
                                         getSubmission(submission,user,problem);
                                 });
-                                if(submission.value.correct == problem.value.correct){
+                                if(submission.value.correct >= problem.value.correct){
                                     var checkF = correct("8px");
                                 }else {
                                     var checkF = wrong("8px");
                                 }
-                                if(submission.value.style == problem.value.style){
+                                if(submission.value.style >= problem.value.style){
                                     var checkS = correct("8px");
                                 }else {
                                     var checkS = wrong("8px");
@@ -1163,12 +1166,12 @@ function getIndividual(user, refresh) {
 
                                 totalAttempted += parseFloat(availableStylePoints) - parseFloat(earnedStylePoints);
                                 totalAttempted += parseFloat(availableFuncPoints) - parseFloat(earnedFuncPoints);
-                                if(earnedFuncPoints == availableFuncPoints){
+                                if(earnedFuncPoints >= availableFuncPoints){
                                     var checkF = correct("8px");
                                 }else {
                                     var checkF = wrong("8px");
                                 }
-                                if(earnedStylePoints == availableStylePoints){
+                                if(earnedStylePoints >= availableStylePoints){
                                     var checkS = correct("8px");
                                 }else {
                                     var checkS = wrong("8px");
@@ -2318,6 +2321,46 @@ window.onload = function () {
             $('.submissionCollapse').collapse('show');
         }
         return false;
+    });
+
+    $('#editSubmissionPtsF').on('click', function() {
+        var newScore = prompt("Insert updated functionality score for this submission: ");
+        if(newScore){
+            $.post("/submission/update", {id: curSubmission.id, correct:parseFloat(newScore), style:parseFloat(curSubmission.value.style)}, function (submission) {
+                curSubmission = submission;
+                $("#SearnedPtCorrect").empty().append(submission.value.correct);
+                var SavailablePtCorrect = $("#SavailablePtCorrect").html();
+                $("#activeSubmissionScoreF").empty().append(scoreBadge(submission.value.correct,SavailablePtCorrect));
+                if(parseFloat(submission.value.correct) >= parseFloat(SavailablePtCorrect)){
+                    $("#ScorrectCheck").empty().append(correct("8px"));
+                }else {
+                    $("#ScorrectCheck").empty().append(wrong("8px"));
+                }
+                if(curSubmission.problem == curProblem.id){
+                    fillProblemDisplay(curProblem);
+                }
+            });
+        }
+    });
+
+    $('#editSubmissionPtsS').on('click', function() {
+        var newScore = prompt("Insert updated style score for this submission: ");
+        if(newScore){
+            $.post("/submission/update", {id: curSubmission.id, style:parseFloat(newScore), correct:parseFloat(curSubmission.value.correct)}, function (submission) {
+                curSubmission = submission;
+                $("#SearnedPtStyle").empty().append(submission.value.style);
+                var SavailablePtStyle = $("#SavailablePtStyle").html();
+                $("#activeSubmissionScoreS").empty().append(scoreBadge(submission.value.style,SavailablePtStyle));
+                if(parseFloat(submission.value.style) >= parseFloat(SavailablePtStyle)){
+                    $("#SstyleCheck").empty().append(correct("8px"));
+                }else {
+                    $("#SstyleCheck").empty().append(wrong("8px"));
+                }
+                if(curSubmission.problem == curProblem.id){
+                    fillProblemDisplay(curProblem);
+                }
+            });
+        }
     });
 
 
