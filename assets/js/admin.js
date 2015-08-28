@@ -383,13 +383,7 @@ function problemCorrect(user, problem, totalStudents, userButton){
     var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
     $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username}, function(submissions){
        var student = $("<tr></tr>");
-
-        if(submissions.length == 0){
-            student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
-        } else {
-            var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
-            
-            var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
+        var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
             .css("color","#627E86")
             .css("padding-left","4px;")
             .attr("class","")
@@ -406,11 +400,18 @@ function problemCorrect(user, problem, totalStudents, userButton){
                 });
             });
             $('[data-toggle="tooltip"]').tooltip();
+            
 
+        if(submissions.length == 0){
             var a = $("<td></td>")
                 .css("text-align","left")
                 .append(userButton)
-                .append("<a> " + user.displayName + " (" + submissions.length + ")</a>")
+                .append(" " + user.displayName + " (0)</a>");
+            student.append(a);
+        } else {
+            var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
+          
+            var collapseLink = $("<a></a>").append(" " + user.displayName + " (" + submissions.length + ")")
                 .click(function (event) {
                     if($(".submissionUser"+user.username).hasClass("hidden")) {
                         $(".submissionUser"+user.username).removeClass('hidden');
@@ -418,6 +419,10 @@ function problemCorrect(user, problem, totalStudents, userButton){
                         $(".submissionUser"+user.username).addClass('hidden');
                     }
                 });
+            var a = $("<td></td>")
+                .css("text-align","left")
+                .append(userButton)
+                .append(collapseLink);
             student.append(a);
 
             myVariable.append(a);
