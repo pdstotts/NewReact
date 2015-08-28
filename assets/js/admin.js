@@ -175,6 +175,7 @@ function feedbackRequestButton(submission,username,problem){
         .css("padding-left","4px;")
         .html('<span><span class="glyphicon glyphicon-exclamation-sign"  data-toggle="tooltip" data-placement="top" title="Feedback Request"></span>') // the trailing space is important!
         .click(function (event) {
+            $("#matrixLink").removeClass("active");
             event.preventDefault();
             $.post("/user/read", {onyen: username}, function (user) {
                 if (user) {
