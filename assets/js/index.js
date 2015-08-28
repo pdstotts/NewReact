@@ -561,9 +561,11 @@ function studentScore(){ //recalculate and re-store the student's score
 
 function setConsoleResultMessage(msg) {
 	$("#console").empty();
-	$("#console").append(msg);
-	var eachLine = msg.split('\n');
-	$('#console').attr("rows", eachLine.length);
+	if(msg){
+		$("#console").append(msg);
+		var eachLine = msg.split('\n');
+		$('#console').attr("rows", eachLine.length);
+	}
 };
 
 function setHighestScore(submissions,problem){
@@ -954,9 +956,13 @@ window.onload = function () {
 			$("#console").empty();
 			var code = editor.getValue();
 			try {
-				var AST = acorn.parse(code);    // return an abstract syntax tree structure
-				// var types = pnut.listTopLevelTypes(AST);
-				var ssOb = pnut.collectStructureStyleFacts(AST);    // return a analysis of style grading by checking AST
+				if(curProblem.language == "javascript"){
+					var AST = acorn.parse(code);    // return an abstract syntax tree structure
+					// var types = pnut.listTopLevelTypes(AST);
+					var ssOb = pnut.collectStructureStyleFacts(AST);    // return a analysis of style grading by checking AST
+				}else {
+					var ssOb = {'null':'null'};
+				}
 				$.post("/submission/create", {problem: curProblem.id, code: code, style: JSON.stringify(ssOb)}, function (submission) {
 					addSubmission(submission);
 					if(!isNull(curProblem.maxSubmissions)){
@@ -967,6 +973,7 @@ window.onload = function () {
 						setHighestScore(submissions,curProblem);	
 					});
 					setRecentScore(submission.value.correct, submission.value.style);
+					console.log(submission.message);
 					setConsoleResultMessage(submission.message);
 					console.log("studentScore tada");
 					studentScore();
@@ -980,15 +987,18 @@ window.onload = function () {
 	});
 
 	$('#accShow').on('click', function() {
-	    if($(this).text() == 'Close Folders') {
-	        $(this).text('Expand Folders');
-	        $('.folderCollapse').collapse('hide');
-	    } else {
-	        $(this).text('Close Folders');
+	    if($("#accShowIcon").hasClass('glyphicon-folder-open')) {
+	        $("#accShowIcon").removeClass('glyphicon-folder-open');
+	        $("#accShowIcon").addClass('glyphicon-folder-close');
 	        $('.folderCollapse').collapse('show');
+	    } else {
+	        $("#accShowIcon").removeClass('glyphicon-folder-close');
+	        $("#accShowIcon").addClass('glyphicon-folder-open');
+	        $('.folderCollapse').collapse('hide');
 	    }
 	    return false;
 	});
+
 
 	resizeWindow();
 

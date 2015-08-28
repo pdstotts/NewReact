@@ -352,9 +352,10 @@ User.find({admin: true}).exec(function(err, users) {
 
 <!--Content-->
 <!--Question Info -->
-	<div class="col-md-3" >
+	<div class="col-md-3" id="leftSidebar">
 		<button type="button" id="accShow" class="btn btn-default" aria-label="Left Align" >
-		Expand Folders</button>
+      <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+		</button>
     <div class="panel-group scrollableAccordian" id="folderAccordion" >
     </div>
     <!--Folder Nav-->
