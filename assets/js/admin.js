@@ -268,7 +268,7 @@ function getStudentResults(problem) {
     numearned = 0;
     var numpointsattempted = 0;
     $("#matrixBody").empty();
-    var tbl = $("<table class='table' style='margin-bottom:0px;'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD'># Tries</th><th class='probStudentSubmissionTableTD'>Functionality</th><th class='probStudentSubmissionTableTD'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
+    var tbl = $("<table class='table' style='margin-bottom:0px;'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD' width='40px'>Functionality</th><th class='probStudentSubmissionTableTD' width='40px'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
     $("#allStudents1ProblemTable").empty().append(tbl);
     $.post("/user/read/", {}, function(users){
         total = users.length;
@@ -315,22 +315,8 @@ function getStudentResults(problem) {
             $('#matrix' + user.username).mouseover(function() { $('#matrixHover' + user.username).css('visibility','visible'); });
             $('#matrix' + user.username).mouseout(function() { $('#matrixHover' + user.username).css('visibility','hidden'); });
 
-            var a = $("<td></td>")
-                .html("<a href='#individualStudent' data-toggle='pill'>" + user.displayName + "</a>")
-                .click(function (event) {
-                    $("#matrixLink").removeClass("active");
-                    event.preventDefault();
-                    $.post("/user/read/" + user.id, {}, function (user) {
-                        if (!user) {
-                            alert("No user with that id found");
-                            return;
-                        }
-                        getIndividual(user,false);
-                    });
-                });
-            var student = $("<tr></tr>");
-            student.append(a);
-            problemCorrect(user, problem, student, users.length);
+
+            problemCorrect(user, problem, users.length, userButton);
         });
     });
 }
@@ -389,26 +375,33 @@ function updateProblemProgressBar(){
     });
 }
 
-function problemCorrect(user, problem, student, totalStudents){
+function problemCorrect(user, problem, totalStudents, userButton){
     //check score of a student for a problem
+
     var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
     var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
 
     var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
     $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username}, function(submissions){
+       var student = $("<tr></tr>");
+
         if(submissions.length == 0){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
         } else {
             var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
-            var a = $("<a></a>")
-                .html(submissions.length)
+
+            var a = $("<td></td>")
+                .css("text-align","left")
+                .append(userButton)
+                .append("<a> " + user.displayName + " (" + submissions.length + ")</a>")
                 .click(function (event) {
                     if($(".submissionUser"+user.username).hasClass("hidden")) {
                         $(".submissionUser"+user.username).removeClass('hidden');
                     } else {
                         $(".submissionUser"+user.username).addClass('hidden');
                     }
-            });
+                });
+            student.append(a);
 
             myVariable.append(a);
         	student.append(myVariable);
@@ -479,7 +472,8 @@ function problemCorrect(user, problem, student, totalStudents){
         var myRows = [];
 		submissions.forEach( function (submission) {
             var width = $( "#allStudents1ProblemTable" ).width();
-            var submissionRow = $("<tr class='hidden submissionUser" + user.username + "'>");
+            var submissionRow = $("<tr class='hidden submissionUser" + user.username + "'>")
+                .css('background-color','#ECECEC');
             var d = new Date(submission.createdAt);
 			var a = $("<a></a>")
 				.attr("href","#submission")
@@ -489,7 +483,6 @@ function problemCorrect(user, problem, student, totalStudents){
                     event.preventDefault();
                         getSubmission(submission,user,problem);
             });
-        	submissionRow.append("<td>");
             submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(a));
             var iconF = submission.value.correct ==  problem.value.correct ? correct("8px") : wrong("8px");
             var iconS = submission.value.style ==  problem.value.style ? correct("8px") : wrong("8px");
