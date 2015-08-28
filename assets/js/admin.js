@@ -315,8 +315,7 @@ function getStudentResults(problem) {
             $('#matrix' + user.username).mouseover(function() { $('#matrixHover' + user.username).css('visibility','visible'); });
             $('#matrix' + user.username).mouseout(function() { $('#matrixHover' + user.username).css('visibility','hidden'); });
 
-
-            problemCorrect(user, problem, users.length, userButton);
+            problemCorrect(user, problem, users.length);
         });
     });
 }
@@ -389,6 +388,24 @@ function problemCorrect(user, problem, totalStudents, userButton){
             student.append("<td class='probStudentSubmissionTableTD'>" + submissions.length + "</td>");
         } else {
             var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
+            
+            var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
+            .css("color","#627E86")
+            .css("padding-left","4px;")
+            .attr("class","")
+            .html("<span><span class='glyphicon glyphicon-user' data-toggle='tooltip' data-placement='top' title='View User' ></span>") // the trailing space is important!
+            .click(function () {
+                $("#matrixLink").removeClass("active");
+                event.preventDefault();
+                $.post("/user/read/" + user.id, {}, function (user) {
+                    if (!user) {
+                        alert("No user with that id found");
+                        return;
+                    }
+                    getIndividual(user,false);
+                });
+            });
+            $('[data-toggle="tooltip"]').tooltip();
 
             var a = $("<td></td>")
                 .css("text-align","left")
