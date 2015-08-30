@@ -353,9 +353,13 @@ User.find({admin: true}).exec(function(err, users) {
 <!--Content-->
 <!--Question Info -->
 	<div class="col-md-3" id="leftSidebar">
-		<button type="button" id="accShow" class="btn btn-default" aria-label="Left Align" >
+		<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Open/Close Folders">
       <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-		</button>
+		</a>
+    <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Problem Control Panel Size">
+      <span id="miniBarIcon" class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+    </a>
+
     <div class="panel-group scrollableAccordian" id="folderAccordion" >
     </div>
     <!--Folder Nav-->
@@ -376,27 +380,46 @@ User.find({admin: true}).exec(function(err, users) {
 	 	</div>
 		<div class="row pointbreakdownbox">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
-				<button id="test" type="button" class="btn btn-warning" style="width:100%">Test Locally</button> 
-				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%" id="initSubmit" disabled="disabled">Submit for Score</button>
-				<button id="reload" type="button" class="btn btn-primary hidden" style="width:100%" disabled="disabled">Reload Latest Submission</button>
+				<button id="test" type="button" class="btn btn-warning" style="width:100%;text-align:center;">Test Locally</button> 
+				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled">Submit for Score</button>
+				<button id="reload" type="button" class="btn btn-primary hidden" style="width:100%;text-align:center;" disabled="disabled">Reload Latest Submission</button>
 			</div>
 			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
-					<b>Highest Score:</b><br/>
-					Functionality <span id="correctCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span></span>
-					<br />
-  				</span>Style <span id="styleCheck" class="pull-right"></span><span class="badge pull-right"><span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span></span>
-					<br />
+					<b id='highestScoreLabel'>Highest Score:<br/></b>
+
+          <div id="highestCorrectDiv">
+            <span id="highestFuntionalityLabel">Functionality </span>
+            <span id="correctCheck" class="pull-right"></span>
+            <span class="badge pull-right">
+              <span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span>
+            </span>
+          </div>
+          <div id="highestStyleDiv">
+            <span id="highestStyleLabel">Style </span>
+            <span id="styleCheck" class="pull-right"></span>
+            <span class="badge pull-right">
+              <span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span>
+            </span>
+          </div>
+
 			</div>
 			<div id="recentpointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
-  				<b>Most Recent Score:</b><br/>
-					Functionality<span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
-					<br />
-					Style<span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
-					<br />
+
+          <b id='recentScoreLabel'>Most Recent Score:<br/></b>
+
+          <div id="recentCorrectDiv">
+            <span id="recentFuntionalityLabel">Functionality </span><span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
+
+          </div>
+          <div id="recentStyleDiv">
+            <span id="recentStyleLabel">Style </span><span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
+
+          </div>
+
 			</div>
-			<div class="sidebarBuddy alert alert-info" style="height:106px;width:25%;float:left;">
-				<label class="control-label" for="fontSize">Font Size:</label>
-				<div class="form-group">
+			<div class="sidebarBuddy alert alert-info" style="height:106px;width:25%;float:left;" id="fontSizeBox">
+				<label id="fontSizeLabel" class="control-label" for="fontSize">Font Size:</label>
+				<div class="form-group" style="margin:0px;" id="fontSizeDropdown">
 				  <select class="form-control" id="fontSize" autocomplete="off">
 				    <option value="10">10pt</option>
 				    <option value="12">12pt</option>

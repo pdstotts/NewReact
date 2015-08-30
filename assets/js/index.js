@@ -745,8 +745,85 @@ function addPendingButton(){
     });
 }
 
-window.onload = function () {
+function makeMiniBar(){
+	$("#test").css("width","31%");
+	$("#initSubmit").css("width","32%");
+	$("#reload").css("width","31%");
+	$("#test").html('<span class="glyphicon glyphicon-play" data-toggle="tooltip" data-placement="top" title="Test Locally" ></span>');
+	$("#initSubmit").html('<span class="glyphicon glyphicon-send" data-toggle="tooltip" data-placement="top" title="Submit for Score" ></span>');
+	$("#reload").html('<span class="glyphicon glyphicon-open" data-toggle="tooltip" data-placement="top" title="Reload Latest Submission" ></span>');
+    ////
+	$("#highestScoreLabel").html('<span class="glyphicon glyphicon-pushpin" data-toggle="tooltip" data-placement="top" title="Best Score" style="padding-right:6px"></span>');
+	$("#highestFuntionalityLabel").html("");
+	$("#highestStyleLabel").html("");
+	$("#highestScoreLabel").css("float","left");
+	$("#highestCorrectDiv").css("float","left");
+	$("#highestStyleDiv").css("float","left");
+	$("#highestCorrectDiv").css("margin-left","3px");
+	$("#highestStyleDiv").css("margin-left","3px");
+	$("#pointbreakdown").css("height","auto");
+	$("#pointbreakdown").css("padding-top","9px");
+	$("#pointbreakdown").css("padding-bottom","9px");
+	////
+	$("#recentScoreLabel").html('<span class="glyphicon glyphicon-time" data-toggle="tooltip" data-placement="top" title="Most Recent Score" style="padding-right:6px"></span>');
+	$("#recentFuntionalityLabel").html("");
+	$("#recentStyleLabel").html("");
+	$("#recentScoreLabel").css("float","left");
+	$("#recentCorrectDiv").css("float","left");
+	$("#recentStyleDiv").css("float","left");
+	$("#recentCorrectDiv").css("margin-left","3px")
+	$("#recentStyleDiv").css("margin-left","3px")
+	$("#recentpointbreakdown").css("height","auto");
+	$("#recentpointbreakdown").css("padding-top","9px");
+	$("#recentpointbreakdown").css("padding-bottom","9px");
+    ///
+	$("#fontSizeLabel").addClass("hidden");
+	$("#fontSizeBox").css("height","auto");
+	$("#fontSizeBox").css("padding","2px");
+    $('[data-toggle="tooltip"]').tooltip()
 
+}
+
+function makeFullBar(){
+	$("#test").css("width","100%");
+	$("#initSubmit").css("width","100%");
+	$("#reload").css("width","100%");
+	$("#test").html("Test Locally");
+	$("#initSubmit").html("Submit for Score");
+	$("#reload").html("Reload Latest Submission");
+	////
+	$("#highestScoreLabel").html("Highest Score:<br/>");
+	$("#highestFuntionalityLabel").html("Functionality");
+	$("#highestStyleLabel").html("Style");
+	$("#highestScoreLabel").css("float","auto");
+	$("#highestCorrectDiv").css("float","auto");
+	$("#highestStyleDiv").css("float","auto");
+	$("#highestCorrectDiv").css("margin-left","0px");
+	$("#highestStyleDiv").css("margin-left","0px");
+	$("#pointbreakdown").css("height","106px");
+	$("#pointbreakdown").css("padding-top","auto");
+	$("#pointbreakdown").css("padding-bottom","auto");
+	////
+	$("#recentScoreLabel").html("Most Recent Score:<br/>");
+	$("#recentFuntionalityLabel").html("Functionality");
+	$("#recentStyleLabel").html("Style");
+	$("#recentScoreLabel").css("float","auto");
+	$("#recentCorrectDiv").css("float","auto");
+	$("#recentStyleDiv").css("float","auto");
+	$("#recentCorrectDiv").css("margin-left","0px");
+	$("#recentStyleDiv").css("margin-left","0px");
+	$("#recentpointbreakdown").css("height","106px");
+	$("#recentpointbreakdown").css("padding-top","auto");
+	$("#recentpointbreakdown").css("padding-bottom","auto");
+	///
+	$("#fontSizeLabel").removeClass("hidden");
+	$("#fontSizeBox").css("height","106px");
+	$("#fontSizeBox").css("padding","auto");
+    $('[data-toggle="tooltip"]').tooltip()
+
+}
+
+window.onload = function () {
 	(function () {
 		var u = document.URL.split("/");
 		u.pop();
@@ -799,6 +876,7 @@ window.onload = function () {
     });
 
 
+    $('[data-toggle="tooltip"]').tooltip()
 
 
     updateScore();
@@ -998,6 +1076,20 @@ window.onload = function () {
 	    }
 	    return false;
 	});
+
+	$('#miniBar').on('click', function() {
+	    if($("#miniBarIcon").hasClass('glyphicon-resize-small')) {
+	        $("#miniBarIcon").removeClass('glyphicon-resize-small');
+	        $("#miniBarIcon").addClass('glyphicon-resize-full');
+	        makeMiniBar();
+	    } else {
+	        $("#miniBarIcon").removeClass('glyphicon-resize-full');
+	        $("#miniBarIcon").addClass('glyphicon-resize-small');
+	        makeFullBar();
+	    }
+	    return false;
+	});
+
 
 
 	resizeWindow();
