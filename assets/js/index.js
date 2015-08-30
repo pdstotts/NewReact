@@ -749,9 +749,12 @@ function makeMiniBar(){
 	$("#test").css("width","31%");
 	$("#initSubmit").css("width","32%");
 	$("#reload").css("width","31%");
-	$("#test").html('<span class="glyphicon glyphicon-play" data-toggle="tooltip" data-placement="top" title="Test Locally" ></span>');
-	$("#initSubmit").html('<span class="glyphicon glyphicon-send" data-toggle="tooltip" data-placement="top" title="Submit for Score" ></span>');
-	$("#reload").html('<span class="glyphicon glyphicon-open" data-toggle="tooltip" data-placement="top" title="Reload Latest Submission" ></span>');
+	$("#test").html('<span class="glyphicon glyphicon-play"  ></span>');
+	$("#initSubmit").html('<span class="glyphicon glyphicon-send"  ></span>');
+	$("#reload").html('<span class="glyphicon glyphicon-open" ></span>');
+	$("#test").attr("data-toggle","tooltip");
+	$("#initSubmit").attr("data-toggle","tooltip");
+	$("#reload").attr("data-toggle","tooltip");
     ////
 	$("#highestScoreLabel").html('<span class="glyphicon glyphicon-pushpin" data-toggle="tooltip" data-placement="top" title="Best Score" style="padding-right:6px"></span>');
 	$("#highestFuntionalityLabel").html("");
@@ -781,7 +784,7 @@ function makeMiniBar(){
 	$("#fontSizeBox").css("height","auto");
 	$("#fontSizeBox").css("padding","2px");
     $('[data-toggle="tooltip"]').tooltip()
-
+    $('.sidebarBuddy button').tooltip('enable');
 }
 
 function makeFullBar(){
@@ -791,6 +794,10 @@ function makeFullBar(){
 	$("#test").html("Test Locally");
 	$("#initSubmit").html("Submit for Score");
 	$("#reload").html("Reload Latest Submission");
+	$("#test").removeAttr("data-toggle");
+	$("#initSubmit").removeAttr("data-toggle");
+	$("#reload").removeAttr("data-toggle");
+
 	////
 	$("#highestScoreLabel").html("Highest Score:<br/>");
 	$("#highestFuntionalityLabel").html("Functionality");
@@ -819,8 +826,7 @@ function makeFullBar(){
 	$("#fontSizeLabel").removeClass("hidden");
 	$("#fontSizeBox").css("height","106px");
 	$("#fontSizeBox").css("padding","auto");
-    $('[data-toggle="tooltip"]').tooltip()
-
+    $('.sidebarBuddy button').tooltip('disable');
 }
 
 window.onload = function () {
