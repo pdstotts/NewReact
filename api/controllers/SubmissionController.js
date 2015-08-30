@@ -43,6 +43,7 @@ create: function (req, res) {
         var student = req.param("student");
         var recent = req.param("recent");
         var feedback = req.param("feedback");
+        var feedbackResponded = req.param("feedbackResponded");
         var feedbackSeen = req.param("feedbackSeen");
         var currentUser = req.param("currentUser");
         var mostRecent = req.param("mostRecent");
@@ -96,6 +97,9 @@ create: function (req, res) {
           if(feedback){
             opts['fbRequested'] = true;
             opts['fbResponseTime'] = null;
+          }
+          if(feedbackResponded){
+            opts['fbResponder'] = {$exists:true};
           }
           if(feedbackSeen){
             opts['feedbackSeen'] = feedbackSeen;
@@ -255,6 +259,7 @@ create: function (req, res) {
       var value = {correct:parseFloat(correct), style: parseFloat(style)}
       console.log(value);
       Submission.update({id: id},{value:value},{ upsert: true }).exec(function(err, submission) {
+        console.log(id);
           if(err) {
               console.log(err);
           } else {

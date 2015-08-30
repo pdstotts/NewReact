@@ -82,6 +82,10 @@ module.exports = {
 				var onSubmit = new Function("batch", "code", "style", "solution", "fail", "pass", p.onSubmit);
 				try {
 					var updatePoints = function () {
+						if(p.phase == 0){
+							score.f = parseFloat(score.f)/2;
+							score.s = parseFloat(score.s)/2;
+						}
 						score.f = parseFloat(parseFloat(score.f).toFixed(4));
 						score.s = parseFloat(parseFloat(score.s).toFixed(4));
 						values.value = {

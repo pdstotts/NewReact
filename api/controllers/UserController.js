@@ -73,6 +73,9 @@ module.exports = {
         });
         //delete all children submissions
         Submission.find({user: onyen}).done(function(err, submissions){
+            if(submissions.length == 0){
+                res.end();
+            }
           submissions.forEach( function (submission) {
               Submission.destroy({id: submission.id}).done(function(err, submission){
                 if(err){

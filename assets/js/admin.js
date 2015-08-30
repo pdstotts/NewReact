@@ -267,7 +267,6 @@ function getStudentResults(problem) {
     numstyle = 0;
     numattempted = 0;
     numearned = 0;
-    var numpointsattempted = 0;
     $("#matrixBody").empty();
     var tbl = $("<table class='table' style='margin-bottom:0px;'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD' width='40px'>Functionality</th><th class='probStudentSubmissionTableTD' width='40px'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
     $("#allStudents1ProblemTable").empty().append(tbl);
@@ -352,7 +351,6 @@ function updateProblemProgressBar(){
 
                 if(results.tried) {
                     numattempted++;
-                    numpointsattempted = numpointsattempted + parseFloat(problem.value.correct) + parseFloat(problem.value.style);
 
                     if(results.correct) {
                         numfunct++;
@@ -581,6 +579,53 @@ function fillModal(submission,username,problem){
     $("#dimissShareButton").empty().append(button);
 
 }
+function getCompletedFeedbackDash() {
+    if(curCompletedFeedback != null){
+        fillCompletedFeedbackDash(curCompletedFeedback); 
+    }
+
+    //Generate feedback dash
+    $("#feedbackDashC").empty();
+    $.post("/submission/read/", {feedbackResponded: true}, function(submissions){
+        console.log(submissions);
+        submissions.forEach(function (submission) {
+            $.post("/problem/read", {id: submission.problem}, function (problem) {
+                if (problem) {
+                    var row = $("<tr></tr>");
+                    var time = submission.createdAt;
+                    if(time != null){
+                        time = new Date(submission.createdAt).toLocaleString();
+                    }
+                    var a = $("<a></a>")
+                        .html(time)
+                        .click(function (event) {
+                            curCompletedFeedback = submission;  
+                            fillCompletedFeedbackDash(submission);     
+                            $("#fbDashBodyC").removeClass("hidden");
+                       });
+                    if(curCompletedFeedback != null){
+                        if(curCompletedFeedback.id == submission.id){
+                            console.log('match');
+                            row.append($("<td></td>").append(time));
+                        }else {
+                            row.append($("<td></td>").append(a));
+                        }
+                    }else {
+                        row.append($("<td></td>").append(a));
+                    }
+
+                    row.append($("<td></td>").append(submission.fbResponder));
+                    row.append($("<td></td>").append(submission.user));
+                    row.append($("<td></td>").append(problem.name));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+
+                    $("#feedbackDashC").append(row);
+                }
+            });
+        });
+    });
+}
 
 function getFeedbackDash() {
     if(curFeedback != null){
@@ -661,11 +706,57 @@ function fillFeedbackDash(submission){
         $("#fbDashRequestMsg").empty().append("No message");
     }else {
         $("#fbDashRequestMsg").empty().append('"' + submission.fbRequestMsg + '"');
-
     }
-
 }
 
+function fillCompletedFeedbackDash(submission){
+    if(submission.fbRequestTime){
+        $("#completedFeedbackRequest").removeClass("hidden");
+        var time = submission.fbRequestTime;
+        if(time != null){
+            time = new Date(submission.fbRequestTime).toLocaleString();
+        }
+        console.log(submission.user);
+        $.post("/user/read", {onyen: submission.user}, function (user) {
+            if (user) {
+                $("#feedbackRequestTimeC").empty().append("<b> Request from " + user.displayName + " at " + time + "</b>");
+            }
+        });        
+        if(submission.fbRequestMsg == "" || submission.fbRequestMsg == null){
+            $("#fbRequestMsgC").empty().append("No message");
+        }else {
+            $("#fbRequestMsgC").empty().append('"' + submission.fbRequestMsg + '"');
+        }
+    }else {
+        $("#completedFeedbackRequest").addClass("hidden");
+    }
+
+    var responseTime = submission.fbResponseTime;
+    if(responseTime != null){
+        responseTime = new Date(submission.fbResponseTime).toLocaleString();
+    }
+    $.post("/user/read", {onyen: submission.fbResponder}, function (user) {
+        if (user) {
+            $("#feedbackResponseTimeC").empty().append("<b> Response from " + user.displayName + " at " + responseTime + "</b>");
+        }
+    });        
+    $("#fbResponseMsgC").empty().append('"' + submission.fbResponseMsg + '"');
+
+    $.post("/problem/read", {id: submission.problem}, function (problem) {
+        if (problem) {
+            $("#desc-bodyC").empty().append(problem.text);
+            $("#desc-titleC").empty().append(problem.name);
+        }
+    });
+
+    $("#fbDashConsoleC").empty().append(submission.message);
+    feedbackEditor2.setValue(submission.fbCode);
+    var that = this;
+    setTimeout(function() {
+        that.feedbackEditor2.refresh();
+    },1);
+    
+}
 
 function getStudentList() {
     //Generate list of all students to view individuals
@@ -999,17 +1090,17 @@ function getIndividual(user, refresh) {
 
     $("#individualName").html(user.displayName + " (" + user.username + ")");
     var removeButton = $("<a href='#'></a>")
-        .css("color","red")
-        .html('<span class="glyphicon glyphicon-remove" style="padding: 0 5px;float:right" ></span>') // the trailing space is important!
+        .css("color","#C84747")
+        .html('delete')
         .click(function () {
             console.log("clicked");
             if (confirm('Are you sure you wish to delete the person "' + user.username + '"?')) {
                 $.post("/user/delete", {onyen: user.username}, function(user){
-                    alert("This person is done for! Please refresh page!");
+                    alert("This person is done for! Please refresh page to see this change take effect.");
                 });
             }
         });
-    $("#individualName").append(removeButton);
+    $("#deleteUser").append(removeButton);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
     $("#feedbackConversation").empty();
     $("#feedbackHeader").addClass("hidden");
@@ -1780,6 +1871,7 @@ var fbEditor;
 var fbEditorReadOnly;
 var modalEditor;
 var feedbackEditor;
+var feedbackEditor2;
 var feedbackOn;
 var points;
 var foldersChanged = false;
@@ -1790,6 +1882,7 @@ window.onload = function () {
     curFolder = null;
     curSubmission = null;
     curFeedback = null;
+    curCompletedFeedback = null;
 
     numProblems = 0;
     numfunct = 0; //num solutions with correct functionality
@@ -1817,7 +1910,17 @@ window.onload = function () {
                 .click(function (event) {
                     getFeedbackDash();
                 });
+            var completedFeedbackNavButton = $("<a></>")
+                .attr("href","#completedFeedback")
+                .attr("data-toggle","pill")
+                .attr("class","navbar-brand")
+                .html("Archive")
+                .click(function (event) {
+                    getCompletedFeedbackDash();
+                });
+
             $('#feedbackNav').append(feedbackNavButton);
+            $('#feedbackNavC').append(completedFeedbackNavButton);
 
         }else {
             $("#fbDashBody").empty().append("Feedback feature turned off.");
@@ -1862,6 +1965,9 @@ window.onload = function () {
         },
         30000 /* 30000 ms = 30 sec */
     );
+    
+
+
     fbEditorReadOnly = CodeMirror.fromTextArea(fbCodemirrorReadOnly, {
         mode: "javascript",
         styleActiveLine: true,
@@ -1889,6 +1995,28 @@ window.onload = function () {
         styleActiveLine: true,
         lineNumbers: true,
         lineWrapping: true,
+        theme: "mbo",
+        extraKeys: {
+            "F11": function (cm) {
+                if (cm.setOption("fullScreen", !cm.getOption("fullScreen"))) {
+                    $(".CodeMirror").css("font-size", "150%");
+                } else {
+                    $(".CodeMirror").css("font-size", "115%");
+                }
+            },
+            "Esc": function (cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                $(".CodeMirror").css("font-size", "100%");
+            }
+        }
+    });
+
+    feedbackEditor2 = CodeMirror.fromTextArea(completedFeedbackEditor, {
+        mode: "javascript",
+        styleActiveLine: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true,
         theme: "mbo",
         extraKeys: {
             "F11": function (cm) {
