@@ -750,10 +750,9 @@ function makeMiniBar(){
 	$("#initSubmit").css("width","32%");
 	$("#reload").css("width","31%");
 	$("#test").html('<span class="glyphicon glyphicon-play"  ></span>');
-	$("#initSubmit").html('<span class="glyphicon glyphicon-send"  ></span>');
+	$("#initSubmit").html('<div data-toggle="tooltip" data-placement="top" title="Submit for Score" style="height:100%;width:100%;"><span class="glyphicon glyphicon-send"  ></span></div>');
 	$("#reload").html('<span class="glyphicon glyphicon-open" ></span>');
 	$("#test").attr("data-toggle","tooltip");
-	$("#initSubmit").attr("data-toggle","tooltip");
 	$("#reload").attr("data-toggle","tooltip");
     ////
 	$("#highestScoreLabel").html('<span class="glyphicon glyphicon-pushpin" data-toggle="tooltip" data-placement="top" title="Best Score" style="padding-right:6px"></span>');
@@ -795,7 +794,6 @@ function makeFullBar(){
 	$("#initSubmit").html("Submit for Score");
 	$("#reload").html("Reload Latest Submission");
 	$("#test").removeAttr("data-toggle");
-	$("#initSubmit").removeAttr("data-toggle");
 	$("#reload").removeAttr("data-toggle");
 
 	////
