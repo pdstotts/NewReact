@@ -2456,6 +2456,7 @@ window.onload = function () {
         var newScore = prompt("Insert updated functionality score for this submission: ");
         if(newScore){
             $.post("/submission/update", {id: curSubmission.id, correct:parseFloat(newScore), style:parseFloat(curSubmission.value.style)}, function (submission) {
+                studentScore(curSubmission.user);
                 curSubmission = submission;
                 $("#SearnedPtCorrect").empty().append(submission.value.correct);
                 var SavailablePtCorrect = $("#SavailablePtCorrect").html();
@@ -2476,6 +2477,7 @@ window.onload = function () {
         var newScore = prompt("Insert updated style score for this submission: ");
         if(newScore){
             $.post("/submission/update", {id: curSubmission.id, style:parseFloat(newScore), correct:parseFloat(curSubmission.value.correct)}, function (submission) {
+                studentScore(curSubmission.user);
                 curSubmission = submission;
                 $("#SearnedPtStyle").empty().append(submission.value.style);
                 var SavailablePtStyle = $("#SavailablePtStyle").html();
