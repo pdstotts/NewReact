@@ -373,7 +373,7 @@ User.find({admin: true}).exec(function(err, users) {
     <!--Folder Nav-->
   </div>
 	<!--CODE-->
-	<div id="right-side" class="col-md-9" style="padding-left:10px">
+	<div id="right-side" class="col-md-9" style="padding-left:10px;height:100%">
 		<div class="row hidden" id="hideInst" >
     	<div id="instructions" class='panel panel-default'>
       		<div class='panel-heading'> 
@@ -386,7 +386,7 @@ User.find({admin: true}).exec(function(err, users) {
 				</div>
 	    	</div>
 	 	</div>
-		<div class="row pointbreakdownbox">
+		<div class="row pointbreakdownbox" id="problemControlPanel">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
 				<button id="test" type="button" class="btn btn-warning" style="width:100%;text-align:center;" data-placement="top" title="Test Locally">Test Locally</button> 
 				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled"  >Submit for Score</button>
@@ -459,7 +459,7 @@ User.find({admin: true}).exec(function(err, users) {
         	</textarea>
     </div>
   	<!--CodeMirror Start-->
-    <div class="row" style="height:400px" id="codemirrorWrapper">
+    <div class="row" style="height:100%">
         <% if (req.isAuthenticated()) { %>
             <textarea id="codemirror"><%=req.user.latestCode%></textarea>
         <%} else {%>
@@ -467,7 +467,7 @@ User.find({admin: true}).exec(function(err, users) {
         <%}%>
     </div>
   	<!--CodeMirror End-->
-    <div class="row">
+    <div class="row" >
     	<div id="submissions" class='panel panel-default hidden'>
       		<div class='panel-heading'> 
 				<h3 class='panel-title'>Past Submissions

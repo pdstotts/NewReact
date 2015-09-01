@@ -461,6 +461,7 @@ function resizeWindow(){
 	}else {
     	$('.scrollableAccordian').height("400px");
 	}
+
 }
 
 function submitFoldersReload(folderid) {
