@@ -126,8 +126,9 @@
 		margin: 0px;
 	}
   .row {
-    padding-right: 15px;
-    padding-left: 15px;
+    margin-right: 0px;
+    margin-left: 0px;
+
   }
   #desc-body {
     overflow-y: scroll;
@@ -143,7 +144,12 @@
   .navbar-text {
     color: #D2D2D2 !important;
   }
-
+  .leftSidebarClosed {
+    padding-left:10px;
+  }
+  #leftSidebar {
+    padding-right:0px;
+  }
 </style>
 <script src="lib/codemirror.js"></script>
 <script src="../mode/javascript/javascript.js"></script>
@@ -352,20 +358,22 @@ User.find({admin: true}).exec(function(err, users) {
 
 <!--Content-->
 <!--Question Info -->
-	<div class="col-md-3" id="leftSidebar">
+	<div id="leftSidebar" class="col-md-3"  >
+    <a type="button" id="expandSidebarIn" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Condense Sidebar">
+      <span class="glyphicon glyphicon-arrow-left " aria-hidden="true"></span>
+    </a>
 		<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Open/Close Folders">
       <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
 		</a>
-    <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Problem Control Panel Size">
-      <span id="miniBarIcon" class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+    <a type="button" id="expandSidebarOut" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar">
+      <span class="glyphicon glyphicon-arrow-right " aria-hidden="true"></span>
     </a>
-
     <div class="panel-group scrollableAccordian" id="folderAccordion" >
     </div>
     <!--Folder Nav-->
   </div>
 	<!--CODE-->
-	<div class="col-md-9" id="right-side" style="padding-left:0px">
+	<div id="right-side" class="col-md-9" style="padding-left:10px">
 		<div class="row hidden" id="hideInst" >
     	<div id="instructions" class='panel panel-default'>
       		<div class='panel-heading'> 
@@ -381,7 +389,7 @@ User.find({admin: true}).exec(function(err, users) {
 		<div class="row pointbreakdownbox">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
 				<button id="test" type="button" class="btn btn-warning" style="width:100%;text-align:center;" data-placement="top" title="Test Locally">Test Locally</button> 
-				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled" data-placement="top" title="Submit for Score" >Submit for Score</button>
+				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled"  >Submit for Score</button>
 				<button id="reload" type="button" class="btn btn-primary hidden" style="width:100%;text-align:center;" disabled="disabled" data-placement="top" title="Reload Latest Submission" >Reload Latest Submission</button>
 			</div>
 			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
@@ -417,7 +425,7 @@ User.find({admin: true}).exec(function(err, users) {
           </div>
 
 			</div>
-			<div class="sidebarBuddy alert alert-info" style="height:106px;width:25%;float:left;" id="fontSizeBox">
+			<div class="sidebarBuddy alert alert-info" style="height:106px;width:20%;float:left;" id="fontSizeBox">
 				<label id="fontSizeLabel" class="control-label" for="fontSize">Font Size:</label>
 				<div class="form-group" style="margin:0px;" id="fontSizeDropdown">
 				  <select class="form-control" id="fontSize" autocomplete="off">
@@ -437,7 +445,11 @@ User.find({admin: true}).exec(function(err, users) {
 				  </select>
 				</div>			  				
 			</div>
-	  		
+      <div class="sidebarBuddy " style="width:5%;float:left;" id="expandControlPanel">
+        <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Adjust Panel Size" >
+          <span id="miniBarIcon" class="glyphicon glyphicon-resize-small" aria-hidden="true" style="font-size:15pt;margin:1px;"></span>
+        </a>
+      </div>
 		</div>
     <div class="row">
     		<div id="consoleHeader" class="console">
@@ -447,13 +459,15 @@ User.find({admin: true}).exec(function(err, users) {
         	</textarea>
     </div>
   	<!--CodeMirror Start-->
+    <div class="row" style="height:400px" id="codemirrorWrapper">
         <% if (req.isAuthenticated()) { %>
             <textarea id="codemirror"><%=req.user.latestCode%></textarea>
         <%} else {%>
             <textarea id="codemirror"></textarea>
         <%}%>
+    </div>
   	<!--CodeMirror End-->
-    <div class="row" style="padding-top: 10px;">
+    <div class="row">
     	<div id="submissions" class='panel panel-default hidden'>
       		<div class='panel-heading'> 
 				<h3 class='panel-title'>Past Submissions
@@ -520,7 +534,7 @@ User.find({admin: true}).exec(function(err, users) {
 
         <%}%>
     </div>
-</div>
+  </div>
 <!-- Modal -->
 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
