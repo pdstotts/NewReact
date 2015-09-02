@@ -39,7 +39,7 @@ module.exports = {
           }else {
             on = false;
           }
-          Setting.update({name:name}, {on: on}).exec(function(err2, setting) {
+          Setting.update({name:name}, {on: on},{upsert:true}).exec(function(err2, setting) {
               if(err2) {
                   console.log(err2);
               } else {
@@ -49,7 +49,7 @@ module.exports = {
         }else {
             console.log("setting..." + name + value);
             var float = parseFloat(parseFloat(value).toFixed(4));
-            Setting.update({name:name}, {value: float}).exec(function(err2, setting) {
+            Setting.update({name:name}, {value: float},{upsert:true}).exec(function(err2, setting) {
                 if(err2) {
                     console.log(err2);
                 } else {
