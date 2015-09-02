@@ -53,9 +53,13 @@ module.exports = {
         if(ignoreTest != false){
           ignoreTest = true;
         }
+        var pretendStudent = req.param("pretendStudent") || false;
+        if(pretendStudent == "true"){
+          pretendStudent = true;
+        }
 
         if (folder) {
-          if(req.isAuthenticated() && req.user.admin && !ignoreTest){
+          if((req.isAuthenticated() && req.user.admin && !ignoreTest) && pretendStudent != true){
               Problem.find({folder: folder,phase: {'<': ph}})
               .sort({"num": 1}) 
               .exec(function(err, problems) {
@@ -100,7 +104,6 @@ module.exports = {
    *    `/assignment/update`
    */
    update: function (req, res) {
-    console.log("update with maxSubmission of " + req.param("maxSubmissions"));
     var id = req.param("id");
     var name = req.param("name");
     var newIndex = req.param("newIndex");
@@ -112,7 +115,6 @@ module.exports = {
     }
 
    if(newIndex) {
-    console.log("updating Num: new index..." + newIndex +" from "+oldIndex);
     Problem.update({id:id}, {num: newIndex}).exec(function(err2, problem2) {
         if(err2) {
             console.log(err2);
@@ -157,7 +159,6 @@ module.exports = {
    *    `/assignment/delete`
    */
    delete: function (req, res) {
-    console.log("delete problem");
     var id = req.param("id");
     Problem.destroy({id: id}).done(function(err, problem){
         if(err){
@@ -181,7 +182,6 @@ module.exports = {
   },
 
   reorder: function (req, res) {
-    console.log("reorder" + req.param("folder"));
     Problem.find({folder: req.param("folder")})
     .sort({"num": 1, "updatedAt":-1})
     .exec(function(err, problems) {

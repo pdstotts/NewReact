@@ -1,5 +1,6 @@
 var curProblem = null;
 var unseenFeedback = null;
+var pretendStudent = false;
 
 function isNull(item){
 	if(item == null || item == "null" || item == "" || item == ''){
@@ -120,7 +121,7 @@ function addFolder (folder) {
 	var folderScore = 0;
 	$("#avail-" + accordianFolderName).empty().append(folderScore);
 	$("#" + accordianFolderName).empty();
-	$.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+	$.post("/problem/read", {folder: folder.id, phase: 2, pretendStudent:pretendStudent}, function (problems) {
 		problems.forEach( function (problem) {
 			var link = addProblemToAccordian(problem, accordianFolderName);
 			folderScore += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
@@ -470,7 +471,7 @@ function submitFoldersReload(folderid) {
 	$("#" + accordianFolderName).empty();
 	var earnedPointsDiv = "#earned-" +accordianFolderName;
 	$(earnedPointsDiv).empty().append(0);
-	$.post("/problem/read", {folder: curProblem.folder, phase: 2}, function (problems) {
+	$.post("/problem/read", {folder: curProblem.folder, phase: 2, pretendStudent:pretendStudent}, function (problems) {
 		problems.forEach( function (problem) {
 			var link = addProblemToAccordian(problem, accordianFolderName);
 			$("#" + accordianFolderName).append(link);
@@ -531,7 +532,7 @@ function studentScore(){ //recalculate and re-store the student's score
         $.post("/folder/read", {}, function (folders) {
             var studScore = 0;
             folders.forEach( function (folder) {
-                $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
+                $.post("/problem/read", {folder: folder.id, phase: 2, pretendStudent:pretendStudent}, function (problems) {
                     problems.forEach( function (problem) {
                         var maxScore = 0;
                         $.post("/submission/read/", {id: problem.id, currentUser: true}, function(submissions){
@@ -1144,6 +1145,20 @@ window.onload = function () {
 	    },10);
 	    return false;
 	});
+
+	if($("#adminToggle").length != 0 ){
+		$("#adminToggle").click(function (event) {
+			if(pretendStudent == true){
+				alert("You are now in the admin view, meaning you can see Test Mode problems. Click here again to toggle back to student view.")
+				pretendStudent = false;
+			}else {
+				alert("You are now in the student view, meaning you cannot see Test Mode problems. Click here again to toggle back to admin view.")
+				pretendStudent = true;
+			}
+			foldersReload();
+        });
+
+	}
 
 };
 
