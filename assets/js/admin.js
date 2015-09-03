@@ -1100,7 +1100,7 @@ function getIndividual(user, refresh) {
                 });
             }
         });
-    $("#deleteUser").append(removeButton);
+    $("#deleteUser").empty().append(removeButton);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
     $("#feedbackConversation").empty();
     $("#feedbackHeader").addClass("hidden");
@@ -1573,8 +1573,8 @@ function addFolder(folder) { //creates the folder to add problems to
     }
 
     var accordianFolderId = "accoridanFolder" + folder.id;
-    var toggleLabel = '<a data-toggle="collapse" data-parent="#accordion" href="#'+ accordianFolderId + '">' + folder.name + '</a>';
-    var accordian = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + "</h4></div><div id = 'accoridanFolder" + folder.id + "' class='panel-collapse collapse folderCollapse'></div>";
+    var toggleLabel = '<a data-toggle="collapse" data-parent="#accordion" href=".'+ accordianFolderId + '">' + folder.name + '</a>';
+    var accordian = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + "</h4></div><div id = 'accoridanFolder" + folder.id + "' class='panel-collapse collapse folderCollapse accoridanFolder" + folder.id + "'></div>";
 
     $("#navigableFolders").append(accordian);
     $("#" + accordianFolderId).empty();
@@ -1583,10 +1583,18 @@ function addFolder(folder) { //creates the folder to add problems to
 function addSortableFolder(folder){
     console.log("addSortableFolder");
 
-    var expandButton = $("<a href='#accoridanFolderSortable" + folder.id + "'></a>")
+    if($("#accoridanFolder" + folder.id).hasClass("in")){
+        var open = "in";
+        var icon = "glyphicon-folder-close"
+    }else {
+        var open = "";
+        var icon = "glyphicon-folder-open";
+    }
+
+    var expandButton = $("<a href='.accoridanFolder" + folder.id + "'></a>")
     .attr("data-parent","#accordion")
     .attr("data-toggle","collapse")
-    .html('<span class="glyphicon expand-folders glyphicon-folder-open" style="padding:0 8px;float:right" id="expandMe' + folder.id +'"></span>')
+    .html('<span class="glyphicon expand-folders ' + icon + '" style="padding:0 8px;float:right" id="expandMe' + folder.id +'"></span>')
     .click(function () {
         if ($("#expandMe" + folder.id).hasClass("glyphicon-folder-open")) {
             $("#expandMe" + folder.id).removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close");
@@ -1614,10 +1622,12 @@ function addSortableFolder(folder){
     .html('<span class="sortableGrip ui-icon ui-icon-arrowthick-2-n-s"></span>' + folder.name + "</h4>")
     .append(removeButton).append(expandButton);
 
+
     var expandableFolder = $("<div></div>")
     .attr("id","accoridanFolderSortable" + folder.id)
-    .attr("class","panel-collapse collapse folderCollapse")
+    .attr("class","panel-collapse collapse " + open + " folderCollapse accoridanFolder" + folder.id)
     .html("<ul id='sortableFolder" + folder.id + "' class='sortable2' ></ul>");
+
 
     var sortableItem = $("<li></li>")
     .attr("class","ui-state-default sortableFolder panel-heading")
@@ -2493,7 +2503,6 @@ window.onload = function () {
             });
         }
     });
-
 
     //enable tooltips
     $('[data-toggle="tooltip"]').tooltip()

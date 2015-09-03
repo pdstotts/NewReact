@@ -909,48 +909,90 @@ ul {
 		<div class="tab-pane" id="help">
 			<h1>Help</h1>
 			Looking for help? You've come to the right place!
-			<h3>Using the left menu bar</h3>
-			The left menu bar is identical to what students will see in their interface. You can click a folder to see the problems inside it and then click a problem to load the problem view in the space to the right. Rearrange, add, and delete folders and problems by toggling the "Edit Folders" button at the top of the menu. Add a problem by clicking the "Add Problem" button at the top of the menu.
+			<h3>Matrix: Viewing Student Progress</h3>
+			Navigate between problems with the menu on the left.
+			<br /><br />
+			The matrix panel shows a grid with one box for each student.  Red boxes mean the student has not attempted the problem; yellow means the student has attempted but not earned full points and green shows student has earned full points.  Hovering over a box shows menu options for that student that will always include a link to the student's profile and may include any Feedback or Share requests, if applicable. Boxes with these pending requests will blink. (More info on these requests below.)  In the corner of this panel there is a button to dismiss all share requests as well as a dropdown that controls the automatic refresh setting of the matrix.  The matrix will search for updates on the intreval specified by the dropdown.
+			<br /><br />
+			The Student Attempts panel must be refreshed manually with its "Refresh" button in the corner (this will also refresh the matrix).  Hover over colored percentages for descriptions of what they mean.  The table summarizes each user's best score for that problem as well as their number of attempts.  Click on student's name for full breakdown of submissions. Click the person icon to see their profile.
 
-			<h3>View Progress and Edit a Specific Problem</h3>
-			After clicking a problem in the left menu it will load on the right. There you can edit the question name, rubric and other details as well as see student progress on the problem. Click on the number of submissions beside a student's name to see timestamps and grades for each of his/her submissions. Clicking the student's name will take you to the Student Progress page. Clicking the timestamp of a submission will take you to the code that the student wrote.
+			<h3>Edit & Add: Updating Problems and Folders</h3>
+			Select a problem from the menu on the left to edit it.
+			<br />
+			<b>Phase:</b> Past problems will be indicated as such in the student view and only give half credit.  Present problems will show in student menu with full credit.  Future problems will never show in the student menu.<br />
+			<b>Language:</b> Only Javascript problems will be automatically graded.  Other problem types will be accepted with grades of 0 that can be manually changed by an admin.<br />
+			<b>Mode:</b> Problems in Test Mode will only be seen by admins on the student view. They give accept submissions and give points like normal problems but their point value is not considered in the tally of total avaliable points.  To temporarily hide Test Mode problems from your student view as an admin (to avoid confusing students if you are sharing your screen), click your username in the student view.  It's actually a secret toggle button! Note: the toggle will reset to showing Test Mode problems when the page is refreshed or reloaded.
+			<br />
+			<b>Submission Limit:</b> This imposes a limit on the number of submission accepted. Problems with limits are indicated as such on the student view.
+			<br /><br />
+			To base a new problem off an old problem, select the old problem from the left menu to preload its characteristics into the add problem form.
+			<br /><br />
+			To delete a problem, add a folder or edit the order of existing problems and folders click the "Edit Folders" button above the left menu.  Click "done" when you're finished to return to the navigable problems menu.  Deleting problems also deletes any submissions it had. Be sure to recalculate scores of any students who may have earned points in any deleted submissions (see below).
 
-			<h3>View Student Progress</h3>
-			The "Students" tab on the top navbar will take you to a comprehensive list of students, which is searchable by onyen. Clicking on a student's name takes you to a list of all the problems they have solved, which can be expanded to show individual submission information similar to the Problem View pages when the problem name is clicked. Clicking a submission's timestamp will bring you to the code that the student submitted.
+			<h3>Feedback & Archive</h3>
+			Students can request feedback on submissions. Feedback can be in the form of a message or alterations to the submission code.  Students with unread feedback will see an "Unread Feedback" button at the top of Bricks the next time they load the page until they open new feedback. The button's modal will link to all problems will unread Feedback. A blinking "View" button in the Past Submissions panel will open a new page showing both their request message and the admin's response message as well as a side-by-side comparison of their code and the admin's altered code.  Old feedback can always be viewed but will no longer blink nor be seen in the Unread Feedback list.
+			<br /><br />
+			A list of all pending feedback requests can be seen on the Feedback tab. Feedback can be answered from this page or from a submission page (navigated to from either the problem or student profile). Pending feedback requests can also be seen in the matrix of the submission's problem as well as the student's profile. Feedback can be given from a submission page without a request.
+			<br /><br />
+			The Archive tab displays all feedback ever given.
 
-			<h3>Exploring Specific Submissions</h3>
-			Once you are on the page showing the code that a student submitted for a problem, you can show/hide personal information about the student in case you want to display their code for the class to look at. You can also find a list of all of that student's other submissions for that problem at the bottom of the page.
+			<h3>Sharing</h3>
+			Students can enable sharing for a problem, ie give their permission for the professor to show their submission code to the class. This is done from the "Past submissions" panel of a problem in the student view. If a student has enabled sharing, an admin may project their code in a new window for teaching purposes.  A new share request will cause a student's box to blink on the matrix view of a particular problem.  Clicking on the share request icon, a modal will provide the admin with three options. "Project" opens a new window with the submission code in an editable box that can be ran locally. "Dismiss" will close the modal and get rid of the icon and blinking in the matrix. "Hold" will close the modal but not end the blinking. Once sharing is enabled, a submission can always be projected from its submission page even if it is dismissed. A button in the corner of the matrix panel dismisses all requests in one click.
+
+			<h3>Students</h3>
+			The "Students" tab on the top navbar will take you to a comprehensive list of students, which is searchable by onyen.
+			<br /><br />
+			On a student profile there is a general progress bar, to the right of which are two buttons.  Clicking the first, which shows their current score, recalculates the student's score by analyzing all of their submissions. This may be used to ensure the accuracy of a student's score- for instance if you deleted a problem for which the user had earned points.  The second reloads existing data from the database (for instance to fetch any new submissions).
+			<br /><br />
+			Colored folders expand to show student's submissions for each problem, including any pending feedback requests. Click a submission's timestamp to view more details.
+			<br /><br />
+			Below the feedback and share request stats, pending feedback request summaries can be seen from the left side, if applicable.
+			<br /><br />
+			Deleting a user from this page will also delete all their submissions.  It requires a page refresh for the change to take effect.
+
+			<h3>Submissions</h3>
+			Submission scores can be edited in the upper right hand by clicking the pencil.
+			<br /><br />
+			If student has given permission by enabling sharing, an admin may project the code into a new window for teaching purposes with the "Project code" button.  If not, this button will be disabled ("requires student permission").
+			<br /><br />
+			In the bottom left where the code box is, admins can see feedback requests messages (if applicable) and submit feedback for the student's code. Or, if a submission already has feedback, it will be seen in this section.
+
+
+			<h3>Settings</h3>
+			Gets rid of Feedback and Sharing from admin and student interfaces. Does not delete the related data.
 
 			<h3>Grading Student Submissions</h3>
-			Below is a template for generating scores for students.  The functions fail.f() and fail.s() deduct functionality and style points (respectively).  They take 2 parameters: the message to append to the console and the number of points to deduct.  Leaving the message blank ("") will deduct points without appending a message.  When done checking for errors, fail.done() declares what message the user will see in the console if there were no errors.
+			Below is a template for generating scores for students.  The functions fail.f() and fail.s() deduct functionality and style points (respectively).  They take 2 parameters: the message to append to the console and an optional portion of points to deduct (a fraction between 0 and 1 to be multiplied with the available number of points).  Leaving the message blank ("") will deduct all available points without appending a message.  When done checking for errors, pass.f and pass.s must be called.  The pass function parameter is the message to be appended for full points and can be left blank ("") to append no message.
 
 			<pre>
+// I/O pairs for functional behavior
 var soln_inputs = [ [ ] ];
-var soln_outputs = [ ["Hello World"] ];
+var soln_outputs = [ ["Hello world !!"] ];
 
+// callbacks to do grading
 function totalChecker (err, user_outputs, truVec ) {
+  var ff = false;
 
-  //Functional Tests
-  if (err) { 
-      fail.f("There was an error in your code: " + err.msg,5);  //subtract 5 functional points
-      fail.s("",5); //substract 5 style points
-  }
+  // check functional correctness  
+  if (err) { fail.f("There was an error is your code: " + err.msg); } 
   else {
-      for(var i=0; i&lt;truVec.length; i++) { 
-      	truVec[i] || fail.f("failed functional correctness",5); //subtract 5 functional points for each
-      }
+     for(var i=0; i&lt;truVec.length; i++) { 
+        if (!truVec[i]) { fail.f("incorrect output"); ff = true; }
+     }
   }
 
-  //Style Tests
-  if (style.nDV != 1) { fail.s("Declare exactly 1 variable",3); } 
-  if (style.nDF != 1) { fail.s("One function to run is required",2); }
+  // check style
+  if ((style.nDV + style.nUDV + style.nVU) != 0) { fail.s("dont use variables",.4); }
+  if (!style.isJOTFC) { fail.s("make a single output, nothing else",.3); }
+  if (!style.hasOTAOL) { fail.s("make one call to alert on a string literal",.3); }
 
-  //Success Message
-  fail.done("Good job!"); //Message seen if no points deducted.
+  // finalize and award points if any
+  pass.f("passed functional correctness");
+  pass.s("passed style correctness");
 }
 
 // make it so
-batch.exec ( code, soln_inputs, soln_outputs, totalChecker);      
+batch.exec ( code, soln_inputs, soln_outputs, totalChecker);			
 			</pre>
 
 
