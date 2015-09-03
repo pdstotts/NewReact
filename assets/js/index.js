@@ -575,10 +575,8 @@ function setHighestScore(submissions,problem){
 
 	submissions.forEach( function (submission) {
 		console.log('derp');
-		if(submission.value.style > highestStyle){
+		if(parseFloat(submission.value.style + submission.value.correct) >= parseFloat(highestStyle + highestCorrect)){
 			highestStyle = submission.value.style;
-		}
-		if(submission.value.correct > highestCorrect){
 			highestCorrect = submission.value.correct;
 		}
 	});
