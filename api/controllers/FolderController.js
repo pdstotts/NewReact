@@ -69,11 +69,8 @@ module.exports = {
         if(parseInt(newIndex) > parseInt(oldIndex)){
           newIndex = parseInt(newIndex) +1; 
         }
-
-        console.log("hi newIndex" + newIndex + "oldIndex" + oldIndex);
         //update num
         if(newIndex){
-          console.log("updating Num: new index..." + newIndex)
             Folder.update({id:id}, {num: newIndex}).exec(function(err2, folder2) {
                 if(err2) {
                     console.log(err2);
@@ -138,12 +135,7 @@ module.exports = {
       .exec(function(err, folders) {
         var num = 0;
         folders.forEach(function(folder) {
-            console.log("folder: " + folder.name);
-
-            console.log("old: " + folder.num);
             folder.num = Number(num);
-            console.log("new: " + folder.num);
-
             folder.save( function(err) {
                 if(err) {
                     console.log(err);

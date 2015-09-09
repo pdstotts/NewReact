@@ -34,7 +34,6 @@ function isNull(item){
 }
 
 function fillProblemEdit(problem) {
-    console.log("fillProblemEdit");
     $("#editForm").removeClass("hidden");
     $("#editQuestionpanel").removeClass("hidden");
     $("#deleteProblem").removeClass("hidden");
@@ -98,55 +97,6 @@ function fillProblemAdd(problem){
     $("#onSubmit").val(problem.onSubmit);
 }
 
-function deleteProblem(problem){
-    console.log("deleteProblem");
-                            console.log(problem);
-
-    $("#deleteProblem").addClass("hidden");
-    $(".problemDeleted").removeClass('hidden'); 
-
-    var problemPoints = parseFloat(problem.value.correct) + parseFloat(problem.value.style);
-    var toDelete = problem;
-
-    $.post("/problem/delete", {id: problem.id}, function (problem) {
-        $.post("/problem/reorder", {folder: toDelete.folder}, function () {
-            console.log("curProblem");
-            console.log(curProblem);
-            console.log("toDelete");
-            console.log(toDelete);
-            if(curProblem){
-                if(toDelete.id == curProblem.id){
-                    console.log("was curProblem deleted");
-                    $("#editForm").addClass("hidden");
-                    $("#editPlaceholder").removeClass("hidden");
-                    $("#problemDisplayName").empty().append("Choose a Problem");
-                    $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
-                    $("#pointbreakdown").addClass("hidden");
-                    $("#matrixBody").empty();
-                    $("#allStudents1ProblemTable").empty();
-                    $("#pbp-green").css("width","0%");
-                    $("#pbp-yellow").css("width","0%");
-                    curProblem == null;
-                }
-            }
-            console.log(toDelete);
-            if(toDelete.phase != 2 && Boolean(toDelete.testMode) == false){
-                var totalPoints = parseFloat(points) - parseFloat(problemPoints);
-                $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
-                    points = totalPoints;
-                    $(".problemDeleted").addClass('hidden'); 
-                    loadSingleFolderSidebarSortable(toDelete.folder);
-                    loadSingleFolderSidebarNavigable(toDelete.folder);
-                });
-            }else {
-                $(".problemDeleted").addClass('hidden'); 
-                loadSingleFolderSidebarSortable(toDelete.folder);
-                loadSingleFolderSidebarNavigable(toDelete.folder);
-            }
-        });
-    });
-}
-
 function fillProblemDisplay(problem) {
     $(".displayProblem").removeClass("hidden");
     $("#pointbreakdown").removeClass("hidden");
@@ -165,7 +115,51 @@ function fillProblemDisplay(problem) {
     }
 }
 
+function deleteProblem(problem){
+    $("#deleteProblem").addClass("hidden");
+    $(".problemDeleted").removeClass('hidden'); 
+
+    var problemPoints = parseFloat(problem.value.correct) + parseFloat(problem.value.style);
+    var toDelete = problem;
+
+    $.post("/problem/delete", {id: problem.id}, function (problem) {
+        //need reorder to ensure problem numbering remains consecutive
+        $.post("/problem/reorder", {folder: toDelete.folder}, function () {
+            //change interface if necessary
+            if(curProblem){
+                if(toDelete.id == curProblem.id){
+                    $("#editForm").addClass("hidden");
+                    $("#editPlaceholder").removeClass("hidden");
+                    $("#problemDisplayName").empty().append("Choose a Problem");
+                    $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
+                    $("#pointbreakdown").addClass("hidden");
+                    $("#matrixBody").empty();
+                    $("#allStudents1ProblemTable").empty();
+                    $("#pbp-green").css("width","0%");
+                    $("#pbp-yellow").css("width","0%");
+                    curProblem == null;
+                }
+            }
+            //update total available points if necessary
+            if(toDelete.phase != 2 && Boolean(toDelete.testMode) == false){
+                var totalPoints = parseFloat(points) - parseFloat(problemPoints);
+                $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
+                    points = totalPoints;
+                    $(".problemDeleted").addClass('hidden'); 
+                    loadSingleFolderSidebarSortable(toDelete.folder);
+                    loadSingleFolderSidebarNavigable(toDelete.folder);
+                });
+            }else {
+                $(".problemDeleted").addClass('hidden'); 
+                loadSingleFolderSidebarSortable(toDelete.folder);
+                loadSingleFolderSidebarNavigable(toDelete.folder);
+            }
+        });
+    });
+}
+
 function feedbackRequestButton(submission,username,problem){
+    //little icon for the matrix
     var button = $("<a></a>")
         .attr("id","feedbackPlease" + submission.id)
         .attr("href","#submission")
@@ -189,6 +183,7 @@ function feedbackRequestButton(submission,username,problem){
 }
 
 function shareButton(submission,username,problem){
+    //little icon for the matrix
     var button = $("<a></a>")
         .attr("data-toggle","modal")  //save
         .attr("data-target","#shareSubmissionModal")  //save
@@ -200,69 +195,13 @@ function shareButton(submission,username,problem){
         .html('<span><span class="glyphicon glyphicon-share" data-toggle="tooltip" data-placement="top" title="Share Request"></span>')
         .click(function (event) {
             event.preventDefault();
-            fillModal(submission,username,problem);
+            fillShareSubmissionModal(submission,username,problem);
         });
     return button;
 }
 
-function updateStudentResults(problem,seconds) {
-    console.log('updateStudentResults');
-    $.post("/submission/read/" + problem.id, {id: problem.id, mostRecent: seconds}, function(submissions){
-        console.log(submissions.length);
-        submissions.forEach(function (submission) {
-           
-            if(!$("#matrix"+submission.user).hasClass("alert-success")){
-                var submissionValue = parseFloat(parseFloat(submission.value.correct) + parseFloat(submission.value.style));
-                var problemValue = parseFloat(parseFloat(problem.value.correct) + parseFloat(problem.value.style));
-                if( submissionValue < problemValue ){
-                    $("#matrix"+submission.user).removeClass("alert-danger");
-                    $("#matrix"+submission.user).addClass("alert-warning");
-                    console.log("less than what we want");
-                }else {
-                    $("#matrix"+submission.user).removeClass("alert-warning");
-                    $("#matrix"+submission.user).removeClass("alert-danger");
-                    $("#matrix"+submission.user).addClass("alert-success");
-                    console.log("not less than the right amount");
-                }
-            }
-            if(feedbackOn){
-                if(submission.fbRequested == true && submission.fbResponseTime == null){
-                    if ( !$( "#feedbackPlease" + submission.id ).length ) {
-                        $("#matrix" + submission.user).addClass("blink");
-                        $("#matrixHover" + submission.user).append(feedbackRequestButton(submission,submission.user,problem));
-                        $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
-                        iconCount = parseInt(iconCount);
-                        iconCount++;
-                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
-                    }
-                }
-            }
-            if(shareOn){
-                if(submission.shareOK && submission.shared != true){
-                    if ( !$( "#shareMe" + submission.id ).length ) {
-                        $("#matrix" + submission.user).addClass("blink");
-                        $("#matrixHover" + submission.user).append(shareButton(submission,submission.user,problem));
-                        $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
-                        iconCount = parseInt(iconCount);
-                        iconCount++;
-                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
-                    }
-                }
-            }
-
-            //$("#matrix" + user.id).removeClass("alert-danger").addClass("alert-warning");
-
-            console.log("submission!!!  = " + submission.createdAt);
-            console.log(submission.code);
-        });
-    });
-
-}
-
 function getStudentResults(problem) {
-    //Loads results of all students on a particular problem
+    //creates matrix and student results table
     numfunct = 0;
     numstyle = 0;
     numattempted = 0;
@@ -300,27 +239,217 @@ function getStudentResults(problem) {
             });
             $('[data-toggle="tooltip"]').tooltip();
 
-            //must enable tooltips
-            //$('[data-toggle="tooltip"]').tooltip()
-
-
             matrixSquarehover.append(userButton);
             matrixSquare.append(user.username);
             matrixSquare.append("<br />");
             matrixSquare.append(matrixSquarehover);
 
-
-
             $("#matrixBody").append(matrixSquare);
             $('#matrix' + user.username).mouseover(function() { $('#matrixHover' + user.username).css('visibility','visible'); });
             $('#matrix' + user.username).mouseout(function() { $('#matrixHover' + user.username).css('visibility','hidden'); });
 
-            problemCorrect(user, problem, users.length);
+            var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
+            var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
+
+            var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
+            $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username}, function(submissions){
+               var student = $("<tr></tr>");
+                var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
+                    .css("color","#627E86")
+                    .css("padding-left","4px;")
+                    .attr("class","")
+                    .html("<span><span class='glyphicon glyphicon-user' data-toggle='tooltip' data-placement='top' title='View User' ></span>") // the trailing space is important!
+                    .click(function () {
+                        $("#matrixLink").removeClass("active");
+                        event.preventDefault();
+                        $.post("/user/read/" + user.id, {}, function (user) {
+                            if (!user) {
+                                alert("No user with that id found");
+                                return;
+                            }
+                            getIndividual(user,false);
+                        });
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
+                    
+
+                if(submissions.length == 0){
+                    var a = $("<td></td>")
+                        .css("text-align","left")
+                        .append(userButton)
+                        .append(" " + user.displayName + " (0)</a>");
+                    student.append(a);
+                } else {
+                    var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
+                  
+                    var collapseLink = $("<a></a>").append(" " + user.displayName + " (" + submissions.length + ")")
+                        .click(function (event) {
+                            if($(".submissionUser"+user.username).hasClass("hidden")) {
+                                $(".submissionUser"+user.username).removeClass('hidden');
+                            } else {
+                                $(".submissionUser"+user.username).addClass('hidden');
+                            }
+                        });
+                    var a = $("<td></td>")
+                        .css("text-align","left")
+                        .append(userButton)
+                        .append(collapseLink);
+                    student.append(a);
+
+                    myVariable.append(a);
+                    student.append(myVariable);
+
+                    results.tried = true;
+                    submissions.forEach(function(submission) {
+                        if(feedbackOn){
+                            if(submission.fbRequested == true && submission.fbResponseTime == null){
+                                results.feedbackRequested = true;
+                                $("#matrixHover" + user.username).append(feedbackRequestButton(submission,user.username,problem));
+                                $('[data-toggle="tooltip"]').tooltip()
+                                var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
+                                iconCount = parseInt(iconCount);
+                                iconCount++;
+                                $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
+                            }
+                        }
+                        if(shareOn){
+                            if(submission.shareOK && submission.shared != true){
+                                results.shareRequested = true;
+                                $("#matrixHover" + user.username).append(shareButton(submission,user.username,problem));
+                                $('[data-toggle="tooltip"]').tooltip()
+                                var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
+                                iconCount = parseInt(iconCount);
+                                iconCount++;
+                                $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
+                            }
+                        }
+
+                        if(submission.value.correct >= problem.value.correct && submission.value.style >= problem.value.style) {
+                            results.correct = true;
+                            results.style = true;
+                            return true;
+                        }
+                        else if(submission.value.correct >= problem.value.correct && submission.value.style != problem.value.style) {
+                            results.correct = true;
+                        }
+
+                    });
+                }
+
+                if(results.feedbackRequested == true || results.shareRequested == true){
+                    $("#matrix" + user.username).addClass("blink");
+                }
+                if(results.tried) {
+                    numattempted++;
+                    $("#matrix" + user.username).removeClass("alert-danger").addClass("alert-warning");
+
+                    if(results.correct) {
+                        numfunct++;
+                        rsectionF.append(correct("8px"));
+                    }else {
+                        rsectionF.append(wrong("8px"));
+                    }
+                    if(results.style) {
+                        numstyle++;
+                        rsectionS.append(correct("8px"));
+                    }else {
+                        rsectionS.append(wrong("8px"));
+                    }
+                    if(results.correct && results.style){
+                        numearned++;
+                        $("#matrix" + user.username).removeClass("alert-warning").addClass("alert-success");
+                    }
+                }
+
+                var myRows = [];
+                submissions.forEach( function (submission) {
+                    var width = $( "#allStudents1ProblemTable" ).width();
+                    var submissionRow = $("<tr class='hidden submissionUser" + user.username + "'>")
+                        .css('background-color','#ECECEC');
+                    var d = new Date(submission.createdAt);
+                    var a = $("<a></a>")
+                        .attr("href","#submission")
+                        .attr("data-toggle","pill")  //save
+                        .html(d.toLocaleString())
+                        .click(function (event) {
+                            event.preventDefault();
+                                getSubmission(submission,user,problem);
+                    });
+                    submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(a));
+                    var iconF = submission.value.correct >=  problem.value.correct ? correct("8px") : wrong("8px");
+                    var iconS = submission.value.style >=  problem.value.style ? correct("8px") : wrong("8px");
+                    submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                    submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+                    myRows.push(submissionRow);
+                });
+
+                student.append(rsectionF);
+                student.append(rsectionS);
+                $("#allStudents1ProblemResults").append(student);
+                for (var index = 0; index < myRows.length; index++) {
+                    $("#allStudents1ProblemResults").append(myRows[index]);
+                }
+
+                //update progress labels
+                $("#answeredCorrect").empty().append(Math.floor((numearned/numattempted)*100)+"%");
+                $("#function").empty().append(Math.floor((numfunct/total)*100)+"%");
+                $("#style").empty().append(Math.floor((numstyle/total)*100)+"%");
+                $("#pbp-yellow").css("width",Math.floor(((numattempted-numearned)/total)*100)+"%");
+                $("#pbp-green").css("width",Math.floor((numearned/total)*100)+"%");
+            });
+        });
+    });
+}
+
+function updateStudentResults(problem,seconds) {
+    //gets submissions updated within the last *seconds* seconds
+    //updates matrix to reflect any changes
+    $.post("/submission/read/" + problem.id, {id: problem.id, mostRecent: seconds}, function(submissions){
+        submissions.forEach(function (submission) {
+            if(!$("#matrix"+submission.user).hasClass("alert-success")){
+                var submissionValue = parseFloat(parseFloat(submission.value.correct) + parseFloat(submission.value.style));
+                var problemValue = parseFloat(parseFloat(problem.value.correct) + parseFloat(problem.value.style));
+                if( submissionValue < problemValue ){
+                    $("#matrix"+submission.user).removeClass("alert-danger");
+                    $("#matrix"+submission.user).addClass("alert-warning");
+                }else {
+                    $("#matrix"+submission.user).removeClass("alert-warning");
+                    $("#matrix"+submission.user).removeClass("alert-danger");
+                    $("#matrix"+submission.user).addClass("alert-success");
+                }
+            }
+            if(feedbackOn){
+                if(submission.fbRequested == true && submission.fbResponseTime == null){
+                    if ( !$( "#feedbackPlease" + submission.id ).length ) {
+                        $("#matrix" + submission.user).addClass("blink");
+                        $("#matrixHover" + submission.user).append(feedbackRequestButton(submission,submission.user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
+                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
+                    }
+                }
+            }
+            if(shareOn){
+                if(submission.shareOK && submission.shared != true){
+                    if ( !$( "#shareMe" + submission.id ).length ) {
+                        $("#matrix" + submission.user).addClass("blink");
+                        $("#matrixHover" + submission.user).append(shareButton(submission,submission.user,problem));
+                        $('[data-toggle="tooltip"]').tooltip()
+                        var iconCount = $("#matrixHover" + submission.user).attr("data-iconcount");
+                        iconCount = parseInt(iconCount);
+                        iconCount++;
+                        $("#matrixHover" + submission.user).attr("data-iconcount",iconCount);
+                    }
+                }
+            }
         });
     });
 }
 
 function updateProblemProgressBar(){
+    //updates the progress bar in the students attempts table on problem display view
     if(curProblem == null){
         return;
     }
@@ -348,7 +477,6 @@ function updateProblemProgressBar(){
                         }
                     });
                 }
-
                 if(results.tried) {
                     numattempted++;
 
@@ -373,162 +501,7 @@ function updateProblemProgressBar(){
     });
 }
 
-function problemCorrect(user, problem, totalStudents, userButton){
-    //check score of a student for a problem
-
-    var rsectionF = $("<td>").attr("class","probStudentSubmissionTableTD");
-    var rsectionS = $("<td>").attr("class","probStudentSubmissionTableTD");
-
-    var results = {tried: false, correct: false, style: false, feedbackRequested: false, shareOK: false, shareRequested:false};
-    $.post("/submission/read/" + problem.id, {id: problem.id, student: user.username}, function(submissions){
-       var student = $("<tr></tr>");
-        var userButton = $("<a href='#individualStudent' data-toggle='pill' ></a>")
-            .css("color","#627E86")
-            .css("padding-left","4px;")
-            .attr("class","")
-            .html("<span><span class='glyphicon glyphicon-user' data-toggle='tooltip' data-placement='top' title='View User' ></span>") // the trailing space is important!
-            .click(function () {
-                $("#matrixLink").removeClass("active");
-                event.preventDefault();
-                $.post("/user/read/" + user.id, {}, function (user) {
-                    if (!user) {
-                        alert("No user with that id found");
-                        return;
-                    }
-                    getIndividual(user,false);
-                });
-            });
-            $('[data-toggle="tooltip"]').tooltip();
-            
-
-        if(submissions.length == 0){
-            var a = $("<td></td>")
-                .css("text-align","left")
-                .append(userButton)
-                .append(" " + user.displayName + " (0)</a>");
-            student.append(a);
-        } else {
-            var myVariable = $("<td>").attr("class","probStudentSubmissionTableTD");
-          
-            var collapseLink = $("<a></a>").append(" " + user.displayName + " (" + submissions.length + ")")
-                .click(function (event) {
-                    if($(".submissionUser"+user.username).hasClass("hidden")) {
-                        $(".submissionUser"+user.username).removeClass('hidden');
-                    } else {
-                        $(".submissionUser"+user.username).addClass('hidden');
-                    }
-                });
-            var a = $("<td></td>")
-                .css("text-align","left")
-                .append(userButton)
-                .append(collapseLink);
-            student.append(a);
-
-            myVariable.append(a);
-        	student.append(myVariable);
-
-            results.tried = true;
-            submissions.forEach(function(submission) {
-                if(feedbackOn){
-                    if(submission.fbRequested == true && submission.fbResponseTime == null){
-                        results.feedbackRequested = true;
-                        $("#matrixHover" + user.username).append(feedbackRequestButton(submission,user.username,problem));
-                        $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
-                        iconCount = parseInt(iconCount);
-                        iconCount++;
-                        $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
-                    }
-                }
-                if(shareOn){
-                    if(submission.shareOK && submission.shared != true){
-                        results.shareRequested = true;
-                        $("#matrixHover" + user.username).append(shareButton(submission,user.username,problem));
-                        $('[data-toggle="tooltip"]').tooltip()
-                        var iconCount = $("#matrixHover" + user.username).attr("data-iconcount");
-                        iconCount = parseInt(iconCount);
-                        iconCount++;
-                        $("#matrixHover" + user.username).attr("data-iconcount",iconCount);
-                    }
-                }
-
-                if(submission.value.correct >= problem.value.correct && submission.value.style >= problem.value.style) {
-                    results.correct = true;
-                    results.style = true;
-                    return true;
-                }
-                else if(submission.value.correct >= problem.value.correct && submission.value.style != problem.value.style) {
-                    results.correct = true;
-                }
-
-            });
-        }
-
-        if(results.feedbackRequested == true || results.shareRequested == true){
-            $("#matrix" + user.username).addClass("blink");
-        }
-        if(results.tried) {
-            numattempted++;
-            $("#matrix" + user.username).removeClass("alert-danger").addClass("alert-warning");
-
-            if(results.correct) {
-                numfunct++;
-                rsectionF.append(correct("8px"));
-            }else {
-                rsectionF.append(wrong("8px"));
-            }
-            if(results.style) {
-                numstyle++;
-                rsectionS.append(correct("8px"));
-            }else {
-                rsectionS.append(wrong("8px"));
-            }
-            if(results.correct && results.style){
-                numearned++;
-                $("#matrix" + user.username).removeClass("alert-warning").addClass("alert-success");
-            }
-        }
-
-
-        var myRows = [];
-		submissions.forEach( function (submission) {
-            var width = $( "#allStudents1ProblemTable" ).width();
-            var submissionRow = $("<tr class='hidden submissionUser" + user.username + "'>")
-                .css('background-color','#ECECEC');
-            var d = new Date(submission.createdAt);
-			var a = $("<a></a>")
-				.attr("href","#submission")
-				.attr("data-toggle","pill")  //save
-                .html(d.toLocaleString())
-                .click(function (event) {
-                    event.preventDefault();
-                        getSubmission(submission,user,problem);
-            });
-            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(a));
-            var iconF = submission.value.correct >=  problem.value.correct ? correct("8px") : wrong("8px");
-            var iconS = submission.value.style >=  problem.value.style ? correct("8px") : wrong("8px");
-            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
-            submissionRow.append($("<td class='probStudentSubmissionTableTD'></td>").append(scoreBadge(submission.value.style,problem.value.style)));
-            myRows.push(submissionRow);
-        });
-
-        student.append(rsectionF);
-        student.append(rsectionS);
-        $("#allStudents1ProblemResults").append(student);
-        for (var index = 0; index < myRows.length; index++) {
-            $("#allStudents1ProblemResults").append(myRows[index]);
-        }
-
-        //update progress labels
-        $("#answeredCorrect").empty().append(Math.floor((numearned/numattempted)*100)+"%");
-        $("#function").empty().append(Math.floor((numfunct/total)*100)+"%");
-        $("#style").empty().append(Math.floor((numstyle/total)*100)+"%");
-        $("#pbp-yellow").css("width",Math.floor(((numattempted-numearned)/total)*100)+"%");
-        $("#pbp-green").css("width",Math.floor((numearned/total)*100)+"%");
-    });
-}
-
-function fillModal(submission,username,problem){
+function fillShareSubmissionModal(submission,username,problem){
     var d = new Date(submission.createdAt);
     $("#subModal").empty().append(username + " on " + d.toLocaleString());
     modalEditor.setValue(submission.code);
@@ -543,18 +516,6 @@ function fillModal(submission,username,problem){
         .attr("type","button")
         .addClass("btn btn-success ")
         .text("Project").click(function (event) {
-            /*
-            $.post("/submission/update", {id: submission.id, shared:true}, function (submission) {
-                $("#shareMe" + submission.id).remove();
-                var iconCount = $("#matrixHover" + user.id).attr("data-iconcount");
-                iconCount = parseInt(iconCount);
-                iconCount--;
-                $("#matrixHover" + user.id).attr("data-iconcount",iconCount);
-                if(iconCount == 0){
-                    $("#matrix" + user.id).removeClass("blink");
-                }
-            });
-            */
        });
     $("#projectSubmissionButton").empty().append(button);
 
@@ -575,19 +536,26 @@ function fillModal(submission,username,problem){
                 }
             });
        });
-
     $("#dimissShareButton").empty().append(button);
-
 }
+
 function getCompletedFeedbackDash() {
     if(curCompletedFeedback != null){
         fillCompletedFeedbackDash(curCompletedFeedback); 
     }
 
-    //Generate feedback dash
+    //adjust height of list div
+    if($( "#fbDashBodyC" ).height() > 0){
+        var max = Math.max(parseInt($( window ).height() -65),$( "#fbDashBodyC" ).height());
+    }else {
+       var max = parseInt($( window ).height() -65);
+    }
+    $("#archiveFeedbackList").css("height",max);
+
+    //Generate completed feedback dash
     $("#feedbackDashC").empty();
     $.post("/submission/read/", {feedbackResponded: true}, function(submissions){
-        console.log(submissions);
+        $("#fbArchiveSubmissionTH").empty().append("Submitted(" + submissions.length + ")");
         submissions.forEach(function (submission) {
             $.post("/problem/read", {id: submission.problem}, function (problem) {
                 if (problem) {
@@ -603,17 +571,7 @@ function getCompletedFeedbackDash() {
                             fillCompletedFeedbackDash(submission);     
                             $("#fbDashBodyC").removeClass("hidden");
                        });
-                    if(curCompletedFeedback != null){
-                        if(curCompletedFeedback.id == submission.id){
-                            console.log('match');
-                            row.append($("<td></td>").append(time));
-                        }else {
-                            row.append($("<td></td>").append(a));
-                        }
-                    }else {
-                        row.append($("<td></td>").append(a));
-                    }
-
+                    row.append($("<td></td>").append(a));
                     row.append($("<td></td>").append(submission.fbResponder));
                     row.append($("<td></td>").append(submission.user));
                     row.append($("<td></td>").append(problem.name));
@@ -627,88 +585,6 @@ function getCompletedFeedbackDash() {
     });
 }
 
-function getFeedbackDash() {
-    if(curFeedback != null){
-        fillFeedbackDash(curFeedback); 
-    }
-
-    //Generate feedback dash
-    $("#feedbackDash").empty();
-    $.post("/submission/read/", {feedback: true}, function(submissions){
-        submissions.forEach(function (submission) {
-            $.post("/problem/read", {id: submission.problem}, function (problem) {
-                if (problem) {
-                    var row = $("<tr></tr>");
-                    var time = submission.fbRequestTime;
-                    if(time != null){
-                        time = new Date(submission.fbRequestTime).toLocaleString();
-                    }
-                    var a = $("<a></a>")
-                        .html(time)
-                        .click(function (event) {
-                            curFeedback = submission;            
-                            getFeedbackDash();
-                            $("#fbDashBody").removeClass("hidden");
-                       });
-                    if(curFeedback != null){
-                        if(curFeedback.id == submission.id){
-                            console.log('match');
-                            row.append($("<td></td>").append(time));
-                        }else {
-                            row.append($("<td></td>").append(a));
-                        }
-                    }else {
-                        row.append($("<td></td>").append(a));
-                    }
-
-                    row.append($("<td></td>").append(submission.user));
-                    row.append($("<td></td>").append(problem.name));
-                    row.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
-                    row.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
-
-                    $("#feedbackDash").append(row);
-                }
-            });
-        });
-    });
-};
-
-function fillFeedbackDash(submission){
-    var time = submission.fbRequestTime;
-    if(time != null){
-        time = new Date(submission.fbRequestTime).toLocaleString();
-    }
-
-    console.log(submission.user);
-    $.post("/user/read", {onyen: submission.user}, function (user) {
-        if (user) {
-            $("#fbDashRequester").empty().append("<b> by " + user.displayName +  "</b>");
-        }
-    });
-
-    $.post("/problem/read", {id: submission.problem}, function (problem) {
-        if (problem) {
-            $("#desc-body").empty().append(problem.text);
-            $("#desc-title").empty().append(problem.name);
-        }
-    });
-
-    $("#fbDashRequestTime").empty().append("<b>Request made at " + time + "</b>");
-
-    $("#fbDashConsole").empty().append(submission.message);
-    feedbackEditor.setValue(submission.code);
-    var that = this;
-    setTimeout(function() {
-        that.feedbackEditor.refresh();
-    },1);
-    
-    if(submission.message == "" || submission.message == null){
-        $("#fbDashRequestMsg").empty().append("No message");
-    }else {
-        $("#fbDashRequestMsg").empty().append('"' + submission.fbRequestMsg + '"');
-    }
-}
-
 function fillCompletedFeedbackDash(submission){
     if(submission.fbRequestTime){
         $("#completedFeedbackRequest").removeClass("hidden");
@@ -716,7 +592,6 @@ function fillCompletedFeedbackDash(submission){
         if(time != null){
             time = new Date(submission.fbRequestTime).toLocaleString();
         }
-        console.log(submission.user);
         $.post("/user/read", {onyen: submission.user}, function (user) {
             if (user) {
                 $("#feedbackRequestTimeC").empty().append("<b> Request from " + user.displayName + " at " + time + "</b>");
@@ -750,20 +625,98 @@ function fillCompletedFeedbackDash(submission){
     });
 
     $("#fbDashConsoleC").empty().append(submission.message);
-    feedbackEditor2.setValue(submission.fbCode);
+    completedFeedbackEditor.setValue(submission.fbCode);
     var that = this;
     setTimeout(function() {
-        that.feedbackEditor2.refresh();
+        that.completedFeedbackEditor.refresh();
     },1);
     
+}
+
+function getFeedbackDash() {
+    if(curFeedback != null){
+        fillFeedbackDash(curFeedback); 
+    }
+
+    //Generate feedback dash
+    $("#feedbackDash").empty();
+    $.post("/submission/read/", {feedback: true}, function(submissions){
+        submissions.forEach(function (submission) {
+            $.post("/problem/read", {id: submission.problem}, function (problem) {
+                if (problem) {
+                    var row = $("<tr></tr>");
+                    var time = submission.fbRequestTime;
+                    if(time != null){
+                        time = new Date(submission.fbRequestTime).toLocaleString();
+                    }
+                    var a = $("<a></a>")
+                        .html(time)
+                        .click(function (event) {
+                            curFeedback = submission;            
+                            getFeedbackDash();
+                            $("#fbDashBody").removeClass("hidden");
+                       });
+                    if(curFeedback != null){
+                        if(curFeedback.id == submission.id){
+                            row.append($("<td></td>").append(time));
+                        }else {
+                            row.append($("<td></td>").append(a));
+                        }
+                    }else {
+                        row.append($("<td></td>").append(a));
+                    }
+
+                    row.append($("<td></td>").append(submission.user));
+                    row.append($("<td></td>").append(problem.name));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct)));
+                    row.append($("<td></td>").append(scoreBadge(submission.value.style,problem.value.style)));
+
+                    $("#feedbackDash").append(row);
+                }
+            });
+        });
+    });
+};
+
+function fillFeedbackDash(submission){
+    var time = submission.fbRequestTime;
+    if(time != null){
+        time = new Date(submission.fbRequestTime).toLocaleString();
+    }
+
+    $.post("/user/read", {onyen: submission.user}, function (user) {
+        if (user) {
+            $("#fbDashRequester").empty().append("<b> by " + user.displayName +  "</b>");
+        }
+    });
+
+    $.post("/problem/read", {id: submission.problem}, function (problem) {
+        if (problem) {
+            $("#desc-body").empty().append(problem.text);
+            $("#desc-title").empty().append(problem.name);
+        }
+    });
+
+    $("#fbDashRequestTime").empty().append("<b>Request made at " + time + "</b>");
+
+    $("#fbDashConsole").empty().append(submission.message);
+    feedbackEditor.setValue(submission.code);
+    var that = this;
+    setTimeout(function() {
+        that.feedbackEditor.refresh();
+    },1);
+    
+    if(submission.message == "" || submission.message == null){
+        $("#fbDashRequestMsg").empty().append("No message");
+    }else {
+        $("#fbDashRequestMsg").empty().append('"' + submission.fbRequestMsg + '"');
+    }
 }
 
 function getStudentList() {
     //Generate list of all students to view individuals
     $("#viewStudentsList").empty();
     var tbl = $("<table class='table' id='viewStudentsTable'></table>");
-    //var tbl = $("<ul id='viewStudentsTable'></ul>");
-
     var csv = "onyen%2Cgrade";
 
     $("#viewStudentsList").append(tbl);
@@ -776,12 +729,11 @@ function getStudentList() {
             var link = $("<a></a>")
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
-                .append(user.displayName + "<br />")
+                .append(user.displayName + "<br /><i>(" + user.username + ")</i><br />")
                 .append(badge)
                 .click(function (event){
                     $("#studentsLink").removeClass("active");
                 });
-
             csv = csv + "%0A" + user.username + "," + user.currentScore;
             var a = $("<td></td>")
                 .append(link)
@@ -812,14 +764,12 @@ function getStudentList() {
 
 function getSubmission(submission,user,problem) {
     //Generate page for particular submission    
-
     curSubmission = submission;
+    var currentId = submission.id;
 
     //FILLING iN TOP PANEL
 	var d = new Date(submission.createdAt);
     $("#submissionCreatedAt").html(d.toLocaleString());
-
-    var currentId = submission.id;
     var studentLink = $("<a></>")
     	.attr("href","#individualStudent")
     	.attr("data-toggle","pill")
@@ -871,6 +821,27 @@ function getSubmission(submission,user,problem) {
         $("#submissionTitle").html(problem.name + "<i> in " + folder.name + "</i>");
     });
 
+    if(submission.shareOK == true){
+        var button = $("<a></a>")
+                .attr("href","project?subId=" + submission.id)
+                .attr("target","_blank")
+                .attr("type","button")
+                .addClass("btn btn-primary ")
+                .text("Project code in new window");
+                
+        $('#submissionProject').empty().append(button);
+    }else {
+        var button = $("<a></a>")
+                .attr("href","project?subId=" + submission.id)
+                .attr("target","_blank")
+                .attr("type","button")
+                .attr("disabled","disabled")
+                .addClass("btn btn-primary ")
+                .text("Project code (requires student permission)");
+                
+        $('#submissionProject').empty().append(button);
+    }
+
     editor.setValue(submission.code);
     //weird trick to make sure the codemirror box refreshes
     var that = this;
@@ -920,9 +891,7 @@ function getSubmission(submission,user,problem) {
                 var d = $("<td></td>");
                 var b = $("<td></td>").append(scoreBadge(submission.value.correct,problem.value.correct));
                 var c = $("<td></td>").append(scoreBadge(submission.value.style,problem.value.style));
-
             }
-
             row.append(a);
             row.append(b);
             row.append(c);
@@ -935,35 +904,11 @@ function getSubmission(submission,user,problem) {
                     d.empty().append("<span class='glyphicon glyphicon-ok' style='color:green;''></span>");
                 }
                 row.append(d);
-
             }
-
             $("#relatedSubmissions").append(row);
         });
     });
-    setTimeout( editor.refresh(), 0 );    
-    if(submission.shareOK == true){
-        var button = $("<a></a>")
-                .attr("href","project?subId=" + submission.id)
-                .attr("target","_blank")
-                .attr("type","button")
-                .addClass("btn btn-primary ")
-                .text("Project code in new window");
-                
-        $('#submissionProject').empty().append(button);
-    }else {
-        var button = $("<a></a>")
-                .attr("href","project?subId=" + submission.id)
-                .attr("target","_blank")
-                .attr("type","button")
-                .attr("disabled","disabled")
-                .addClass("btn btn-primary ")
-                .text("Project code (requires student permission)");
-                
-        $('#submissionProject').empty().append(button);
-    }
-
-  
+    setTimeout( editor.refresh(), 0 ); 
 }
 
 function fillSubmissionFeedback(submission,user){
@@ -977,7 +922,6 @@ function fillSubmissionFeedback(submission,user){
             }else {
                 $(".fbRequestMsg").removeClass("hidden");
             }
-
             //Request Time
             var time = submission.fbRequestTime;
             if(time != null){
@@ -988,10 +932,8 @@ function fillSubmissionFeedback(submission,user){
     }else {
         $("#activeSubmission").empty().append(correct());
     }
-    
 
     if(submission.fbResponseTime == null){ //No feedback given yet
-        console.log("submission.fbResponseTime == null");
         $("#submissionTabMenu").addClass("hidden");
         $("#submissionTabFeedback").removeClass("active");
         $("#submissionTabSubmission").addClass("active");
@@ -1040,7 +982,6 @@ function fillSubmissionFeedback(submission,user){
         //weird trick to make sure the codemirror box refreshes
         setTimeout(function() {
             fbEditorReadOnly.refresh();
-            console.log("fbEditorReadOnly refresh");
         },10);
 
         time = submission.fbResponseTime;
@@ -1064,8 +1005,8 @@ function fillSubmissionFeedback(submission,user){
 
 
 function getIndividual(user, refresh) {
-
     //Generate page for particular individual student    
+    //if this student is already loaded and we don't want to refresh don't need to do anything
     if(curStudent == user.id && refresh == false){
         return;
     }
@@ -1093,7 +1034,6 @@ function getIndividual(user, refresh) {
         .css("color","#C84747")
         .html('delete')
         .click(function () {
-            console.log("clicked");
             if (confirm('Are you sure you wish to delete the person "' + user.username + '"?')) {
                 $.post("/user/delete", {onyen: user.username}, function(user){
                     alert("This person is done for! Please refresh page to see this change take effect.");
@@ -1113,11 +1053,9 @@ function getIndividual(user, refresh) {
     $("#individualProgessBar").empty().append('<div class="progress" style="height:33px"><div id="pbgreen" class="progress-bar progress-bar-success" style="width: 0%;" data-toggle="tooltip" data-placement="top" title="' + tooltipGreen + '"><span class="sr-only">35% Complete (success)</span></div> <div id="pbyellow" class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" data-toggle="tooltip" data-placement="top" title="' + tooltipYellow + '"><span class="sr-only">20% Complete (warning)</span></div><div id="pbred" class="progress-bar progress-bar-danger" style="width: 0%"><span class="sr-only">10% Complete (danger)</span></div></div>');
     //must enable tooltips
     $('[data-toggle="tooltip"]').tooltip()
-    var totalSubmissionNumber = 100000000000000;
-    
-    $.post("/submission/read/", {student: user.username}, function(submissions){
-        totalSubmissionNumber = submissions.length;
 
+    $.post("/submission/read/", {student: user.username}, function(submissions){
+        var totalSubmissionNumber = submissions.length;
         if(totalSubmissionNumber == 0){
             $("#studentRefresh").removeAttr('disabled');
             $("#studentRefreshGlyph").removeClass("spin");
@@ -1137,10 +1075,6 @@ function getIndividual(user, refresh) {
                 }else {
                     var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'>" + toggleLabel + "</div><div class='panel-collapse collapse' id='Icollapse-" + folder.id + "'><table class='table' style='margin-bottom:0px;'><thead><tr><th>Problem</th><th>Submissions</th><th>Functionality</th> <th>Style</td></tr></thead><tbody id='ISL" + folder.id + "'> </tbody></table></div></div></div>";
                 }
-
-    //            var accordian = "<div id='indivFolder-" + folder.id  + "' class='panel panel-danger'><div class='panel-heading'><h4 class='panel-title'>" + toggleLabel + " <span id='Iearned-"+ folder.id + "'>0</span>/<span id='Iavail-"+ folder.id + "'></span><span id='Icheck-"+ folder.id + "'></span></h4></div><ul id = 'ISL" + folder.id + "' class='panel-collapse collapse folderCollapse'></ul></div></div>";
-
-    //            $("#individualSubmissionList").append(toggleLabel + "<ul id ='ISL" + folder.id + "' class='panel-collapse collapse'></ul>");
                 $("#individualSubmissionList").append(accordian);
 
                 $.post("/problem/read", {folder: folder.id, phase: 2}, function (problems) {
@@ -1191,16 +1125,13 @@ function getIndividual(user, refresh) {
                                     feedbackGiven = true;
                                 }
                                 if(submission.fbRequested){
-                                    console.log("totalFeedbackRequest");
                                     totalFeedbackRequest = totalFeedbackRequest + 1;
                                 }
                                 if(submission.shareOK){
-                                    console.log("totalShareRequest");
                                     totalShareRequest = totalShareRequest + 1;
                                 }
 
                                 var d = new Date(submission.createdAt);
-
                                 var a = $("<td></td>")
                                 .html("<a href='#submission' data-toggle='pill'>" + d.toLocaleString() + "</a>")
                                 .click(function (event) {
@@ -1233,7 +1164,6 @@ function getIndividual(user, refresh) {
                                 }
                                 problemRowSubmissions.push(submissionRow);
 
-    //                            $("#ISL" + problem.id).append("<div class='left-submission'>Functionality: " + submission.value.correct + "/" + problem.value.correct + "</div><div class='style-submission left-submission'>Style: " + submission.value.style + "/" + problem.value.style + "</div></li>");
                                 if (parseFloat(submission.value.style) > parseFloat(earnedStylePoints)){
                                     earnedStylePoints = parseFloat(submission.value.style);
                                     totalEarned += parseFloat(earnedStylePoints);
@@ -1322,7 +1252,6 @@ function getIndividual(user, refresh) {
                             }                        
 
                         });
-
                     });
                 });
             });
@@ -1341,9 +1270,7 @@ function getIndividual(user, refresh) {
                 $("#studentRefreshGlyph").addClass("spin");
             }
         });
-
     });
-    
 }
 
 function getIndividualNone(onyen) {
@@ -1366,8 +1293,6 @@ function getIndividualNone(onyen) {
 }
 
 function loadNavigableSidebar() {
-    console.log("loadNavigableSidebar");
-
     $("#navigableFolders").empty(); //in the navigation bar
     $("#folderDropdown").empty();  //in the add question panels
     $("#editFolderDropdown").empty(); //in the edit question panel
@@ -1394,7 +1319,6 @@ function showSortableSidebar() {
 }
 
 function loadSortableSidebar() {
-    console.log("loadSortableSidebar");
     $("#sortableFolders").empty();
 
     $("#navigableFolders").addClass("hidden");
@@ -1473,7 +1397,6 @@ function loadSingleFolderSidebarNavigable(folderid){
             }
 
             link.click(function () {
-                console.log(problem.name + " was clicked");
                 curProblem = problem;
                 fillProblemEdit(curProblem);
                 fillProblemDisplay(curProblem);
@@ -1502,7 +1425,6 @@ function loadSingleFolderSidebarSortable(folderid) {
             .click(function () {
                 if (confirm('Are you sure you wish to delete the problem "' + problem.name + '"?')) {
                     $.post("/submission/read/" + problem.id, {id: problem.id}, function(submissions){
-                        console.log(problem);
                         var myArray = [];
                         submissions.forEach(function (submission) {
                             myArray.push(submission.user);
@@ -1581,8 +1503,6 @@ function addFolder(folder) { //creates the folder to add problems to
 }
 
 function addSortableFolder(folder){
-    console.log("addSortableFolder");
-
     if($("#accoridanFolder" + folder.id).hasClass("in")){
         var open = "in";
         var icon = "glyphicon-folder-close"
@@ -1622,12 +1542,10 @@ function addSortableFolder(folder){
     .html('<span class="sortableGrip ui-icon ui-icon-arrowthick-2-n-s"></span>' + folder.name + "</h4>")
     .append(removeButton).append(expandButton);
 
-
     var expandableFolder = $("<div></div>")
     .attr("id","accoridanFolderSortable" + folder.id)
     .attr("class","panel-collapse collapse " + open + " folderCollapse accoridanFolder" + folder.id)
     .html("<ul id='sortableFolder" + folder.id + "' class='sortable2' ></ul>");
-
 
     var sortableItem = $("<li></li>")
     .attr("class","ui-state-default sortableFolder panel-heading")
@@ -1635,7 +1553,6 @@ function addSortableFolder(folder){
     sortableItem.append(heading);
     sortableItem.append(expandableFolder);
     $("#sortable").append(sortableItem);
-
 }
 
 function loadUsers() {
@@ -1724,19 +1641,16 @@ function adminCancelEditButton(admin){
         .click( function() {
             $("#adminName" + admin.username).empty().append(adminRemoveButton(admin)).append(admin.displayName + "  <i>(" + admin.username + ")</i>").append(adminEditButton(admin));
             $('[data-toggle="tooltip"]').tooltip()
-
         });
     return saveButton;
 }
 
 function getSettings(){
-    console.log("get settings" + feedbackOn);
     feedbackToggle(feedbackOn);
     shareToggle(shareOn);
 }
 
 function feedbackToggle(boolean){
-    console.log("toggle" + boolean);
     if(boolean){
         var button = $("<button></button>")
             .addClass("btn btn-danger")
@@ -1764,7 +1678,6 @@ function feedbackToggle(boolean){
 }
 
 function shareToggle(boolean){
-    console.log("toggle" + boolean);
     if(boolean){
         var button = $("<button></button>")
             .addClass("btn btn-danger")
@@ -1792,7 +1705,6 @@ function shareToggle(boolean){
 }
 
 function studentScore(onyen){
-    console.log("studentScore for " + onyen);
     $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh spin"></span>');
     $.post("/submission/read/", {student: onyen}, function(submissions){
         var totalSubmissionNumber = submissions.length;
@@ -1814,9 +1726,7 @@ function studentScore(onyen){
                             });
                             studScore += maxScore;
                             if(totalSubmissionNumber == submissionCount){
-                                console.log("preping to update..." + studScore);
                                 $.post("/user/updateScore/", {onyen:onyen, currentScore:studScore}, function(user){
-                                    console.log("updated score of " + onyen);
                                     $("#studentScoreButton").empty().append(studScore + "/" + points);
                                     $("#studentScoreButton").removeAttr("disabled");
                                     $("#studentListBadge" + onyen).empty().append(studScore + "/" + points);
@@ -1831,7 +1741,6 @@ function studentScore(onyen){
 }
 
 function recalculateAvailableScore(){
-    console.log("recalculateAvailableScore()... ");
     $.post("/folder/read", {}, function (folders) {
         var totalProblemCount = 0;
         var problemCount = 0;
@@ -1850,12 +1759,8 @@ function recalculateAvailableScore(){
                 problems.forEach( function (problem) {
                     problemCount++;
                     totalScore += parseFloat(problem.value.correct) + parseFloat(problem.value.style);
-                    console.log(problem.name + "   " + totalScore);
-                    console.log(problemCount + "/" + totalProblemCount);
                     if(totalProblemCount == problemCount){
-                        console.log("preping to update..." + totalScore);
                         $.post("/setting/update/", {name:"points", value:totalScore}, function(setting){
-                            console.log("updated points to " + totalScore);
                         });
                     }
                 });
@@ -1881,10 +1786,18 @@ var fbEditor;
 var fbEditorReadOnly;
 var modalEditor;
 var feedbackEditor;
-var feedbackEditor2;
+var completedFeedbackEditor;
 var feedbackOn;
 var points;
 var foldersChanged = false;
+window.onresize = function() {
+    if($( "#fbDashBodyC" ).height() > 0){
+        var max = Math.max(parseInt($( window ).height() -80),$( "#fbDashBodyC" ).height());
+    }else {
+       var max = parseInt($( window ).height() -65);
+    }
+    $("#archiveFeedbackList").css("height",max);
+}
 
 window.onload = function () {
     curProblem = null;
@@ -1902,7 +1815,6 @@ window.onload = function () {
 
 
     $.post("/setting/read/", {name: "feedback"}, function(setting){
-        console.log(setting.on);
         if(setting.on == true || setting.on == "true"){
             feedbackOn = true;
         }else {
@@ -1958,14 +1870,6 @@ window.onload = function () {
             getStudentList();
         });
     });
-
-    /*
-    setInterval(
-        function() {
-            getStudentResults(curProblem);
-        },
-        30000 /* 30000 ms = 30 sec */
-   // ); 
     
     setInterval(
         function() {
@@ -1975,8 +1879,6 @@ window.onload = function () {
         },
         30000 /* 30000 ms = 30 sec */
     );
-    
-
 
     fbEditorReadOnly = CodeMirror.fromTextArea(fbCodemirrorReadOnly, {
         mode: "javascript",
@@ -2021,7 +1923,7 @@ window.onload = function () {
         }
     });
 
-    feedbackEditor2 = CodeMirror.fromTextArea(completedFeedbackEditor, {
+    completedFeedbackEditor = CodeMirror.fromTextArea(completedFeedbackEditor, {
         mode: "javascript",
         styleActiveLine: true,
         lineNumbers: true,
@@ -2136,8 +2038,6 @@ window.onload = function () {
     });
 
     $( "#clearShareRequests" ).click(function (event) {
-        console.log("clearShareRequests");
-
         $.post("/submission/read", { id:curProblem.id, shareOK: true, shared: false }, function(submissions) {
             var length = submissions.length;
             var count = 0;
@@ -2157,8 +2057,6 @@ window.onload = function () {
         var creatingProblem = $("<div class='alert alert-warning' role='alert'>Creating problem... <span class='glyphicon glyphicon-refresh spin'></div>");
         $("#newProblemError").empty().append(creatingProblem);
 
-		// Grab the values from the form and submit to the server.
-		// TODO - this might be better in a $(form).submit(...)
         var subLimit = $("#editSubmissionLimit").val();
         if(subLimit == "" || !($('#maxSubmissions').is(":checked"))){
             subLimit = null;
@@ -2177,7 +2075,6 @@ window.onload = function () {
             correct: $("#correctPoints").val(),
 			onSubmit: $("#onSubmit").val()
 		};
-        console.log(opts);
 
 		// TODO - Build errors with jQuery
         if($("#problemName").val()=="") {
@@ -2205,11 +2102,9 @@ window.onload = function () {
                         $("#problemCreatedSuccess").remove();
                     }, 3000);
                     //add points to total available score
-                    console.log("booean" + Boolean(problem.testMode));
                     if(problem.phase != 2 && Boolean(problem.testMode) == false){
                         var updatingPoints = $("<div class='alert alert-warning' id='pointsupdating' role='alert'>Updating available points... <span class='glyphicon glyphicon-refresh spin'></div>");
                         $("#newProblemError").append(updatingPoints);
-                        console.log("points to be updated...");
                         var totalPoints = parseFloat(points) + parseFloat(problem.value.style) + parseFloat(problem.value.correct);
                         $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
                             points = totalPoints;
@@ -2229,10 +2124,7 @@ window.onload = function () {
         $("#editProblem").attr("disabled","disabled");
         $("#editProblem").empty().append(refresh());
 
-		// Grab the values from the form and submit to the server.
-		// TODO - this might be better in a $(form).submit(...)
         var subLimit = $("#editSubmissionLimit").val();
-        console.log("editSubmissionLimit" + subLimit);
         if(subLimit == ""){
             subLimit = null;
         }
@@ -2263,22 +2155,32 @@ window.onload = function () {
             var noPointsError = $("<div class='alert alert-danger' role='alert'>Please enter style and correctness points</div>");
             $("#editProblemError").append(noPointsError);
         } else {
-            //breaks here with "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
-            $.post("/problem/update", opts, function (problem) {
-                fillProblemDisplay(problem);
-                var updateSuccessMessage = $("<div class='alert alert-success' role='alert' id='problemUpdatedMessage'>Problem Updated</div>");
-                setTimeout(function() {
-                    $("#problemUpdatedMessage").remove();
-                }, 2000);
-                $("#editProblemError").append(updateSuccessMessage);
-                curProblem = problem;
-                loadSingleFolderSidebarNavigable(problem.folder);
-                loadSingleFolderSidebarSortable(problem.folder);
-                recalculateAvailableScore();
+            try {
+                if(opts.language == "javascript"){
+                    var AST = acorn.parse(opts.onSubmit);
+                }
+                //breaks here with "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+                $.post("/problem/update", opts, function (problem) {
+                    fillProblemDisplay(problem);
+                    var updateSuccessMessage = $("<div class='alert alert-success' role='alert' id='problemUpdatedMessage'>Problem Updated</div>");
+                    setTimeout(function() {
+                        $("#problemUpdatedMessage").remove();
+                    }, 2000);
+                    $("#editProblemError").append(updateSuccessMessage);
+                    curProblem = problem;
+                    loadSingleFolderSidebarNavigable(problem.folder);
+                    loadSingleFolderSidebarSortable(problem.folder);
+                    recalculateAvailableScore();
+                    $("#editProblem").removeAttr("disabled");
+                    $("#editProblem").empty().append("Update Problem");
+                    fillProblemAdd(problem);
+                });
+            }catch(err) {
+                var noParseError = $("<div class='alert alert-danger' role='alert'>Solution function is not parsing properly</div>");
+                $("#editProblemError").append(noParseError);
                 $("#editProblem").removeAttr("disabled");
                 $("#editProblem").empty().append("Update Problem");
-                fillProblemAdd(problem);
-            });
+            }
         }
 	});
 
@@ -2300,14 +2202,12 @@ window.onload = function () {
     });
     //handle the alternating and blinking for editing folders button
     $('#sortFolderButton').on('click', function() {
-        console.log("sortFolderButton clicked");
         if($(this).text() == 'Edit Folders') {
             blinking($("#sortFolderButton"));
             $(this).text('Done');
             if( $('#sortableFolders').is(':empty')) {
                 loadSortableSidebar();
             } else {
-                console.log("just show it");
                 showSortableSidebar();
             }
         } else {
@@ -2360,10 +2260,7 @@ window.onload = function () {
     $('#submitFeedbackButton').on('click', function( event ) {
         var fbResponseMsg = $('#fbResponseMessage').val();
         $("#fbResponseMessage").val("");
-
         var fbCode = fbEditor.getValue();
-        console.log("codemirrot ext" + fbCode);
-
         var now = new Date();
         var fbResponseTime = now.toLocaleString();
         var fbResponder = $("#userOnyen").text();
@@ -2384,7 +2281,6 @@ window.onload = function () {
 
         var fbResponseMsg = $('#fbResponseMessageDash').val();
         var fbCode = feedbackEditor.getValue();
-        console.log("codemirrot ext" + fbCode);
 
         var now = new Date();
         var fbResponseTime = now.toLocaleString();
@@ -2419,8 +2315,6 @@ window.onload = function () {
 
 
         });
-
-        console.log('submitting fedback');
     });
 
     $('#shareSubmissionModal').on('shown.bs.modal', function (e) {
@@ -2432,17 +2326,14 @@ window.onload = function () {
     });
 
     $('.editLink').on('click', function() {
-        console.log('move');
         $("#moveMe").detach().appendTo('#moveEdit');
     });
 
     $('.addLink').on('click', function() {
-        console.log('move');
         $("#moveMe").detach().appendTo('#moveAdd');
     });
     
     $('.nav-tabs').on('click', function() {
-        console.log("nav tabs clicked");
         setTimeout(function() {
             fbEditorReadOnly.refresh();
         },10);
@@ -2465,6 +2356,10 @@ window.onload = function () {
     $('#editSubmissionPtsF').on('click', function() {
         var newScore = prompt("Insert updated functionality score for this submission: ");
         if(newScore){
+            if(isNaN(newScore)){
+                alert("Are you sure that was a number?");
+                return;
+            }
             $.post("/submission/update", {id: curSubmission.id, correct:parseFloat(newScore), style:parseFloat(curSubmission.value.style)}, function (submission) {
                 studentScore(curSubmission.user);
                 curSubmission = submission;

@@ -69,7 +69,6 @@ function addProblemToAccordian(problem,folderName){
 			currentEarned = currentEarned + maxScore;
 			$(earnedPointsDiv).empty().append(currentEarned);
 
-//			console.log(folderName + $("#panel-" + folderName).hasClass("panel-warning"));
 			if(availablePoints <= currentEarned && $("#panel-" + folderName).hasClass("panel-warning")){
 				$(checkDiv).empty().append(correct("8px").css("float","right"));
 				$("#panel-" + folderName).removeClass("panel-danger");
@@ -149,10 +148,14 @@ function addProbInfo (problem) {
 	if(problem.phase == 0){
 		$("#desc-body").append('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span>Since this problem is overdue, you may only earn partial credit.</div>');
 	}
-	console.log("problem.maxSubmissions" + problem.maxSubmissions);
     if(!isNull(problem.maxSubmissions)){
-		console.log(problem.maxSubmissions + "problem.maxSubmissions");
 		$("#desc-body").append('<div class="alert alert-danger" role="alert" id="remainingAttempts"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="margin-right:5px;"></span>The number of submissions allowed for this problem is limited to ' + problem.maxSubmissions + '.</div>');
+	}
+	if(problem.language !== "javascript"){
+		$("#test").addClass('hidden');
+	}else {
+		$("#test").removeClass('hidden');
+
 	}
 	$("#desc-body").append(problem.text);
 	$("#console").empty();
@@ -165,7 +168,6 @@ function addProbInfo (problem) {
         $("#subs").empty();
 
 		var remaining = problem.maxSubmissions - submissions.length;
-		console.log("problem.maxSubmissions" + problem.maxSubmissions + "submissions.length" + submissions.length);
 		if(remaining < 0){
 			remaining = 0;
 		}
@@ -217,7 +219,6 @@ function limitCheck(submission,problem){
 
 }
 function addSubmission(submission) {
-	console.log("addSubmission");
 	var time = new Date(submission.createdAt);
 	var timeString = time.toLocaleDateString() + " " + time.toLocaleTimeString();
     var link = $("<tr></tr>");
@@ -305,7 +306,6 @@ function share(submission){
     	.click(function () {
 			if(confirm("Would you like to submit this code to share with the class?")){
 				$.post("/submission/update", {id: submission.id, shareOK: true}, function (submission) {
-					console.log("shared!"  + submission.id)
 					unshare(submission);
 				});
 			}
@@ -363,7 +363,6 @@ function fillPendingRequestModal(submission){
     $("#cancelRequest").click(function () { 
 		if(confirm("Sure you want to cancel this request?")){
 			$.post("/submission/update", {id: submission.id, fbRequested: false, fbRequestTime: null, fbRequestMsg: null}, function (submission) {
-				console.log("submission update in pending");
 				request(submission);
 				addPendingButton();
 			});
@@ -404,7 +403,6 @@ function fillSubmitRequestModal(submission){
 			var message = $('#submitRequestMsg').val();;
 
 			$.post("/submission/update", {id: submission.id, fbRequested: true, fbRequestTime: now, fbRequestMsg: message}, function (submission) {
-				console.log("submission update in request");
 				pending(submission);
 				addPendingButton();
 			});
@@ -413,7 +411,6 @@ function fillSubmitRequestModal(submission){
 }
 
 function view(submission){
-	console.log("view called");
 	var rqTime = new Date(submission.fbRequestTime);
 	var rpTime = new Date(submission.fbResponseTime);
 
@@ -431,7 +428,6 @@ function view(submission){
 		.text("View").click(function () {
 			if(submission.feedbackSeen == false){
 				$.post("/submission/update", {id: submission.id, feedbackSeen: true}, function (submission) {
-					console.log("feedbackseen!"  + submission.id)
 					unseenFeedback = unseenFeedback - 1;
 					if(unseenFeedback == 0){
 						$("#unseenFeedbackButton").remove();
@@ -447,22 +443,14 @@ function view(submission){
 
 
 function resizeWindow(){
-/*	var window_height = $("#consoleHeader").height();
-    var window_height2 = $("#codemirror").height();
-    var window_height3 = $("#instructions").height();
-    var height = parseInt(window_height) + parseInt(window_height2) + parseInt(window_height3);
-    console.log(window_height + " " + window_height2 + " " + window_height3 + " "  + height);
-    */
     $('.scrollableAccordian').height("800px");
 	var height = $( document ).height();
 	var height = height - 100;
-	console.log($( window ).width());
 	if($( window ).width() > 990){
 	    $('.scrollableAccordian').height(height);
 	}else {
     	$('.scrollableAccordian').height("400px");
 	}
-
 }
 
 function submitFoldersReload(folderid) {
@@ -483,7 +471,6 @@ function foldersReload() {
     $("#folderAccordion").empty();
 	$.post("/folder/read", {}, function (folders) {
 		folders.forEach( function (folder) {
-			console.log("ADDING " + folder.name);
 			addFolder(folder);
 		});
 	});
@@ -500,7 +487,6 @@ function updateScore(){
 	    	if($.isNumeric(user.currentScore)){ 
 				$("#grade").empty().append(user.currentScore + " / " + points);
 			}else { //if first log in
-				console.log('is not number');
                 $.post("/user/updateScore/", {currentScore:"0"}, function(user){
                 });
 			}
@@ -522,7 +508,6 @@ var shareOn;
 var points;
 
 function studentScore(){ //recalculate and re-store the student's score
-	console.log("studentScore");
 	$("#grade").empty().append('<span class="glyphicon glyphicon-refresh spin"></span>');
     $("#studentScoreButton").empty().append('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
     $.post("/submission/read/", {currentUser: true}, function(submissions){
@@ -546,7 +531,6 @@ function studentScore(){ //recalculate and re-store the student's score
                             studScore += maxScore;
                             if(totalSubmissionNumber == submissionCount && called == false){
                             	called = true; //make sure the update only gets called once.
-                                console.log("preping to update..." + studScore);
                                 $.post("/user/updateScore/", {currentScore:studScore}, function(user){
                                     updateScore();
                                 });
@@ -571,10 +555,8 @@ function setConsoleResultMessage(msg) {
 function setHighestScore(submissions,problem){
 	var highestStyle = 0;
 	var highestCorrect = 0;
-	console.log('nerp');
 
 	submissions.forEach( function (submission) {
-		console.log('derp');
 		if(parseFloat(submission.value.style + submission.value.correct) >= parseFloat(highestStyle + highestCorrect)){
 			highestStyle = submission.value.style;
 			highestCorrect = submission.value.correct;
@@ -583,9 +565,6 @@ function setHighestScore(submissions,problem){
 
 	$("#highestPtCorrect").empty().append(highestCorrect);
 	$("#highestPtStyle").empty().append(highestStyle);
-
-	console.log("highestCorrect+highestStyle" + highestCorrect + " " + highestStyle);
-	console.log("problem.style+problem.correct" + problem.value.style + " " + problem.value.correct);
 
 	var myScore = parseFloat(highestCorrect) + parseFloat(highestStyle);
 	var theScore = parseFloat(problem.value.style) + parseFloat(problem.value.correct);
@@ -646,10 +625,8 @@ function fillUnseenFeedbackModal(submissions){
 	$("#unseenFeedbackBody").empty();
 	var myArray = [];
 	submissions.forEach( function (submission) {
-		console.log(submission.fbResponseTime + submission.user);
 		var rqTime = new Date(submission.fbRequestTime);
 		var rpTime = new Date(submission.fbResponseTime);
-
 		myArray.push(submission.problem);
 	});
 
@@ -688,10 +665,8 @@ function fillPendingFeedbackModal(submissions){
 	$("#pendingFeedbackBody").empty();
 	var myArray = [];
 	submissions.forEach( function (submission) {
-		console.log(submission.fbResponseTime + submission.user);
 		var rqTime = new Date(submission.fbRequestTime);
 		var rpTime = new Date(submission.fbResponseTime);
-
 		myArray.push(submission.problem);
 	});
 
@@ -1023,17 +998,13 @@ window.onload = function () {
 		$( "select option:selected" ).each(function() {
 			str += $( this ).text() + " ";
 		});
-		console.log(str);
 		changeFontSize(parseInt(str));
 	});
 	
 	$("#submit").click(function () {
-		console.log("submit clicked");
 		if (curProblem == null) {
 			alert("You must select a problem before submitting");
 		} else {
-			console.log("gonna add it");
-
 			$("#console").empty();
 			var code = editor.getValue();
 			try {
@@ -1055,9 +1026,7 @@ window.onload = function () {
 						setHighestScore(submissions,curProblem);	
 					});
 					setRecentScore(submission.value.correct, submission.value.style);
-					console.log(submission.message);
 					setConsoleResultMessage(submission.message);
-					console.log("studentScore tada");
 					studentScore();
 				});
 			} catch (e) {

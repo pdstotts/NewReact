@@ -61,10 +61,7 @@ module.exports = {
     },
 
     delete: function (req, res) {
-        console.log("delete user");
-        var onyen = req.param("onyen");
-        console.log(onyen);
-        
+        var onyen = req.param("onyen");    
         User.destroy({username: onyen}).done(function(err, user){
             if(err){
                 console.log(err);
@@ -111,7 +108,6 @@ module.exports = {
                 } else if (user.length > 0) {
                     res.send(user[0]);
                 } else {
-                    console.log("no user with that id");
                     res.send(null);
                 }
             });
@@ -145,12 +141,10 @@ module.exports = {
     },
 
     updateScore: function (req, res) {
-        console.log("called updatedScore");
         var id = req.param("user");
         var onyen = req.param("onyen");
         var currentScore = req.param("currentScore");
         if(onyen){
-            console.log("called updatedScore" + onyen + parseFloat(currentScore));
             var float = parseFloat(parseFloat(currentScore).toFixed(4));
             User.update({username: onyen}, {currentScore: float.toFixed(4)}).exec(function(err, user) {
                 if(err) {
@@ -160,7 +154,6 @@ module.exports = {
                 }
             });
         }else {
-            console.log("called updatedScore w no onyen for "  + req.user.username+ currentScore);
             var float = parseFloat(parseFloat(currentScore).toFixed(4));
             User.update({username: req.user.username}, {currentScore: float.toFixed(4)}).exec(function(err, user) {
                 if(err) {

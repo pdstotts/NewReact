@@ -23,3 +23,12 @@ module.exports.adapters = {
   }
 
 };
+
+/*
+Add these to your setting collection or things may not work!
+
+db.setting.insert({"name":"feedback","on":false})
+db.setting.insert({"name":"share","on":false})
+db.setting.insert({"name":"points","value":0})
+
+*/

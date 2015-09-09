@@ -5,7 +5,6 @@
 module.exports = {
 
 create: function (req, res) {
-    console.log("creating submission");
     var submissionDetails = {
       user: req.user.username,
       problem: req.param("problem"),
@@ -16,16 +15,10 @@ create: function (req, res) {
 
     };
     Submission.create(submissionDetails).done(function(err, submission) {
-    console.log("creating submission...");
-
       if (err) {
-            console.log("err:" + err);
-
+        console.log("err:" + err);
         res.send(500, {error: "DB Error creating new team"});
-                console.log(err);
       } else {
-            console.log("creating submission!!!");
-
         var currentScore = parseFloat(submissionDetails.value.correct).toFixed(4) + parseFloat(submissionDetails.value.style).toFixed(4);
         res.send(submission);
       } 
@@ -55,7 +48,6 @@ create: function (req, res) {
         var limitOne = req.param("limitOne");
 
         if(subId){  // Get Submission by its Id
-          console.log("get submission by id");
             Submission.findOne({id:subId}).exec(function (err, submission) {
                 if (err) {
                     console.log("error getting submission from database");
@@ -142,93 +134,7 @@ create: function (req, res) {
                     res.send(submissions);
                 }
             });
-
         }
-
-        /*
-
-        } else if(deleteCount){ 
-          console.log("deleteCount");
-            Submission.find({problem: problem}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        }else if(mostRecent){ // Get most recent submission for a problem
-            var now = new Date();
-            console.log("-------------------------" );
-            var currentSeconds = parseFloat(now.getSeconds());
-            var changeSeconds = parseFloat(mostRecent);
-            var seconds = currentSeconds - changeSeconds - 5; ///FUDGE FACTOR of 5 seconds so stuff doesn't slip between cracks
-            now.setSeconds(seconds);
-            console.log(now);
-            Submission.find({problem: problem, mostRecent: null, updatedAt: { '>': now }}).exec(function(err, submissions) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send(submissions);
-                }
-            });
-        }else if(feedback){ // Get all Submission awaiting feedback
-            Submission.find({fbRequested: true, fbResponseTime: null}).sort({fbRequestTime: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        }else if(recent){ // Get User's problems sorted by most recent first
-            Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).limit(1).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        } else if (problem && !student) { //Gets all my Submissions for problem
-            Submission.find({problem: problem, user: req.user.username}).sort({createdAt: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        } else if (problem && student) { //Gets all specific user's submisions for a problem
-            Submission.find({problem: problem, user: student}).sort({createdAt: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        } else if (!problem && student) { //Gets all a user's submissions
-            Submission.find({user: student}).sort({createdAt: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-        } else if(!currentUser){ 
-            Submission.find().sort({createdAt: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-       } else {
-            Submission.find({user: req.user.username}).sort({createdAt: direction}).exec(function(err, submissions) {
-                if (err) {
-                    console.log("error getting submissions from database");
-                } else {
-                    res.send(submissions);
-                }
-            });
-       }
-      */
   },
 
 
@@ -255,7 +161,6 @@ create: function (req, res) {
     var style = req.param("style");
 
     if(correct){
-      console.log('updating pts');
       var value = {correct:parseFloat(correct), style: parseFloat(style)}
       console.log(value);
       Submission.update({id: id},{value:value},{ upsert: true }).exec(function(err, submission) {
@@ -362,11 +267,8 @@ create: function (req, res) {
             });
           }
       });
-
     }
-
   },
-
 
   /**
    * Action blueprints:
@@ -385,9 +287,6 @@ create: function (req, res) {
       hello: 'world'
     });*/
   },
-
-
-
 
   /**
    * Overrides for the settings in `config/controllers.js`

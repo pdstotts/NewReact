@@ -45,6 +45,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="/js/acorn.js"></script>
 
 <script src="/js/admin.js"></script>
 <style>
@@ -442,7 +443,6 @@ ul {
 
 							<select id="studentListRefresh" style="float:right;width:auto;margin:0px;margin-top:-8px;" class="form-control">
 								<option value="0">Manual</option>
-								<option value="2">2 seconds DELETE</option>
 								<option value="10">10 seconds</option>
 								<option value="20">20 seconds</option>
 								<option value="60">1 minute</option>
@@ -558,8 +558,8 @@ ul {
 												<option value="javascript">JavaScript</option>
 												<option value="java">Java</option>
 												<option value="ML">ML</option>
-												<option value="other">Other</option>
 												<option value="text">Text</option>
+												<option value="other">Other</option>
 											</select>
 										</div>
 										<div class="col-md-3">
@@ -618,7 +618,7 @@ ul {
 				</div>
 			</div>
 			<div class="col-md-9">
-				<div  class="panel panel-default tab-pane " id="addquestion">
+				<div  class="panel panel-danger tab-pane " id="addquestion" style="background-color:#F3F4F3;">
 					<div class="panel-heading">
 						Add a new question
 					</div>
@@ -1060,10 +1060,10 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 
 		<!-- COMPLETED FEEDBACK SECTION -->
 		<div class="tab-pane" id="completedFeedback">
-			<div class="col-md-5" style="padding:0px;overflow: scroll;height:650px;">
+			<div class="col-md-5" style="padding:0px;overflow: scroll;" id="archiveFeedbackList">
 				<table class="table" style="margin-bottom:0px; ">
 				<thead>
-				<tr><th>Submission</th>  <th>Admin</th> <th>User</th>  <th>Problem</th>
+				<tr><th  title="Date of submission creation" id="fbArchiveSubmissionTH">Submitted</th>  <th>Admin</th> <th>User</th>  <th>Problem</th>
 				<th>Func</th> <th>Style</td>
 				</tr>
 				</thead>
