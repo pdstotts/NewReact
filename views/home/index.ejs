@@ -395,7 +395,7 @@ User.find({admin: true}).exec(function(err, users) {
 		<div class="row pointbreakdownbox" id="problemControlPanel">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
 				<button id="test" type="button" class="btn btn-warning" style="width:100%;text-align:center;" data-placement="top" title="Test Locally">Test Locally</button> 
-				<button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled"  >Submit for Score</button>
+				<span id="submitButtonTooltip" data-placement="top" title="Submit for Score"><button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled"  >Submit for Score</button></span>
 				<button id="reload" type="button" class="btn btn-primary hidden" style="width:100%;text-align:center;" disabled="disabled" data-placement="top" title="Reload Latest Submission" >Reload Latest Submission</button>
 			</div>
 			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">

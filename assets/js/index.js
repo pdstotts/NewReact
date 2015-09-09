@@ -723,10 +723,11 @@ function makeMiniBar(){
 	$("#initSubmit").css("width","32%");
 	$("#reload").css("width","31%");
 	$("#test").html('<span class="glyphicon glyphicon-play"  ></span>');
-	$("#initSubmit").html('<div data-toggle="tooltip" data-placement="top" title="Submit for Score" style="height:100%;width:100%;"><span class="glyphicon glyphicon-send"  ></span></div>');
+	$("#initSubmit").html('<span class="glyphicon glyphicon-send" ></span>');
 	$("#reload").html('<span class="glyphicon glyphicon-open" ></span>');
 	$("#test").attr("data-toggle","tooltip");
 	$("#reload").attr("data-toggle","tooltip");
+	$("#submitButtonTooltip").attr("data-toggle","tooltip");
     ////
 	$("#highestScoreLabel").html('<span class="glyphicon glyphicon-pushpin" data-toggle="tooltip" data-placement="top" title="Best Score" style="padding-right:6px"></span>');
 	$("#highestFuntionalityLabel").html("");
@@ -757,6 +758,7 @@ function makeMiniBar(){
 	$("#fontSizeBox").css("padding","2px");
     $('[data-toggle="tooltip"]').tooltip()
     $('.sidebarBuddy button').tooltip('enable');
+    $('#submitButtonTooltip').tooltip('enable');
 }
 
 function makeFullBar(){
@@ -768,6 +770,7 @@ function makeFullBar(){
 	$("#reload").html("Reload Latest Submission");
 	$("#test").removeAttr("data-toggle");
 	$("#reload").removeAttr("data-toggle");
+	$("#submitButtonTooltip").removeAttr("data-toggle");
 
 	////
 	$("#highestScoreLabel").html("Highest Score:<br/>");
@@ -798,6 +801,8 @@ function makeFullBar(){
 	$("#fontSizeBox").css("height","106px");
 	$("#fontSizeBox").css("padding","auto");
     $('.sidebarBuddy button').tooltip('disable');
+    $('#submitButtonTooltip').tooltip('disable');
+
 }
 
 window.onload = function () {
