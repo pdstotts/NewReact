@@ -11,7 +11,7 @@ function exclam(){
 }
 
 function refresh(){
-    return $('<span class="glyphicon glyphicon-refresh spin" />');
+    return $('<span clas©s="glyphicon glyphicon-refresh spin" />');
 }
 
 function scoreBadge(a,b){
@@ -1923,7 +1923,7 @@ window.onload = function () {
         }
     });
 
-    completedFeedbackEditor = CodeMirror.fromTextArea(completedFeedbackEditor, {
+    completedFeedbackEditor = CodeMirror.fromTextArea(cfbEditor, {
         mode: "javascript",
         styleActiveLine: true,
         lineNumbers: true,
