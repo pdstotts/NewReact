@@ -173,6 +173,7 @@ module.exports = {
             if(err) {
                 console.log(err);
             } else {
+                res.send(user);
             }
         });
     },

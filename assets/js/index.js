@@ -1,6 +1,7 @@
 var curProblem = null;
 var unseenFeedback = null;
 var pretendStudent = false;
+var miniBar = false;
 
 function isNull(item){
 	if(item == null || item == "null" || item == "" || item == ''){
@@ -139,6 +140,13 @@ function addProbInfo (problem) {
 	$("#hideInst").removeClass("hidden");
 	$("#initSubmit").removeClass("hidden");
 	$("#reload").removeClass("hidden");
+	$("#save").removeClass("hidden");
+	if(miniBar == false){
+		$("#save").css("width","40%");
+	}else {
+		$("#save").css("width","23%");
+	}
+
 	$("#recentpointbreakdown").addClass("hidden");
   	$("#desc-title").empty().append(problemName);
 	$.post("/folder/read/", {id: problem.folder}, function(folder){
@@ -719,12 +727,14 @@ function addPendingButton(){
 }
 
 function makeMiniBar(){
-	$("#test").css("width","31%");
-	$("#initSubmit").css("width","32%");
-	$("#reload").css("width","31%");
+	$("#test").css("width","24%");
+	$("#initSubmit").css("width","24%");
+	$("#reload").css("width","24%");
+	$("#save").css("width","23%");
 	$("#test").html('<span class="glyphicon glyphicon-play"  ></span>');
 	$("#initSubmit").html('<span class="glyphicon glyphicon-send" ></span>');
 	$("#reload").html('<span class="glyphicon glyphicon-open" ></span>');
+	$("#save").html('<span class="glyphicon glyphicon-floppy-disk" ></span>');
 	$("#test").attr("data-toggle","tooltip");
 	$("#reload").attr("data-toggle","tooltip");
 	$("#submitButtonTooltip").attr("data-toggle","tooltip");
@@ -764,10 +774,12 @@ function makeMiniBar(){
 function makeFullBar(){
 	$("#test").css("width","100%");
 	$("#initSubmit").css("width","100%");
-	$("#reload").css("width","100%");
+	$("#reload").css("width","60%");
+	$("#save").css("width","40%");
 	$("#test").html("Test Locally");
 	$("#initSubmit").html("Submit for Score");
-	$("#reload").html("Reload Latest Submission");
+	$("#reload").html("Reload Last");
+	$("#save").html("Save");
 	$("#test").removeAttr("data-toggle");
 	$("#reload").removeAttr("data-toggle");
 	$("#submitButtonTooltip").removeAttr("data-toggle");
@@ -998,6 +1010,24 @@ window.onload = function () {
 		});
 	});
 
+	$("#save").click(function () {
+        var code = editor.getValue();
+        $.post("/user/saveCode", {code: code}, function(user) {
+        	console.log("savecode");
+        	var save = $("#save").width();
+        	console.log(save);
+        	$("#save").empty().append('<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>');
+        	setTimeout(function() {
+        		if(miniBar == true){
+        			$("#save").empty().append('<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>');
+        		}else {
+        			$("#save").empty().append('Save');
+        		}
+	    	},2000);
+
+        });
+	});
+
 	$( "#fontSize" ).change(function() {
 	    var str = "";
 		$( "select option:selected" ).each(function() {
@@ -1060,10 +1090,12 @@ window.onload = function () {
 	        $("#miniBarIcon").removeClass('glyphicon-resize-small');
 	        $("#miniBarIcon").addClass('glyphicon-resize-full');
 	        makeMiniBar();
+	        miniBar = true;
 	    } else {
 	        $("#miniBarIcon").removeClass('glyphicon-resize-full');
 	        $("#miniBarIcon").addClass('glyphicon-resize-small');
 	        makeFullBar();
+	        miniBar = false;
 	    }
 	    return false;
 	});
