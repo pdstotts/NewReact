@@ -5,27 +5,41 @@
    .voffset {
         margin-top: 120px;
     }
+   .smvoffset {
+        margin-top: 30px;
+    }
 </style>
+
 <script>
 window.onload = function () {
-	$("#target").val("http://" + window.location.host + "/login/authenticate?d=<%= req.param("d")||"" %>");
+  $("#target").val( "http://" + 
+                    window.location.host + 
+                    "/login/authenticate?d=<%= req.param("d")||"" %>");
 };
 </script>
-<div class="container-fluid">
-    <div id="loginpanel" class="center-block voffset">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Click to Log In
-        </div>
-        <div class="panel-body">
-            <form action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" name="form1" method="POST">
-                <!-- 'title' is special; it will be used on the authenticator page. -->
-                <input type="hidden"
-                     name="title"
-                     value="COMP 110 Onyen Authentication">
 
-                <!-- Do we want to get the PID for this person? -->
-                <input type="hidden"
+<ul>
+<ul>
+<br/><br/>
+
+<h1><font color="maroon"><b>JavaScript Bricks</b></font></h1>
+
+<div class="container-fluid">
+  <div id="loginpanel" class="left-block smvoffset">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+       <b>We require a UNC ONYEN</b>
+    </div>
+    <div class="panel-body">
+      <form action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" 
+            name="form1" method="POST">
+        <!-- 'title' is special; it will be used on the authenticator page. -->
+        <input type="hidden"
+           name="title"
+           value="COMP 110 Onyen Authentication">
+
+           <!-- Do we want to get the PID for this person? -->
+             <input type="hidden"
                      name="getpid"
                      value="displayName">
 
@@ -53,3 +67,22 @@ window.onload = function () {
         </div>
     </div>
 </div>
+
+<br/>
+<p>
+<font color="brown" size=+1>
+<b>
+Login services are handled by campus servers.  
+<br/>
+<br/>
+Your ONYEN password is not going to be known or kept by Bricks. 
+<br/>
+<br/>
+Bricks will request and store
+your ONYEN id and your name for class record keeping.
+</b>
+</font>
+</p>
+
+</ul>
+</ul>

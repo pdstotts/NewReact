@@ -35,8 +35,8 @@ function getSafeRunner() {
 		global.console.log = function (str) {
 		};
 		global.Math.random = function () {
-			bricksRandsIndex = (bricksRandsIndex + 1) % bricksRands.length;
-			return bricksRands[bricksRandsIndex];
+		   bricksRandsIndex = (bricksRandsIndex + 1) % bricksRands.length;
+		   return bricksRands[bricksRandsIndex];
 		}
 		UserScript(src)();
 		send({result:JSON.stringify(output)});

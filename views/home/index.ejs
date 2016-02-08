@@ -133,13 +133,15 @@
   #desc-body {
     overflow-y: scroll;
     max-height: 260px;
-   overflow: -moz-scrollbars-vertical;
-
+    overflow: -moz-scrollbars-vertical;
+/* added pds */
+    font-size: 120%;
+/* added pds */
   }
   #submissions {
     max-height: 400px;
     overflow-y: scroll;
-   overflow: -moz-scrollbars-vertical;
+    overflow: -moz-scrollbars-vertical;
   }
   .navbar-text {
     color: #D2D2D2 !important;
@@ -382,14 +384,14 @@ User.find({admin: true}).exec(function(err, users) {
 	<div id="right-side" class="col-md-9" style="padding-left:10px;height:100%">
 		<div class="row hidden" id="hideInst" >
     	<div id="instructions" class='panel panel-default'>
-      		<div class='panel-heading'> 
-				    <h3 class='panel-title'><span id="desc-title">Instructions</span></h3>
+       	   <div class='panel-heading'> 
+	     <h3 class='panel-title'><span id="desc-title">Instructions</span></h3>
       		</div>
-				<div class='panel-body'> 
-  				<div id="desc-body" >
- 						Select a problem to run and submit.
- 					</div>
-				</div>
+		 <div class='panel-body'> 
+  		   <div id="desc-body" >
+ 		      Select a problem to run and submit.
+ 		</div>
+		</div>
 	    	</div>
 	 	</div>
 		<div class="row pointbreakdownbox" id="problemControlPanel">
@@ -439,16 +441,15 @@ User.find({admin: true}).exec(function(err, users) {
 				    <option value="10">10pt</option>
 				    <option value="12">12pt</option>
 				    <option value="14" selected>14pt</option>
-            <option value="16">16pt</option>
+                                    <option value="16">16pt</option>
 				    <option value="18" >18pt</option>
-            <option value="20" >20pt</option>
+                                    <option value="20" >20pt</option>
 				    <option value="24">24pt</option>
-            <option value="28">28pt</option>
+                                    <option value="28">28pt</option>
 				    <option value="32">32pt</option>
 				    <option value="36">36pt</option>
 				    <option value="40">40pt</option>
-            <option value="44">44pt</option>
-
+                                    <option value="44">44pt</option>
 				  </select>
 				</div>			  				
 			</div>
