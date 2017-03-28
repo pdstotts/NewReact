@@ -10,35 +10,32 @@ module.exports = {
    *    `/assignment/create`
    */
 	create: function (req, res) {
-       var mode = req.param("testMode");
-       if(mode == "true"){
-          mode = true;
-       }else {
-          mode = false;
-       }
-        Problem.count({folder: req.param("folder")}).done(function(err, count) {
-            var problemDetails = {
-                num: Number(count),
-                type: req.param("type"),
-                phase: Number(req.param("phase")),
-                name: req.param("name"),
-                folder: req.param("folder"),
-                language: req.param("language"),
-                testMode: mode,
-                maxSubmissions: req.param("maxSubmissions"),
-                text: req.param("text"),
-                value: {correct: req.param("correct"), style: req.param("style")},
-                onSubmit: req.param("onSubmit")
-            };
-            Problem.create(problemDetails).done(function(err, problem) {
-                if (err) {
-                    console.log(err);
-                    res.send(500, {error: "DB Error creating new team"});
-                } else {
-                    res.send(problem);
-                }
-            });
-        });
+    var mode = req.param("testMode");
+    if(mode == "true"){ mode = true; } else { mode = false; }
+    Problem.count({folder: req.param("folder")}).done(function(err, count) {
+      var problemDetails = {
+          num: Number(count),
+          type: req.param("type"),
+          phase: Number(req.param("phase")),
+          name: req.param("name"),
+          folder: req.param("folder"),
+          language: req.param("language"),
+          testMode: mode,
+          maxSubmissions: req.param("maxSubmissions"),
+          vidURL: req.param("vidURL"),
+          text: req.param("text"),
+          value: {correct: req.param("correct"), style: req.param("style")},
+          onSubmit: req.param("onSubmit")
+      };
+      Problem.create(problemDetails).done(function(err, problem) {
+        if (err) {
+          console.log(err);
+          res.send(500, {error: "DB Error creating new team"});
+        } else {
+          res.send(problem);
+        }
+      });
+    });
 	},
 
 
@@ -138,6 +135,7 @@ module.exports = {
             language: req.param("language"),
             testMode: mode,
             maxSubmissions: req.param("maxSubmissions"),
+            vidURL: req.param("vidURL"),
             text: req.param("text"),
             value: {correct: req.param("correct"), style: req.param("style")},
             onSubmit: req.param("onSubmit")

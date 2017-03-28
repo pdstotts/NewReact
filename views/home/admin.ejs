@@ -48,6 +48,10 @@
 <script src="/js/acorn.js"></script>
 
 <script src="/js/admin.js"></script>
+
+<script>
+document.title = "Bricks 4.0 Admin";
+</script>
 <style>
 
 	#sortable { list-style-type: none; margin-top: 4px; padding: 0; width: 100%;}
@@ -154,6 +158,19 @@ body {
 	padding: 0px;
 	border:none;
 }
+
+.folderButtonStyle {
+  color:black;
+  background:oldlace;
+  padding:5px;
+  font:arial;
+  font-size:larger;
+  font-weight:bold;
+}
+.folderButtonStyle:hover {
+  background:powderblue; 
+}
+
 form > button {
 	margin-top: 10px;
 }
@@ -304,31 +321,46 @@ ul {
 <% if (req.isAuthenticated() && req.user.admin) {%>
 
 <nav style="margin-bottom: 0" class="navbar navbar-inverse" role="navigation">
-	<div class="container-fluid">
+  <div class="container-fluid">
 
-		<div class="navbar-header">
-	     	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      	</button>
-	    </div>
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	  </div>
 
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	     	<ul class="nav navbar-nav">
-				<li id="matrixLink"><a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">Matrix</a></li>
-				<li><a class="navbar-brand editLink" href="#edit" data-toggle="pill">Edit</a></li>
-				<li><a class="navbar-brand addLink" href="#addquestion" data-toggle="pill">Add</a></li>
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <a class="navbar-brand homeLink" href="javascript:history.go(0)">
+         <font color=oldlace><b>Admin</b></font>
+      </a>
+	    <ul class="nav navbar-nav">
+			  <li id="matrixLink">
+          <a class="navbar-brand matrixLink" href="#matrix" data-toggle="pill">
+             <b>Matrix</b></a>
+        </li>
+				<li><a class="navbar-brand editLink" href="#edit" data-toggle="pill">
+              <b>Edit</b></a></li>
+				<li><a class="navbar-brand addLink" href="#addquestion" data-toggle="pill">
+              <b>Add</b></a></li>
 				<li id='feedbackNav'></li>
 				<li id='feedbackNavC'></li>
-				<li id="studentsLink" ><a class="navbar-brand " href="#students" data-toggle="pill">Students</a></li>
-				<li><a class="navbar-brand " href="#admin" data-toggle="pill">Admins</a></li>
-				<li><a class="navbar-brand " href="#settings" data-toggle="pill">Settings</a></li>
-				<li><a class="navbar-brand" href="#help" data-toggle="pill">Help</a></li>
-	     	</ul>
+				<li id="studentsLink" >
+          <a class="navbar-brand " href="#students" data-toggle="pill">
+             <b>Students</b></a>
+        </li>
+				<li><a class="navbar-brand " href="#admin" data-toggle="pill">
+             <b>Admins</b></a></li>
+				<li><a class="navbar-brand " href="#settings" data-toggle="pill">
+             <b>Settings</b></a></li>
+				<li><a class="navbar-brand" href="#help" data-toggle="pill">
+              <b>Help</b></a></li>
+	    </ul>
 
-	     	<div class="navbar-right">
+	    <div class="navbar-right">
 				<p class="navbar-text"><%= req.user.displayName %></p>
 				<p class="hidden" id="userOnyen"><%= req.user.username %></p>
 
@@ -336,7 +368,7 @@ ul {
 					<a href="/login/logout" id="logout" class="btn btn-default">Logout</a>
 				</form>
 			</div>
-	    </div>
+	  </div>
 
 		
 	</div><!-- /.container-fluid -->
@@ -384,7 +416,8 @@ ul {
 			<div class=" navigationPanel panel panel-default col-md-3 ">
 				<div id="moveMatrix">
 					<div id="moveMe">
-						<button type="button" class="btn btn-default" id="sortFolderButton">Edit Folders</button>
+						<button type="button" class="btn btn-default folderButtonStyle" 
+              id="sortFolderButton" >Edit Folders</button>
 						<div class="panel-group" id="navigableFolders"></div>
 						<div class="panel-group" id="sortableFolders"></div>
 					</div>
@@ -402,8 +435,10 @@ ul {
 
 					<!-- DISPLAY QUESTION HEADING -->
 					<div class="panel-heading">
-						 <h4 class="panel-title" >
-								<a data-toggle="collapse" data-parent="#accordion" href="#displayQuestionCollapse" aria-expanded="true" id="problemDisplayName"> Choose a Problem</a>
+					  <h4 class="panel-title" >
+						  <a data-toggle="collapse" data-parent="#accordion" aria-expanded="true" 
+                 href="#displayQuestionCollapse" id="problemDisplayName"> 
+                  <font size=+1 color=blue><b>Choose a Problem</b></font></a>
 						</h4>
 					</div>
 
@@ -419,11 +454,11 @@ ul {
 									<br />
 								</div>
 								<div id="submissionLimitDisplay" class=" hidden alert alert-danger" >
-									<b>Submission Limit: </b><span id="maxSubmissionLimit"></span>
+									<b>(hey!)Sub Limit: </b><span id="maxSubmissionLimit"></span>
 								</div>
 							</div>
 							<div id="problemDisplayBody" >
-								Select a problem from the left to view more information.
+								Select a problem from the left to work with.
 							</div>
 						</div>
 					</div>
@@ -516,7 +551,9 @@ ul {
 					<!-- EDIT QUESTION HEADING -->
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#editQuestionCollapse" aria-expanded="true" >Edit</a>
+							<a data-toggle="collapse" data-parent="#accordion" 
+                 href="#editQuestionCollapse" aria-expanded="true" >
+                 <font color=blue size=+1><b>Edit existing Problem</b></font></a>
 						</h4>
 					</div>
 
@@ -570,13 +607,12 @@ ul {
 											</select>
 										</div>
 										<div class="col-md-3">
-											<label class="control-label" for="editMaxSubmissions">Submission Limit</label>
+											<label class="control-label" for="editMaxSubmissions">Sub Limit</label>
 									     	<input type="checkbox" id="editMaxSubmissions">
 											<input disabled id="editSubmissionLimit" class="form-control">
 										</div>
 									</div>
-								</div>
-								<div class="row">
+
 									<div class="form-group">
 										<div class="col-md-6">
 											<label class="control-label" for="editProblemName">Name</label>
@@ -587,7 +623,17 @@ ul {
 											<select id="editFolderDropdown" class="form-control">  </select>
 										</div> 
 									</div>
+
+									<div class="form-group">
+										<div class="col-md-12">
+											<label class="control-label" for="editVideoLink">Video Link (URL)</label>
+											<input id="editVideoURL" type="text" class="form-control">
+										</div>
+								  </div>
+
+
 								</div>
+
 								<label class="control-label" for="editDescription">Description</label>
 								<textarea name="editDescription" id="editDescription" class="form-control"></textarea>
 								<label class="control-label" for="editOnSubmit">Function to run on submission</label>
@@ -620,7 +666,7 @@ ul {
 			<div class="col-md-9">
 				<div  class="panel panel-danger tab-pane " id="addquestion" style="background-color:#F3F4F3;">
 					<div class="panel-heading">
-						Add a new question
+						<font size=+1><b>Add a New Problem</b></font>
 					</div>
 					<div class="panel-body">
 						<form id="addProblemForm" class="form">
@@ -669,12 +715,13 @@ ul {
 										</select>
 									</div>
 									<div class="col-md-3">
-										<label class="control-label" for="maxSubmissions">Submission Limit</label>
+										<label class="control-label" for="maxSubmissions">Sub Limit</label>
 								     	<input type="checkbox" id="maxSubmissions">
 										<input disabled id="submissionLimit" class="form-control">
 									</div>
 								</div>
 							</div>
+
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-6">
@@ -687,6 +734,16 @@ ul {
 									</div>
 								</div>
 							</div>
+
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12">
+										<label class="control-label" for="videoLink">Video Link (URL)</label>
+										<input id="videoURL" type="text" class="form-control">
+									</div>
+							  </div>
+              </div>
+
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-12">
@@ -719,7 +776,8 @@ ul {
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#submissionCollapse" id="submissionTitle">
+						<a data-toggle="collapse" data-parent="#accordion" href="#submissionCollapse" 
+               id="submissionTitle">
 							Collapsible
 						</a>
 					</h4>
@@ -727,10 +785,13 @@ ul {
 				<div id="submissionCollapse" class="panel-collapse collapse in submissionCollapse">
 					<div class="panel-body">
 						<div id="pointbreakdownSubmission">
-			  				Functionality 
-			  				<a id="editSubmissionPtsF" class="pull-right" >
-      							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							</a><span id="ScorrectCheck" class="pull-right"></span><span class="badge pull-right"><span id="SearnedPtCorrect">0</span>/<span id="SavailablePtCorrect"></span>
+			  		  Functionality 
+			  			<a id="editSubmissionPtsF" class="pull-right" >
+      					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							</a>
+              <span id="ScorrectCheck" class="pull-right"></span>
+              <span class="badge pull-right">
+                <span id="SearnedPtCorrect">0</span>/<span id="SavailablePtCorrect"></span>
 							</span>
 
 
@@ -754,7 +815,8 @@ ul {
 				  <!-- Nav tabs -->
 				  <ul class="nav nav-tabs" role="tablist" id="submissionTabMenu">
 				    <li id="submissionTabSubmission" role="presentation" class="active"><a href="#submissionTab" aria-controls="submissionTab" role="tab" data-toggle="tab">Submission</a></li>
-				    <li id="submissionTabFeedback" role="presentation"><a href="#feedbackTab" aria-controls="feedbackTab" role="tab" data-toggle="tab">Feedback</a></li>
+				    <li id="submissionTabFeedback" role="presentation"><a href="#feedbackTab" aria-controls="feedbackTab" role="tab" data-toggle="tab">
+             <b>Feedback</b></a></li>
 				  </ul>
 
 				  <!-- Tab panes -->
@@ -828,7 +890,8 @@ ul {
 		<div class="tab-pane" id="admin">
 			<div class="col-md-5">
 				<div class="panel panel-default ">
-					<div class="panel-heading">Manage admins</div>
+					<div class="panel-heading">
+            <font size=+1 color=blue><b>Manage admins</b></font></div>
 	 
 					 <ul id="admins" class="list-group"></ul>
 
@@ -853,7 +916,7 @@ ul {
 		<div class="tab-pane" id="students">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h4 class="panel-title">Students
+					<h4 class="panel-title"><font size=+1 color=blue><b>Students</b></font>
 						<form class="form-inline pull-right">
 							<div class="form-group">
 								<input type="text" class="form-control" id="onyen" placeholder="Enter onyen">
@@ -907,16 +970,18 @@ ul {
 
 		<!-- HELP SECTION -->
 		<div class="tab-pane" id="help">
-			<h1>Help</h1>
-			Looking for help? You've come to the right place!
-			<h3>Matrix: Viewing Student Progress</h3>
+			<h1><font color=blue><b>Help with Bricks Admin</b></font></h1>
+      <font size=+1 color=firebrick>
+			<b>Looking for help? You've come to the right place!</b>
+      </font>
+			<h3><font color=navy>Matrix: Viewing Student Progress</font></h3>
 			Navigate between problems with the menu on the left.
 			<br /><br />
 			The matrix panel shows a grid with one box for each student.  Red boxes mean the student has not attempted the problem; yellow means the student has attempted but not earned full points and green shows student has earned full points.  Hovering over a box shows menu options for that student that will always include a link to the student's profile and may include any Feedback or Share requests, if applicable. Boxes with these pending requests will blink. (More info on these requests below.)  In the corner of this panel there is a button to dismiss all share requests as well as a dropdown that controls the automatic refresh setting of the matrix.  The matrix will search for updates on the intreval specified by the dropdown.
 			<br /><br />
 			The Student Attempts panel must be refreshed manually with its "Refresh" button in the corner (this will also refresh the matrix).  Hover over colored percentages for descriptions of what they mean.  The table summarizes each user's best score for that problem as well as their number of attempts.  Click on student's name for full breakdown of submissions. Click the person icon to see their profile.
 
-			<h3>Edit & Add: Updating Problems and Folders</h3>
+			<h3><font color=navy>Edit & Add: Updating Problems and Folders</font></h3>
 			Select a problem from the menu on the left to edit it.
 			<br />
 			<b>Phase:</b> Past problems will be indicated as such in the student view and only give half credit.  Present problems will show in student menu with full credit.  Future problems will never show in the student menu.<br />
@@ -929,17 +994,17 @@ ul {
 			<br /><br />
 			To delete a problem, add a folder or edit the order of existing problems and folders click the "Edit Folders" button above the left menu.  Click "done" when you're finished to return to the navigable problems menu.  Deleting problems also deletes any submissions it had. Be sure to recalculate scores of any students who may have earned points in any deleted submissions (see below).
 
-			<h3>Feedback & Archive</h3>
+			<h3><font color=navy>Feedback & Archive</font></h3>
 			Students can request feedback on submissions. Feedback can be in the form of a message or alterations to the submission code.  Students with unread feedback will see an "Unread Feedback" button at the top of Bricks the next time they load the page until they open new feedback. The button's modal will link to all problems will unread Feedback. A blinking "View" button in the Past Submissions panel will open a new page showing both their request message and the admin's response message as well as a side-by-side comparison of their code and the admin's altered code.  Old feedback can always be viewed but will no longer blink nor be seen in the Unread Feedback list.
 			<br /><br />
 			A list of all pending feedback requests can be seen on the Feedback tab. Feedback can be answered from this page or from a submission page (navigated to from either the problem or student profile). Pending feedback requests can also be seen in the matrix of the submission's problem as well as the student's profile. Feedback can be given from a submission page without a request.
 			<br /><br />
 			The Archive tab displays all feedback ever given.
 
-			<h3>Sharing</h3>
+			<h3><font color=navy>Sharing</font></h3>
 			Students can enable sharing for a problem, ie give their permission for the professor to show their submission code to the class. This is done from the "Past submissions" panel of a problem in the student view. If a student has enabled sharing, an admin may project their code in a new window for teaching purposes.  A new share request will cause a student's box to blink on the matrix view of a particular problem.  Clicking on the share request icon, a modal will provide the admin with three options. "Project" opens a new window with the submission code in an editable box that can be ran locally. "Dismiss" will close the modal and get rid of the icon and blinking in the matrix. "Hold" will close the modal but not end the blinking. Once sharing is enabled, a submission can always be projected from its submission page even if it is dismissed. A button in the corner of the matrix panel dismisses all requests in one click.
 
-			<h3>Students</h3>
+			<h3><font color=navy>Students</font></h3>
 			The "Students" tab on the top navbar will take you to a comprehensive list of students, which is searchable by onyen.
 			<br /><br />
 			On a student profile there is a general progress bar, to the right of which are two buttons.  Clicking the first, which shows their current score, recalculates the student's score by analyzing all of their submissions. This may be used to ensure the accuracy of a student's score- for instance if you deleted a problem for which the user had earned points.  The second reloads existing data from the database (for instance to fetch any new submissions).
@@ -950,7 +1015,7 @@ ul {
 			<br /><br />
 			Deleting a user from this page will also delete all their submissions.  It requires a page refresh for the change to take effect.
 
-			<h3>Submissions</h3>
+			<h3><font color=navy>Submissions</font></h3>
 			Submission scores can be edited in the upper right hand by clicking the pencil.
 			<br /><br />
 			If student has given permission by enabling sharing, an admin may project the code into a new window for teaching purposes with the "Project code" button.  If not, this button will be disabled ("requires student permission").
@@ -958,10 +1023,10 @@ ul {
 			In the bottom left where the code box is, admins can see feedback requests messages (if applicable) and submit feedback for the student's code. Or, if a submission already has feedback, it will be seen in this section.
 
 
-			<h3>Settings</h3>
+			<h3><font color=navy>Settings</font></h3>
 			Gets rid of Feedback and Sharing from admin and student interfaces. Does not delete the related data.
 
-			<h3>Grading Student Submissions</h3>
+			<h3><font color=navy>Grading Student Submissions</font></h3>
 			Below is a template for generating scores for students.  The functions fail.f() and fail.s() deduct functionality and style points (respectively).  They take 2 parameters: the message to append to the console and an optional portion of points to deduct (a fraction between 0 and 1 to be multiplied with the available number of points).  Leaving the message blank ("") will deduct all available points without appending a message.  When done checking for errors, pass.f and pass.s must be called.  The pass function parameter is the message to be appended for full points and can be left blank ("") to append no message.
 
 			<pre>
@@ -1001,8 +1066,9 @@ batch.exec ( code, soln_inputs, soln_outputs, totalChecker);
 
 		<!-- SETTINGS SECTION -->
 		<div class="tab-pane" id="settings">
-			<h1>Settings</h1>
+			<h2><font color=blue><b>Settings</b></font></h2><br/>
 			<div id="feedbackToggle" ></div>
+      <br/>
 			<div id="shareToggle" ></div>
 
 		</div>

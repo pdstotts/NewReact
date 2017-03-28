@@ -11,7 +11,9 @@ module.exports = {
   attributes: {
   
     type: {
-        type: 'string', //twit(Type what I Type), diy(Do It Yourself), wall(traditional sized program assignment), exam(no help allowed)
+        type: 'string',  // twit(Type what I Type), diy(Do It Yourself), 
+                         // wall(traditional sized program assignment), 
+                         // exam(no help allowed)
         notEmpty: true,
         required: true
     },
@@ -36,6 +38,9 @@ module.exports = {
         notEmpty: true,
         required: true
     },
+    vidURL: {
+      type: 'string', // text of the URL
+    },
     text: {
         type: 'string', //long problem description and correctness/type detail
         notEmpty: true,
@@ -51,7 +56,7 @@ module.exports = {
     maxSubmissions: {
         type: 'integer', //maximum number of submissions that should be accepted
     },
-	onSubmit: 'string' // text of a function that decides the correctness of the submission
+	  onSubmit: 'string' // text of a function that decides the correctness of the submission
 						// isCorrect( code /* function */, semanticData /* json */, solution /* json */ )
     
   }

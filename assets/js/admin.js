@@ -1,203 +1,216 @@
 
 //Color submission status boxes
 function correct(){
-   return $("<span class='glyphicon glyphicon-ok'></span>").css("color", "green").css("margin-right", "5px");
+  return $("<span class='glyphicon glyphicon-ok'></span>")
+           .css("color", "green")
+           .css("margin-right", "5px");
 }
 function wrong(){
-   return $("<span class='glyphicon glyphicon-remove'></span>").css("color", "red").css("margin-right", "5px");
+  return $("<span class='glyphicon glyphicon-remove'></span>")
+            .css("color", "red")
+            .css("margin-right", "5px");
 }
 function exclam(){
-   return $("<span class='glyphicon glyphicon-exclamation-sign'></span>").css("color", "red").css("margin-right", "5px");
+  return $("<span class='glyphicon glyphicon-exclamation-sign'></span>")
+            .css("color", "red")
+            .css("margin-right", "5px");
 }
 
 function refresh(){
-    return $('<span clas©s="glyphicon glyphicon-refresh spin" />');
+  return $('<span clas©s="glyphicon glyphicon-refresh spin" />');
 }
 
 function scoreBadge(a,b){
-    var check;
-    if(a >= b){
-        check = correct();
-    }else {
-        check = wrong();
-    }
-    var badge = $("<span class='badge'></span>").append(a + "/" + b);
-    return $("<span></span>").append(badge).append(check);
+  var check;
+  if(a >= b){ check = correct(); } 
+  else { check = wrong(); }
+  var badge = $("<span class='badge'></span>").append(a + "/" + b);
+  return $("<span></span>").append(badge).append(check);
 }
 
 function isNull(item){
-    if(item == null || item == "null" || item == "" || item == ''){
-        return true;
-    }else {
-        return false;
-    }
+  if(item == null || item == "null" || item == "" || item == '') {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function fillProblemEdit(problem) {
-    $("#editForm").removeClass("hidden");
-    $("#editQuestionpanel").removeClass("hidden");
-    $("#deleteProblem").removeClass("hidden");
+  $("#editForm").removeClass("hidden");
+  $("#editQuestionpanel").removeClass("hidden");
+  $("#deleteProblem").removeClass("hidden");
 	$("#editPlaceholder").addClass("hidden");
-    $(".problemDeleted").addClass("hidden");
+  $(".problemDeleted").addClass("hidden");
 	$("#editType").val(problem.type);
 	$("#editPhase").val(problem.phase);
 	$("#editProblemName").val(problem.name);
-    $("#editFolderDropdown").val(problem.folder);
-    $("#editLanguageDropdown").val(problem.language);
-    if(problem.testMode == true){
-        $("#editModeDropdown").val("true");
-    }else {
-        $("#editModeDropdown").val("false");
+  $("#editFolderDropdown").val(problem.folder);
+  $("#editLanguageDropdown").val(problem.language);
+  if(problem.testMode == true){
+    $("#editModeDropdown").val("true");
+  } else {
+    $("#editModeDropdown").val("false");
+  }
+  if(isNull(problem.maxSubmissions)){
+    $( "#editMaxSubmissions" ).prop( "checked", false );
+    $("#editSubmissionLimit").val("");
+    $("#editSubmissionLimit").attr("disabled","disabled"); 
+    } 
+  else {
+    $( "#editMaxSubmissions" ).prop( "checked", true );
+    $("#editSubmissionLimit").val(problem.maxSubmissions);
+    $("#editSubmissionLimit").removeAttr("disabled");
+  }
+  $("#editVideoURL").val(problem.vidURL); // pds video
+  $("#editDescription").val(problem.text);
+  $("#editStylePoints").val(problem.value.style),
+  $("#editCorrectPoints").val(problem.value.correct),
+  $("#editOnSubmit").val(problem.onSubmit);
+  $("#deleteProblem").removeClass("hidden");   
+  $( "#deleteProblem" ).unbind().click(function() {   
+    if (confirm('Are you sure you wish to delete the problem ' + problem.name + '?')) {
+      deleteProblem(problem);
     }
-    if(isNull(problem.maxSubmissions)){
-        $( "#editMaxSubmissions" ).prop( "checked", false );
-        $("#editSubmissionLimit").val("");
-        $("#editSubmissionLimit").attr("disabled","disabled");
-    }else {
-        $( "#editMaxSubmissions" ).prop( "checked", true );
-        $("#editSubmissionLimit").val(problem.maxSubmissions);
-        $("#editSubmissionLimit").removeAttr("disabled");
-    }
-    $("#editDescription").val(problem.text);
-    $("#editStylePoints").val(problem.value.style),
-    $("#editCorrectPoints").val(problem.value.correct),
-    $("#editOnSubmit").val(problem.onSubmit);
-    $("#deleteProblem").removeClass("hidden");   
-    $( "#deleteProblem" ).unbind().click(function() {   
-        if (confirm('Are you sure you wish to delete the problem ' + problem.name + '?')) {
-            deleteProblem(problem);
-        }
-    });
-    fillProblemAdd(problem);
+  });
+  fillProblemAdd(problem);
 }
 
 function fillProblemAdd(problem){
-    $("#type").val(problem.type);
-    $("#phase").val(problem.phase);
-    $("#problemName").val("{ " + (problem.name).toUpperCase() + " COPY }");
-    $("#folderDropdown").val(problem.folder);
-    $("#languageDropdown").val(problem.language);
-    if(problem.testMode == true){
-        $("#modeDropdown").val("true");
-    }else {
-        $("#modeDropdown").val("false");
-    }
-    if(isNull(problem.maxSubmissions)){
-        $( "#maxSubmissions" ).prop( "checked", false );
-        $("#submissionLimit").val("");
-        $("#submissionLimit").attr("disabled","disabled");
-    }else {
-        $( "#maxSubmissions" ).prop( "checked", true );
-        $("#submissionLimit").val(problem.maxSubmissions);
-        $("#submissionLimit").removeAttr("disabled");
-    }
-    $("#description").val(problem.text);
-    $("#stylePoints").val(problem.value.style);
-    $("#correctPoints").val(problem.value.correct);
-    $("#onSubmit").val(problem.onSubmit);
+  $("#type").val(problem.type);
+  $("#phase").val(problem.phase);
+  $("#problemName").val("{ " + (problem.name).toUpperCase() + " COPY }");
+  $("#folderDropdown").val(problem.folder);
+  $("#languageDropdown").val(problem.language);
+  if(problem.testMode == true){
+    $("#modeDropdown").val("true");
+  } else {
+    $("#modeDropdown").val("false");
+  }
+  if(isNull(problem.maxSubmissions)){
+    $( "#maxSubmissions" ).prop( "checked", false );
+    $("#submissionLimit").val("");
+    $("#submissionLimit").attr("disabled","disabled");
+  } else {
+    $( "#maxSubmissions" ).prop( "checked", true );
+    $("#submissionLimit").val(problem.maxSubmissions);
+    $("#submissionLimit").removeAttr("disabled");
+  }
+  $("#videoURL").val(problem.vidURL); // pds video
+  $("#description").val(problem.text);
+  $("#stylePoints").val(problem.value.style);
+  $("#correctPoints").val(problem.value.correct);
+  $("#onSubmit").val(problem.onSubmit);
 }
 
 function fillProblemDisplay(problem) {
-    $(".displayProblem").removeClass("hidden");
-    $("#pointbreakdown").removeClass("hidden");
-    $("#problemDisplayName").empty().append(problem.name);
-    $.post("/folder/read/", {id: problem.folder}, function(folder){
-        $("#problemDisplayName").html(problem.name + "<i> in " + folder.name + "</i>");
-    });
-    $("#problemDisplayBody").empty().append(problem.text);
-    $("#availablePtStyle").empty().append(problem.value.style);
-    $("#availablePtCorrect").empty().append(problem.value.correct);
-    if(isNull(problem.maxSubmissions)){
-        $("#submissionLimitDisplay").addClass("hidden");
-    }else {
-        $("#submissionLimitDisplay").removeClass("hidden");
-        $("#maxSubmissionLimit").empty().append(problem.maxSubmissions);
-    }
+  $(".displayProblem").removeClass("hidden");
+  $("#pointbreakdown").removeClass("hidden");
+  $("#problemDisplayName").empty().append(problem.name);
+  $.post("/folder/read/", {id: problem.folder}, function(folder){
+      $("#problemDisplayName").html("<b>" + problem.name + "</b><i>&nbsp; in folder&nbsp;<b> " 
+           + folder.name + "</b></i>");
+  });
+  $("#problemDisplayBody").empty().append(problem.text);
+  $("#availablePtStyle").empty().append(problem.value.style);
+  $("#availablePtCorrect").empty().append(problem.value.correct);
+  if(isNull(problem.maxSubmissions)){
+    $("#submissionLimitDisplay").addClass("hidden");
+  } else {
+    $("#submissionLimitDisplay").removeClass("hidden");
+    $("#maxSubmissionLimit").empty().append(problem.maxSubmissions);
+  }
 }
 
 function deleteProblem(problem){
-    $("#deleteProblem").addClass("hidden");
-    $(".problemDeleted").removeClass('hidden'); 
+  $("#deleteProblem").addClass("hidden");
+  $(".problemDeleted").removeClass('hidden'); 
 
-    var problemPoints = parseFloat(problem.value.correct) + parseFloat(problem.value.style);
-    var toDelete = problem;
+  var problemPoints = parseFloat(problem.value.correct) + parseFloat(problem.value.style);
+  var toDelete = problem;
 
-    $.post("/problem/delete", {id: problem.id}, function (problem) {
-        //need reorder to ensure problem numbering remains consecutive
-        $.post("/problem/reorder", {folder: toDelete.folder}, function () {
-            //change interface if necessary
-            if(curProblem){
-                if(toDelete.id == curProblem.id){
-                    $("#editForm").addClass("hidden");
-                    $("#editPlaceholder").removeClass("hidden");
-                    $("#problemDisplayName").empty().append("Choose a Problem");
-                    $("#problemDisplayBody").empty().append("Select a problem from the left to view more information.");
-                    $("#pointbreakdown").addClass("hidden");
-                    $("#matrixBody").empty();
-                    $("#allStudents1ProblemTable").empty();
-                    $("#pbp-green").css("width","0%");
-                    $("#pbp-yellow").css("width","0%");
-                    curProblem == null;
-                }
-            }
-            //update total available points if necessary
-            if(toDelete.phase != 2 && Boolean(toDelete.testMode) == false){
-                var totalPoints = parseFloat(points) - parseFloat(problemPoints);
-                $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
-                    points = totalPoints;
-                    $(".problemDeleted").addClass('hidden'); 
-                    loadSingleFolderSidebarSortable(toDelete.folder);
-                    loadSingleFolderSidebarNavigable(toDelete.folder);
-                });
-            }else {
-                $(".problemDeleted").addClass('hidden'); 
-                loadSingleFolderSidebarSortable(toDelete.folder);
-                loadSingleFolderSidebarNavigable(toDelete.folder);
-            }
+  $.post("/problem/delete", {id: problem.id}, function (problem) {
+    //need reorder to ensure problem numbering remains consecutive
+    $.post("/problem/reorder", {folder: toDelete.folder}, function () {
+      //change interface if necessary
+      if(curProblem){
+        if(toDelete.id == curProblem.id){
+          $("#editForm").addClass("hidden");
+          $("#editPlaceholder").removeClass("hidden");
+          $("#problemDisplayName").empty().append("Choose a Problem");
+          $("#problemDisplayBody").empty().append(
+              "Select a problem from the left to view more information."
+          );
+          $("#pointbreakdown").addClass("hidden");
+          $("#matrixBody").empty();
+          $("#allStudents1ProblemTable").empty();
+          $("#pbp-green").css("width","0%");
+          $("#pbp-yellow").css("width","0%");
+          curProblem == null;
+        }
+      }
+      //update total available points if necessary
+      if(toDelete.phase != 2 && Boolean(toDelete.testMode) == false){
+        var totalPoints = parseFloat(points) - parseFloat(problemPoints);
+        $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
+          points = totalPoints;
+          $(".problemDeleted").addClass('hidden'); 
+          loadSingleFolderSidebarSortable(toDelete.folder);
+          loadSingleFolderSidebarNavigable(toDelete.folder);
         });
+      } else {
+        $(".problemDeleted").addClass('hidden'); 
+        loadSingleFolderSidebarSortable(toDelete.folder);
+        loadSingleFolderSidebarNavigable(toDelete.folder);
+      }
     });
+  });
 }
 
 function feedbackRequestButton(submission,username,problem){
-    //little icon for the matrix
-    var button = $("<a></a>")
-        .attr("id","feedbackPlease" + submission.id)
-        .attr("href","#submission")
-        .attr("data-toggle","pill")  //save
-        .css("color","#627E86")
-        .attr("class","")
-        .css("padding-left","4px;")
-        .html('<span><span class="glyphicon glyphicon-exclamation-sign"  data-toggle="tooltip" data-placement="top" title="Feedback Request"></span>') // the trailing space is important!
-        .click(function (event) {
-            $("#matrixLink").removeClass("active");
-            event.preventDefault();
-            $.post("/user/read", {onyen: username}, function (user) {
-                if (user) {
-                    getSubmission(submission,user,problem);
-                }else {
-                    alert("error! user not found");
-                }
-            });
-        });
-    return button;
+  //little icon for the matrix
+  var button
+  button = $("<a></a>")
+    .attr("id","feedbackPlease" + submission.id)
+    .attr("href","#submission")
+    .attr("data-toggle","pill")  //save
+    .css("color","#627E86")
+    .attr("class","")
+    .css("padding-left","4px;")
+    .html('<span><span class="glyphicon glyphicon-exclamation-sign"  data-toggle="tooltip" ' +
+          'data-placement="top" title="Feedback Request"></span>'
+         ) // the trailing space is important!
+    .click(function (event) {
+      $("#matrixLink").removeClass("active");
+      event.preventDefault();
+      $.post("/user/read", {onyen: username}, function (user) {
+        if (user) {
+          getSubmission(submission,user,problem);
+        } else {
+          alert("error! user not found");
+        }
+      });
+    });
+  return button;
 }
 
 function shareButton(submission,username,problem){
-    //little icon for the matrix
-    var button = $("<a></a>")
-        .attr("data-toggle","modal")  //save
-        .attr("data-target","#shareSubmissionModal")  //save
-        .attr("id","shareMe" + submission.id)
-        .css("color","#627E86")
-        .attr("class","")
-        .css("padding-left","4px;")
-        .css("cursor","pointer")
-        .html('<span><span class="glyphicon glyphicon-share" data-toggle="tooltip" data-placement="top" title="Share Request"></span>')
-        .click(function (event) {
-            event.preventDefault();
-            fillShareSubmissionModal(submission,username,problem);
-        });
-    return button;
+  //little icon for the matrix
+  var button = $("<a></a>")
+      .attr("data-toggle","modal")  //save
+      .attr("data-target","#shareSubmissionModal")  //save
+      .attr("id","shareMe" + submission.id)
+      .css("color","#627E86")
+      .attr("class","")
+      .css("padding-left","4px;")
+      .css("cursor","pointer")
+      .html('<span><span class="glyphicon glyphicon-share" data-toggle="tooltip" ' +
+            'data-placement="top" title="Share Request"></span>')
+      .click(function (event) {
+        event.preventDefault();
+        fillShareSubmissionModal(submission,username,problem);
+      });
+  return button;
 }
 
 function getStudentResults(problem) {
@@ -1034,11 +1047,14 @@ function getIndividual(user, refresh) {
         .css("color","#C84747")
         .html('delete')
         .click(function () {
-            if (confirm('Are you sure you wish to delete the person "' + user.username + '"?')) {
-                $.post("/user/delete", {onyen: user.username}, function(user){
-                    alert("This person is done for! Please refresh page to see this change take effect.");
-                });
-            }
+           if (confirm('Are you sure you wish to delete person "' + user.username + '"?')) {
+             $.post("/user/delete", {onyen: user.username}, 
+                 function(user){
+                   alert("User has been removed. " +
+                         "Please refresh page to see the changes take effect.");
+                 }
+             );
+           }
         });
     $("#deleteUser").empty().append(removeButton);
     $("#studentScoreButton").html(user.currentScore + "/" + points);
@@ -1048,7 +1064,7 @@ function getIndividual(user, refresh) {
     $("#feedbackRequestCount").empty().append("0");
 
     var tooltipGreen = "Problems for which full points were earned";
-    var tooltipYellow = "Attempted problems that did not recieve full credit";
+    var tooltipYellow = "Attempted problems that did not receive full credit";
 
     $("#individualProgessBar").empty().append('<div class="progress" style="height:33px"><div id="pbgreen" class="progress-bar progress-bar-success" style="width: 0%;" data-toggle="tooltip" data-placement="top" title="' + tooltipGreen + '"><span class="sr-only">35% Complete (success)</span></div> <div id="pbyellow" class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%" data-toggle="tooltip" data-placement="top" title="' + tooltipYellow + '"><span class="sr-only">20% Complete (warning)</span></div><div id="pbred" class="progress-bar progress-bar-danger" style="width: 0%"><span class="sr-only">10% Complete (danger)</span></div></div>');
     //must enable tooltips
@@ -1380,10 +1396,10 @@ function loadSingleFolderSidebarNavigable(folderid){
         problems.forEach( function (problem) {
             var name = problem.name;
             if (problem.testMode){
-                name = name + " (Test Mode)";
+                name = "<font color=#E67E22><b>[TEST]&nbsp;</b></font>" + name;
             }
             if(problem.phase == 2){
-                name = name + " *(Future)";
+                name = "<font color=#E67E22><b>*[FUTURE]&nbsp;</b></font>" + name;
             }
             var link = $("<p></p>").append(
                 $("<a></a>")
@@ -1443,12 +1459,12 @@ function loadSingleFolderSidebarSortable(folderid) {
 
             var extras = "";
             if(problem.phase == 0){
-                extras = extras + " (Past)";
+                extras = extras + " <font color=#E67E22><b>[PAST]</b></font>"
             }else if(problem.phase == 2){
-                extras = extras + " *(Future)";
+                extras = extras + " <font color=#E67E22><b>*[FUTURE]</b></font>"
             }
             if(Boolean(problem.testMode) == true){
-                extras = extras + " (Test)";
+                extras = extras + " <font color=#E67E22><b>[TEST]</b></font>" ;
             }
             var sortableProblem = $("<li></li>")
             .attr("class","ui-state-default")
@@ -1828,7 +1844,7 @@ window.onload = function () {
                 .attr("href","#feedback")
                 .attr("data-toggle","pill")
                 .attr("class","navbar-brand")
-                .html("Feedback")
+                .html("<b>Feedback</b>")
                 .click(function (event) {
                     getFeedbackDash();
                 });
@@ -1836,7 +1852,7 @@ window.onload = function () {
                 .attr("href","#completedFeedback")
                 .attr("data-toggle","pill")
                 .attr("class","navbar-brand")
-                .html("Archive")
+                .html("<b>Archive</b>")
                 .click(function (event) {
                     getCompletedFeedbackDash();
                 });
@@ -2017,192 +2033,210 @@ window.onload = function () {
 
     var intervalID;
     $( "#studentListRefresh" ).change(function() {
-        var seconds = "";
-        $( "#studentListRefresh option:selected" ).each(function() {
-            seconds = $( this ).val();
-        });
-        clearInterval(intervalID);
-        var millseconds = parseInt(seconds)*parseInt(1000);
-        if(millseconds > 0){
-            intervalID = setInterval(function(){
-                if(!$("#matrix").hasClass("active")){
-                    clearInterval(intervalID);
-                    $("#studentListRefresh").val(0);
-                }else {
-                    updateStudentResults(curProblem,seconds);
-                    //getStudentResults(curProblem);
-                }
-            }, millseconds);
-        }
-        getStudentResults(curProblem);        
+      var seconds = "";
+      $( "#studentListRefresh option:selected" ).each(function() {
+        seconds = $( this ).val();
+      });
+      clearInterval(intervalID);
+      var millseconds = parseInt(seconds)*parseInt(1000);
+      if(millseconds > 0){
+        intervalID = setInterval(function(){
+          if(!$("#matrix").hasClass("active")){
+            clearInterval(intervalID);
+            $("#studentListRefresh").val(0);
+          } else {
+            updateStudentResults(curProblem,seconds);
+            //getStudentResults(curProblem);
+          }
+        }, millseconds);
+      }
+      getStudentResults(curProblem);        
     });
 
     $( "#clearShareRequests" ).click(function (event) {
-        $.post("/submission/read", { id:curProblem.id, shareOK: true, shared: false }, function(submissions) {
-            var length = submissions.length;
-            var count = 0;
-            submissions.forEach(function (submission) {
-                $.post("/submission/update", {id: submission.id, shared: true}, function (submission) {
-                    count = count + 1;
-                    if(count == length){
-                        getStudentResults(curProblem);
-                    }
-                });
+      $.post("/submission/read", 
+        { id:curProblem.id, shareOK: true, shared: false }, 
+        function(submissions) {
+          var length = submissions.length;
+          var count = 0;
+          submissions.forEach(function (submission) {
+            $.post("/submission/update", {id: submission.id, shared: true}, function (submission) {
+              count = count + 1;
+              if(count == length){
+                getStudentResults(curProblem);
+              }
             });
-        });
+          });
+        }
+      );
     });
     
     //add problems
-	$("#addProblem").click(function (event) {
-        var creatingProblem = $("<div class='alert alert-warning' role='alert'>Creating problem... <span class='glyphicon glyphicon-refresh spin'></div>");
-        $("#newProblemError").empty().append(creatingProblem);
+	  $("#addProblem").click(function (event) {
+      var creatingProblem = $("<div class='alert alert-warning' role='alert'> " +
+                              "Creating problem... <span class='glyphicon glyphicon-refresh spin'></div>");
+      $("#newProblemError").empty().append(creatingProblem);
 
-        var subLimit = $("#editSubmissionLimit").val();
-        if(subLimit == "" || !($('#maxSubmissions').is(":checked"))){
-            subLimit = null;
-        }        
-        event.preventDefault();
-		var opts = {
-			type: $("#type").val(),
-			phase: $("#phase").val(),
-			name: $("#problemName").val(),
-			folder: $("#folderDropdown").val(),
+      var subLimit = $("#editSubmissionLimit").val();
+      if(subLimit == "" || !($('#maxSubmissions').is(":checked"))) {
+        subLimit = null;
+      }        
+      event.preventDefault();
+		  var opts = {
+		  	type: $("#type").val(),
+			  phase: $("#phase").val(),
+			  name: $("#problemName").val(),
+        vidURL: $("#videoURL").val(),
+			  folder: $("#folderDropdown").val(),
             language: $("#languageDropdown").val(),
             testMode: $("#modeDropdown").val(),
             maxSubmissions: subLimit,
-			text: $("#description").val(),
+			  text: $("#description").val(),
             style: $("#stylePoints").val(),
             correct: $("#correctPoints").val(),
-			onSubmit: $("#onSubmit").val()
-		};
+			  onSubmit: $("#onSubmit").val()
+		  };
 
-		// TODO - Build errors with jQuery
-        if($("#problemName").val()=="") {
-			var noNameError = $("<div class='alert alert-danger' role='alert'>Please enter a problem name</div>");
-            $("#newProblemError").empty().append(noNameError);
-        } else if($("#description").val()=="") {
-			var noDescriptionError = $("<div class='alert alert-danger' role='alert'>Please enter a problem description</div>");
-            $("#newProblemError").empty().append(noDescriptionError);
-        } else if($("#stylePoints").val()=="" || $("#correctPoints").val()=="") {
-            var noPointsError = $("<div class='alert alert-danger' role='alert'>Please enter style and correctness points</div>");
-            $("#newProblemError").empty().append(noPointsError);
-        } else {
-            $.post("/problem/create", opts, function (problem) {
-                curProblem = problem;
-                fillProblemEdit(curProblem);
-                fillProblemDisplay(curProblem);
-                getStudentResults(curProblem);
+      //alert(opts.vidURL); return; // pds
 
-                $.post("/problem/reorder", {folder: problem.folder}, function () {
-                    loadSingleFolderSidebarNavigable(problem.folder);
-                    loadSingleFolderSidebarSortable(problem.folder);
-                    var problemCreated = $("<div class='alert alert-success' id='problemCreatedSuccess' role='alert'>Problem Created!</div>");
-                    $("#newProblemError").empty().append(problemCreated);
-                    setTimeout(function() {
-                        $("#problemCreatedSuccess").remove();
-                    }, 3000);
-                    //add points to total available score
-                    if(problem.phase != 2 && Boolean(problem.testMode) == false){
-                        var updatingPoints = $("<div class='alert alert-warning' id='pointsupdating' role='alert'>Updating available points... <span class='glyphicon glyphicon-refresh spin'></div>");
-                        $("#newProblemError").append(updatingPoints);
-                        var totalPoints = parseFloat(points) + parseFloat(problem.value.style) + parseFloat(problem.value.correct);
-                        $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
-                            points = totalPoints;
-                            var pointsUpdated = $("<div class='alert alert-success' id='pointUpdateSuccess' role='alert'>Points Updated!</div>");
-                            $("#pointsupdating").remove();
-                            $("#newProblemError").append(pointsUpdated);
-                            setTimeout(function() {
-                                $("#pointUpdateSuccess").remove();
-                            }, 3000);
-                        });
-                    }
-                });
-            });
-        }
-	});
+		  // TODO - Build errors with jQuery
+      if($("#problemName").val()=="") {
+		  	var noNameError = $("<div class='alert alert-danger' role='alert'>Please enter a problem name</div>");
+        $("#newProblemError").empty().append(noNameError);
+      } else if($("#description").val()=="") {
+			  var noDescriptionError = $("<div class='alert alert-danger' role='alert'> " +
+                                   "Please enter a problem description</div>");
+        $("#newProblemError").empty().append(noDescriptionError);
+      } else if($("#stylePoints").val()=="" || $("#correctPoints").val()=="") {
+        var noPointsError = $("<div class='alert alert-danger' role='alert'> " +
+                              "Please enter style and correctness points</div>");
+        $("#newProblemError").empty().append(noPointsError);
+      } else {
+        $.post("/problem/create", opts, function (problem) {
+          curProblem = problem;
+          fillProblemEdit(curProblem);
+          fillProblemDisplay(curProblem);
+          getStudentResults(curProblem);
+
+          $.post("/problem/reorder", {folder: problem.folder}, function () {
+            loadSingleFolderSidebarNavigable(problem.folder);
+            loadSingleFolderSidebarSortable(problem.folder);
+            var problemCreated = 
+              $("<div class='alert alert-success' id='problemCreatedSuccess' role='alert'> " +
+                "Problem Created!</div>");
+            $("#newProblemError").empty().append(problemCreated);
+            setTimeout(function() { $("#problemCreatedSuccess").remove(); }, 3000);
+            //add points to total available score
+            if(problem.phase != 2 && Boolean(problem.testMode) == false){
+              var updatingPoints = 
+                $("<div class='alert alert-warning' id='pointsupdating' role='alert'> " +
+                "Updating available points... <span class='glyphicon glyphicon-refresh spin'></div>");
+              $("#newProblemError").append(updatingPoints);
+              var totalPoints = parseFloat(points) + parseFloat(problem.value.style) + 
+                                parseFloat(problem.value.correct);
+              $.post("/setting/update/", {name:"points", value:totalPoints}, function(setting){
+                points = totalPoints;
+                var pointsUpdated = 
+                  $("<div class='alert alert-success' id='pointUpdateSuccess' role='alert'> " +
+                  " Points Updated!</div>");
+                $("#pointsupdating").remove();
+                $("#newProblemError").append(pointsUpdated);
+                setTimeout(function() { $("#pointUpdateSuccess").remove(); }, 3000);
+              });
+            }
+          });
+        });
+      }
+	  });
+
 	$("#editProblem").click(function (event) {
-        $("#editProblem").attr("disabled","disabled");
-        $("#editProblem").empty().append(refresh());
+    $("#editProblem").attr("disabled","disabled");
+    $("#editProblem").empty().append(refresh());
 
-        var subLimit = $("#editSubmissionLimit").val();
-        if(subLimit == ""){
-            subLimit = null;
-        }
+    var subLimit = $("#editSubmissionLimit").val();
+    if(subLimit == "") { subLimit = null; }
 		event.preventDefault();
 		var opts = {
-            id: curProblem.id,
+      id: curProblem.id,
 			type: $("#editType").val(),
 			phase: $("#editPhase").val(),
 			name: $("#editProblemName").val(),
 			folder: $("#editFolderDropdown").val(),
-            language: $("#editLanguageDropdown").val(),
-            testMode: $("#editModeDropdown").val(),
-            maxSubmissions: subLimit,
+      language: $("#editLanguageDropdown").val(),
+      testMode: $("#editModeDropdown").val(),
+      maxSubmissions: subLimit,
+      vidURL: $("#editVideoURL").val(),
 			text: $("#editDescription").val(),
-            correct: $("#editCorrectPoints").val(),
-            style: $("#editStylePoints").val(),
+      correct: $("#editCorrectPoints").val(),
+      style: $("#editStylePoints").val(),
 			onSubmit: $("#editOnSubmit").val()
 		};
-        $("#editProblemError").empty();
+    $("#editProblemError").empty();
+
 		//Build errors with jQuery
-        if($("#editProblemName").val()=="") {
+    if($("#editProblemName").val()=="") {
 			var noNameError = $("<div class='alert alert-danger' role='alert'>Please enter a problem name</div>");
-            $("#editProblemError").append(noNameError);
-        } else if($("#editDescription").val()=="") {
-			var noDescriptionError = $("<div class='alert alert-danger' role='alert'>Please enter a problem description</div>");
-            $("#editProblemError").append(noDescriptionError);
-        } else if($("#editStylePoints").val()=="" || $("#editCorrectPoints").val()=="") {
-            var noPointsError = $("<div class='alert alert-danger' role='alert'>Please enter style and correctness points</div>");
-            $("#editProblemError").append(noPointsError);
-        } else {
-            try {
-                if(opts.language == "javascript"){
-                    var AST = acorn.parse(opts.onSubmit);
-                }
-                //breaks here with "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
-                $.post("/problem/update", opts, function (problem) {
-                    fillProblemDisplay(problem);
-                    var updateSuccessMessage = $("<div class='alert alert-success' role='alert' id='problemUpdatedMessage'>Problem Updated</div>");
-                    setTimeout(function() {
-                        $("#problemUpdatedMessage").remove();
-                    }, 2000);
-                    $("#editProblemError").append(updateSuccessMessage);
-                    curProblem = problem;
-                    loadSingleFolderSidebarNavigable(problem.folder);
-                    loadSingleFolderSidebarSortable(problem.folder);
-                    recalculateAvailableScore();
-                    $("#editProblem").removeAttr("disabled");
-                    $("#editProblem").empty().append("Update Problem");
-                    fillProblemAdd(problem);
-                });
-            }catch(err) {
-                var noParseError = $("<div class='alert alert-danger' role='alert'>Solution function is not parsing properly</div>");
-                $("#editProblemError").append(noParseError);
-                $("#editProblem").removeAttr("disabled");
-                $("#editProblem").empty().append("Update Problem");
-            }
+      $("#editProblemError").append(noNameError);
+    } else if($("#editDescription").val()=="") {
+			var noDescriptionError = 
+        $("<div class='alert alert-danger' role='alert'>Please enter a problem description</div>");
+      $("#editProblemError").append(noDescriptionError);
+    } else if($("#editStylePoints").val()=="" || $("#editCorrectPoints").val()=="") {
+      var noPointsError = 
+        $("<div class='alert alert-danger' role='alert'>Please enter style and correctness points</div>");
+      $("#editProblemError").append(noPointsError);
+    } else {
+      try {
+        if(opts.language == "javascript"){
+          var AST = acorn.parse(opts.onSubmit);
         }
+        //breaks here with "Failed to load resource: 
+        //the server responded with a status of 500 (Internal Server Error)"
+        $.post("/problem/update", opts, function (problem) {
+          fillProblemDisplay(problem);
+          var updateSuccessMessage = 
+            $("<div class='alert alert-success' role='alert' id='problemUpdatedMessage'>Problem Updated</div>");
+          setTimeout(function() { $("#problemUpdatedMessage").remove(); }, 2000);
+          $("#editProblemError").append(updateSuccessMessage);
+          curProblem = problem;
+          loadSingleFolderSidebarNavigable(problem.folder);
+          loadSingleFolderSidebarSortable(problem.folder);
+          recalculateAvailableScore();
+          $("#editProblem").removeAttr("disabled");
+          $("#editProblem").empty().append("Update Problem");
+          fillProblemAdd(problem);
+        });
+      } catch(err) {
+        var noParseError = 
+          $("<div class='alert alert-danger' role='alert'>Solution function is not parsing properly</div>");
+        $("#editProblemError").append(noParseError);
+        $("#editProblem").removeAttr("disabled");
+        $("#editProblem").empty().append("Update Problem");
+      }
+    } 
 	});
 
-    $("#newAdminBtn").click(function() {
-        $.post("/user/setAdmin", {user: $("#newAdmin").val()}, function(admin) {
-            if(admin) {
-                var updateSuccessMessage = $("<div class='alert alert-success' role='alert' id='adminUpdateMessage'>Update Succeeded</div>");
-                setTimeout(function() {
-                    $("#adminUpdateMessage").remove();
-                }, 2000);
-                $("#newAdmin").val("");
-                $("#newAdminError").empty().append(updateSuccessMessage);
-                loadUsers();
-            } else {
-                var updateErrorMessage = $("<div class='alert alert-danger' role='alert'>That username is not in our database</div>");
-                $("#newAdminError").empty().append(updateErrorMessage);
-            }
-        });
+  $("#newAdminBtn").click(function() {
+    $.post("/user/setAdmin", {user: $("#newAdmin").val()}, function(admin) {
+      if(admin) {
+        var updateSuccessMessage = 
+          $("<div class='alert alert-success' role='alert' id='adminUpdateMessage'>Update Succeeded</div>");
+        setTimeout(function() { $("#adminUpdateMessage").remove(); }, 2000);
+        $("#newAdmin").val("");
+        $("#newAdminError").empty().append(updateSuccessMessage);
+        loadUsers();
+        } 
+      else {
+        var updateErrorMessage = 
+          $("<div class='alert alert-danger' role='alert'>That username is not in our database</div>");
+        $("#newAdminError").empty().append(updateErrorMessage);
+      }
     });
-    //handle the alternating and blinking for editing folders button
-    $('#sortFolderButton').on('click', function() {
-        if($(this).text() == 'Edit Folders') {
+  });
+
+  //handle the alternating and blinking for editing folders button
+  $('#sortFolderButton').on('click', function() {
+        if($(this).text() == 'Edit Folders' ) {
             blinking($("#sortFolderButton"));
             $(this).text('Done');
             if( $('#sortableFolders').is(':empty')) {

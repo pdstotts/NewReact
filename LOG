@@ -1,18 +1,37 @@
+express middleware for passport
+[32minfo[39m: 
+[32minfo[39m: 
+[32minfo[39m:    Sails.js           <|
+[32minfo[39m:    v0.9.16             |\
+[32minfo[39m:                       /|.\
+[32minfo[39m:                      / || \
+[32minfo[39m:                    ,'  |'  \
+[32minfo[39m:                 .-'.-==|/_--'
+[32minfo[39m:                 `--'-------' 
+[32minfo[39m:    __---___--___---___--___---___--___
+[32minfo[39m:  ____---___--___---___--___---___--___-__
+[32minfo[39m: 
+[32minfo[39m: Server lifted in `/afs/cs.unc.edu/home/stotts/BRICKS/4BX`
+[32minfo[39m: To see your app, visit http://localhost:2525
+[32minfo[39m: To shut down Sails, press <CTRL> + C at any time.
 
-[34mdebug[39m: Welcome to Sails! (v0.9.16)
-
-[32minfo[39m: Usage: sails <command>
-
-sails lift                       Run the Sails app in the current dir (if node_modules/sails exists, it will be used instead of the global install)
-  [--dev]                        in development environment 
-  [--prod]                       in production environment 
-  [--port 9000]                  on port 9000 
-  [--verbose]                    with verbose logging enabled 
-sails console                    Run this Sails app (in the current dir & in interactive mode.)
-sails new <appName>              Create a new Sails project in a folder called <appName>
-sails new <appName> --linker     Create a new Sails project in a folder called <appName>, using automatic asset linking
-sails generate <foo>             Generate api/models/Foo.js and api/controllers/FooController.js
-sails generate model <foo>       Generate api/models/Foo.js
-sails generate controller <foo>  Generate api/controllers/FooController.js
-sails version                    Get the current globally installed Sails version
-sails run <command>              Run a management command (exported by YOUR_APP/commands/index.js)
+[34mdebug[39m: --------------------------------------------------------
+[34mdebug[39m: :: Tue Mar 28 2017 12:14:05 GMT-0400 (EDT)
+[34mdebug[39m: 
+[34mdebug[39m: Environment	: development
+[34mdebug[39m: Port		: 2525
+[34mdebug[39m: --------------------------------------------------------
+[32minfo[39m: handshake authorized shKY_BnBkEYMFTftshst
+[32minfo[39m: transport end (undefined)
+{ user: '54de499a7052a3b34b9074c5' }
+{ admin: true,
+  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
+  currentScore: 174.5,
+  displayName: '_Dr. JavaScript',
+  latestCode: '"use strict";\n\nfunction myMain() {\n  var nt = Number(prompt("how many times (pos integer)?"));\n  var msg = validate(nt);\n  if (msg!=="ok") { alert(msg); return; }\n  var ua, ub, uc;\n  var avg;\n  for ( var i=1; i<=nt; i++ ) {\n    // solve the problem\n    ua = Number(prompt("first pos integer?"));\n    msg = validate(ua);\n    if (msg!=="ok") { alert(msg); return; }\n    ub = Number(prompt("second pos integer?"));\n    msg = validate(ub);\n    if (msg!=="ok") { alert(msg); return; } \n    uc = Number(prompt("third pos integer?"));\n    msg = validate(uc);\n    if (msg!=="ok") { alert(msg); return; } \n    avg = ( ua + ub + uc ) - Math.min(ua,ub,uc);\n    avg = avg/2;\n    alert("avg: " + avg);\n  }\n}\n\nfunction validate ( data ) {\n  if (isNaN(data)) { return("not num"); }\n  if ( !isInt(data) ) { return("not int"); }\n  if (data<=0) { return("not pos"); }\n  return("ok");\n}\n\nfunction isInt ( val ) {\n  if (isNaN(val)) { return false; }\n  return (val%1)===0 ; \n}\n\nmyMain();',
+  updatedAt: Thu Mar 23 2017 13:14:39 GMT-0400 (EDT),
+  username: 'stotts',
+  id: '54de499a7052a3b34b9074c5' }
+[32minfo[39m: handshake authorized ijVH31kfccrfFfx_shsu
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized Nj8FIUFVsKygOdQ3shsv

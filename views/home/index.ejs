@@ -1,19 +1,20 @@
 <link rel="stylesheet" href="lib/codemirror.css">
 <link rel="stylesheet" href="theme/mbo.css">
 <link rel="stylesheet" href="addon/display/fullscreen.css">
+
 <style>
-    html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
-        height: 95%;
-    }
+html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
+  height: 95%;
+}
 
 .spin {
   -webkit-animation: spin 1s infinite linear;
   -moz-animation: spin 1s infinite linear;
   -o-animation: spin 1s infinite linear;
   animation: spin 1s infinite linear;
-     -webkit-transform-origin: 50% 58%;
-         transform-origin:50% 58%;
-         -ms-transform-origin:50% 58%; /* IE 9 */
+  -webkit-transform-origin: 50% 58%;
+  transform-origin:50% 58%;
+  -ms-transform-origin:50% 58%; /* IE 9 */
 }
 
 @-moz-keyframes spin {
@@ -46,113 +47,195 @@
 /* @group Blink */
 
 .blink {
-    -webkit-animation: blink 1s linear infinite;
-    -moz-animation: blink 1s linear infinite;
-    -ms-animation: blink 1s linear infinite;
-    -o-animation: blink 1s linear infinite;
-    animation: blink 1s linear infinite;
+  -webkit-animation: blink 1s linear infinite;
+  -moz-animation: blink 1s linear infinite;
+  -ms-animation: blink 1s linear infinite;
+  -o-animation: blink 1s linear infinite;
+  animation: blink 1s linear infinite;
 }
 
 @-webkit-keyframes blink {
-    0% { color:white; }
-    50% { color:white; }
-    50.01% { color:black; }
-    100% { color:black; }
+  0% { color:white; }
+  50% { color:white; }
+  50.01% { color:black; }
+  100% { color:black; }
 }
 
 @-moz-keyframes blink {
-    0% { color:white; }
-    50% { color:white; }
-    50.01% { color:black; }
-    100% { color:black; }
+  0% { color:white; }
+  50% { color:white; }
+  50.01% { color:black; }
+  100% { color:black; }
 }
 
 @-ms-keyframes blink {
-    0% { color:white; }
-    50% { color:white; }
-    50.01% { color:black; }
-    100% { color:black; }
+  0% { color:white; }
+  50% { color:white; }
+  50.01% { color:black; }
+  100% { color:black; }
 }
 
 @-o-keyframes blink {
-    0% { color:white; }
-    50% { color:white; }
-    50.01% { color:black; }
-    100% { color:black; }
+  0% { color:white; }
+  50% { color:white; }
+  50.01% { color:black; }
+  100% { color:black; }
 }
 
 @keyframes blink {
-    0% { color:white; }
-    50% { color:white; }
-    50.01% { color:black; }
-    100% { color:black; }
+  0% { color:white; }
+  50% { color:white; }
+  50.01% { color:black; }
+  100% { color:black; }
 }
 
 /* @end */
 
-    .left-menu {
-    	height:100%;
-    }
-    .scrollableAccordian {
-    	height:100%;
-	    overflow: scroll;
-	}
-    .CodeMirror-scroll {
-        overflow-y: auto;
-        overflow-x: auto;
-    }
-    .console {
-    	background-color: #2a2b2b;
-    	color: #dddddd;
-    	padding: 3px 10px;
-    }
-    .textConsole {
-    	width: 100%;
-    	background-color: #edeff0;
-    }
-   	.sidebarBuddy {
-    }
-    #instructions {
-    	margin-left: 0;
-    	margin-right: 0;
-    }
-	.folderCollapse {
-		list-style-type: none;
-		padding:3px;
-		margin: 3px;
-	}
-	.folderCollapse  li {
-		padding: 0px;
-		margin: 0px;
-	}
-  .row {
-    margin-right: 0px;
-    margin-left: 0px;
+.left-menu {
+ 	height:100%;
+}
+.scrollableAccordian {
+ 	 height:100%;
+   overflow: scroll;
+}
+.CodeMirror-scroll {
+   overflow-y: auto;
+   overflow-x: auto;
+}
+.console {
+ 	 background-color: #2a2b2b;
+   color: #dddddd;
+   padding: 3px 10px;
+   margin-top: -4px;
+}
+.textConsole {
+ 	 width: 100%;
+   background-color: #edeff0;
+}
 
-  }
-  #desc-body {
-    overflow-y: scroll;
-    max-height: 260px;
-    overflow: -moz-scrollbars-vertical;
-/* added pds */
-    font-size: 120%;
-/* added pds */
-  }
-  #submissions {
-    max-height: 400px;
-    overflow-y: scroll;
-    overflow: -moz-scrollbars-vertical;
-  }
-  .navbar-text {
-    color: #D2D2D2 !important;
-  }
-  .leftSidebarClosed {
-    padding-left:10px;
-  }
-  #leftSidebar {
-    padding-right:0px;
-  }
+
+.sidebarBuddy {
+  padding-top:3px;
+  padding-left:9px;
+  margin-left:2px;
+}
+#instructions {
+ 	margin-left: 0;
+ 	margin-right: 0;
+}
+.folderCollapse {
+	list-style-type: none;
+	padding:3px;
+	margin: 3px;
+}
+.folderCollapse  li {
+	padding: 0px;
+	margin: 0px;
+}
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+#introPanel {
+  background: url('http://www.unc.edu/~stotts/bricksVids/vidPanelBack0.jpg');
+  height:250px;
+  background-size: 100%;
+  background-repeat:no-repeat;
+  display: compact;
+  font: 13px/18px "Arial", Arial, sans-serif;
+  padding-top:10px;
+  padding-left:10px;
+  overflow-y:hidden;
+}
+#vidModal .modal-dialog {
+  width:900px;
+  //top:50px;
+  //right:200px;
+  //outline: none;
+}
+
+.vidButton {
+  border-width:3px;
+  border-radius:5px;
+  color:#1E69A0;
+  font: bold Arial;
+  background-color:oldlace;
+  padding:4px;
+  margin-top:5px;
+  align:center;
+}
+
+.screenVid {
+  border:3px solid #D37564;
+  border-radius:6px;
+  width:100%; !important
+  //height:200;
+  preload:true;
+}
+
+#vidModal .modal-dialog .modal-content .modal-body .video {
+  border:4px solid #DC6D4C;
+  border-radius:7px;
+  width:100%; !important
+  //height:200;
+  preload:true;
+}
+
+#desc-body {
+  border:5px;
+  overflow-y: scroll;
+  max-height: 200px; /* was 270px */
+  overflow: -moz-scrollbars-vertical;
+  font-size: 120%; /* added pds */
+  margin:-10px;
+}
+#desc-body-main {
+  overflow-y: scroll;
+  max-height: 400px;
+  overflow: -moz-scrollbars-vertical;
+  font-size: 120%; /* added pds */
+}
+#desc-body-noscroll {
+  font-size: 120%; /* added pds */
+}
+
+#submissions {
+  max-height: 400px;
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-vertical;
+}
+.navbar-text {
+  color: #D2D2D2 !important;
+}
+.leftSidebarClosed {
+  padding-left:10px;
+}
+#leftSidebar {
+  padding-right:0px;
+}
+
+div.pds_hidden {
+  display:none; // intent is to hide green folders when desired
+}
+
+.responsive-video {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 60px; overflow: hidden;
+}
+
+.responsive-video iframe,
+.responsive-video object,
+.responsive-video embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>
+
 <script src="lib/codemirror.js"></script>
 <script src="../mode/javascript/javascript.js"></script>
 <script src="../addon/selection/active-line.js"></script>
@@ -181,21 +264,47 @@ User.find({admin: true}).exec(function(err, users) {
     }
 });
 %>
+
+document.title="Bricks 4.0 JavaScript";
 </script>
+
 <!--NavBar for login-->
 <nav style="margin-bottom: 4px" class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
+
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header" id="navbarHeader">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" 
+        data-target="#bs-example-navbar-collapse-1">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Bricks</a>
-			<a class="navbar-brand" data-toggle="modal" data-target="#helpModal">Help</a>
+			<a class="navbar-brand" href="javascript:history.go(0)" 
+         data-toggle="tooltip" data-placement="bottom" title="Home Panel / Refresh System">
+         <font color=oldlace><b>Bricks</b></font>
+      </a>
+			<a class="navbar-brand" href="http://eloquentjavascript.net/" target="_blankTEXT"
+         data-toggle="tooltip" data-placement="bottom" title="Online JavaScript text"
+         > <b>Text</b> </a>
+			<a class="navbar-brand" href="http://sakai.unc.edu" target="_blankLMS"
+         data-toggle="tooltip" data-placement="bottom" title="Sakai page for the course"
+         > <b>Sakai</b> </a>
+			<a class="navbar-brand" data-toggle="modal" data-target="#helpModal"
+         > <b>Help</b> </a>
+<!--
+			<a class="navbar-brand" target="_blankCHAT"
+			   href="https://piazza.com/class/if8d7mzckfx7mr" 
+         data-toggle="tooltip" data-placement="bottom" title="Class discussion board"
+         > <b>Piazza</b> </a>
+			<a class="navbar-brand" href="http://www.cs.unc.edu/~stotts/COMP110-f15/" 
+         target="_blankWEB" 
+         data-toggle="tooltip" data-placement="bottom" title="Web page for the course"
+         > <b>Web</b> </a>
+-->
 		</div>
+
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<% if (req.isAuthenticated()) { %>
@@ -213,37 +322,28 @@ User.find({admin: true}).exec(function(err, users) {
 				</form>
 			</div>
 			<% } else { %>
-			<form class="navbar-form navbar-right" action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" name="form1" method="POST">
+			<form class="navbar-form navbar-right" 
+            action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" 
+            name="form1" method="POST">
+
 				<!-- 'title' is special; it will be used on the authenticator page. -->
-				<input type="hidden"
-				name="title"
-				value="COMP 110 Onyen Authentication">
+				<input type="hidden" name="title" value="COMP 110 Onyen Authentication">
 
 				<!-- Do we want to get the PID for this person? -->
-				<input type="hidden"
-				name="getpid"
-				value="displayName">
+				<input type="hidden" name="getpid" value="displayName">
 
-				<input id="target" type="hidden"
-				name="targetpass"
+				<input id="target" type="hidden" name="targetpass"
 				value="http://localhost:1337/login/authenticate">
 
-				<input type="hidden"
-				name="locationfailtimeout"
+				<input type="hidden" name="locationfailtimeout"
 				value="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl">
 
-				<input type="hidden"
-				name="targetfail"
+				<input type="hidden" name="targetfail"
 				value="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl">
 
-				<input type="hidden"
-				name="textpass"
-				value="You are now logged in!">
+				<input type="hidden" name="textpass" value="You are now logged in!">
 
-				<input type="submit"
-				class="btn btn-primary"
-				name="submit"
-				value="Log in">
+				<input type="submit" class="btn btn-primary" name="submit" value="Log in">
 			</form>
 			<% } %> 
 
@@ -253,313 +353,569 @@ User.find({admin: true}).exec(function(err, users) {
 
 <!-- Unviewed Feedback -->
 <div class="modal fade" id="unseenFeedbackModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
     
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Unread Feedback</h4>
-        </div>
-        <div class="modal-body" >
-          <p>You have unread feedback on the following problems:</p>
-          <ul id='unseenFeedbackBody'><ul>
-          <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Unread Feedback</h4>
       </div>
-      
+      <div class="modal-body" >
+        <p>You have unread feedback on the following problems:</p>
+        <ul id='unseenFeedbackBody'><ul>
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Pending Feedback -->
 <div class="modal fade" id="pendingFeedbackModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
     
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Pending Requests</h4>
-        </div>
-        <div class="modal-body" >
-          <p>You have pending feedback requests on the following problems:</p>
-          <ul id='pendingFeedbackBody'><ul>
-          <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Pending Requests</h4>
       </div>
-      
+      <div class="modal-body" >
+        <p>You have pending feedback requests on the following problems:</p>
+        <ul id='pendingFeedbackBody'><ul>
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+      </div>
     </div>
+  </div>
 </div>
 
 
 <!-- Pending Request Modal -->
 <div class="modal fade" id="pendingRequestModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
     
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Pending Feedback Request</h4>
-        </div>
-        <div class="modal-body">
-        	<b><span id="modalText1"></span></b><br /><br />
-        	<b><span id="modalText2"></span></b><br /><br />
-			<div class="alert alert-warning" id="submissionMessage"></div>
-			<textarea id="modalCodemirror"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" id="cancelRequest" data-dismiss="modal">Cancel Request</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Pending Feedback Request</h4>
       </div>
-      
+      <div class="modal-body">
+      	<b><span id="modalText1"></span></b><br /><br />
+        <b><span id="modalText2"></span></b><br /><br />
+			  <div class="alert alert-warning" id="submissionMessage"></div>
+	      <textarea id="modalCodemirror"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="cancelRequest" 
+          data-dismiss="modal">Cancel Request
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Submit Request Modal -->
 <div class="modal fade" id="submitRequestModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
     
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Request Feedback</h4>
-        </div>
-        <div class="modal-body">
-        	<b>Submitting a feedback request will send a notification to your professor/TAs who will review your code and respond to any questions asked in the area below.</b><br /><br />
-			<textarea name="fbResponseMessage" id="submitRequestMsg" class="form-control" placeholder="Enter questions for professor here..."></textarea><br />
-			<textarea id="requestModalCodemirror"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="submitRequest" data-dismiss="modal">Submit Request</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Request Feedback</h4>
       </div>
-      
+      <div class="modal-body">
+       	<b>Submitting a feedback request will send a notification to your professor/TAs 
+        who will review your code and respond to any questions asked in the area below.</b>
+        <br/><br/>
+			  <textarea name="fbResponseMessage" id="submitRequestMsg" class="form-control" 
+          placeholder="Enter questions for professor here...">
+        </textarea>
+        <br/>
+			  <textarea id="requestModalCodemirror"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submitRequest" 
+          data-dismiss="modal">Submit Request
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Reload Submission Modal -->
 <div class="modal fade" id="loadSubmissionModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Load Submission?</h4>
-        </div>
-        <div class="modal-body">
-        	Do you want to load this code into the current text editor?<br /><br />
-			<textarea id="reloadCodemirror"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="loadSubmission" data-dismiss="modal">Reload</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+  <div class="modal-dialog">
+   
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Load Submission?</h4>
       </div>
-      
+      <div class="modal-body">
+      	Do you want to load this code into the current text editor?<br/><br/>
+			  <textarea id="reloadCodemirror"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="loadSubmission" 
+          data-dismiss="modal">Reload
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!--Content-->
 <!--Question Info -->
-	<div id="leftSidebar" class="col-md-3"  >
-    <a type="button" id="expandSidebarIn" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Condense Sidebar">
-      <span class="glyphicon glyphicon-arrow-left " aria-hidden="true"></span>
-    </a>
-		<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Open/Close Folders">
-      <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-		</a>
-    <a type="button" id="expandSidebarOut" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar">
-      <span class="glyphicon glyphicon-arrow-right " aria-hidden="true"></span>
-    </a>
-    <div class="panel-group scrollableAccordian" id="folderAccordion" >
-    </div>
-    <!--Folder Nav-->
+<div id="leftSidebar" class="col-md-3"  >
+  <div id="vidPanel" class="panel-group" style="padding-bottom:-30px">
+     <video class="screenVid" controls="controls" >
+       <source src="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidZero.mp4" 
+       <!--<source src="http://ccocomp110.web.unc.edu/files/2016/06/vidZero.a.mp4"    -->
+       type="video/mp4"/>
+       Your browser does not support the video tag.
+     </video>
   </div>
-	<!--CODE-->
+  <div style="padding-bottom:6px;padding-top:-6px">
+<!--
+  <button type="button" class="btn btn-default" 
+    style="padding:2px;padding-right:6px;padding-left:6px">
+    <font size=+1 color=#0C5E97><b>Modules</b></font>
+  </button>
+-->
+	<a type="button" id="accDoneShow" class="btn btn-default" 
+     aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
+     title="Hide/View Done Folders">
+    <span id="accDoneShowIcon" class="glyphicon glyphicon-circle-arrow-up" 
+          aria-hidden="true">
+      <font size=+1 color=#0C5E97 face="arial"><b>Modules</b></font>
+    </span>
+	</a>
+  <a type="button" id="expandSidebarIn" class="btn btn-default" 
+     aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
+     title="Condense Sidebar">
+    <span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+  </a>
+	<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" 
+     data-toggle="tooltip" data-placement="bottom" title="Open/Close Folders">
+    <span id="accShowIcon" class="glyphicon glyphicon-folder-open" 
+          aria-hidden="true">
+    </span>
+	</a>
+  <a type="button" id="expandSidebarOut" class="btn btn-default" aria-label="Left Align" 
+     data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar">
+    <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>
+  </a>
+  </div>
+  <div class="panel-group scrollableAccordian " id="folderAccordion" style="padding-top:0px">
+
+  </div>
+  <!--Folder Nav-->
+</div>
+
+<!--CODE-->
 	<div id="right-side" class="col-md-9" style="padding-left:10px;height:100%">
-		<div class="row hidden" id="hideInst" >
-    	<div id="instructions" class='panel panel-default'>
-       	   <div class='panel-heading'> 
-	     <h3 class='panel-title'><span id="desc-title">Instructions</span></h3>
-      		</div>
-		 <div class='panel-body'> 
-  		   <div id="desc-body" >
- 		      Select a problem to run and submit.
- 		</div>
-		</div>
-	    	</div>
+		<div class="row " id="hideInst" >
+    	<div id="instructions" class='panel panel-default' >
+       	<div class='panel-heading' > 
+	        <h3 class='panel-title'>
+            <span id="desc-title" >
+ 		          <font size=+2 color="#0C5E97">
+                <b>Welcome Algorithm Architects !!</b>
+              </font>
+              <font size=+1 color="#8294A1">
+                <i>&nbsp&nbsp We will be making working stuff out of pure thought.</i>
+              </font>
+            </span>
+          </h3>
+      	</div>
+		    <div class='panel-body' style="overflow:hidden"> 
+  		    <div id="desc-body" style="overflow-y:scroll">
+            <div id="introPanel" class="vidMenu" >
+ 		          <font size=+1 color="#813829">
+              <b>These videos will get us up and running. 
+              Please watch them in order.</b>
+              </font>
+              <div style="padding-top:4px" > </div>
+<table >
+<tr>
+<td>
+              <button type='button' id="introVidButton1" 
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/introVid1.mp4' 
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 1</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video' ></span>
+                </font>
+              </button>
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/introVid1.mp4" 
+                   target="_blank" title="WOOOO">
+                  <font size=+1 color=#5F7585>
+                  <b>Overview of COMP 110</b>
+                  </font>
+                </a>
+              <br/>
+              <button type='button' id="introVidButton2"
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.navbricks.mp4'
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 2</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video'></span>
+                </font>
+              </button>
+                <!-- <a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.navbricks.mp4" --> 
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.navbricks.mp4" 
+                   target="#vidTab">
+                  <font size=+1 color=#5F7585>
+                  <b>How to navigate Bricks</b>
+                  </font>
+                </a>
+              <br/>
+              <button type='button' id="introVidButton3"
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.howsubmit.mp4'
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 3</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video'></span>
+                </font>
+              </button>
+                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.howsubmit.mp4" -->
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.howsubmit.mp4" 
+                   target="#vidTab">
+                  <font size=+1 color=#5F7585>
+                  <b>How to write, test, submit programs</b>
+                  </font>
+                </a>
+</td>
+<td>
+&nbsp &nbsp &nbsp &nbsp
+&nbsp &nbsp &nbsp &nbsp
+</td>
+<td>
+              <button type='button' id="introVidButton4"
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.helpreq.mp4'
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 4</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video'></span>
+                </font>
+              </button>
+                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.helpreq.mp4" -->
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.helpreq.mp4" 
+                   target="#vidTab">
+                  <font size=+1 color=#5F7585>
+                  <b>Requesting help on a program</b>
+                  </font>
+                </a>
+
+              <br/>
+              <button type='button' id="introVidButton4"
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4'
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 5</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video'></span>
+                </font>
+              </button>
+                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/uncLogo2.mp4" -->
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4" 
+                   target="#vidTab">
+                  <font size=+1 color=#5F7585>
+                  <b>Next topic...</b>
+                  </font>
+                </a>
+
+              <br/>
+              <button type='button' id="introVidButton4"
+                data-toggle='modal' data-target='#vidModal'
+                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4'
+                class='span4 proj-div text-right vidButton'> 
+                <font ><b>VIDEO 6</b> &nbsp 
+                  <span class='glyphicon glyphicon-facetime-video'></span>
+                </font>
+              </button>
+                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/uncLogo2.mp4" -->
+                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4" 
+                   target="#vidTab">
+                  <font size=+1 color=#5F7585>
+                  <b>Final topic...</b>
+                  </font>
+                </a>
+</td>
+</tr>
+</table>
+
+              <font size=+1 color="#813829"><b>
+                <br/>After viewing, you will be ready to 
+                work on the modules in the left side bar, in top-down order.
+              </b></font>
+            </div>
+ 		      </div>
+		    </div>
+	    </div>
 	 	</div>
-		<div class="row pointbreakdownbox" id="problemControlPanel">
-			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:25%;float:left;">
-				<button id="test" type="button" class="btn btn-warning" style="width:100%;text-align:center;" data-placement="top" title="Test Locally">Test Locally</button> 
-				<span id="submitButtonTooltip" data-placement="top" title="Submit for Score"><button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" style="width:100%;text-align:center;" id="initSubmit" disabled="disabled"  >Submit for Score</button></span>
-				<button id="reload" type="button" class="btn btn-primary hidden" style="width:60%;text-align:center;" disabled="disabled" data-placement="top" title="Reload Last" >Reload Last</button>
-        <button id="save" type="button" class="btn btn-info " style="text-align:center;float:right;width:100%"  data-placement="top" title="Save Code" >Save</button>
+
+    <div class="row" >
+    	<div id="consoleHeader" class="console" >
+    		Testing Messages
+      </div>
+    	<textarea id="console" class="textConsole" readonly> </textarea>
+    </div>
+
+		<div class="row pointbreakdownbox" id="problemControlPanel" style="margin-top:5px">
+			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:35%;float:left;">
+				<button id="test" type="button" class="btn btn-warning" 
+          style="width:49%;text-align:center;margin-bottom:3px" 
+          data-placement="top" title="Test Locally">Test Locally
+        </button> 
+				<span id="submitButtonTooltip" data-placement="top" title="Submit for Score">
+          <button data-toggle="modal" data-target="#myModal" class="btn btn-success hidden" 
+            style="width:49%;text-align:center;margin-bottom:3px;" 
+            id="initSubmit" disabled="disabled">Submit for Score
+          </button>
+        </span>
+        <button id="reload" type="button" class="btn btn-primary hidden" 
+          style="width:49%;text-align:center;margin-bottom:1px" disabled="disabled" 
+          data-placement="top" title="Reload Last" >Reload Last
+        </button>
+        <button id="save" type="button" class="btn btn-info " 
+          style="width:49%;text-align:center;float:right;margin-right:2px;margin-bottom:1px;"  
+          data-placement="top" title="Save Code" > Save
+        </button>
 			</div>
-			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
-					<b id='highestScoreLabel'>Highest Score:<br/></b>
 
-          <div id="highestCorrectDiv">
-            <span id="highestFuntionalityLabel">Functionality </span>
-            <span id="correctCheck" class="pull-right"></span>
-            <span class="badge pull-right">
-              <span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span>
-            </span>
-          </div>
-          <div id="highestStyleDiv">
-            <span id="highestStyleLabel">Style </span>
-            <span id="styleCheck" class="pull-right"></span>
-            <span class="badge pull-right">
-              <span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span>
-            </span>
-          </div>
+			<div id="recentpointbreakdown" class=" alert alert-warning sidebarBuddy hidden" 
+           style="height:75px;width:20%;float:left;">
 
+        <b id='recentScoreLabel'>Most Recent Score:<br/></b>
+
+        <div id="recentCorrectDiv">
+          <span id="recentFuntionalityLabel">Functionality </span>
+          <span id="correctCheckRecent" class="pull-right"></span>
+          <span class="badge pull-right"> 
+             <span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span>
+          </span>
+        </div>
+        <div id="recentStyleDiv">
+          <span id="recentStyleLabel">Style </span>
+          <span id="styleCheckRecent" class="pull-right"></span>
+          <span class="badge pull-right">
+             <span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span>
+          </span>
+        </div>
 			</div>
-			<div id="recentpointbreakdown" class=" alert alert-warning sidebarBuddy hidden" style="height:106px;width:25%;float:left;">
+			<div id="pointbreakdown" class=" alert alert-warning sidebarBuddy hidden" 
+        style="height:75px;width:20%;float:left;">
+				<b id='highestScoreLabel'>Highest Score:<br/></b>
 
-          <b id='recentScoreLabel'>Most Recent Score:<br/></b>
-
-          <div id="recentCorrectDiv">
-            <span id="recentFuntionalityLabel">Functionality </span><span id="correctCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtCorrect">0</span>/<span class="availablePtCorrect"></span></span>
-
-          </div>
-          <div id="recentStyleDiv">
-            <span id="recentStyleLabel">Style </span><span id="styleCheckRecent" class="pull-right"></span><span class="badge pull-right"><span id="recentPtStyle">0</span>/<span class="availablePtStyle"></span></span>
-
-          </div>
-
+        <div id="highestCorrectDiv">
+          <span id="highestFuntionalityLabel">Functionality </span>
+          <span id="correctCheck" class="pull-right"></span>
+          <span class="badge pull-right">
+            <span id="highestPtCorrect">0</span>/<span id="availptc" class="availablePtCorrect"></span>
+          </span>
+        </div>
+        <div id="highestStyleDiv">
+          <span id="highestStyleLabel">Style </span>
+          <span id="styleCheck" class="pull-right"></span>
+          <span class="badge pull-right">
+            <span id="highestPtStyle">0</span>/<span id="availpts" class="availablePtStyle"></span>
+          </span>
+        </div>
 			</div>
-			<div class="sidebarBuddy alert alert-info" style="height:106px;width:20%;float:left;" id="fontSizeBox">
+
+			<div class="sidebarBuddy alert alert-info" style="height:75px;width:14%;float:left;" 
+           id="fontSizeBox">
 				<label id="fontSizeLabel" class="control-label" for="fontSize">Font Size:</label>
 				<div class="form-group" style="margin:0px;" id="fontSizeDropdown">
 				  <select class="form-control" id="fontSize" autocomplete="off">
 				    <option value="10">10pt</option>
 				    <option value="12">12pt</option>
 				    <option value="14" selected>14pt</option>
-                                    <option value="16">16pt</option>
-				    <option value="18" >18pt</option>
-                                    <option value="20" >20pt</option>
+            <option value="16">16pt</option>
+				    <option value="18">18pt</option>
+            <option value="20">20pt</option>
 				    <option value="24">24pt</option>
-                                    <option value="28">28pt</option>
-				    <option value="32">32pt</option>
+				    <option value="28">28pt</option>
+            <option value="30">30pt</option>
 				    <option value="36">36pt</option>
-				    <option value="40">40pt</option>
-                                    <option value="44">44pt</option>
+				    <option value="46">46pt</option>
 				  </select>
 				</div>			  				
 			</div>
-      <div class="sidebarBuddy " style="width:5%;float:left;" id="expandControlPanel">
-        <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Adjust Panel Size" >
-          <span id="miniBarIcon" class="glyphicon glyphicon-resize-small" aria-hidden="true" style="font-size:15pt;margin:1px;"></span>
+
+      <div class="sidebarBuddy " style="width:5%;margin:2px;padding:0px;float:left;" id="expandControlPanel">
+        <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" 
+           data-toggle="tooltip" data-placement="top" title="Adjust Panel Size" >
+          <span id="miniBarIcon" class="glyphicon glyphicon-resize-full" aria-hidden="true" 
+             style="font-size:14pt;">
+          </span>
         </a>
       </div>
+
 		</div>
-    <div class="row">
-    		<div id="consoleHeader" class="console">
-    		Test Results Console
-            </div>
-    		<textarea id="console" class="textConsole" readonly>
-        	</textarea>
-    </div>
+
   	<!--CodeMirror Start-->
     <div class="row" style="height:100%">
-        <% if (req.isAuthenticated()) { %>
-            <textarea id="codemirror"><%=req.user.latestCode%></textarea>
-        <%} else {%>
-            <textarea id="codemirror"></textarea>
-        <%}%>
+      <% if (req.isAuthenticated()) { %>
+          <textarea id="codemirror"><%=req.user.latestCode%></textarea>
+      <%} else {%>
+          <textarea id="codemirror"></textarea>
+      <%}%>
     </div>
   	<!--CodeMirror End-->
+
     <div class="row" >
-    	<div id="submissions" class='panel panel-default hidden'>
-      		<div class='panel-heading'> 
-				<h3 class='panel-title'>Past Submissions
-                </h3>
-      		</div>
-			<table class="table" >
-			<thead>
-			<tr id="subsHead"><td>Time of submission</td>
-			<td>Functionality</td> <td>Style</td> 
-			</tr>
-			</thead>
-			<tbody id="subs"> </tbody>
-			</table>
+      <div id="submissions" class='panel panel-default hidden'>
+     	  <div class='panel-heading'> 
+				  <h3 class='panel-title'>Past Submissions </h3>
+      	</div>
+			  <table class="table" >
+			    <thead>
+			      <tr id="subsHead">
+              <td>Time of submission</td>
+			        <td>Functionality</td> 
+              <td>Style</td> 
+			      </tr>
+			    </thead>
+			    <tbody id="subs"> </tbody>
+			  </table>
 	    </div>
     </div>
     	
-    	
 		<!--
 		<button id="test" type="button" class="btn btn-default ">Test</button>
-		<button data-toggle="modal" data-target="#myModal" class="btn btn-default " id="initSubmit" disabled="disabled">Submit</button>
+		<button data-toggle="modal" data-target="#myModal" class="btn btn-default " 
+      id="initSubmit" disabled="disabled">Submit
+    </button>
 		-->
 
 		<!-- Modal -->
-        <% if (req.isAuthenticated()) { %>
 
-					 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					    <div class="modal-dialog">
-					        <div class="modal-content">
-					           <div class="modal-header">
-						      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						      <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
-						   </div>
-						   <div class="modal-body">
-						      Are you sure you want to submit your assignment?<br />
-						      Please make sure you have tested your code.
-						   </div>
-					  	   <div class="modal-footer">
-						      <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-						      <button id="submit" type="button" data-dismiss="modal" class="btn btn-primary">Submit</button>
-						   </div>
-						 </div>
-				 	    </div>
-					  </div>    
+    <% if (req.isAuthenticated()) { %>
 
-        <%} else {%>
+	  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+         aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			  <div class="modal-content">
+				  <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" 
+                    aria-hidden="true">&times;
+            </button>
+						<h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+				  </div>
+					<div class="modal-body">
+					  Are you sure you want to submit your assignment?<br />
+					  Please make sure you have tested your code.
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
+					  <button id="submit" type="button" data-dismiss="modal" 
+                    class="btn btn-primary">Submit
+            </button>
+				  </div>
+				</div>
+		  </div>
+		</div>    
 
-			         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				    <div class="modal-dialog">
-				       <div class="modal-content">
-				          <div class="modal-header">
-				             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				             <h4 class="modal-title" id="myModalLabel">Please Login</h4>
-			                  </div>
-			                  <div class="modal-body">
-				  	     You must login before you can submit a program for scoring.  <br/>
-					     Please make sure you have tested your code locally.
-					  </div>
-					  <div class="modal-footer">
-					     <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-					  </div>
-			               </div>
-			            </div> 
-			         </div>
+    <%} else {%>
 
-        <%}%>
+	  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+         aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			  <div class="modal-content">
+				  <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" 
+                    aria-hidden="true">&times;
+            </button>
+				    <h4 class="modal-title" id="myModalLabel">Please Login</h4>
+			    </div>
+			    <div class="modal-body">
+				    You must login before you can submit a program for scoring.  <br/>
+					  Please make sure you have tested your code locally.
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+					</div>
+			  </div>
+			</div> 
+	  </div>
+
+    <%}%>
+
+  </div>
+
+
+<!-- Video -->
+<div id="vidModal" class="modal fade" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width:100%">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <font size=+2><b>&times;</b></font>
+        </button>
+        <div id="vidModalLabel">
+          <label>Video for this Problem</label>
+        </div>
+      </div>
+
+      <div class="modal-body" >
+        <video class="screenVid" controls="controls" >
+          <source src=" " type="video/mp4"/>
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+<!--
+      <div class="modal-body">
+        <iframe width="854" height="480" frameborder="0" allowfullscreen>
+        </iframe>
+      </div>
+-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
+</div>
+
 <!-- Modal -->
-<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" 
+  aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <h4 class="modal-title" id="myModalLabel">Help</h4>
       </div>
       <div class="modal-body">
         <h3>Test Locally and then Submit!</h3>
-        Choose a problem from the left side bar. Once you have finished writing your code in the black box, you can test your code with the "Test Locally" button and feedback will appear in the gray box above the code editor. Once you are happy with your code the "Submit for Score" button will record your points for the professor or TA to see. Previous submissions for the problem will appear below the code editor.
+        Choose a problem from the left side bar. Once you have finished writing your code in 
+        the black box, you can test your code with the "Test Locally" button and feedback will 
+        appear in the gray box above the code editor. Once you are happy with your code the 
+        "Submit for Score" button will record your points for the professor or TA to see. 
+        Previous submissions for the problem will appear below the code editor.
 
         <h3>Feedback</h3>
-        If you're having trouble, ask for help by clicking the "Request" button next to one of your submissions.  Someone will read your request message and code and send you feedback.  When the response is avaiable you'll see a green "Unread Feedback" in the same location as the "Pending Requests" button appears in the navigation bar.  Unread feedback will have a blinking "View" button in the Past Submissions list. An unanswered feedback request can be canceled by clicking the "Pending" button.
+        If you're having trouble, ask for help by clicking the "Request" button next to one 
+        of your submissions.  Someone will read your request message and code and send you 
+        feedback.  When the response is avaiable you'll see a green "Unread Feedback" in the 
+        same location as the "Pending Requests" button appears in the navigation bar.  Unread 
+        feedback will have a blinking "View" button in the Past Submissions list. An unanswered 
+        feedback request can be canceled by clicking the "Pending" button.
 
-      <h3>Sharing</h3>
-        A professor may sometimes chose to show student's code in class for instructive purposes.  By clicking the "share" button you give permission for your code to be considered for sharing.  This permission can be revoked at any time by pressing the green "Shared" button.
+        <h3>Sharing</h3>
+        A professor may sometimes chose to show student's code in class for instructive purposes.  
+        By clicking the "share" button you give permission for your code to be considered for 
+        sharing.  This permission can be revoked at any time by pressing the green "Shared" button.
 
       </div>
       <div class="modal-footer">
