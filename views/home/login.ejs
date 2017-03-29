@@ -8,6 +8,60 @@
    .smvoffset {
         margin-top: 30px;
     }
+
+
+.image { 
+  position: relative; 
+  width: 100%; /* for IE 6 */
+}
+
+hp1 { 
+   position: absolute; 
+   top: 40px; 
+   left: 50px; 
+   width: 100%; 
+}
+
+hp1 span { 
+   color: maroon; 
+   font: bold 55px/75px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(200, 200, 200, 0.10);
+   padding: 20px; 
+}
+
+hp2 { 
+   position: absolute; 
+   top: 160px; 
+   left: 80px; 
+   width: 100%; 
+}
+
+hp2 span { 
+   color: blue; 
+   font: bold 16px/30px Arial, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(200, 200, 200, 0.55);
+}
+
+hp4 { 
+   position: absolute; 
+   top: 220px; 
+   left: -10px; 
+   width: 100%; 
+}
+
+hp4 span { 
+   color: darkslategray; 
+   font: bold 20px/40px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(200, 200, 200, 0.25);
+   padding: 10px; 
+}
+
 </style>
 
 <script>
@@ -18,18 +72,26 @@ window.onload = function () {
 };
 </script>
 
-<ul>
-<ul>
-<br/><br/>
 
-<h1><font color="maroon"><b>JavaScript Bricks</b></font></h1>
+<div class="image">
 
+<!--
+<img src="http://www.cs.unc.edu/Courses/cco-comp110/images/makeBricks3a.jpg" width=100% alt="" />
+-->
+<img src=" http://www.unc.edu/~stotts/comp110/pix/cubes-h.jpg " width=100% alt="" />
+<!--
+http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-f.jpg
+http://www.cs.unc.edu/Courses/cco-comp110/images/makeBricks3a.jpg
+http://www.unc.edu/~stotts/comp110/pix/cubes-g.jpg
+-->
+
+      
+<hp1><span>JavaScript Bricks</span></hp1>
+<hp2><span>
 <div class="container-fluid">
   <div id="loginpanel" class="left-block smvoffset">
   <div class="panel panel-default">
-    <div class="panel-heading">
-       <b>We require a UNC ONYEN</b>
-    </div>
+    <div class="panel-heading">We require a UNC ONYEN</div>
     <div class="panel-body">
       <form action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" 
             name="form1" method="POST">
@@ -45,7 +107,7 @@ window.onload = function () {
 
                 <input id="target" type="hidden"
                      name="targetpass"
-                     value="http://localhost:1337/login/authenticate">
+                     value="http://localhost:2525/login/authenticate">
 
                 <input type="hidden"
                      name="locationfailtimeout"
@@ -57,32 +119,29 @@ window.onload = function () {
 
                 <input type="hidden"
                      name="textpass"
-                     value="<b>Welcome to Bricks... ">
+                     value="Welcome to Bricks... enjoy your stay ">
 
                 <input type="submit"
                     class="btn btn-primary center-block"
                      name="submit"
-                     value="NNN Please Log in">
+                     value="Click here to log in">
             </form>
         </div>
     </div>
 </div>
+</span>
+</hp2>
 
-<br/>
-<p>
-<font color="brown" size=+1>
-<b>
+<hp4>
+<span>
 Login services are handled by campus servers.  
 <br/>
+&nbsp Your ONYEN password is not going to be known or kept by Bricks. 
 <br/>
-Your ONYEN password is not going to be known or kept by Bricks. 
-<br/>
-<br/>
-Bricks will request and store
+&nbsp Bricks will request and store
 your ONYEN id and your name for class record keeping.
-</b>
-</font>
-</p>
+</span>
+</hp4>
 
-</ul>
-</ul>
+</div>
+

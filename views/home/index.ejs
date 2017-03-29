@@ -139,6 +139,8 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
 
 #introPanel {
   background: url('http://www.unc.edu/~stotts/bricksVids/vidPanelBack0.jpg');
+  background: url('http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-f.jpg');
+  background: url('http://www.unc.edu/~stotts/comp110/pix/cubes-g.jpg');
   height:250px;
   background-size: 100%;
   background-repeat:no-repeat;
@@ -148,12 +150,15 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
   padding-left:10px;
   overflow-y:hidden;
 }
+<!--
+// vidModal not used
 #vidModal .modal-dialog {
   width:900px;
   //top:50px;
   //right:200px;
   //outline: none;
 }
+-->
 
 .vidButton {
   border-width:3px;
@@ -174,6 +179,8 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
   preload:true;
 }
 
+<!--
+// vidModal not used
 #vidModal .modal-dialog .modal-content .modal-body .video {
   border:4px solid #DC6D4C;
   border-radius:7px;
@@ -181,6 +188,7 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
   //height:200;
   preload:true;
 }
+-->
 
 #desc-body {
   border:5px;
@@ -473,14 +481,15 @@ document.title="Bricks 4.0 JavaScript";
 <!--Content-->
 <!--Question Info -->
 <div id="leftSidebar" class="col-md-3"  >
+<!--
   <div id="vidPanel" class="panel-group" style="padding-bottom:-30px">
      <video class="screenVid" controls="controls" >
        <source src="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidZero.mp4" 
-       <!--<source src="http://ccocomp110.web.unc.edu/files/2016/06/vidZero.a.mp4"    -->
        type="video/mp4"/>
        Your browser does not support the video tag.
      </video>
   </div>
+-->
   <div style="padding-bottom:6px;padding-top:-6px">
 <!--
   <button type="button" class="btn btn-default" 
@@ -488,28 +497,36 @@ document.title="Bricks 4.0 JavaScript";
     <font size=+1 color=#0C5E97><b>Modules</b></font>
   </button>
 -->
-	<a type="button" id="accDoneShow" class="btn btn-default" 
-     aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
-     title="Hide/View Done Folders">
-    <span id="accDoneShowIcon" class="glyphicon glyphicon-circle-arrow-up" 
-          aria-hidden="true">
-      <font size=+1 color=#0C5E97 face="arial"><b>Modules</b></font>
-    </span>
-	</a>
   <a type="button" id="expandSidebarIn" class="btn btn-default" 
      aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
      title="Condense Sidebar">
-    <span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
   </a>
+	<a type="button" id="accDoneShow" class="btn btn-default" 
+     aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
+     title="Hide/View Done Folders">
+    <span id="accDoneShowIcon" class="glyphicon glyphicon-check" 
+          aria-hidden="true">
+<!--
+      <font size=+1 color=#0C5E97 face="arial"><b>Modules</b></font>
+-->
+      <font size=+1 color=midnightblue face="arial"><b>Modules</b></font>
+    </span>
+	</a>
+	<a type="button" id="accFutureShow" class="btn btn-default" aria-label="Left Align" 
+     data-toggle="tooltip" data-placement="bottom" title="Hide/View Future Modules">
+    <span id="accFutureShowIcon" class="glyphicon glyphicon-eye-close" aria-hidden="true">
+    </span>
+	</a>
 	<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" 
-     data-toggle="tooltip" data-placement="bottom" title="Open/Close Folders">
+     data-toggle="tooltip" data-placement="bottom" title="Open/Close Module Folders">
     <span id="accShowIcon" class="glyphicon glyphicon-folder-open" 
           aria-hidden="true">
     </span>
 	</a>
   <a type="button" id="expandSidebarOut" class="btn btn-default" aria-label="Left Align" 
      data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar">
-    <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
   </a>
   </div>
   <div class="panel-group scrollableAccordian " id="folderAccordion" style="padding-top:0px">
@@ -525,10 +542,11 @@ document.title="Bricks 4.0 JavaScript";
        	<div class='panel-heading' > 
 	        <h3 class='panel-title'>
             <span id="desc-title" >
- 		          <font size=+2 color="#0C5E97">
+ 		          <font size=+2 color="#2C5E97"></font>
+ 		          <font size=+2 color="black">
                 <b>Welcome Algorithm Architects !!</b>
               </font>
-              <font size=+1 color="#8294A1">
+              <font size=+1 color="#4294A1">
                 <i>&nbsp&nbsp We will be making working stuff out of pure thought.</i>
               </font>
             </span>
@@ -537,123 +555,100 @@ document.title="Bricks 4.0 JavaScript";
 		    <div class='panel-body' style="overflow:hidden"> 
   		    <div id="desc-body" style="overflow-y:scroll">
             <div id="introPanel" class="vidMenu" >
- 		          <font size=+1 color="#813829">
+              <font size=+1 color="#813829"></font>
+              <font size=+1 color="brown">
               <b>These videos will get us up and running. 
               Please watch them in order.</b>
               </font>
               <div style="padding-top:4px" > </div>
-<table >
+<table>
 <tr>
 <td>
+              <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/introVid1.mp4" 
+              target="_blank" title="Video 1">
+              <font size=+1 color="darkslategray">
               <button type='button' id="introVidButton1" 
                 data-toggle='modal' data-target='#vidModal'
                 src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/introVid1.mp4' 
                 class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 1</b> &nbsp 
+                <font size=-1 color=black><b>Click for VIDEO</b> 
                   <span class='glyphicon glyphicon-facetime-video' ></span>
                 </font>
               </button>
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/introVid1.mp4" 
-                   target="_blank" title="WOOOO">
-                  <font size=+1 color=#5F7585>
-                  <b>Overview of COMP 110</b>
-                  </font>
-                </a>
+              <b>1: Overview of COMP 110</b>
+              </font>
+              </a>
+
               <br/>
+
+              <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.navbricks.mp4" 
+                 target="#vidTab" title="Video 2">
+                 <font size=+1 color="darkslategray">
               <button type='button' id="introVidButton2"
                 data-toggle='modal' data-target='#vidModal'
                 src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.navbricks.mp4'
                 class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 2</b> &nbsp 
+                <font size=-1 color=black><b>Click for VIDEO</b>
                   <span class='glyphicon glyphicon-facetime-video'></span>
                 </font>
               </button>
-                <!-- <a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.navbricks.mp4" --> 
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.navbricks.mp4" 
-                   target="#vidTab">
-                  <font size=+1 color=#5F7585>
-                  <b>How to navigate Bricks</b>
-                  </font>
-                </a>
-              <br/>
+              <b>2: How to navigate Bricks</b>
+              </font>
+              </a>
+
+</td>
+<td>
+&nbsp &nbsp
+&nbsp &nbsp
+</td>
+<td>
+              <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.howsubmit.mp4" 
+                 target="#vidTab" title="Video 3">
+                 <font size=+1 color="darkslategray">
               <button type='button' id="introVidButton3"
                 data-toggle='modal' data-target='#vidModal'
                 src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.howsubmit.mp4'
                 class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 3</b> &nbsp 
+                <font size=-1 color=black><b>Click for VIDEO</b>
                   <span class='glyphicon glyphicon-facetime-video'></span>
                 </font>
               </button>
-                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.howsubmit.mp4" -->
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.howsubmit.mp4" 
-                   target="#vidTab">
-                  <font size=+1 color=#5F7585>
-                  <b>How to write, test, submit programs</b>
-                  </font>
-                </a>
-</td>
-<td>
-&nbsp &nbsp &nbsp &nbsp
-&nbsp &nbsp &nbsp &nbsp
-</td>
-<td>
+              <b> 3: Write, test, submit a program</b>
+              </font>
+              </a>
+
+              <br/>
+
+              <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.helpreq.mp4" 
+                 target="#vidTab" title="Video 4">
+                 <font size=+1 color="darkslategray">
               <button type='button' id="introVidButton4"
                 data-toggle='modal' data-target='#vidModal'
                 src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.helpreq.mp4'
                 class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 4</b> &nbsp 
+                <font size=-1 color=black><b>Click for VIDEO</b>
                   <span class='glyphicon glyphicon-facetime-video'></span>
                 </font>
               </button>
-                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/intro.helpreq.mp4" -->
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/intro.helpreq.mp4" 
-                   target="#vidTab">
-                  <font size=+1 color=#5F7585>
-                  <b>Requesting help on a program</b>
-                  </font>
-                </a>
+              <b> 4: Requesting help on a program</b>
+              </font>
+              </a>
 
-              <br/>
-              <button type='button' id="introVidButton4"
-                data-toggle='modal' data-target='#vidModal'
-                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4'
-                class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 5</b> &nbsp 
-                  <span class='glyphicon glyphicon-facetime-video'></span>
-                </font>
-              </button>
-                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/uncLogo2.mp4" -->
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4" 
-                   target="#vidTab">
-                  <font size=+1 color=#5F7585>
-                  <b>Next topic...</b>
-                  </font>
-                </a>
-
-              <br/>
-              <button type='button' id="introVidButton4"
-                data-toggle='modal' data-target='#vidModal'
-                src='http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4'
-                class='span4 proj-div text-right vidButton'> 
-                <font ><b>VIDEO 6</b> &nbsp 
-                  <span class='glyphicon glyphicon-facetime-video'></span>
-                </font>
-              </button>
-                <!--<a href="http://ccocomp110.web.unc.edu/files/2016/06/uncLogo2.mp4" -->
-                <a href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4" 
-                   target="#vidTab">
-                  <font size=+1 color=#5F7585>
-                  <b>Final topic...</b>
-                  </font>
-                </a>
 </td>
 </tr>
 </table>
-
-              <font size=+1 color="#813829"><b>
-                <br/>After viewing, you will be ready to 
-                work on the modules in the left side bar, in top-down order.
-              </b></font>
+              <font size=+0 color="dimgray">
+                <p></p><p>
+                <b>
+                After watching the videos <font size=+3 color=darkslategray>&uarr;</font>, 
+                you will be ready to work on the 
+                <br/>
+                Modules in the left side bar, in top-down order.
+                <br/>
+                <font size=+4 color=darkslategray>&larr;</font> 
+                </b>
+                </p>
+              </font>
             </div>
  		      </div>
 		    </div>
@@ -738,7 +733,7 @@ document.title="Bricks 4.0 JavaScript";
 				    <option value="12">12pt</option>
 				    <option value="14" selected>14pt</option>
             <option value="16">16pt</option>
-				    <option value="18">18pt</option>
+				    <option value="18"> 18pt</option>
             <option value="20">20pt</option>
 				    <option value="24">24pt</option>
 				    <option value="28">28pt</option>
@@ -852,6 +847,8 @@ document.title="Bricks 4.0 JavaScript";
 
 
 <!-- Video -->
+<!-- not used -->
+<!--
 <div id="vidModal" class="modal fade" tabindex="-1" role="dialog" 
      aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -871,6 +868,7 @@ document.title="Bricks 4.0 JavaScript";
           Your browser does not support the video tag.
         </video>
       </div>
+-->
 
 <!--
       <div class="modal-body">
@@ -878,12 +876,14 @@ document.title="Bricks 4.0 JavaScript";
         </iframe>
       </div>
 -->
+<!--
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+-->
 
 <!-- Modal -->
 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" 
@@ -897,25 +897,179 @@ document.title="Bricks 4.0 JavaScript";
         <h4 class="modal-title" id="myModalLabel">Help</h4>
       </div>
       <div class="modal-body">
-        <h3>Test Locally and then Submit!</h3>
+        <a name="index"></a>
+        <h3>Onlne Help for Bricks</h3>
+        Choose from these help topics:
+        <ul>
+        <li><a href="#titlebar">Top title bar</a></li>
+        <li><a href="#modsidebar">The Modules sidebar</a></li>
+        <li><a href="#modcolors">Module colors</a></li>
+        <li><a href="#editor">Code editor</a></li>
+        <li><a href="#savecode">Saving your code</a></li>
+        <li><a href="#testlocal">Test Locally and Submit</a></li>
+        <li><a href="#feedback">Getting Feedback on a Submission</a></li>
+        <li><a href="#sharing">Sharing your work</a></li>
+        </ul>
+
+        <a name="titlebar"></a>
+        <hr>
+        <br/>
+        <h4>Top title bar</h4>
+        <p>
+        At the top of the Bricks window is a black title bar with several clickable items.
+        </p>
+        <p>
+        On the left side we have these:
+        <ul>
+        <li>
+        Bricks: <br/>this link will take you to the main Bricks home screen, the one with the intro videos.
+        </li>
+        <li>
+        Text: <br/>this link will open the class on-line electronic text book in a separate browser tab.
+        </li>
+        <li>
+        Sakai: <br/>this link will open Sakai in a separate browser tab, so you can more easily view the other class materials.
+        </li>
+        <li>
+        Help: (how you got here!) <br/>this link takes you to a pop up window with explanatory information in it.
+        </li>
+        </ul>
+        </p>
+        <p>
+        On the right side we have these:
+        <ul>
+        <li>
+        Score: <br/>
+        </li>
+        <li>
+        Name: <br/>
+        </li>
+        <li>
+        Logout: <br/>
+        </li>
+        </ul>
+        </p>
+        <a href="#index">return to index</a>
+
+        <a name="modsidebar"></a>
+        <hr>
+        <br/>
+        <h4>The Modules sidebar</h4>
+        <p>
+        The vertical panel on the left side of the Bricks window is the Modules sidebar.
+        It is a list of the lesson modules you must complete; and the order of work is
+        top down.
+        </p>
+        <p>
+        First, each module is an expandable folder containing problems to work on (VID, DIY, EXAM, WALL).
+        If you click on a module it will expand and show a list of clickable problems;
+        click again on the module and it will compress.
+        When a module is expanded, you can click on an individual problem to load the
+        information for it into the problem description window and the code editor 
+        window on the right side of Bricks.
+        </p>
+        <p>
+        There are several icons at the top where the "Modules" title is; these icons 
+        allow you to manipulate the view you get of course work.
+        The "left chevron" icon will make the Modules sidebar more narrow (take up less screen real estate).
+        The "right chevron" icon will make the Modules sidebar wider (take up more screen real estate).
+        The "checkbox" icon with the "Modules" title is a toggle that will hide/show the green (completed)
+        module folders.
+        The "eye" icon similarly is a toggle that will hide/show the future modules (light blue); future modules
+        are work we will be doing, but for which no problems have yet been released.
+        The "folder" icon is a toggle that will open/close ALL the module folders so you can more easily
+        scan for a particular problem.
+        </p>
+        <a href="#index">return to index</a>
+
+        <a name="modcolors"></a>
+        <hr>
+        <br/>
+        <h4>Module colors</h4>
+        <p>
+        Lesson Modules appear in the panel on the left side of the Bricks window.
+        Modules are meant to be completed in top-down order.
+        All modules are visible at the beginning of the course, but some will have no
+        problems released inside them.  These are "future" modules, and they have a light blue color.
+        The "eye" icon to the right of the "Modules" title can be used to hide the future, light blue
+        folders.  You may find this useful in keeping your interface uncluttered.
+        </p>
+        <p>
+        Each week I will release problems in several modules, assuming you have completed the modules
+        up to that points.
+        A module will be colored light red (pink) when it has probles to work in it, but you have not
+        yet started them.  Each week you will see new pink-red modules for the week's work.
+        </p>
+        <p>
+        Once you start working on the problems in a module... once you make a submission on a problem... the
+        module will change to a yellow color.  This shows you have started that work, but not yet completed it.
+        </p>
+        <p>
+        Once you have completed all the problems in a module (VID and DIY) the module will be colored green
+        and shows a green checkmark.  This is a quick visual indicator or where you have more work to do.
+        The checkbox icon next to the "Modules" title can be used to hide the green completed folders,
+        making your interface less cluttered.
+        </p>
+        <a href="#index">return to index</a>
+
+        <a name="editor"></a>
+        <hr>
+        <br/>
+        <h4>Code editor</h4>
+        <p>
+        Explain CodeMirror.
+        </p>
+        <a href="#index">return to index</a>
+
+        <a name="savecode"></a>
+        <hr>
+        <br/>
+        <h4>Saving your code</h4>
+        <p>
+        Explain auto-saving and manual saving.
+        Explain reloading the editor window.
+        </p>
+        <a href="#index">return to index</a>
+
+
+        <a name="testlocal"></a>
+        <hr>
+        <br/>
+        <h4>Test Locally and then Submit!</h4>
+        <p>
         Choose a problem from the left side bar. Once you have finished writing your code in 
         the black box, you can test your code with the "Test Locally" button and feedback will 
         appear in the gray box above the code editor. Once you are happy with your code the 
         "Submit for Score" button will record your points for the professor or TA to see. 
         Previous submissions for the problem will appear below the code editor.
+        </p>
+        <a href="#index">return to index</a>
 
-        <h3>Feedback</h3>
+        <a name="feedback"></a>
+        <hr>
+        <br/>
+        <h4>Feedback</h4>
+        <p>
         If you're having trouble, ask for help by clicking the "Request" button next to one 
         of your submissions.  Someone will read your request message and code and send you 
         feedback.  When the response is avaiable you'll see a green "Unread Feedback" in the 
         same location as the "Pending Requests" button appears in the navigation bar.  Unread 
         feedback will have a blinking "View" button in the Past Submissions list. An unanswered 
         feedback request can be canceled by clicking the "Pending" button.
+        </p>
+        <a href="#index">return to index</a>
 
-        <h3>Sharing</h3>
+        <a name="sharing"></a>
+        <hr>
+        <br/>
+        <h4>Sharing</h4>
+        <p>
         A professor may sometimes chose to show student's code in class for instructive purposes.  
         By clicking the "share" button you give permission for your code to be considered for 
         sharing.  This permission can be revoked at any time by pressing the green "Shared" button.
+        </p>
+        <a href="#index">return to index</a>
+
 
       </div>
       <div class="modal-footer">

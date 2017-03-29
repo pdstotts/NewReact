@@ -36,7 +36,8 @@ function addProblemToAccordian(problem,folderName){
 		var results = { correct: false, style: false };
 		$.post("/submission/read/" + problem.id, {currentUser:true}, 
            function (submissions) {
-		         if (!submissions.length == 0) {
+		         if (submissions.length !== 0) {
+			         $("#panel-" + folderName).removeClass("panel-info");
 			         $("#panel-" + folderName).removeClass("panel-danger");
 			         $("#panel-" + folderName).addClass("panel-warning");
 			         submissions.forEach( 
@@ -62,23 +63,38 @@ function addProblemToAccordian(problem,folderName){
                                    Number(problem.value.style)  ) + "</span>");
 		           $("a", link).append(probGrade);
 
-		           var currentEarned = $(earnedPointsDiv).text();
-		           var availablePoints = $(availPointsDiv).text();
-		           currentEarned = Number(currentEarned);
-		           currentEarned = currentEarned + maxScore;
+		           var availablePoints = Number($(availPointsDiv).text());
+		           var currentEarned = Number($(earnedPointsDiv).text()) + maxScore;
 		           $(earnedPointsDiv).empty().append(currentEarned);
-
-		           if(availablePoints <= currentEarned && $("#panel-" + folderName).hasClass("panel-warning")){
+            
+		           if( (currentEarned>=availablePoints) 
+                   && $("#panel-" + folderName).hasClass("panel-warning") ) {
 			           $(checkDiv).empty().append(correct("8px").css("float","right"));
+			           $("#panel-" + folderName).removeClass("panel-info");
 			           $("#panel-" + folderName).removeClass("panel-danger");
 			           $("#panel-" + folderName).removeClass("panel-warning");
 			           $("#panel-" + folderName).addClass("panel-success");
-		           }
+		           } 
+               else if ( (currentEarned==0) && (availablePoints>0) 
+                         && $("#panel-" + folderName).hasClass("panel-info") ) {
+			           $("#panel-" + folderName).removeClass("panel-info");
+			           $("#panel-" + folderName).addClass("panel-danger");
+               }
 	           } else {
 		           var probGrade = $('<span style="float:right;">' +  (Number(problem.value.correct) + 
                                  Number(problem.value.style)) +"pts</span>");
 		           $("a", link).append(probGrade);
-	           }
+
+               // problem here has no submissions
+               // but we know the folder is not empty of problems 
+               // so if it is blue we change it to red
+               if ( $("#panel-" + folderName).hasClass("panel-info") ) {
+			           $("#panel-" + folderName).removeClass("panel-info");
+			           $("#panel-" + folderName).addClass("panel-danger");
+			           $("#panel-" + folderName).removeClass("panel-warning");
+			           $("#panel-" + folderName).removeClass("panel-success");
+               }
+             }
 	         }
     );
 	}
@@ -110,21 +126,24 @@ function inProgress (pad) {
 }
 
 function addFolder (folder) {
-	var accordianFolderName = "accoridanFolder" + folder.id;
+  folder.probCount = 0;
+  var folderName = folder.name;
+	var accordianFolderName = "accordianFolder" + folder.id;
 	var toggleLabel = 
 /*
          '<a href="http://www.unc.edu/~stotts/comp110/110-L1-BS0.pptx" ' +
          'target="#pptTab"> <b>[PPT]&nbsp</b> </a>' +
 */
          '<a data-toggle="collapse" data-parent="#accordion" href="#' + 
-         accordianFolderName + '">' + folder.name + '</a>';
+         accordianFolderName + '">' + folderName + '</a>';
 	var accordian = "<div id='panel-" + accordianFolderName  + 
-        "' class='panel panel-danger panelHide'><div class='panel-heading'>" +
+        "' class='panel panel-info panelHide'><div class='panel-heading'>" +
         "<h4 class='panel-title'>" + toggleLabel + 
         " <span id='earned-"+ accordianFolderName + "'>0</span>/<span id='avail-"+ 
         accordianFolderName + "'></span><span id='check-"+ accordianFolderName + 
         "'></span></h4></div><ul id = '" + accordianFolderName + 
         "' class='panel-collapse collapse folderCollapse doneCollapse'></ul></div></div>";
+
 
 	$("#folderAccordion").append(accordian);
 	var accordianFolderBody = '';
@@ -138,23 +157,64 @@ function addFolder (folder) {
 			  var link = addProblemToAccordian(problem, accordianFolderName);
 			  folderScore += parseFloat(problem.value.style) + parseFloat(problem.value.correct);
 			  $("#" + accordianFolderName).append(link);
-		  });
+		  }
+      );
 		  $("#avail-" + accordianFolderName).empty().append(folderScore);
-	  });
+	  }
+    );
 }
 
 function addProbInfo (problem) {
-  var preParts = "<button type='button' data-toggle='modal' data-target='#vidModal' " +
+
+    if (problem.type==="diy") {
+      if (isNull(problem.vidURL)) {
+        problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidDIY.mp4";
+      }
+      var buttonPart = "<button type='button' " +
         " class='span4 proj-div text-right vidButton'> " +
         " <font > " +
-        " VIDEO <span class='glyphicon glyphicon-facetime-video'></span>" +
-        " </font></button>" +
-/*
-        '<A target="_blank" href="http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/firstProg.getStarted.mp4">&nbsp vid link</A>' + 
-*/
+        "(DIY) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        " </font></button>" ;
+      var preParts = buttonPart + "&nbsp&nbsp" ;
+    } else if (problem.type==="wall") {
+      if (isNull(problem.vidURL)) {
+        problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidWALL.mp4";
+      }
+      var buttonPart = "<button type='button' " +
+        " class='span4 proj-div text-right vidButton'> " +
+        " <font > " +
+        "(WALL) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        " </font></button>" ;
+      var preParts = buttonPart + "&nbsp&nbsp" ;
+    } else if (problem.type==="exam") {
+      if (isNull(problem.vidURL)) {
+        problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidEXAM.mp4";
+      }
+      var buttonPart = "<button type='button' " +
+        " class='span4 proj-div text-right vidButton'> " +
+        " <font > " +
+        "(EXAM) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        " </font></button>" ;
+      var preParts = buttonPart + "&nbsp&nbsp" ;
+    } else {  
+      // problem.type==="twit", or something else
+      if (isNull(problem.vidURL)) {
+        problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4";
+      }
+      var buttonPart = "<button type='button' " +
+        " class='span4 proj-div text-right vidButton'> " +
+        " <font > " +
+        "Click for VIDEO <span class='glyphicon glyphicon-facetime-video'></span>" +
+        " </font></button>" ;
+      var preParts = 
+        '<A target="_blank" href="'+problem.vidURL+'">' +
+        buttonPart +
+        "</A>" + 
         "&nbsp&nbsp" ;
+    }
+
 	if (problem.testMode == true) { 
-    preparts += "<font color=#E67E22><b>[TEST]&nbsp;</b></font>" ;
+    preParts += "<font color=#E67E22><b>[TEST]&nbsp;</b></font>" ;
   };
 	problemName = preParts + "<font color=firebrick><b>" + problem.name +"</b></font>"; 
 
@@ -169,30 +229,16 @@ function addProbInfo (problem) {
 		$("#save").css("width","23%");
 	}
 
-  if (isNull(problem.vidURL)) {
-    //problem.vidURL = "http://ccocomp110.web.unc.edu/files/2016/06/errNoVid.mp4";
-    if (problem.type==="diy") {
-      problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidDIY.mp4";
-    } else if (problem.type==="wall") {
-      problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidWALL.mp4";
-    } else if (problem.type==="exam") {
-      problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidEXAM.mp4";
-    } else {  // problem.type==="twit", or something else
-      //problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/errNoVid.mp4";
-      problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/uncLogo2.mp4";
-    }
-  }
+  //$("#vidPanel video").attr("src", problem.vidURL);
+  //$("#vidModal video").attr("src", problem.vidURL);
+  //$("#vidModalLabel span").text("Video for "+problem.name+" in "+problem.folder);
 
-  $("#vidPanel video").attr("src", problem.vidURL);
-  $("#vidModal video").attr("src", problem.vidURL);
-  $("#vidModalLabel span").text("Video for "+problem.name+" in "+problem.folder);
-
-  $("#vidModal").on('hide.bs.modal', function (e) {
-     $("#vidModal video").attr("src", $("#vidModal video").attr("src"));
-  });
-  $("#vidModal").draggable({
-     handle: ".modal-header"
-  });
+  //$("#vidModal").on('hide.bs.modal', function (e) {
+  //   $("#vidModal video").attr("src", $("#vidModal video").attr("src"));
+  //});
+  //$("#vidModal").draggable({
+  //   handle: ".modal-header"
+  //});
 
 	$("#recentpointbreakdown").addClass("hidden");
   	$("#desc-title").empty().append(problemName);
@@ -531,7 +577,7 @@ function resizeWindow() {
 
 function submitFoldersReload(folderid) {
 	//reload accordian folder for a single folder (ie after you make a submission within it)
-	var accordianFolderName = "accoridanFolder" + folderid;
+	var accordianFolderName = "accordianFolder" + folderid;
 	$("#" + accordianFolderName).empty();
 	var earnedPointsDiv = "#earned-" +accordianFolderName;
 	$(earnedPointsDiv).empty().append(0);
@@ -812,7 +858,7 @@ function makeMiniBar(){
 	$("#test").css("width","24%");
 	$("#initSubmit").css("width","24%");
 	$("#reload").css("width","24%");
-	$("#save").css("width","23%");
+	$("#save").css("width","24%");
 	$("#test").html('<span class="glyphicon glyphicon-play"  ></span>');
 	$("#initSubmit").html('<span class="glyphicon glyphicon-send" ></span>');
 	$("#reload").html('<span class="glyphicon glyphicon-open" ></span>');
@@ -1068,9 +1114,9 @@ window.onload = function () {
 		}
 	});	
 
-  $("#vidModal").on('hide.bs.modal', function (e) {
-     $("#vidModal iframe").attr("src", $("#vidModal iframe").attr("src"));
-  })
+  //$("#vidModal").on('hide.bs.modal', function (e) {
+  //   $("#vidModal iframe").attr("src", $("#vidModal iframe").attr("src"));
+  //})
 
 	$('#submitRequestModal').on('shown.bs.modal', function (e) {
 		requestModalEditor.refresh();
@@ -1086,11 +1132,11 @@ window.onload = function () {
 
   $('.vidButton').click(function(){
      var src = $(this).attr('src'); 
-     $('#vidModal video').attr('src', src);
-     $('#vidPanel video').attr('src', src);
-     $("#vidModal").draggable({
-       handle: ".modal-header"
-     });
+     //$('#vidModal video').attr('src', src);
+     //$('#vidPanel video').attr('src', src);
+     //$("#vidModal").draggable({
+     //  handle: ".modal-header"
+     //});
   });
 	
 	$("#test").click(function () {
@@ -1196,14 +1242,27 @@ window.onload = function () {
 	});
 
 	$('#accDoneShow').on('click', function() {
-	  if($("#accDoneShowIcon").hasClass('glyphicon-circle-arrow-up')) {
-	     $("#accDoneShowIcon").removeClass('glyphicon-circle-arrow-up');
-	     $("#accDoneShowIcon").addClass('glyphicon-circle-arrow-down');
+	  if($("#accDoneShowIcon").hasClass('glyphicon-check')) {
+	     $("#accDoneShowIcon").removeClass('glyphicon-check');
+	     $("#accDoneShowIcon").addClass('glyphicon-unchecked');
 	     $('.panel-success').addClass('hidden');
 	  } else {
-	     $("#accDoneShowIcon").removeClass('glyphicon-circle-arrow-down');
-	     $("#accDoneShowIcon").addClass('glyphicon-circle-arrow-up');
+	     $("#accDoneShowIcon").removeClass('glyphicon-unchecked');
+	     $("#accDoneShowIcon").addClass('glyphicon-check');
 	     $('.panel-success').removeClass('hidden');
+	  }
+	  return false;
+	});
+
+	$('#accFutureShow').on('click', function() {
+	  if($("#accFutureShowIcon").hasClass('glyphicon-eye-close')) {
+	     $("#accFutureShowIcon").removeClass('glyphicon-eye-close');
+	     $("#accFutureShowIcon").addClass('glyphicon-eye-open');
+	     $('.panel-info').addClass('hidden');
+	  } else {
+	     $("#accFutureShowIcon").removeClass('glyphicon-eye-open');
+	     $("#accFutureShowIcon").addClass('glyphicon-eye-close');
+	     $('.panel-info').removeClass('hidden');
 	  }
 	  return false;
 	});
