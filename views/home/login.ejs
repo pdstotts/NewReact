@@ -9,7 +9,6 @@
         margin-top: 30px;
     }
 
-
 .image { 
   position: relative; 
   width: 100%; /* for IE 6 */
@@ -78,7 +77,7 @@ window.onload = function () {
 <!--
 <img src="http://www.cs.unc.edu/Courses/cco-comp110/images/makeBricks3a.jpg" width=100% alt="" />
 -->
-<img src=" http://www.unc.edu/~stotts/comp110/pix/cubes-h.jpg " width=100% alt="" />
+<img src=" https://www.unc.edu/~stotts/comp110/pix/cubes-h.jpg " width=100% alt="" />
 <!--
 http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-f.jpg
 http://www.cs.unc.edu/Courses/cco-comp110/images/makeBricks3a.jpg
@@ -98,7 +97,7 @@ http://www.unc.edu/~stotts/comp110/pix/cubes-g.jpg
         <!-- 'title' is special; it will be used on the authenticator page. -->
         <input type="hidden"
            name="title"
-           value="COMP 110 Onyen Authentication">
+           value="UNC Onyen Authentication">
 
            <!-- Do we want to get the PID for this person? -->
              <input type="hidden"
@@ -119,12 +118,27 @@ http://www.unc.edu/~stotts/comp110/pix/cubes-g.jpg
 
                 <input type="hidden"
                      name="textpass"
-                     value="Welcome to Bricks... enjoy your stay ">
+                     value="Welcome to Bricks... Enjoy your stay ">
 
                 <input type="submit"
                     class="btn btn-primary center-block"
                      name="submit"
                      value="Click here to log in">
+
+                <!-- pick a background image -->
+                <input type="hidden"
+                       name="backgroundimage"
+                       value="http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-h1.jpg">
+
+                <!-- pick a Casscading Style Sheet -->
+                <input type="hidden"
+                       name="csslink"
+                       value="https://xkcd.com/s/46a610.css" >
+<!-- 
+                       value="https://www.cs.unc.edu/Courses/cco-comp110/images/onyenLogin.css"> 
+-->
+
+
             </form>
         </div>
     </div>

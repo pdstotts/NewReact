@@ -103,8 +103,8 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
    overflow-x: auto;
 }
 .console {
- 	 background-color: #2a2b2b;
-   color: #dddddd;
+ 	 background-color: #3a2b2b;
+   color: #eeeeff;
    padding: 3px 10px;
    margin-top: -4px;
 }
@@ -113,6 +113,14 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
    background-color: #edeff0;
 }
 
+
+.navbar-button {
+  width:36px;
+  height:36px;
+  margin:6px;
+  padding:7px;
+  float:left;
+}
 
 .sidebarBuddy {
   padding-top:3px;
@@ -159,6 +167,7 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
   //outline: none;
 }
 -->
+
 
 .vidButton {
   border-width:3px;
@@ -242,6 +251,8 @@ div.pds_hidden {
   width: 100%;
   height: 100%;
 }
+
+
 </style>
 
 <script src="lib/codemirror.js"></script>
@@ -301,16 +312,6 @@ document.title="Bricks 4.0 JavaScript";
          > <b>Sakai</b> </a>
 			<a class="navbar-brand" data-toggle="modal" data-target="#helpModal"
          > <b>Help</b> </a>
-<!--
-			<a class="navbar-brand" target="_blankCHAT"
-			   href="https://piazza.com/class/if8d7mzckfx7mr" 
-         data-toggle="tooltip" data-placement="bottom" title="Class discussion board"
-         > <b>Piazza</b> </a>
-			<a class="navbar-brand" href="http://www.cs.unc.edu/~stotts/COMP110-f15/" 
-         target="_blankWEB" 
-         data-toggle="tooltip" data-placement="bottom" title="Web page for the course"
-         > <b>Web</b> </a>
--->
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -320,9 +321,23 @@ document.title="Bricks 4.0 JavaScript";
         <p class="navbar-text">Score: <span id="grade">0/0</span></p>
 
         <% if (req.user.admin == true) { %>
-          <p class="navbar-text"><a id='adminToggle' style='color:#D2D2D2;'><%= req.user.displayName %></a></p>
+          <p class="navbar-text"><a id='adminToggle' style='color:skyblue;'><%= req.user.displayName %></a></p>
         <% } else { %>
           <p class="navbar-text"><%= req.user.displayName %></p>
+        <% } %>
+
+        <% if (req.user.admin == true) { %>
+          <div class="topbarBuddy " 
+               style="width:4%;margin:3px;padding:5px;float:left;" id="togAdminStuElt">
+            <a type="button" id="togAdminStu" class="btn btn-navbar-button" aria-label="Left Align" 
+               data-toggle="tooltip" data-placement="bottom" title="Admin / Instructor Mode" >
+              <span id="adminStuIcon" class="glyphicon glyphicon-font" aria-hidden="true" 
+                style="font-size:14pt;">
+              </span>
+            </a>
+          </div>
+        <% } else { %> 
+        <!-- install a grab pub code icon -->
         <% } %>
 
 				<form class="navbar-form navbar-right">
@@ -491,44 +506,64 @@ document.title="Bricks 4.0 JavaScript";
   </div>
 -->
   <div style="padding-bottom:6px;padding-top:-6px">
-<!--
-  <button type="button" class="btn btn-default" 
-    style="padding:2px;padding-right:6px;padding-left:6px">
-    <font size=+1 color=#0C5E97><b>Modules</b></font>
-  </button>
--->
+	<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" 
+     data-toggle="tooltip" data-placement="bottom" title="Open/Close All Module Folders">
+      <font size=+1 color=midnightblue face="arial"><b>Modules &nbsp</b></font>
+    <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true" 
+       style="font-size:12pt;">
+    </span>
+	</a>
+  </div>
+
+  <div style="padding-bottom:6px;padding-top:-6px">
   <a type="button" id="expandSidebarIn" class="btn btn-default" 
-     aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
-     title="Condense Sidebar">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+     data-toggle="tooltip" data-placement="bottom" title="Condense Sidebar"
+     aria-label="Left Align"> 
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"
+       style="font-size:12pt;">
+    </span>
   </a>
+  <a type="button" id="expandSidebarOut" class="btn btn-default" 
+     data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar"
+     aria-label="Left Align">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"
+       style="font-size:12pt;">
+    </span>
+  </a>
+<!--
+	<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" 
+     data-toggle="tooltip" data-placement="bottom" title="Open/Close Module Folders">
+    <span id="accShowIcon" class="glyphicon glyphicon-folder-open" aria-hidden="true" 
+       style="font-size:12pt;">
+    </span>
+	</a>
+-->
 	<a type="button" id="accDoneShow" class="btn btn-default" 
      aria-label="Left Align" data-toggle="tooltip" data-placement="bottom" 
      title="Hide/View Done Folders">
-    <span id="accDoneShowIcon" class="glyphicon glyphicon-check" 
-          aria-hidden="true">
-<!--
-      <font size=+1 color=#0C5E97 face="arial"><b>Modules</b></font>
--->
-      <font size=+1 color=midnightblue face="arial"><b>Modules</b></font>
+    <span id="accDoneShowIcon" class="glyphicon glyphicon-check" aria-hidden="true"
+       style="font-size:13pt;">
     </span>
 	</a>
 	<a type="button" id="accFutureShow" class="btn btn-default" aria-label="Left Align" 
      data-toggle="tooltip" data-placement="bottom" title="Hide/View Future Modules">
-    <span id="accFutureShowIcon" class="glyphicon glyphicon-eye-close" aria-hidden="true">
+    <span id="accFutureShowIcon" class="glyphicon glyphicon-eye-close" aria-hidden="true"
+       style="font-size:13pt;">
     </span>
 	</a>
-	<a type="button" id="accShow" class="btn btn-default" aria-label="Left Align" 
-     data-toggle="tooltip" data-placement="bottom" title="Open/Close Module Folders">
-    <span id="accShowIcon" class="glyphicon glyphicon-folder-open" 
-          aria-hidden="true">
-    </span>
-	</a>
-  <a type="button" id="expandSidebarOut" class="btn btn-default" aria-label="Left Align" 
-     data-toggle="tooltip" data-placement="bottom" title="Expand Sidebar">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-  </a>
+<!--
   </div>
+  <div class="sidebarBuddy" style="width:0.5in;margin:0px;padding-left:5px;float:left;" 
+       id="getPubCodeArea">
+-->
+    <a type="button" id="getPubCode" class="btn btn-info" aria-label="Left Align" 
+       data-toggle="tooltip" data-placement="top" title="Get Published Code, if any" >
+      <span id="getPubCodeIcon" class="glyphicon glyphicon-cloud-download" 
+        aria-hidden="true" style="font-size:14pt;">
+      </span>
+    </a>
+  </div>
+
   <div class="panel-group scrollableAccordian " id="folderAccordion" style="padding-top:0px">
 
   </div>
@@ -547,7 +582,7 @@ document.title="Bricks 4.0 JavaScript";
                 <b>Welcome Algorithm Architects !!</b>
               </font>
               <font size=+1 color="#4294A1">
-                <i>&nbsp&nbsp We will be making working stuff out of pure thought.</i>
+                <i> &nbsp  We will be making working stuff out of pure thought.</i>
               </font>
             </span>
           </h3>
@@ -662,7 +697,7 @@ document.title="Bricks 4.0 JavaScript";
     	<textarea id="console" class="textConsole" readonly> </textarea>
     </div>
 
-		<div class="row pointbreakdownbox" id="problemControlPanel" style="margin-top:5px">
+		<div class="row pointbreakdownbox" id="problemControlPanel" style="margin-top:4px;">
 			<div class="sidebarBuddy alert alert-info" style="padding:2px;width:35%;float:left;">
 				<button id="test" type="button" class="btn btn-warning" 
           style="width:49%;text-align:center;margin-bottom:3px" 
@@ -733,18 +768,18 @@ document.title="Bricks 4.0 JavaScript";
 				    <option value="12">12pt</option>
 				    <option value="14" selected>14pt</option>
             <option value="16">16pt</option>
-				    <option value="18"> 18pt</option>
+				    <option value="18">18pt</option>
             <option value="20">20pt</option>
 				    <option value="24">24pt</option>
 				    <option value="28">28pt</option>
-            <option value="30">30pt</option>
+            <option value="32">30pt</option>
 				    <option value="36">36pt</option>
-				    <option value="46">46pt</option>
+				    <option value="40">46pt</option>
 				  </select>
 				</div>			  				
 			</div>
 
-      <div class="sidebarBuddy " style="width:5%;margin:2px;padding:0px;float:left;" id="expandControlPanel">
+      <div class="sidebarBuddy " style="width:5%;margin:0px;padding:1px;float:left;" id="expandControlPanel">
         <a type="button" id="miniBar" class="btn btn-default" aria-label="Left Align" 
            data-toggle="tooltip" data-placement="top" title="Adjust Panel Size" >
           <span id="miniBarIcon" class="glyphicon glyphicon-resize-full" aria-hidden="true" 
@@ -753,7 +788,40 @@ document.title="Bricks 4.0 JavaScript";
         </a>
       </div>
 
+      <% if (req.user.admin == true) { %>
+
+        <div class="sidebarBuddy" style="width:3%;margin:0px;padding:1px;float:left;" 
+             id="pubCodeArea">
+          <a type="button" id="pubCode" class="btn btn-success" aria-label="Left Align" 
+             data-toggle="tooltip" data-placement="top" title="Publish Editor Code" >
+            <span id="pubCodeIcon" class="glyphicon glyphicon-share" aria-hidden="true" 
+              style="font-size:14pt;">
+            </span>
+          </a>
+        </div>
+
+
+        <!-- install a grab pub code icon -->
+<!--
+        <div class="sidebarBuddy" style="width:0.5in;margin:0px;padding-left:5px;float:right;" 
+             id="getPubCodeArea">
+          <a type="button" id="getPubCode" class="btn btn-mellow" aria-label="Left Align" 
+             data-toggle="tooltip" data-placement="top" title="Get Published Code" >
+            <span id="getPubCodeIcon" class="glyphicon glyphicon-cloud-download" 
+              aria-hidden="true" style="font-size:14pt;">
+            </span>
+          </a>
+        </div>
+-->
+
+      <% } else { %> 
+        <!-- install a grab pub code icon -->
+        <!-- if you are not admin -->
+
+      <% } %>
+
 		</div>
+
 
   	<!--CodeMirror Start-->
     <div class="row" style="height:100%">
@@ -898,7 +966,7 @@ document.title="Bricks 4.0 JavaScript";
       </div>
       <div class="modal-body">
         <a name="index"></a>
-        <h3>Onlne Help for Bricks</h3>
+        <h3>Online Help for Bricks</h3>
         Choose from these help topics:
         <ul>
         <li><a href="#titlebar">Top title bar</a></li>
@@ -911,6 +979,10 @@ document.title="Bricks 4.0 JavaScript";
         <li><a href="#sharing">Sharing your work</a></li>
         </ul>
 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
         <a name="titlebar"></a>
         <hr>
         <br/>
@@ -921,32 +993,25 @@ document.title="Bricks 4.0 JavaScript";
         <p>
         On the left side we have these:
         <ul>
-        <li>
-        Bricks: <br/>this link will take you to the main Bricks home screen, the one with the intro videos.
-        </li>
-        <li>
-        Text: <br/>this link will open the class on-line electronic text book in a separate browser tab.
-        </li>
-        <li>
-        Sakai: <br/>this link will open Sakai in a separate browser tab, so you can more easily view the other class materials.
-        </li>
-        <li>
-        Help: (how you got here!) <br/>this link takes you to a pop up window with explanatory information in it.
-        </li>
+        <li> <b>Bricks:</b> this link will take you to the main Bricks home screen, the one 
+        with the intro videos.  </li>
+        <li> <b>Text:</b> this link will open the class on-line electronic text book in 
+        a separate browser tab.  </li>
+        <li> <b>Sakai:</b> this link will open Sakai in a separate browser tab, so you can 
+        more easily view the other class materials.  </li>
+        <li> <b>Help:</b> (how you got here!) this link takes you to a pop up window with 
+        explanatory information in it.  </li>
         </ul>
         </p>
         <p>
         On the right side we have these:
         <ul>
-        <li>
-        Score: <br/>
-        </li>
-        <li>
-        Name: <br/>
-        </li>
-        <li>
-        Logout: <br/>
-        </li>
+        <li> <b>Score:</b> This data field shows your cumulative points earned compared 
+        to the max possible points.  </li>
+        <li> <b>Name:</b> This data field shows the user name that is recorded 
+        for your onyen.  </li>
+        <li> <b>Logout:</b> Click here to end your Bricks session.  
+        All editing will be saved. </li>
         </ul>
         </p>
         <a href="#index">return to index</a>
@@ -1017,7 +1082,42 @@ document.title="Bricks 4.0 JavaScript";
         <br/>
         <h4>Code editor</h4>
         <p>
-        Explain CodeMirror.
+        The code editor window is the large black panel that takes up most of the right side of Bricks.
+        This is a "wysiwyg" text editor that knows something about the syntax of JavaScript.
+        You may used your mouse to cut and paste in the editor window, as with most text editors.
+        You will notice that as you type in program text, the editor will highlight and color some of your text
+        to help you recognize the structure of your program.  The colors will also help you find mistakes
+        as your type.
+        </p>
+        <p>
+        Orange is used for keywords such as "function" and "var".  Orange is also used for text strings.
+        White is used for global variable names, as well as for function names, and strings that are not 
+        recognized as parts of the language (such as mis-spelled variable names).
+        Teal is used for declared local variables and for number constants.
+        Light blue is used for field names and method names in objects.
+        </p>
+        <p>
+        You may enter text into the window from the keyboard, or from the cut/paste buffer.
+        Bricks also has a couple shortcut methods for loading your previous programs into the
+        editor window for you to build new code based on older code.
+        <ul>
+        <li>
+         Below the code editor window is a clickable list of every program you have submitted for
+         the current problem.  If you click on a submission link, you will get a window showing you
+         the code for that submission.  A button will be at the bottom of that window that will load
+         that code into the editor window.  <b>Note that loading code this way will stomp over any
+         code you may have in the editor window already</b>.  If you need to save code that is in
+         the editor window first, you may submit it (to the Bricks database) or use the "Save Code"
+         button in the mini-bar.
+        </li>
+        <br/>
+        <li>
+         <b>Reload Last:</b> this button appears in the mini-bar above the editor window.  It is the dark
+         blue button, in with the orange, green, and light blue buttons.
+         Clicking this button is a short cut for reloading the code for the most recent submission (the top
+         link in the clickable submissions list).
+        </li>
+        </ul>
         </p>
         <a href="#index">return to index</a>
 

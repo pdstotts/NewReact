@@ -2,6 +2,7 @@ var curProblem = null;
 var unseenFeedback = null;
 var pretendStudent = false;
 var miniBar = true;
+var codeIsPub = false;
 
 function isNull(item){
 	if (item==null || item=="null" || item=="" || item=='') { return true; }
@@ -954,19 +955,63 @@ function makeFullBar(){
 
 }
 
+function publishCode(){
+  if($("#pubCodeIcon").hasClass('glyphicon-share')) {
+    $("#pubCodeIcon").removeClass('glyphicon-share');
+  }
+  $("#pubCodeIcon").addClass('glyphicon-ban-circle');
+
+  var code = editor.getValue();
+  $.post("/share/publish/", {donorname:"_SUPER_USER__", code:code}, 
+      function(share) {
+      	console.log("publish code");
+      }
+  );
+}
+
+function unpublishCode(){
+  if($("#pubCodeIcon").hasClass('glyphicon-ban-circle')) {
+    $("#pubCodeIcon").removeClass('glyphicon-ban-circle');
+  }
+  $("#pubCodeIcon").addClass('glyphicon-share');
+   
+  $.post("/share/unpublish/", {donorname:"_SUPER_USER__"}, 
+      function(share) {
+     	  console.log("un-publish code");
+      }
+  );
+}
+
+function getPublishedCode(){
+  $.post("/share/getpublished/", {donorname:"_SUPER_USER__"}, 
+      function(share) {
+     	  console.log("get published code");
+        var txt = share.code;
+        if (!(txt==null)) { 
+          editor.setValue(txt); 
+          setConsoleResultMessage("Published code is now in the editor window")
+        }
+        else {
+          setConsoleResultMessage("There is no published code at this time")
+        }
+      }
+  );
+}
+
 window.onload = function () {
 
-	(function () {
-		var u = document.URL.split("/");
-		u.pop();
-		$("#target").val(u.join("/") + "/login/authenticate");
-	})();
+	( function() { var u = document.URL.split("/"); 
+                 u.pop(); 
+                 $("#target").val(u.join("/") + "/login/authenticate");
+	             }
+
+  )();
     
     $.post("/setting/read/", {name: "feedback"}, function(setting){
         if(setting.on == true || setting.on == "true"){
             feedbackOn = true;
 			$("#subsHead").append("<td>Feedback</td>");
-	        $.post("/submission/read/", {feedbackSeen: false,currentUser:true}, function(submissions){
+	        $.post("/submission/read/", {feedbackSeen:false, currentUser:true}, function(submissions){
 	        	unseenFeedback = submissions.length;
 	        	if(submissions.length > 0){
 				    var modalLink = $("<button></button>")
@@ -1012,19 +1057,20 @@ window.onload = function () {
     updateScore();
 
     if (miniBar) { makeMiniBar(); } else { makeFullBar(); }
+    if (codeIsPub) { publishCode(); } else { unpublishCode(); }
 
     //save student's code on interval
     setInterval(
         function() {
           //save current code into user modelget  
             var code = editor.getValue();
-            $.post("/user/saveCode", {code: code}, function(user) {
+            $.post("/user/saveCode/", {code: code}, function(user) {
             });
         },
         120000 /* 120000ms = 2 min*/
     );
     $("#folderAccordion").empty();
-	$.post("/folder/read", {}, function (folders) {
+	$.post("/folder/read/", {}, function (folders) {
 		folders.forEach( function (folder) {
 			addFolder(folder);
 		});
@@ -1282,6 +1328,30 @@ window.onload = function () {
 	  return false;
 	});
 
+
+	$('#pubCode').on('click', function() {
+	  if($("#pubCodeIcon").hasClass('glyphicon-share')) {
+	     $("#pubCodeIcon").removeClass('glyphicon-share');
+	     $("#pubCodeIcon").addClass('glyphicon-ban-circle');
+       $("#pubCode").attr('title', 'Un-Publish Editor Code').tooltip('fixTitle').tooltip('show');
+       $("#pubCode").removeClass('btn-success');
+       $("#pubCode").addClass('btn-danger');
+	     publishCode();
+	     codeIsPub = true;
+	  } else {
+	     $("#pubCodeIcon").removeClass('glyphicon-ban-circle');
+	     $("#pubCodeIcon").addClass('glyphicon-share');
+       $("#pubCode").attr('title', 'Publish Editor Code').tooltip('fixTitle').tooltip('show');
+       $("#pubCode").removeClass('btn-danger');
+       $("#pubCode").addClass('btn-success');
+	     unpublishCode();
+	     codeIsPub = false;
+	  }
+	  return false;
+	});
+
+	$('#getPubCode').on('click', function() { getPublishedCode(); return false; } );
+
 	resizeWindow();
 	editor.refresh();
 	$( window ).resize( function(){ resizeWindow(); editor.refresh(); } );
@@ -1358,22 +1428,26 @@ window.onload = function () {
 	});
 
 	if($("#adminToggle").length != 0 ){
-		$("#adminToggle").click(function (event) {
-			if(pretendStudent == true){
-				alert("You are now in the admin view, meaning you can see Test Mode" +
-              " problems. Click here again to toggle back to student view.")
-				pretendStudent = false;
-			}else {
-				alert("You are now in the student view, meaning you cannot see Test Mode" +
-              " problems. Click here again to toggle back to admin view.")
-				pretendStudent = true;
-			}
-			foldersReload();
-        });
+		$("#adminToggle").click(
+       function (event) {
+			   if(pretendStudent==true) {
+				   alert("You are now in the admin view, meaning you can see Test Mode" +
+                 " problems. Click here again to toggle back to student view.")
+				   pretendStudent=false;
+			   } 
+         else {
+				   alert("You are now in the student view, meaning you cannot see Test Mode" +
+                 " problems. Click here again to toggle back to admin view.")
+				   pretendStudent=true;
+			   }
+		     foldersReload();
+       }
+     );
 
 	}
 
 };
+
 
 
 
