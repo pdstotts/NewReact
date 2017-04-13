@@ -171,30 +171,33 @@ function addProbInfo (problem) {
       if (isNull(problem.vidURL)) {
         problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidDIY.mp4";
       }
-      var buttonPart = "<button type='button' " +
-        " class='span4 proj-div text-right vidButton'> " +
+      var buttonPart = "<button type='button' disabled " +
+        " class='span4 proj-div text-right noVidButton'> " +
         " <font > " +
-        "(DIY) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        "(DIY, no video) " +
+        // "<span class='glyphicon glyphicon-menu-hamburger'></span>" +
         " </font></button>" ;
       var preParts = buttonPart + "&nbsp&nbsp" ;
     } else if (problem.type==="wall") {
       if (isNull(problem.vidURL)) {
         problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidWALL.mp4";
       }
-      var buttonPart = "<button type='button' " +
-        " class='span4 proj-div text-right vidButton'> " +
+      var buttonPart = "<button type='button' disabled " +
+        " class='span4 proj-div text-right noVidButton'> " +
         " <font > " +
-        "(WALL) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        "(WALL, No VIDEO) " +
+        // "<span class='glyphicon glyphicon-menu-hamburger'></span>" +
         " </font></button>" ;
       var preParts = buttonPart + "&nbsp&nbsp" ;
     } else if (problem.type==="exam") {
       if (isNull(problem.vidURL)) {
         problem.vidURL = "http://www.cs.unc.edu/Courses/cco-comp110/bricksVids/vidEXAM.mp4";
       }
-      var buttonPart = "<button type='button' " +
-        " class='span4 proj-div text-right vidButton'> " +
+      var buttonPart = "<button type='button' disabled " +
+        " class='span4 proj-div text-right noVidButton'> " +
         " <font > " +
-        "(EXAM) No VIDEO <span class='glyphicon glyphicon-menu-hamburger'></span>" +
+        "(EXAM, No VIDEO) " +
+        // "<span class='glyphicon glyphicon-menu-hamburger'></span>" +
         " </font></button>" ;
       var preParts = buttonPart + "&nbsp&nbsp" ;
     } else {  
@@ -678,6 +681,9 @@ function studentScore(){ //recalculate and re-store the student's score
 function setConsoleResultMessage(msg) {
 	$("#console").empty();
 	if(msg){
+    //$('#console).style.font-family = "arial";
+    //$('#console).style.font-size = "22px";
+    //$('#console).style.color = #FFCCAA;
 		$("#console").append(msg);
 		var eachLine = msg.split('\n');
 		$('#console').attr("rows", eachLine.length);
@@ -989,10 +995,14 @@ function getPublishedCode(){
         var txt = share.code;
         if (!(txt==null)) { 
           editor.setValue(txt); 
-          setConsoleResultMessage("Published code is now in the editor window")
+          setConsoleResultMessage(
+            "Published code is now in the editor window\n "
+          )
         }
         else {
-          setConsoleResultMessage("There is no published code at this time")
+          setConsoleResultMessage(
+            "There is no published code at this time\n "
+          )
         }
       }
   );

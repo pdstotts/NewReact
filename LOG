@@ -4,7 +4,6 @@
 express middleware for passport
 [Error: Module did not self-register.]
 js-bson: Failed to load c++ bson extension, using pure JS version
-[31merror[39m: Ignoring attempt to bind route (/project) to unknown view: home/project
 [32minfo[39m: 
 [32minfo[39m: 
 [32minfo[39m:    Sails.js           <|
@@ -22,94 +21,102 @@ js-bson: Failed to load c++ bson extension, using pure JS version
 [32minfo[39m: To shut down Sails, press <CTRL> + C at any time.
 
 [34mdebug[39m: --------------------------------------------------------
-[34mdebug[39m: :: Sun Apr 02 2017 00:21:22 GMT-0400 (EDT)
+[34mdebug[39m: :: Thu Apr 13 2017 13:51:22 GMT-0400 (EDT)
 [34mdebug[39m: 
 [34mdebug[39m: Environment	: development
 [34mdebug[39m: Port		: 2525
 [34mdebug[39m: --------------------------------------------------------
-Sun, 02 Apr 2017 04:21:29 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:125:22
-Sun, 02 Apr 2017 04:21:29 GMT connect deprecated res.on("header"): use on-headers npm module instead at node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/session.js:248:9
-[32minfo[39m: handshake authorized _koF0bb4Sq-rOYAH5WFr
+[32minfo[39m: handshake authorized VBYLPlf7snHWN2eTcOi1
+Thu, 13 Apr 2017 17:51:29 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:125:22
+Thu, 13 Apr 2017 17:51:29 GMT connect deprecated res.on("header"): use on-headers npm module instead at node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/session.js:248:9
+[32minfo[39m: handshake authorized SZ5p77ffTYT-KhBJcOi2
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized icfvXjCDnAFImMjEcOi3
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized nfAW_nmAKF9CsV-_cOi4
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized 7bu0H9VlBlzhnGJ9cOi5
 [32minfo[39m: transport end (undefined)
 { user: '54de499a7052a3b34b9074c5' }
 { admin: true,
   createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
   currentScore: 174.5,
   displayName: '_Dr. JavaScript',
-  latestCode: '"use strict";\n\nvar rawNum = prompt("give me a number");\nrawNum = Number(rawNum);\n\nalert( Math.floor(rawNum) );\n',
-  updatedAt: Sun Apr 02 2017 00:17:42 GMT-0400 (EDT),
+  latestCode: ' function myMain() {\n     var num;\n     var foo = 5;\n     num = foo * 2;\n     foo = foo - 1;\n     num = num + (foo * 2);\n     alert(num); \n  }\n\n  myMain();',
+  updatedAt: Thu Apr 13 2017 13:50:32 GMT-0400 (EDT),
   username: 'stotts',
   id: '54de499a7052a3b34b9074c5' }
-[32minfo[39m: handshake authorized 5Nbjl2U28BEqvGFN5WFs
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized orMTN-whm0-qKZSE5WFt
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized hQoGiPaQ26QfeqC75WFu
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized g-YdtE_lGkLRCBoq5WFv
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized Hen5xQOPv8R1OtXo5WFw
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized UtRIA1zx9z55kq-U5WFx
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized 4ZC1QRfqZfrOZZi85WFy
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized n7-QNPwEuMk9L7UD5WFz
-[32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized MOa3UTgAvUPS-vNi5WF0
+[32minfo[39m: handshake authorized JHq9eteTY384NjjYcOi6
 [32minfo[39m: transport end (undefined)
 { user: '54de499a7052a3b34b9074c5' }
 { admin: true,
   createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
   currentScore: 174.5,
   displayName: '_Dr. JavaScript',
-  latestCode: '"use strict";\n\nvar rawNum = prompt("give me a number");\nrawNum = Number(rawNum);\n\nalert( Math.floor(rawNum) );\n',
-  updatedAt: Sun Apr 02 2017 00:31:07 GMT-0400 (EDT),
+  latestCode: ' function myMain() {\n     var num;\n     var foo = 5;\n     num = foo * 2;\n     foo = foo - 1;\n     num = num + (foo * 2);\n     alert(num); \n  }\n\n  myMain();',
+  updatedAt: Thu Apr 13 2017 13:50:32 GMT-0400 (EDT),
   username: 'stotts',
   id: '54de499a7052a3b34b9074c5' }
-[32minfo[39m: handshake authorized uxLNQkxOa1to7fIS5WF1
+[32minfo[39m: handshake authorized HGlSYuVE_XlkRqCJcOi7
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized 2BzW0mAef8MuIKkM5WF2
+[32minfo[39m: handshake authorized EfL4uBK06H7jBPvrcOi8
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized sRXzcg28y4PSVOXs5WF3
+[32minfo[39m: handshake authorized YrfLpB7l2joyveyKcOi9
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized Feb426tvD9bNo3L25WF4
+[32minfo[39m: handshake authorized FdL38TRG6wCfo-AvcOi-
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized _2Tqr9wucfiZJsShcOi_
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized gyIHr6T_cgpZ_bh_cOjA
 [32minfo[39m: transport end (undefined)
 { user: '54de499a7052a3b34b9074c5' }
 { admin: true,
   createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
   currentScore: 174.5,
   displayName: '_Dr. JavaScript',
-  latestCode: '"use strict";\n\nfunction myMain() {\n  var uNum;\n  while (true) {\n    uNum = Number(prompt("number?"));\n    if (uNum===0) { break; }\n    if (isEven(uNum)) \n      { alert(uNum*uNum); } \n    else \n      { alert("nope"); }   \n  }\n}\n\nfunction isEven ( val ) {\n  if (isNaN(val)) { return false; }\n  return (val%2)==0;\n}\n\nmyMain();',
-  updatedAt: Sun Apr 02 2017 15:13:44 GMT-0400 (EDT),
+  latestCode: ' function myMain() {\n     var num;\n     var foo = 5;\n     num = foo * 2;\n     foo = foo - 1;\n     num = num + (foo * 2);\n     alert(num); \n  }\n\n  myMain();',
+  updatedAt: Thu Apr 13 2017 13:50:32 GMT-0400 (EDT),
   username: 'stotts',
   id: '54de499a7052a3b34b9074c5' }
-[32minfo[39m: handshake authorized VFDCEz93vk4mKNH95WF5
-[32minfo[39m: transport end (heartbeat timeout)
-[32minfo[39m: handshake authorized wvpj-x0xcIJCVuhj5WF6
+[32minfo[39m: handshake authorized S2InfdWUe_1c5Wo4cOjB
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized IOda6u3CnMOotkbV5WF7
+[32minfo[39m: handshake authorized BLKT59VDTpO0gQ7VcOjC
 [32minfo[39m: transport end (undefined)
 { user: '54de499a7052a3b34b9074c5' }
 { admin: true,
   createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
   currentScore: 174.5,
   displayName: '_Dr. JavaScript',
-  latestCode: '"use strict";\n\nfunction myMain() {\n  var uNum;\n  while (true) {\n    uNum = Number(prompt("number?"));\n    if (uNum===0) { break; }\n    if (isEven(uNum)) \n      { alert(uNum*uNum); } \n    else \n      { alert("nope"); }   \n  }\n}\n\nfunction isEven ( val ) {\n  if (isNaN(val)) { return false; }\n  return (val%2)==0;\n}\n\nmyMain();',
-  updatedAt: Mon Apr 03 2017 01:04:01 GMT-0400 (EDT),
+  latestCode: ' function myMain() {\n     var num;\n     var foo = 5;\n     num = foo * 2;\n     foo = foo - 1;\n     num = num + (foo * 2);\n     alert(num); \n  }\n\n  myMain();',
+  updatedAt: Thu Apr 13 2017 13:50:32 GMT-0400 (EDT),
   username: 'stotts',
   id: '54de499a7052a3b34b9074c5' }
-[32minfo[39m: handshake authorized AWYQo8HFJVulWbjP5WF8
+[32minfo[39m: handshake authorized H9R5Z-rZou20fjVccOjD
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized jNfs0zOhwrLCXkDY5WF9
+[32minfo[39m: handshake authorized ktPzHFukrcotaMNwcOjE
 [32minfo[39m: transport end (undefined)
-{ user: '54de499a7052a3b34b9074c5' }
-{ admin: true,
-  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
-  currentScore: 174.5,
-  displayName: '_Dr. JavaScript',
-  latestCode: '"use strict";\n\nfunction myMain() {\n  var uNum;\n  while (true) {\n    uNum = Number(prompt("number?"));\n    if (uNum===0) { break; }\n    if (isEven(uNum)) \n      { alert(uNum*uNum); } \n    else \n      { alert("nope"); }   \n  }\n}\n\nfunction isEven ( val ) {\n  if (isNaN(val)) { return false; }\n  return (val%2)==0;\n}\n\nmyMain();',
-  updatedAt: Mon Apr 03 2017 01:04:01 GMT-0400 (EDT),
-  username: 'stotts',
-  id: '54de499a7052a3b34b9074c5' }
-[32minfo[39m: handshake authorized J3uYGC98UPqRdtd35WF-
+[32minfo[39m: handshake authorized 7QtNjHIgb4U7wwDbcOjF
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized jgHA4iT0N2FCRebacOjG
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized yFAhgCcN4_rIDQRhcOjH
+[32minfo[39m: handshake authorized pHU1i8JrYIKeR0-1cOjI
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized 4IBCMbIErSsC_kpicOjJ
+[32minfo[39m: handshake authorized kFiunWQJxJQjP1PecOjK
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized dbOAxtaD5xRIwZDYcOjL
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized _tdmLfUQVQo8-PUucOjM
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized jSj3gkPHB_6w2VZkcOjN
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized m-VYVMsI4v9waln9cOjO
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized I7CMCy27lzunongkcOjP
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized _zch4ZYSHI1WgdEFcOjQ
+[32minfo[39m: handshake authorized ehKTl-kAAbRIWWpacOjR
+[32minfo[39m: transport end (undefined)
