@@ -140,8 +140,11 @@ function addFolder (folder) {
 	var accordian = "<div id='panel-" + accordianFolderName  + 
         "' class='panel panel-info panelHide'><div class='panel-heading'>" +
         "<h4 class='panel-title'>" + toggleLabel + 
-        " <span id='earned-"+ accordianFolderName + "'>0</span>/<span id='avail-"+ 
-        accordianFolderName + "'></span><span id='check-"+ accordianFolderName + 
+        "<span style='float:right;'>" + // left float span for folder scores
+        " <span id='earned-" + accordianFolderName + "'> 0 </span>" +
+        "<span > / </span> <span id='avail-" + accordianFolderName + "'></span>" +
+        " </span>" + // left float span
+        "<span id='check-" + accordianFolderName + 
         "'></span></h4></div><ul id = '" + accordianFolderName + 
         "' class='panel-collapse collapse folderCollapse doneCollapse'></ul></div></div>";
 
