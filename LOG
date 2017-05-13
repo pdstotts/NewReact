@@ -2,18 +2,72 @@
 [32minfo: [39mStarting app...
 
 express middleware for passport
-/afs/cs.unc.edu/home/stotts/BRICKS/CCO/node_modules/sails/node_modules/socket.io/lib/store.js:35
-Store.prototype.__proto__ = EventEmitter.prototype;
-                                        ^
+[Error: Module did not self-register.]
+js-bson: Failed to load c++ bson extension, using pure JS version
+[32minfo[39m: 
+[32minfo[39m: 
+[32minfo[39m:    Sails.js           <|
+[32minfo[39m:    v0.9.16             |\
+[32minfo[39m:                       /|.\
+[32minfo[39m:                      / || \
+[32minfo[39m:                    ,'  |'  \
+[32minfo[39m:                 .-'.-==|/_--'
+[32minfo[39m:                 `--'-------' 
+[32minfo[39m:    __---___--___---___--___---___--___
+[32minfo[39m:  ____---___--___---___--___---___--___-__
+[32minfo[39m: 
+[32minfo[39m: Server lifted in `/afs/cs.unc.edu/home/stotts/BRICKS/CCO`
+[32minfo[39m: To see your app, visit http://localhost:2525
+[32minfo[39m: To shut down Sails, press <CTRL> + C at any time.
 
-TypeError: Cannot read property 'prototype' of undefined
-    at Object.<anonymous> (/afs/cs.unc.edu/home/stotts/BRICKS/CCO/node_modules/sails/node_modules/socket.io/lib/store.js:35:41)
-    at Module._compile (module.js:571:32)
-    at Object.Module._extensions..js (module.js:580:10)
-    at Module.load (module.js:488:32)
-    at tryModuleLoad (module.js:447:12)
-    at Function.Module._load (module.js:439:3)
-    at Module.require (module.js:498:17)
-    at require (internal/module.js:20:19)
-    at Object.<anonymous> (/afs/cs.unc.edu/home/stotts/BRICKS/CCO/node_modules/sails/node_modules/socket.io/lib/manager.js:16:13)
-    at Module._compile (module.js:571:32)
+[34mdebug[39m: --------------------------------------------------------
+[34mdebug[39m: :: Tue May 02 2017 14:30:35 GMT-0400 (EDT)
+[34mdebug[39m: 
+[34mdebug[39m: Environment	: development
+[34mdebug[39m: Port		: 2525
+[34mdebug[39m: --------------------------------------------------------
+Tue, 02 May 2017 18:30:39 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:125:22
+Tue, 02 May 2017 18:30:39 GMT connect deprecated res.on("header"): use on-headers npm module instead at node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/session.js:248:9
+[32minfo[39m: handshake authorized 3Pn8p46aR_8_2WxUbaRI
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized CC_kbru0ji9qj23YbaRJ
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized ukYkQQISMIyrQnUYbaRK
+[32minfo[39m: handshake authorized 0XLoc4STK4S1vvFpbaRL
+[32minfo[39m: transport end (undefined)
+{ user: '57976c4bea1682e60afff533' }
+{ createdAt: Tue Jul 26 2016 09:57:31 GMT-0400 (EDT),
+  currentScore: 0,
+  displayName: 'Cici Sidor',
+  latestCode: 'hi\nmy',
+  updatedAt: Tue Apr 25 2017 06:41:59 GMT-0400 (EDT),
+  username: 'csidor',
+  id: '57976c4bea1682e60afff533' }
+[32minfo[39m: handshake authorized ugR6CUrFaYha_1ogbaRM
+[32minfo[39m: handshake authorized OftTTP4VPDDJxIbbbaRN
+[32minfo[39m: transport end (undefined)
+{ user: '5899eeeba873c2375a7d6d07' }
+{ createdAt: Tue Feb 07 2017 10:59:39 GMT-0500 (EST),
+  currentScore: 4,
+  displayName: 'Bill Thomas Ferris',
+  latestCode: '"use strict";\n\nvar profAge = 29;\n\nalert(profAge*12) ;\n\n',
+  updatedAt: Fri Apr 21 2017 17:22:55 GMT-0400 (EDT),
+  username: 'bferris',
+  id: '5899eeeba873c2375a7d6d07' }
+[32minfo[39m: handshake authorized yiqHV5gx5qbd9R1obaRO
+[32minfo[39m: handshake authorized 1UyqRq-AxoEBWovcbaRP
+[32minfo[39m: transport end (undefined)
+{ user: '589c81e0f29f259324cdf126' }
+{ createdAt: Thu Feb 09 2017 09:51:12 GMT-0500 (EST),
+  currentScore: 1,
+  displayName: 'Terrence Martin',
+  latestCode: '"use strict";\n\nvar profAge = 27;\n\nalert(profAge*12) ;\n\n',
+  updatedAt: Sat Apr 29 2017 13:09:43 GMT-0400 (EDT),
+  username: 'martintj',
+  id: '589c81e0f29f259324cdf126' }
+[32minfo[39m: handshake authorized RWojzUux5jvIaVnRbaRQ
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized DRwBmtOp31kGh9oqbaRR
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized OczHKJWjkyQninuqbaRS
+[34mdebug[39m: Lowering sails...
