@@ -20,6 +20,8 @@ module.exports = {
         var id = req.param("id") || null;
         var onyen = req.param("onyen") || null;
         var me = req.param("me") || null;
+        var active = req.param("active") || null;
+        var inactive = req.param("inactive") || null;
 
         if(id){
             User.findOne({id:id}).exec(function (err, user) {
@@ -47,6 +49,20 @@ module.exports = {
                 } else {
                     res.send(user);
                 }
+            });
+
+        } else if (active) {
+            User.find({"active":true})
+            .sort({"displayName": 1})
+            .exec(function(err, users) {
+                res.send(users);
+            });
+
+        } else if (inactive) {
+            User.find({"active":false})
+            .sort({"displayName": 1})
+            .exec(function(err, users) {
+                res.send(users);
             });
 
         } else {
@@ -98,6 +114,42 @@ module.exports = {
             }
         });
     },
+/*
+    setActive: function (req, res) {  // pds 8/2017
+      if(req.user.admin) {
+        var id = req.param("user");
+        User.update({username: id}, {active: true})
+          .exec(
+             function(err, user) {
+               if(err) {
+                 console.log(err);
+                 res.send(500, {error: "DB Error updating user"});
+               } 
+               else {
+                 res.send(null);
+               }
+             }
+           );
+      }
+    },
+    setNotActive: function (req, res) {  // pds 8/2017
+      if(req.user.admin) {
+        var id = req.param("user");
+        User.update({username: id}, {active: false})
+          .exec(
+             function(err, user) {
+               if(err) {
+                 console.log(err);
+                 res.send(500, {error: "DB Error updating user"});
+               } 
+               else {
+                 res.send(null);
+               }
+             }
+           );
+      }
+    },
+*/
     setAdmin: function (req, res) {
         if(req.user.admin) {
             var id = req.param("user");

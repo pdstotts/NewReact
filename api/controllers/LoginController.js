@@ -11,7 +11,8 @@ module.exports = {
 
   logout: function (req, res) {
     req.logout();
-    res.redirect("/");
+    //res.redirect("/");
+    res.redirect("https://bricks-vm.cs.unc.edu/logout");
   },
 
   get: function (req, res) {
@@ -22,14 +23,17 @@ module.exports = {
 		var https = require("https");
 		var vfykey = req.param("vfykey");
 		var vfyreq = https.request({
-			host: 'onyen.unc.edu',
-			path: '/cgi-bin/unc_id/authenticator.pl/' + vfykey
+			//host: 'onyen.unc.edu',
+			//path: '/cgi-bin/unc_id/authenticator.pl/' + vfykey
+      host: 'bricks-vm.cs.unc.edu',
+      path: '/auth/index.php?vfykey=' + vfykey
 		}, function (response) {
 			var str = "";
 			response.on('data', function (d) {
 				str += d;
 			});
 			response.on('end', function () {
+        console.log("AUTH>>"+str); //pds
 				var username, displayName;
 				str = str.split("\n");
 				for (var v in str) {

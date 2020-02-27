@@ -20,7 +20,12 @@ module.exports = {
         required: true
     },
     admin: {
+        type: 'boolean'
+    },
+    active: {
         type: 'boolean',
+        defaultsTo: true,
+        required: true
     },
     latestCode: {
         type: 'string',

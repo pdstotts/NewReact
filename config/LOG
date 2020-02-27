@@ -1,0 +1,33 @@
+
+[32minfo: [39mStarting app...
+
+[33mwarn: [39mCannot read package.json in the current directory (/afs/cs.unc.edu/home/stotts/BRICKS/CCO/config)
+[33mwarn: [39mAre you sure this is a Sails app?
+[33mwarn: [39m
+[33mwarn: [39mThe package.json in the current directory does not list Sails as a dependency...
+[33mwarn: [39mAre you sure `/afs/cs.unc.edu/home/stotts/BRICKS/CCO/config` is a Sails app?
+[33mwarn: [39m
+[32minfo: [39mCould not find module: ejs in path: /afs/cs.unc.edu/home/stotts/BRICKS/CCO/config/node_modules
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.12.13            |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/afs/cs.unc.edu/home/stotts/BRICKS/CCO/config`
+[32minfo: [39mTo see your app, visit http://localhost:2525
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[34mdebug: [39m-------------------------------------------------------
+[34mdebug: [39m:: Fri Jan 12 2018 17:45:19 GMT-0500 (EST)
+[37m[39m
+[34mdebug: [39mEnvironment : development
+[34mdebug: [39mPort        : 2525
+[34mdebug: [39m-------------------------------------------------------

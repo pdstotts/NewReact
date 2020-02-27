@@ -149,7 +149,6 @@ document.title = "Bricks 4.0 Admin";
 
 /* @end */
 
-
 body {
 	padding-bottom: 20px;
 
@@ -220,6 +219,10 @@ width:31.5%;
 }
 .style-submission {
 	margin-right:23.5%
+}
+.scrollableAccordian {
+  height:950px;
+  overflow: scroll;
 }
 
 ul {
@@ -408,7 +411,7 @@ ul {
 	<!-- BODY -->
 	<div class="tab-content " id="mainBody">
 
-		<!-- MATRIX SECTION -->
+		<!-- MATRIX SECTION (tab page) -->
 
 		<div class="tab-pane active" id="matrix">
 
@@ -418,8 +421,8 @@ ul {
 					<div id="moveMe">
 						<button type="button" class="btn btn-default folderButtonStyle" 
               id="sortFolderButton" >Edit Folders</button>
-						<div class="panel-group" id="navigableFolders"></div>
-						<div class="panel-group" id="sortableFolders"></div>
+						  <div class="panel-group scrollableAccordian" id="navigableFolders"></div>
+						<div class="panel-group scrollableAccordian" id="sortableFolders"></div>
 					</div>
 				</div>
 			</div>
@@ -465,14 +468,15 @@ ul {
 				</div>
 				<!-- DISPLAY QUESTION SECTION END -->
 
-				<!-- MATRIX SECTION -->
+				<!-- MATRIX SECTION (active) -->
 				<div class="panel panel-default ">
 
 					<!-- MATRIX HEADING -->
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#problemMatrix" aria-expanded="true" >Matrix</a>
-							<button style="float:right;margin-top:-6px;" class="btn btn-primary btn-sm" id="clearShareRequests" data-toggle="tooltip" data-placement="top" title="Dimiss all Share Requests">
+							<button style="float:right;margin-top:-6px;" class="btn btn-primary btn-sm" id="clearShareRequests" 
+                  data-toggle="tooltip" data-placement="top" title="Dimiss all Share Requests">
 								<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
 							</button>
 
@@ -487,7 +491,7 @@ ul {
 						</h4>
 					</div>
 
-					<!-- MATRIX BODY -->
+					<!-- MATRIX BODY (active) -->
 					<div class="panel-collapse " id="problemMatrix">
 						<div class="panel-body" style="padding:2px">
 							<div id="matrixBody">
@@ -495,16 +499,21 @@ ul {
 						</div>
 					</div>
 				</div>
+				<!-- MATRIX SECTION END (active) -->
 
-				<!-- MATRIX SECTION END -->
-
-				<!-- STUDENT PROGRESS SECTION -->
+				<!-- STUDENT PROGRESS SECTION (active) -->
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#allStudents1ProblemTableCollapse" aria-expanded="true" >Student Attempts</a>
-							<span id="answeredCorrect" class="label label-primary" data-toggle="tooltip" data-placement="top" title="Percentage of responders that have earned full points">0%</span><span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" title="Students with full correct points">0%</span><span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" title="Students with full style points">0%</span>
-							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" title="This panel does not update with the matrix above.   Refresh to fill progress bar and table with most recent data.">Refresh</button>
+							<span id="answeredCorrect" class="label label-primary" data-toggle="tooltip" data-placement="top" 
+                 title="Percentage of responders that have earned full points">0%</span>
+              <span id="function" class="label label-info" data-toggle="tooltip" data-placement="top" 
+                 title="Students with full correct points">0%</span>
+              <span id="style" class="label label-success" data-toggle="tooltip" data-placement="top" 
+                 title="Students with full style points">0%</span>
+							<button class="btn btn-primary btn-sm" id="refreshData" data-toggle="tooltip" data-placement="top" 
+                 title="This panel does not update with the matrix above. Refresh to fill progress bar and table with most recent data.">Refresh</button>
 						</h4>
 					</div>
 					<div class="panel-collapse collapse" id="allStudents1ProblemTableCollapse">
@@ -525,11 +534,12 @@ ul {
 						</div>
 					</div>
 				</div>
-				<!-- STUDENT PROGRESS SECTION ENDS -->
+				<!-- STUDENT PROGRESS SECTION ENDS (active)-->
+
 			</div>
 
 		</div>
-		<!-- MATRIX SECTION ENDS -->
+		<!-- MATRIX SECTION ENDS (tab page) -->
 
 		<!-- EDIT SECTION -->
 		<div class="tab-pane " id="edit">
@@ -942,11 +952,14 @@ ul {
 		<div class="tab-pane" id="individualStudent">
 			<h1 id="individualName" style="margin-left:15px"></h1>
 			<div id="individualFeedback" class="col-md-3">
-				<div id="deleteUser" ></div>
 				<div class="alert alert-info"><b>All Time Code shares:</b>  <span id='shareRequestCount'>0</span></div>
 				<div class="alert alert-info"><b>All Time Feedback requests:</b>  <span id='feedbackRequestCount'>0</span></div>
 				<h4 id='feedbackHeader'>Pending Requests:</h4>
 				<div id="feedbackConversation"></div>
+        <br/><br/>
+				<div id="deleteUser" ></div>
+        <br/>
+				<div id="deactivateUser" ></div>
 			</div>
 
 			<div class="col-md-9">

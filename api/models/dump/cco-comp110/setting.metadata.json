@@ -1,0 +1,1 @@
+{ "options" : { "autoIndexId" : true }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "cco-comp110.setting" }, { "v" : 1, "unique" : true, "key" : { "name" : 1 }, "name" : "name_1", "ns" : "cco-comp110.setting", "sparse" : true }, { "v" : 1, "unique" : true, "key" : { "id" : 1 }, "name" : "id_1", "ns" : "cco-comp110.setting", "sparse" : true } ] }

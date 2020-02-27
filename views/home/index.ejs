@@ -149,10 +149,13 @@ html, body, .container-fluid, .col-md-9, #codemirror, .CodeMirror {
   margin-left: 0px;
 }
 
-#introPanel {
+#introPanelParkstuff {
   background: url('http://www.unc.edu/~stotts/bricksVids/vidPanelBack0.jpg');
-  background: url('http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-f.jpg');
   background: url('http://www.unc.edu/~stotts/comp110/pix/cubes-g.jpg');
+} 
+
+#introPanel {
+  background: url('http://www.cs.unc.edu/Courses/cco-comp110/images/cubes-f.jpg');
   height:250px;
   background-size: 100%;
   background-repeat:no-repeat;
@@ -315,18 +318,33 @@ document.title="Bricks 4.0 JavaScript";
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
+<!--
 			<a class="navbar-brand" href="javascript:history.go(0)" 
+-->
+			<a class="navbar-brand" href="javascript:window.location.reload(true);" 
          data-toggle="tooltip" data-placement="bottom" title="Home Panel / Refresh System">
          <font color=oldlace><b>Bricks</b></font>
       </a>
+
 			<a class="navbar-brand" href="http://eloquentjavascript.net/" target="_blankTEXT"
          data-toggle="tooltip" data-placement="bottom" title="Online JavaScript text"
          > <b>Text</b> </a>
+
 			<a class="navbar-brand" href="http://sakai.unc.edu" target="_blankLMS"
          data-toggle="tooltip" data-placement="bottom" title="Sakai page for the course"
          > <b>Sakai</b> </a>
+
+			<a class="navbar-brand" href="https://gitbookio.gitbooks.io/javascript/" target="_blankALTTEXT"
+         data-toggle="tooltip" data-placement="bottom" title="Another Online JavaScript text"
+         > <b>&nbsp&nbspAlt.Text</b> </a>
+
+			<a class="navbar-brand" href="http://esprima.org/demo/validate.html" target="_blankCHECKER"
+         data-toggle="tooltip" data-placement="bottom" title="JavaScript Syntax Checker"
+         > <b>Checker</b> </a>
+
 			<a class="navbar-brand" data-toggle="modal" data-target="#helpModal"
          > <b>Help</b> </a>
+
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -361,7 +379,7 @@ document.title="Bricks 4.0 JavaScript";
 			</div>
 			<% } else { %>
 			<form class="navbar-form navbar-right" 
-            action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" 
+            action="https://wwwx.cs.unc.edu/~stotts/cgi-bin/auth2.cgi" 
             name="form1" method="POST">
 
 				<!-- 'title' is special; it will be used on the authenticator page. -->
@@ -371,7 +389,7 @@ document.title="Bricks 4.0 JavaScript";
 				<input type="hidden" name="getpid" value="displayName">
 
 				<input id="target" type="hidden" name="targetpass"
-				value="http://localhost:1337/login/authenticate">
+				value="http://localhost:2526/login/authenticate">
 
 				<input type="hidden" name="locationfailtimeout"
 				value="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl">
@@ -466,7 +484,11 @@ document.title="Bricks 4.0 JavaScript";
       </div>
       <div class="modal-body">
        	<b>Submitting a feedback request will send a notification to your professor/TAs 
-        who will review your code and respond to any questions asked in the area below.</b>
+        who will review your code and respond to the questions asked in the area below.</b>
+        <br/>
+        <font color=blue><b>Please ask a thoughtful question that helps us follow your reasoning
+        and helps us understand the issue.  Please do not leave the question blank.
+        </b></font>
         <br/><br/>
 			  <textarea name="fbResponseMessage" id="submitRequestMsg" class="form-control" 
           placeholder="Enter questions for professor here...">
@@ -777,10 +799,10 @@ document.title="Bricks 4.0 JavaScript";
         </div>
 			</div>
 
-			<div class="sidebarBuddy alert alert-info" style="height:75px;width:14%;float:left;" 
+			<div class="sidebarBuddy alert alert-info" style="height:75px;width:10%;float:left;" 
            id="fontSizeBox">
 				<label id="fontSizeLabel" class="control-label" for="fontSize">Font Size:</label>
-				<div class="form-group" style="margin:0px;" id="fontSizeDropdown">
+				<div class="form-group" style="margin:1px;" id="fontSizeDropdown">
 				  <select class="form-control" id="fontSize" autocomplete="off">
 				    <option value="10">10pt</option>
 				    <option value="12">12pt</option>
@@ -1014,11 +1036,16 @@ document.title="Bricks 4.0 JavaScript";
         <li> <b>Bricks:</b> this link will take you to the main Bricks home screen, the one 
         with the intro videos.  </li>
         <li> <b>Text:</b> this link will open the class on-line electronic text book in 
-        a separate browser tab.  </li>
+        a separate browser tab.  
+        </li>
         <li> <b>Sakai:</b> this link will open Sakai in a separate browser tab, so you can 
         more easily view the other class materials.  </li>
         <li> <b>Help:</b> (how you got here!) this link takes you to a pop up window with 
         explanatory information in it.  </li>
+        <li> <b>Alt.Text:</b> this link will open a different online
+        text about JavaScript in case you want a different supplemental explanation for
+        anything.
+        </li>
         </ul>
         </p>
         <p>

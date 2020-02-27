@@ -222,7 +222,9 @@ function getStudentResults(problem) {
     $("#matrixBody").empty();
     var tbl = $("<table class='table' style='margin-bottom:0px;'><thead><tr><th>Name</th><th class='probStudentSubmissionTableTD' width='40px'>Functionality</th><th class='probStudentSubmissionTableTD' width='40px'>Style Points</th></tr></thead><tbody id='allStudents1ProblemResults'></tbody></table>");
     $("#allStudents1ProblemTable").empty().append(tbl);
-    $.post("/user/read/", {}, function(users){
+
+// pds working on matrix students active in one, inactive in another
+    $.post("/user/read/", {active:true}, function(users){
         total = users.length;
         users.forEach(function (user) {
             var matrixSquare = $("<div></div>")
@@ -739,10 +741,15 @@ function getStudentList() {
         var count = 0;
         users.forEach(function (user) {
             var badge = $("<span id='studentListBadge" + user.username + "' class='badge'></span>").append(user.currentScore + "/" + points);
-            var link = $("<a></a>")
+            var link;
+            if (user.admin) { link = "<font color=blue><a><a/></font>"; } 
+            else if (user.active) { link = "<font color=black><a><a/></font>"; } 
+            else { link = "<font color=red><a></a></font>";}
+            link = $(link)
                 .attr("href","#individualStudent")
                 .attr("data-toggle","pill")
-                .append(user.displayName + "<br /><i>(" + user.username + ")</i><br />")
+                .append(user.displayName + "<br /><i>(" + user.username + ")</i></br>")
+//              .append("<br /><b>(" + user.active + ")</b><br />")
                 .append(badge)
                 .click(function (event){
                     $("#studentsLink").removeClass("active");
@@ -1044,8 +1051,8 @@ function getIndividual(user, refresh) {
 
     $("#individualName").html(user.displayName + " (" + user.username + ")");
     var removeButton = $("<a href='#'></a>")
-        .css("color","#C84747")
-        .html('delete')
+        .css("color","#B84747")
+        .html('<font size=+1><b>delete</b></font>')
         .click(function () {
            if (confirm('Are you sure you wish to delete person "' + user.username + '"?')) {
              $.post("/user/delete", {onyen: user.username}, 
@@ -1057,6 +1064,26 @@ function getIndividual(user, refresh) {
            }
         });
     $("#deleteUser").empty().append(removeButton);
+
+// pds add deactivate user
+    var deactivateButton = $("<a href='#'></a>")
+        .css("color","#B84747")
+        .html('<font size=+1><b>(de)activate</b></font>')
+        .click(function () {
+           if (confirm('Are you sure you wish to (de)activate person "' 
+               + user.username + '"?')) {
+//             $.post("/user/delete", {onyen: user.username}, 
+//                 function(user){
+//                   alert("User has been deactivated. " +
+//                         "Please refresh page to see the changes take effect.");
+//                 }
+//             );
+           }
+        });
+    $("#deactivateUser").empty().append(deactivateButton);
+// end pds
+
+
     $("#studentScoreButton").html(user.currentScore + "/" + points);
     $("#feedbackConversation").empty();
     $("#feedbackHeader").addClass("hidden");

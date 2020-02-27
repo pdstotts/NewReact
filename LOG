@@ -16,58 +16,1296 @@ js-bson: Failed to load c++ bson extension, using pure JS version
 [32minfo[39m:    __---___--___---___--___---___--___
 [32minfo[39m:  ____---___--___---___--___---___--___-__
 [32minfo[39m: 
-[32minfo[39m: Server lifted in `/afs/cs.unc.edu/home/stotts/BRICKS/CCO`
-[32minfo[39m: To see your app, visit http://localhost:2525
+[32minfo[39m: Server lifted in `/afs/cs.unc.edu/home/stotts/BBB/CCO-F19`
+[32minfo[39m: To see your app, visit http://localhost:1337
 [32minfo[39m: To shut down Sails, press <CTRL> + C at any time.
 
 [34mdebug[39m: --------------------------------------------------------
-[34mdebug[39m: :: Tue May 02 2017 14:30:35 GMT-0400 (EDT)
+[34mdebug[39m: :: Tue Feb 11 2020 16:31:43 GMT-0500 (EST)
 [34mdebug[39m: 
 [34mdebug[39m: Environment	: development
-[34mdebug[39m: Port		: 2525
+[34mdebug[39m: Port		: 1337
 [34mdebug[39m: --------------------------------------------------------
-Tue, 02 May 2017 18:30:39 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:125:22
-Tue, 02 May 2017 18:30:39 GMT connect deprecated res.on("header"): use on-headers npm module instead at node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/session.js:248:9
-[32minfo[39m: handshake authorized 3Pn8p46aR_8_2WxUbaRI
+[32minfo[39m: handshake authorized UUyEuMX0yYIxabPgKj-U
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized CC_kbru0ji9qj23YbaRJ
+Tue, 11 Feb 2020 21:31:45 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:125:22
+Tue, 11 Feb 2020 21:31:45 GMT connect deprecated res.on("header"): use on-headers npm module instead at node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/session.js:248:9
+[32minfo[39m: handshake authorized jdYG6M4POSNjphytKj-V
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized ukYkQQISMIyrQnUYbaRK
-[32minfo[39m: handshake authorized 0XLoc4STK4S1vvFpbaRL
+AUTH>>string(26) "5l2j2op2mcdite7blasvsts1vj"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(6) "stotts"
+  ["displayName"]=>
+  string(17) "Paul David Stotts"
+  ["uidNumber"]=>
+  string(5) "24124"
+}
+stotts: pass
+uid: 24124
+displayName: Paul David Stotts
+
+{ user: '54de499a7052a3b34b9074c5' }
+{ admin: true,
+  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
+  currentScore: 755.2,
+  displayName: '_Dr. JavaScript',
+  latestCode: '"use strict";\n\nfunction myMain() {\n  var uNum;\n  var sum = 0;\n  while ( true ) {\n    uNum = Number(prompt("sum in what number (0 to stop)?"));\n    if (uNum===0) { break; }\n    sum = sum + uNum;\n  }\n  \n  alert(sum);\n}\n\nmyMain();',
+  updatedAt: Tue Feb 11 2020 16:30:19 GMT-0500 (EST),
+  username: 'stotts',
+  active: true,
+  id: '54de499a7052a3b34b9074c5' }
+[32minfo[39m: handshake authorized LE1AoHIquvqm26lFKj-W
 [32minfo[39m: transport end (undefined)
-{ user: '57976c4bea1682e60afff533' }
-{ createdAt: Tue Jul 26 2016 09:57:31 GMT-0400 (EDT),
-  currentScore: 0,
-  displayName: 'Cici Sidor',
-  latestCode: 'hi\nmy',
-  updatedAt: Tue Apr 25 2017 06:41:59 GMT-0400 (EDT),
-  username: 'csidor',
-  id: '57976c4bea1682e60afff533' }
-[32minfo[39m: handshake authorized ugR6CUrFaYha_1ogbaRM
-[32minfo[39m: handshake authorized OftTTP4VPDDJxIbbbaRN
+[32minfo[39m: handshake authorized IA5qlQFQe7aBbNOsKj-X
 [32minfo[39m: transport end (undefined)
-{ user: '5899eeeba873c2375a7d6d07' }
-{ createdAt: Tue Feb 07 2017 10:59:39 GMT-0500 (EST),
-  currentScore: 4,
-  displayName: 'Bill Thomas Ferris',
-  latestCode: '"use strict";\n\nvar profAge = 29;\n\nalert(profAge*12) ;\n\n',
-  updatedAt: Fri Apr 21 2017 17:22:55 GMT-0400 (EDT),
-  username: 'bferris',
-  id: '5899eeeba873c2375a7d6d07' }
-[32minfo[39m: handshake authorized yiqHV5gx5qbd9R1obaRO
-[32minfo[39m: handshake authorized 1UyqRq-AxoEBWovcbaRP
+AUTH>>string(26) "7fqbcma70ab9r9rf08djmmon52"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(6) "stotts"
+  ["displayName"]=>
+  string(17) "Paul David Stotts"
+  ["uidNumber"]=>
+  string(5) "24124"
+}
+stotts: pass
+uid: 24124
+displayName: Paul David Stotts
+
+{ user: '54de499a7052a3b34b9074c5' }
+{ admin: true,
+  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
+  currentScore: 755.2,
+  displayName: '_Dr. JavaScript',
+  latestCode: '"use strict";\n\nfunction myMain() {\n  var uNum;\n  var sum = 0;\n  while ( true ) {\n    uNum = Number(prompt("sum in what number (0 to stop)?"));\n    if (uNum===0) { break; }\n    sum = sum + uNum;\n  }\n  \n  alert(sum);\n}\n\nmyMain();',
+  updatedAt: Tue Feb 11 2020 16:30:19 GMT-0500 (EST),
+  username: 'stotts',
+  active: true,
+  id: '54de499a7052a3b34b9074c5' }
+[32minfo[39m: handshake authorized vCHdWeDBqkYak5ldKj-Y
+[32minfo[39m: handshake authorized 1lsejpJtuEJ82ge8Kj-Z
 [32minfo[39m: transport end (undefined)
-{ user: '589c81e0f29f259324cdf126' }
-{ createdAt: Thu Feb 09 2017 09:51:12 GMT-0500 (EST),
-  currentScore: 1,
-  displayName: 'Terrence Martin',
-  latestCode: '"use strict";\n\nvar profAge = 27;\n\nalert(profAge*12) ;\n\n',
-  updatedAt: Sat Apr 29 2017 13:09:43 GMT-0400 (EDT),
-  username: 'martintj',
-  id: '589c81e0f29f259324cdf126' }
-[32minfo[39m: handshake authorized RWojzUux5jvIaVnRbaRQ
+AUTH>>string(26) "jp10hafdrsnj9cnd0ao7jn97bs"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(7) "wanyong"
+  ["displayName"]=>
+  string(12) "Wanyong Feng"
+  ["uidNumber"]=>
+  string(6) "299604"
+}
+wanyong: pass
+uid: 299604
+displayName: Wanyong Feng
+
+{ user: '5e431e859ea14b0f11caabde' }
+{ username: 'wanyong',
+  displayName: 'Wanyong Feng',
+  latestCode: ' ',
+  active: true,
+  createdAt: Tue Feb 11 2020 16:37:09 GMT-0500 (EST),
+  updatedAt: Tue Feb 11 2020 16:37:09 GMT-0500 (EST),
+  id: '5e431e859ea14b0f11caabde' }
+[32minfo[39m: handshake authorized 3kwcQtGFSBGEb3ocKj-a
+[32minfo[39m: handshake authorized GXg7VHcGl92TJkF5Kj-b
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized DRwBmtOp31kGh9oqbaRR
+AUTH>>string(26) "h9bj07kt9qdhs5h5mc17rn37r7"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(6) "stotts"
+  ["displayName"]=>
+  string(17) "Paul David Stotts"
+  ["uidNumber"]=>
+  string(5) "24124"
+}
+stotts: pass
+uid: 24124
+displayName: Paul David Stotts
+
+{ user: '54de499a7052a3b34b9074c5' }
+{ admin: true,
+  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
+  currentScore: 755.2,
+  displayName: '_Dr. JavaScript',
+  latestCode: '"use strict";\n\nfunction myMain() {\n  var n=1;\n  while (n<=20) {\n    if ( (n%3===0) && (n%5===0 ) ) { alert("fizzbuzz"); }\n    else if ( n%3===0 ) { alert("fizz"); }\n    else if ( n%5===0 ) { alert("buzz"); }\n    else { \n      alert(n); \n    }  \n    n++;\n  }\n}\n\nmyMain();',
+  updatedAt: Tue Feb 11 2020 16:37:07 GMT-0500 (EST),
+  username: 'stotts',
+  active: true,
+  id: '54de499a7052a3b34b9074c5' }
+[32minfo[39m: handshake authorized uG2w-1UVW22fU-XVKj-c
 [32minfo[39m: transport end (undefined)
-[32minfo[39m: handshake authorized OczHKJWjkyQninuqbaRS
-[34mdebug[39m: Lowering sails...
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized sdm-HKk0LbAHxU45Kj-d
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized 8uJGYfu5qQkh2o9JKj-e
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized IDx_9bG-MkzjAU0tKj-f
+[32minfo[39m: transport end (undefined)
+AUTH>>string(26) "7fqbcma70ab9r9rf08djmmon52"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(6) "stotts"
+  ["displayName"]=>
+  string(17) "Paul David Stotts"
+  ["uidNumber"]=>
+  string(5) "24124"
+}
+stotts: pass
+uid: 24124
+displayName: Paul David Stotts
+
+{ user: '54de499a7052a3b34b9074c5' }
+{ admin: true,
+  createdAt: Fri Feb 13 2015 13:59:38 GMT-0500 (EST),
+  currentScore: 755.2,
+  displayName: '_Dr. JavaScript',
+  latestCode: '"use strict";\n\n\n\nfunction myMain() {\n  var n = Number(prompt("How many times?"));\n  if (!isInt(n) || n<0) { alert("bad");}  \n  for ( var i = 1; i<=n; i++ ) {\n    var a = Number(prompt("First operand (a number)?"));\n    if (isNaN(a)) {alert("bad"); break;}\n    var b = Number(prompt("Second operand (a number)?"));\n    if (isNaN(b)) {alert("bad"); break;}\n    alert(intMult(a,b));\n  }\n\n}\n\nfunction intMult( x,y ) {\n  var value; \n  value = trunc(x)*trunc(y);\n  return value ;    \n}\n  \n\nfunction isInt ( val ) {\n if ( isNaN(val) ) { return false; } \n  return (val%1)===0;  \n}\n  \n\nfunction trunc ( n ) {\n  var p ; \n    if (n>=0) { n = Math.floor(n); return n; }\n  else { if (n<0) { n = Math.ceil(n); } }\n    return n ;\n}\n    \n               \n               \nmyMain();\n',
+  updatedAt: Tue Feb 11 2020 16:48:50 GMT-0500 (EST),
+  username: 'stotts',
+  active: true,
+  id: '54de499a7052a3b34b9074c5' }
+[32minfo[39m: handshake authorized pANwFozVEOeNPUplKj-g
+[32minfo[39m: handshake authorized HNqteuBfajaAXPBDKj-h
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized vZaE3DjxdbuPefldKj-i
+[32minfo[39m: handshake authorized lHO8QM3BDO1wd1r0Kj-j
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (socket end)
+[32minfo[39m: handshake authorized BkAqxR13hVPKd5-tKj-k
+[32minfo[39m: transport end (socket end)
+[32minfo[39m: handshake authorized FmmjP7WPsMEvLpNSKj-l
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (heartbeat timeout)
+[32minfo[39m: handshake authorized jRIIKEl2h6md86F_Kj-m
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized qs0icKYg1ynQl_uDKj-n
+[32minfo[39m: transport end (socket end)
+[32minfo[39m: handshake authorized oR78Alsy50jRFJD3Kj-o
+[32minfo[39m: transport end (heartbeat timeout)
+[32minfo[39m: handshake authorized aEkNo7y_wL_7qStQKj-p
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized SlHQrPXDhmRHhWwLKj-q
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized VitU-puCQLAlCoZJKj-r
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized Z4iiXjb0U4dmKFhHKj-s
+[32minfo[39m: transport end (undefined)
+AUTH>>string(26) "0a98qcnh7oqadv51vt4vp0bltv"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(8) "vivianaj"
+  ["displayName"]=>
+  string(16) "Viviana Gonzalez"
+  ["uidNumber"]=>
+  string(6) "285281"
+}
+vivianaj: pass
+uid: 285281
+displayName: Viviana Gonzalez
+
+{ user: '5d6f1e93a65a78920d5b2eee' }
+{ username: 'vivianaj',
+  displayName: 'Viviana Gonzalez',
+  latestCode: '"use strict";\n\nfunction myMain() {\n\n        var numArray = []\n\n        var max = -Infinity; // a number smaller than all other numbers\n        var min = Infinity; // a number greater than all other numbers\n\n        var avg = 0;\n        var distance = 0;\n        var firstTime = true;\n\n        while(true){\n\n            //takes input as a string\n            var tNum =  prompt ("integer (\'q\' to quit)?" );\n\n            //if q is the first input end the program\n            if(isQ(tNum) == true && firstTime === true){ \n                return;\n            }\n            //if tNum is not a number, and is not \'q\' , print "bad input" and end the program\n            else if(isInt(tNum) == false && isQ(tNum) == false){\n                alert("bad input");\n                return;\n            }\n            //if q is enetered and its not the first input, end the while loop\n            else if(isQ(tNum) == true) {\n                break;\n            }\n            \n\n\n            //if tNum is a number do all the math\n            if(isInt(tNum) == true){ \n                numArray.push(tNum);\n\n                if(max < tNum) {\n                    max = tNum;\n                }\n                if(min > tNum){\n                    min = tNum\n                }\n                firstTime = false;    //change first time to false after first successful loop\n            }\n         \n\n    }//close while loop\n\n    //compute outputs \n    avg = (max+min) / 2;\n    distance = max - min;\n    alert("min:" + min);\n    alert("max:" + max);\n    alert("avg:" + avg);\n    alert("dist:" + distance);\n         \n\n}//closing myMain()\n\nfunction isInt(x){\n    \n    var num = Number(x); // changes string to a number\n    return Number.isInteger(num); //checkes if converted string is a valid number, returns true or false\n\n} //closing isInt\n\nfunction isQ(x){\n    if(x == \'q\'){\n        return true;\n    }\n    else{\n        return false;\n    }\n}\n\n\nmyMain(); //calling MyMain',
+  active: true,
+  createdAt: Tue Sep 03 2019 22:16:51 GMT-0400 (EDT),
+  updatedAt: Fri Jan 17 2020 19:44:55 GMT-0500 (EST),
+  currentScore: 225,
+  id: '5d6f1e93a65a78920d5b2eee' }
+[32minfo[39m: handshake authorized lFPIt_Tue88XpFkMKj-t
+[32minfo[39m: handshake authorized M1l-Zgf4ZdF1HX9eKj-u
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: transport end (undefined)
+[32minfo[39m: handshake authorized HsiioOuOezTrP-gtKj-v
+[32minfo[39m: transport end (undefined)
+Error: Failed to deserialize user out of session
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/authenticator.js:340:19)
+    at deserialized (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/authenticator.js:345:7)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/config/passport.js:10:9
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/basic.js:73:26
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/waterline/lib/waterline/adapter/dql.js:35:37
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/lib/adapter.js:476:23
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/lib/adapter.js:331:15
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/cursor.js:180:16
+    at commandHandler (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/cursor.js:734:16)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/db.js:1905:9
+Wed, 12 Feb 2020 20:25:54 GMT connect deprecated res.headerSent: use standard res.headersSent at node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:145:16
+Error: Failed to deserialize user out of session
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/authenticator.js:340:19)
+    at deserialized (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/authenticator.js:345:7)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/config/passport.js:10:9
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/waterline/lib/waterline/query/finders/basic.js:73:26
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/waterline/lib/waterline/adapter/dql.js:35:37
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/lib/adapter.js:476:23
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/lib/adapter.js:331:15
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/cursor.js:180:16
+    at commandHandler (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/cursor.js:734:16)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails-mongo/node_modules/mongodb/lib/mongodb/db.js:1905:9
+[32minfo[39m: handshake authorized _6ngzulX_f8CLrbJKj-w
+[32minfo[39m: transport end (undefined)
+AUTH>>string(26) "va7tocathd3da9giajbjql6h11"
+array(0) {
+}
+array(4) {
+  ["bricks"]=>
+  string(48) "http://bricks.cs.unc.edu:1337/login/authenticate"
+  ["uid"]=>
+  string(8) "vivianaj"
+  ["displayName"]=>
+  string(16) "Viviana Gonzalez"
+  ["uidNumber"]=>
+  string(6) "285281"
+}
+vivianaj: pass
+uid: 285281
+displayName: Viviana Gonzalez
+
+{ user: '5d6f1e93a65a78920d5b2eee' }
+{ username: 'vivianaj',
+  displayName: 'Viviana Gonzalez',
+  latestCode: '"use strict";\n\nfunction myMain() {\n\n        var numArray = []\n\n        var max = -Infinity; // a number smaller than all other numbers\n        var min = Infinity; // a number greater than all other numbers\n\n        var avg = 0;\n        var distance = 0;\n        var firstTime = true;\n\n        while(true){\n\n            //takes input as a string\n            var tNum =  prompt ("integer (\'q\' to quit)?" );\n\n            //if q is the first input end the program\n            if(isQ(tNum) == true && firstTime === true){ \n                return;\n            }\n            //if tNum is not a number, and is not \'q\' , print "bad input" and end the program\n            else if(isInt(tNum) == false && isQ(tNum) == false){\n                alert("bad input");\n                return;\n            }\n            //if q is enetered and its not the first input, end the while loop\n            else if(isQ(tNum) == true) {\n                break;\n            }\n            \n\n\n            //if tNum is a number do all the math\n            if(isInt(tNum) == true){ \n                numArray.push(tNum);\n\n                if(max < tNum) {\n                    max = tNum;\n                }\n                if(min > tNum){\n                    min = tNum\n                }\n                firstTime = false;    //change first time to false after first successful loop\n            }\n         \n\n    }//close while loop\n\n    //compute outputs \n    avg = (max+min) / 2;\n    distance = max - min;\n    alert("min:" + min);\n    alert("max:" + max);\n    alert("avg:" + avg);\n    alert("dist:" + distance);\n         \n\n}//closing myMain()\n\nfunction isInt(x){\n    \n    var num = Number(x); // changes string to a number\n    return Number.isInteger(num); //checkes if converted string is a valid number, returns true or false\n\n} //closing isInt\n\nfunction isQ(x){\n    if(x == \'q\'){\n        return true;\n    }\n    else{\n        return false;\n    }\n}\n\n\nmyMain(); //calling MyMain',
+  active: true,
+  createdAt: Tue Sep 03 2019 22:16:51 GMT-0400 (EDT),
+  updatedAt: Wed Feb 12 2020 00:28:31 GMT-0500 (EST),
+  currentScore: 225,
+  id: '5d6f1e93a65a78920d5b2eee' }
+[32minfo[39m: handshake authorized rurMNbAfIZc-fRVrKj-x
+[32minfo[39m: transport end (undefined)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+[31merror[39m: Error rendering view at :: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/home/setup
+[31merror[39m: Using layout located at :: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/layout
+[31merror[39m: Server Error (500)
+[31merror[39m: TypeError: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/home/setup.ejs:26
+    24|             <div class="panel-body">
+    25|                 <p class="alert alert-info">There are currently no admins. If you would not like to become admin, logout and have the correct individual login.<p>
+ >> 26|                 <a href="/user/setAdmin/<%=req.user.id%>" class="btn btn-default">Become Admin</a>
+    27|                 <a href="/login/logout" class="btn btn-default">Logout</a>
+    28|             </div>
+    29|         </div>
+
+Cannot read property 'id' of undefined
+    at eval (eval at <anonymous> (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:236:14), <anonymous>:36:558)
+    at eval (eval at <anonymous> (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:236:14), <anonymous>:36:748)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:249:15
+    at Object.exports.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:287:13)
+    at Object.exports.renderFile (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:317:20)
+    at SailsView.module.exports [as engine] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/ejs-locals/index.js:85:7)
+    at SailsView.View.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/view.js:76:8)
+    at Function.app.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/application.js:506:10)
+    at ServerResponse.res.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/response.js:798:7)
+    at ServerResponse.res.view (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/views/index.js:297:15)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+[31merror[39m: Error rendering view at :: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/home/setup
+[31merror[39m: Using layout located at :: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/layout
+[31merror[39m: Server Error (500)
+[31merror[39m: TypeError: /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/views/home/setup.ejs:26
+    24|             <div class="panel-body">
+    25|                 <p class="alert alert-info">There are currently no admins. If you would not like to become admin, logout and have the correct individual login.<p>
+ >> 26|                 <a href="/user/setAdmin/<%=req.user.id%>" class="btn btn-default">Become Admin</a>
+    27|                 <a href="/login/logout" class="btn btn-default">Logout</a>
+    28|             </div>
+    29|         </div>
+
+Cannot read property 'id' of undefined
+    at eval (eval at <anonymous> (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:236:14), <anonymous>:36:558)
+    at eval (eval at <anonymous> (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:236:14), <anonymous>:36:748)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:249:15
+    at Object.exports.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:287:13)
+    at Object.exports.renderFile (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/ejs/lib/ejs.js:317:20)
+    at SailsView.module.exports [as engine] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/ejs-locals/index.js:85:7)
+    at SailsView.View.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/view.js:76:8)
+    at Function.app.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/application.js:506:10)
+    at ServerResponse.res.render (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/response.js:798:7)
+    at ServerResponse.res.view (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/views/index.js:297:15)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Bad Request
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:301:40)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Unable to parse HTTP body :: { [Error: stream ended unexpectedly] status: 400 }
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+Error: Forbidden
+    at SendStream.error (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/middleware/static.js:84:8)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:110:24)
+    at nextRoute (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:100:7)
+    at callbacks (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:167:11)
+    at /afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:27:13
+    at Object.i18nInit [as init] (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/i18n/i18n.js:80:5)
+    at routes.before./* (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/hooks/i18n/index.js:25:16)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)
+URIError: URI malformed
+    at decodeURIComponent (native)
+    at Route.match (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/route.js:61:9)
+    at Router.matchRequest (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:243:17)
+    at pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:104:30)
+    at Router._dispatch (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/lib/router/index.js:33:10)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at Object.handle (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/lib/express/index.js:168:4)
+    at next (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/sails/node_modules/express/node_modules/connect/lib/proto.js:190:15)
+    at SessionStrategy.strategy.pass (/afs/cs.unc.edu/home/stotts/BBB/CCO-F19/node_modules/passport/lib/middleware/authenticate.js:318:9)

@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "CrowdSource410.user" }, { "v" : 1, "unique" : true, "key" : { "username" : 1 }, "name" : "username_1", "ns" : "CrowdSource410.user", "sparse" : true }, { "v" : 1, "unique" : true, "key" : { "id" : 1 }, "name" : "id_1", "ns" : "CrowdSource410.user", "sparse" : true } ] }

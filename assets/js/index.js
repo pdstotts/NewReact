@@ -2,7 +2,7 @@ var curProblem = null;
 var unseenFeedback = null;
 var pretendStudent = false;
 var miniBar = true;
-var codeIsPub = false;
+var codeIsPub;
 
 function isNull(item){
 	if (item==null || item=="null" || item=="" || item=='') { return true; }
@@ -220,9 +220,10 @@ function addProbInfo (problem) {
         "&nbsp&nbsp" ;
     }
 
-	if (problem.testMode == true) { 
-    preParts += "<font color=#E67E22><b>[TEST]&nbsp;</b></font>" ;
-  };
+//	if (problem.testMode == true) { 
+//    preParts += "<font color=#E67E22><b>[TEST]&nbsp;</b></font>" ;
+//  };
+
 	problemName = preParts + "<font color=firebrick><b>" + problem.name +"</b></font>"; 
 
 	$("#submissions").removeClass("hidden");
@@ -1070,17 +1071,18 @@ window.onload = function () {
     updateScore();
 
     if (miniBar) { makeMiniBar(); } else { makeFullBar(); }
-    if (codeIsPub) { publishCode(); } else { unpublishCode(); }
+    // if (codeIsPub) { publishCode(); } else { unpublishCode(); }
 
     //save student's code on interval
     setInterval(
         function() {
           //save current code into user modelget  
+       	    console.log("auto savecode");
             var code = editor.getValue();
             $.post("/user/saveCode/", {code: code}, function(user) {
             });
         },
-        120000 /* 120000ms = 2 min*/
+        60000 /* 60000ms = 1.0 min*/
     );
     $("#folderAccordion").empty();
 	$.post("/folder/read/", {}, function (folders) {

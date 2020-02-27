@@ -19,7 +19,7 @@ module.exports.adapters = {
       module: 'sails-mongo',
       host: 'localhost',
       port: 27017,
-      database: "cco-comp110",
+      database: "test-newReact",
   }
 
 };
